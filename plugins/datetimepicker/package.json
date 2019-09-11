@@ -1,6 +1,6 @@
 {
   "name": "jquery-datetimepicker",
-  "version": "2.5.20",
+  "version": "2.5.21",
   "description": "jQuery Plugin DateTimePicker it is DatePicker and TimePicker in one",
   "main": "build/jquery.datetimepicker.full.min.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
     "mocha": "^5.0.4",
-    "uglifycss": "^0.0.27",
-    "uglifyjs": "^2.4.10"
+    "uglify-js": "^3.4.9",
+    "uglifycss": "^0.0.27"
   }
 }

@@ -23,7 +23,6 @@ if ($cekdb == false) {
 	<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="plugins/animate/animate.min.css">
 	<link rel='stylesheet' href='<?php echo $homeurl; ?>/plugins/sweetalert2/dist/sweetalert2.min.css'>
-	<link rel='stylesheet' href='animasi.css'>
 
 
 </head>
@@ -57,11 +56,8 @@ if ($cekdb == false) {
 			</nav>
 		</header>
 		<!-- Full Width Column -->
-		<div class="content-wrapperx" style="">
-			<div class="ocean">
-				<div class="wave"></div>
-				<div class="wave"></div>
-			</div>
+		<div class="content-wrapper" style="">
+
 			<div class="container">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
@@ -80,7 +76,7 @@ if ($cekdb == false) {
 								<a href="#"><b>Login |</b> Siswa</a>
 							</div>
 							<!-- /.login-logo -->
-							<div class="  login-box-body" style='border-radius:8px;border:solid teal'>
+							<div class="  login-box-body" style='border-radius:8px;border:solid pink'>
 
 								<p class="login-box-msg"><b>Jangan Lupa Berdoa Sebelum Ujian</b></p>
 

@@ -53,8 +53,10 @@
                                     <td>$tempjawaban</td>
                                     <td>$datajawaban</td>
                                     <td>
-                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger'><i class='fa fa-trash'></i> Jawaban</button>
                                     <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-xs btn-danger'><i class='fa fa-trash'></i> Nilai</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger'><i class='fa fa-trash'></i> Jawaban</button>
+                                    
                                     </td>
                                 </tr>
                                 ";
@@ -70,6 +72,38 @@
         </div>
         <script>
             $(document).ready(function() {
+                $(document).on('click', '.hapusnilai', function() {
+                    var id = $(this).data('id');
+                    console.log(id);
+                    swal({
+                        title: 'Apa anda yakin?',
+                        text: "aksi ini akan menghapus data NILAI dan JAWABAN pada ujian ini!",
+
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: 'hapusnilai.php',
+                                method: "POST",
+                                data: 'id=' + id,
+                                success: function(data) {
+                                    swal({
+                                        position: 'top-end',
+                                        type: 'success',
+                                        title: 'Data berhasil dihapus',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    $("#tabledataujian").load(window.location + " #tabledataujian");
+                                }
+                            });
+                        }
+                    })
+
+                });
                 $(document).on('click', '.hapusjwbn', function() {
                     var id = $(this).data('id');
                     console.log(id);

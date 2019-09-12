@@ -43,7 +43,7 @@
 				<link rel='stylesheet' href='$homeurl/plugins/notify/css/notify-flat.css'/>
   				<link rel='stylesheet' href='$homeurl/plugins/sweetalert2/dist/sweetalert2.min.css'>
 				<script src='$homeurl/plugins/tinymce/tinymce.min.js'></script>
-				
+				<script src='$homeurl/plugins/jQuery/jquery-3.1.1.min.js'></script>
 				
 <style>
 @font-face {
@@ -249,6 +249,7 @@ thead:hover {
 										<ul class='treeview-menu'>
 										<li><a href='?pg=nilai'><i class='fa  fa-circle-o text-teal'></i> <span> Hasil Nilai</span></a></li> 
 										<li><a href='?pg=semuanilai'><i class='fa  fa-circle-o text-teal'></i> <span>Semua Nilai</span></a></li> 
+										<li><a href='?pg=dataujian'><i class='fa  fa-circle-o text-teal'></i> <span>Data Ujian</span></a></li> 
 										</ul>
 										</li>
 										<li class='treeview'>
@@ -493,6 +494,9 @@ thead:hover {
 						}
 						elseif($pg=='dataserver') {
 							include 'serverlokal.php';
+						}
+						elseif($pg=='dataujian') {
+							include 'dataujian.php';
 						}
 						elseif($pg=='filemanager') {
 							
@@ -4982,7 +4986,7 @@ thead:hover {
 
 				<!-- REQUIRED JS SCRIPTS -->
 				
-				<script src='$homeurl/plugins/jQuery/jquery-3.1.1.min.js'></script>
+				
 				<script src='$homeurl/dist/bootstrap/js/bootstrap.min.js'></script>
 				<script src='$homeurl/plugins/fastclick/fastclick.js'></script>
 				<script src='$homeurl/dist/js/adminlte.min.js'></script>

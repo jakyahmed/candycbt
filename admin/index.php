@@ -1619,7 +1619,8 @@ thead:hover {
 																
 																$namaujianx = mysql_query("SELECT * FROM jenis where status='aktif'  order by nama ASC");
 																while($ujian = mysql_fetch_array($namaujianx)) {
-																	echo "<option value='$ujian[id_jenis]'>$ujian[id_jenis] - $ujian[nama] </option>";
+																	($ujian['id_jenis']==$mapel['kode_ujian']) ? $s='selected':$s='';
+																	echo "<option value='$ujian[id_jenis]' $s>$ujian[id_jenis] - $ujian[nama] </option>";
 																}
 																echo"
 															</select>

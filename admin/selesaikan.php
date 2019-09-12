@@ -8,10 +8,16 @@ require("../config/functions.crud.php");
 								$ids = $nilai['id_siswa'];
 								$idk = $nilai['id_kelas'];
 								$idu = $nilai['kode_ujian'];
+								$iduj = $nilai['id_ujian'];
 								$where = array(
 									'id_mapel' => $idm,
 									'id_siswa' => $ids,
 									'kode_ujian' => $idu
+								);
+								$where2 = array(
+									'id_mapel' => $idm,
+									'id_siswa' => $ids,
+									'id_ujian' => $iduj
 								);
 								$benar = $salah = 0;
 								$mapel = fetch('mapel',array('id_mapel'=>$idm));
@@ -40,7 +46,5 @@ require("../config/functions.crud.php");
 									'skor' => $skor
 								);
 								update('nilai',$data,$where);
-								delete('pengacak',$where);
-								delete('pengacakopsi',$where);
-	?>
-	
+								delete('pengacak',$where2);
+								delete('pengacakopsi',$where2);

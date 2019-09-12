@@ -36,8 +36,10 @@
                                     $cek2 = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
                                     if ($cek <> 0 or $cek2 == 0) {
                                         $dis = 'disabled';
+                                        $dis2 = '';
                                     } else {
                                         $dis = '';
+                                        $dis2 = 'disabled';
                                     }
                                     $no++;
                                     $tempjawaban = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
@@ -54,7 +56,7 @@
                                     <td>$datajawaban</td>
                                     <td>
                                     <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
-                                    <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-xs btn-danger'><i class='fa fa-trash'></i> Nilai</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-xs btn-danger' $dis2><i class='fa fa-trash'></i> Nilai</button>
                                     <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger'><i class='fa fa-trash'></i> Jawaban</button>
                                     
                                     </td>

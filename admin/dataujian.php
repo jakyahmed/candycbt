@@ -32,6 +32,13 @@
                                 $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel group by id_ujian");
 
                                 while ($ujian = mysql_fetch_array($ujianQ)) {
+                                    $cek = mysql_num_rows(mysql_query("select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai='' and id_siswa<>''"));
+                                    $cek2 = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
+                                    if ($cek <> 0 or $cek2 == 0) {
+                                        $dis = 'disabled';
+                                    } else {
+                                        $dis = '';
+                                    }
                                     $no++;
                                     $tempjawaban = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
                                     $datajawaban = mysql_num_rows(mysql_query("select * from hasil_jawaban where id_ujian='$ujian[id_ujian]'"));
@@ -47,7 +54,7 @@
                                     <td>$datajawaban</td>
                                     <td>
                                     <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger'><i class='fa fa-trash'></i> Jawaban</button>
-                                    <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary'><i class='fa fa-refresh'></i> Nilai & Jawaban</button>
+                                    <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
                                     </td>
                                 </tr>
                                 ";
@@ -85,6 +92,38 @@
                                         position: 'top-end',
                                         type: 'success',
                                         title: 'Data berhasil dihapus',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    $("#tabledataujian").load(window.location + " #tabledataujian");
+                                }
+                            });
+                        }
+                    })
+
+                });
+                $(document).on('click', '.pindahjwbn', function() {
+                    var id = $(this).data('id');
+                    console.log(id);
+                    swal({
+                        title: 'Apa anda yakin?',
+                        text: "aksi ini akan memindahkan dari temp_jawaban ke jawaban!",
+
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: 'ambiljawaban.php',
+                                method: "POST",
+                                data: 'id=' + id,
+                                success: function(data) {
+                                    swal({
+                                        position: 'top-end',
+                                        type: 'success',
+                                        title: 'Data berhasil dipindahkan',
                                         showConfirmButton: false,
                                         timer: 1500
                                     });

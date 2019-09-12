@@ -27,7 +27,7 @@
   				<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   				<link rel='shortcut icon' href='$homeurl/favicon.ico'/>
 				<link rel='stylesheet' href='$homeurl/dist/bootstrap/css/bootstrap.min.css'/>
-				<link rel='stylesheet' href='$homeurl/plugins/fileinput/css/fileinput.min.css'/>
+				
 				<link rel='stylesheet' href='$homeurl/plugins/font-awesome/css/font-awesome.css'/>
 				<link rel='stylesheet' href='$homeurl/plugins/select2/select2.min.css'/>
 				<link rel='stylesheet' href='$homeurl/dist/css/AdminLTE.min.css'/>
@@ -5003,7 +5003,7 @@ thead:hover {
 				<script src='$homeurl/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>
 				<script src='$homeurl/plugins/select2/select2.min.js'></script>
 				<script src='$homeurl/plugins/tableedit/jquery.tabledit.js'></script>
-				<script src='$homeurl/plugins/fileinput/js/fileinput.min.js'></script>
+				
 				<script src='$homeurl/plugins/notify/js/notify.js'></script>
 				<script src='$homeurl/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
 				
@@ -5133,20 +5133,7 @@ thead:hover {
 							})
 							return false;
 					 });
-					$('.input-id').fileinput({
-						allowedFileExtensions: ['jpg', 'png', 'gif','mp3','ogg','wav'],
-						showRemove: false,
-						showUpload: false,
-						showBrowse: false,
-						browseOnZoneClick: true,
-						
-						maxFileSize: 5000,
-						uploadUrl: 'upload.php' // your upload server url
-
-						
-					}).on('filebatchselected', function(event, files) {
-						$('.input-id').fileinput('upload');
-					});
+					
 									
 							$('#ceksemua').change(function() {
 								$(this).parents('#tablereset:eq(0)').

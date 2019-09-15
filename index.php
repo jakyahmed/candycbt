@@ -27,7 +27,7 @@ echo "
 				<link rel='stylesheet' href='$homeurl/dist/bootstrap/css/bootstrap.min.css'/>
 				<link rel='stylesheet' href='$homeurl/plugins/font-awesome/css/font-awesome.min.css'/>
 				<link rel='stylesheet' href='$homeurl/dist/css/AdminLTE.min.css'/>
-				<link rel='stylesheet' href='$homeurl/dist/css/skins/skin-red.min.css'/>
+				<link rel='stylesheet' href='$homeurl/dist/css/skins/skin-red-light.min.css'/>
 				<link rel='stylesheet' href='$homeurl/plugins/iCheck/square/green.css'/>
 				<link rel='stylesheet' href='$homeurl/plugins/animate/animate.min.css'>
 				<link rel='stylesheet' href='$homeurl/plugins/sweetalert2/dist/sweetalert2.min.css'>
@@ -43,11 +43,14 @@ echo "
 					
 					border-left: 0px;
 				}
-				 
+				 .skin-red-light .sidebar-menu > li:hover > a, .skin-red-light .sidebar-menu > li.active > a {
+					color: #fff;
+					background: #e111e8;
+				}
 				</style>
 			</head>
 			
-			<body class='hold-transition skin-red  fixed $sidebar' >
+			<body class='hold-transition skin-red-light  fixed $sidebar' >
 				<span id='livetime'></span>
 				<div class='wrapper'>
 					<header class='main-header'>
@@ -1272,7 +1275,15 @@ echo "
 				<script src='$homeurl/plugins/slidemenu/jquery-slide-menu.js'></script>
 				<script src='$homeurl/plugins/mousetrap/mousetrap.min.js'></script>
 				<script>
-				
+				var url = window.location;
+			// for sidebar menu entirely but not cover treeview
+			$('ul.sidebar-menu a').filter(function () {
+			return this.href == url;
+			}).parent().addClass('active');
+			// for treeview
+			$('ul.treeview-menu a').filter(function () {
+			return this.href == url;
+			}).closest('.treeview').addClass('active');
 				var autoRefresh = setInterval(
 						function () {
 							$('#waktu').load('$homeurl/admin/_load.php?pg=waktu');

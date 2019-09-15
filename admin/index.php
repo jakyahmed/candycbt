@@ -48,11 +48,11 @@
 <style>
 @font-face {
         font-family: tulisan_keren;
-        src: url(AdventPro-Light.ttf);
+        src: url($homeurl/dist/fonts/poppins/Poppins-Light.ttf);
 }
 body {
     font-family: 'tulisan_keren';
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.42857143;
     color: #000;
 }

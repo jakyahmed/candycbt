@@ -4,7 +4,7 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$siswaQ = mysql_query("SELECT * FROM siswa WHERE username='$username'");
-		
+		if($username<>"" and $password<>""){
 		if(mysql_num_rows($siswaQ)==0) {
 			echo "td";
 		} else {
@@ -24,4 +24,5 @@
 					}
 				}
 			
+		}
 		}

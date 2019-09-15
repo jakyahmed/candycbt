@@ -4,147 +4,82 @@ $cekdb = mysql_query('select 1 from `pengawas` LIMIT 1');
 if ($cekdb == false) {
 	header("Location: install.php");
 }
-//if(preg_match('/(Chrome|CriOS)\//i',$_SERVER['HTTP_USER_AGENT'])
-//&& !preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i',$_SERVER['HTTP_USER_AGENT'])){
-
 ?>
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-	<meta charset='utf-8' />
-	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
 	<title>Login | <?php echo $setting['aplikasi']; ?></title>
-	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
-	<link rel='stylesheet' href='dist/bootstrap/css/bootstrap.min.css' />
-	<link rel="icon" type="image/png" href="favicon.ico" />
-	<link rel='stylesheet' href='dist/css/AdminLTE.min.css' />
-	<link rel='stylesheet' href='dist/css/skins/skin-red.min.css' />
-	<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
-	<link rel="stylesheet" href="plugins/animate/animate.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="dist/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="dist/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="dist/vendor/animate/animate.css">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="dist/css/util.css">
+	<link rel="stylesheet" type="text/css" href="dist/css/main.css">
+<!--===============================================================================================-->
 	<link rel='stylesheet' href='<?php echo $homeurl; ?>/plugins/sweetalert2/dist/sweetalert2.min.css'>
-
-
 </head>
-<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
-
-<body class="hold-transition skin-red layout-top-nav">
-
-	<div class="wrapperx">
-
-		<header class="main-header">
-			<nav class="navbar navbar-fixed-top bg-blue">
-				<div class="container">
-					<div class="navbar-header">
-						<a href="?" class="animated bounce delay-1s navbar-brand" style="padding:5px 15px;">
-							<image src="<?php echo $homeurl . '/' . $setting['logo']; ?>" height='40px'>
-						</a>
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-							<i class="fa fa-bars"></i>
-						</button>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background:#bbe1f3;">
+			<div class="animated tada wrap-login100" style="padding-top:30px">
+				<form id="formlogin" action="ceklogin.php" class="login100-form validate-form">
+					
+					<span class="animated infinite pulse delay-5s login100-form-title p-b-40">
+						<img src="<?php echo $setting['logo']; ?>" style="max-height:100px" class="img-responsive" alt="Responsive image">
+					</span>
+					<span class="login100-form-title p-b-26">
+						<?php echo $setting['sekolah']; ?>
+						<p><small>Support By Candy CBT V 2.5</small></p>
+					</span>
+					<div class="wrap-input100 validate-input" data-validate = "Enter Username" required>
+						<input class="input100" type="text" name="username">
+						<span class="focus-input100" data-placeholder="Username"></span>
 					</div>
 
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse pull-right" id="navbar-collapse">
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="#"><i class="fa fa-home"></i><b> SISWA<b> Login <span class="sr-only">(current)</span></a></li>
-
-						</ul>
-
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" type="password" name="password">
+						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
-				</div>
-			</nav>
-		</header>
-		<!-- Full Width Column -->
-		<div class="content-wrapper" style="">
 
-			<div class="container">
-				<!-- Content Header (Page header) -->
-				<section class="content-header">
-					<h1>
-						CBT CANDY
-						<small>Computer Base Test</small>
-					</h1>
-
-				</section>
-
-				<!-- Main content -->
-				<section class="content">
-					<div class='row'>
-						<div class="animated flipInX login-box ">
-							<div class="login-logo">
-								<a href="#"><b>Login |</b> Siswa</a>
-							</div>
-							<!-- /.login-logo -->
-							<div class="  login-box-body" style='border-radius:8px;border:solid pink'>
-
-								<p class="login-box-msg"><b>Jangan Lupa Berdoa Sebelum Ujian</b></p>
-
-								<form id="formlogin" action="ceklogin.php" method="post">
-									<div class="form-group has-feedback">
-										<input type="text" name="username" class="form-control" placeholder="Username" autocomplete='off' required>
-										<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-									</div>
-									<div class="form-group has-feedback">
-										<input type="password" name="password" id="pass" class="form-control" placeholder="Password" required>
-										<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-									</div>
-
-									<div class="row">
-										<div class="col-xs-6">
-											<div class="col-md-12">
-												<div class="checkbox icheck">
-													<label>
-														<input type="checkbox" onclick="showpass()"> Show Password
-													</label>
-												</div>
-											</div>
-										</div>
-										<!-- /.col -->
-										<div class="col-xs-6">
-											<button type="submit" name="submit" class="btn btn-primary btn-raised btn-block btn-flat">Masuk</button>
-										</div>
-										<!-- /.col -->
-									</div>
-								</form>
-
-							</div>
-							<!-- /.login-box-body -->
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Login
+							</button>
 						</div>
-
 					</div>
-				</section>
-				<!-- /.content -->
-			</div>
-			<!-- /.container -->
-		</div>
-		<!-- /.content-wrapper -->
-		<footer class="main-footer hidden-xs navbar-fixed-bottom">
-			<div class="container">
-				<div class="pull-left ">
-					<b><?php echo "$setting[sekolah] support by $copyright"; ?></b>
-				</div>
-				<div class="pull-right ">
-					<b>Version</b> V<?php echo $setting['versi']; ?>
-				</div>
-				<strong></strong>
-			</div>
-			<!-- /.container -->
-		</footer>
-	</div>
-	<!-- ./wrapper -->
 
-	<!-- jQuery 3.1.1 -->
-	<script src="plugins/jQuery/jquery-3.1.1.min.js"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script src="dist/bootstrap/js/bootstrap.min.js"></script>
-	<!-- SlimScroll -->
-	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<!-- FastClick -->
-	<script src="plugins/fastclick/fastclick.js"></script>
-	<!-- AdminLTE App -->
-	<script src="dist/js/adminlte.min.js"></script>
-	<script src='<?php echo $homeurl; ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="dist/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+<!--===============================================================================================-->
+	<script src="dist/vendor/bootstrap/js/popper.js"></script>
+	<script src="dist/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src='<?php echo $homeurl; ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
+	<script src="dist/js/main.js"></script>
 	<script>
 		$(document).ready(function() {
 			$('#formlogin').submit(function(e) {
@@ -205,12 +140,5 @@ if ($cekdb == false) {
 		}
 	</script>
 
-
 </body>
-
 </html>
-<?php //}else {
-//echo "MAAF ANDA HARUS MENGGUNAKAN WEB BROWSER GOOGLE CHROME VERSI TERBARU";	
-
-//}
-?>

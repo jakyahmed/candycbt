@@ -1337,7 +1337,8 @@ thead:hover {
 												$acak = (isset($_POST['acak'])) ? 1 : 0;
 												$token = (isset($_POST['token'])) ? 1 : 0;
 												$hasil = (isset($_POST['hasil'])) ? 1 : 0;
-												
+												$kkm = $_POST['kkm'];
+												$ulang = $_POST['ulang'];
 												$cek = mysql_num_rows(mysql_query("SELECT * FROM ujian WHERE nama='$nama_mapel' AND sesi='$sesi' AND kode_ujian='$kode_ujian' AND level='$level' AND kelas ='$kelas'"));
 												if($cek>0) {
 												echo "
@@ -1349,10 +1350,10 @@ thead:hover {
 												";
 												}else{
 												if($pengawas['level']=='admin') {
-												$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian,tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$idguru','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian')");
+												$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian,tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$idguru','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
 												
 												}else{
-												$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian, tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$id_pengawas','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian')");
+												$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian, tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$id_pengawas','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
 												}
 												echo "
 												<div class='alert alert-success alert-dismissible'>
@@ -1418,9 +1419,7 @@ thead:hover {
 															<div class='col-md-6'>
 																<label>Tanggal Mulai Ujian</label>
 																<input type='text' name='tgl_ujian'   class='tgl form-control' autocomplete='off' required='true'/>
-															</div>
-															
-															
+															</div>													
 															<div class='col-md-6'>
 																<label>Tanggal Waktu Expired</label>
 																<input type='text' name='tgl_selesai'   class='tgl form-control' autocomplete='off' required='true'/>
@@ -1444,11 +1443,21 @@ thead:hover {
 															
 															
 															<div class='form-group'>
+															<div class='row'>
+															<div class='col-md-4'>
 																<label>Lama ujian (menit)</label>
-																<input  type='number' name='lama_ujian'   class='form-control' required='true'/>
-																
+																<input  type='number' name='lama_ujian'   class='form-control' required='true'/>	
 															</div>
-															
+															<div class='col-md-4'>
+																<label>KKM</label>
+																<input  type='number' name='kkm'   class='form-control'/>	
+															</div>
+															<div class='col-md-4'>
+																<label>Jumlah Remidi</label>
+																<input  type='number' name='ulang'   class='form-control' />	
+															</div>
+															</div>
+															</div>
 															
 															<div class='form-group'>
 																<label></label><br>
@@ -1465,6 +1474,7 @@ thead:hover {
 																	<label>
 																		<input type='checkbox' class='icheckbox_square-green' name='hasil' value='1' $hasil/> Hasil Tampil
 																	</label>
+																	
 															</div>
 															
 															<div class='modal-footer'>

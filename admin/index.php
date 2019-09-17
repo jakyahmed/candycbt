@@ -5592,6 +5592,37 @@ thead:hover {
 						})
 
 					});
+					$(document).on('click', '.ulang', function() {
+						var id = $(this).data('id');
+						console.log(id);
+						swal({
+							title: 'Apa anda yakin?',
+							text: "Akan Mengulang Ujian Ini ??",
+							
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: 'Yes!'
+						}).then((result) => {
+							if (result.value) {
+								$.ajax({
+									url: 'ulangujian.php',
+									method: "POST",
+									data:'id='+id,
+									success: function(data) {
+										swal({
+										  position: 'top-end',
+										  type: 'success',
+										  title: 'Data berhasil disimpan',
+										  showConfirmButton: false,
+										  timer: 1500
+										});
+									}
+								});
+							}
+						})
+
+					});
 					$(document).on('click','.ambiljawaban',function(){
 						
 						var idmapel=$(this).data('id');

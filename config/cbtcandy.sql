@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2019 at 03:32 PM
+-- Generation Time: Sep 17, 2019 at 12:06 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -52,18 +52,12 @@ CREATE TABLE `berita` (
 --
 
 INSERT INTO `berita` (`id_berita`, `id_mapel`, `sesi`, `ruang`, `jenis`, `ikut`, `susulan`, `no_susulan`, `mulai`, `selesai`, `nama_proktor`, `nip_proktor`, `nama_pengawas`, `nip_pengawas`, `catatan`, `tgl_ujian`) VALUES
-(1, 1, '1', 'R1', 'PAT', '20', '0', 'a:1:{i:0;s:12:\"12-248-087-2\";}', '21:00', '23:00', 'Pajar Sidik N', '2011-09-929091', 'Nur Rohman', '2019-02909-2909', 'TERTIB', '2019-09-06'),
-(2, 1, '2', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(3, 1, '3', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(4, 1, '1', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(5, 1, '2', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(6, 1, '3', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(7, 1, '1', 'R1', 'PTS', '20', '1', 'a:6:{i:0;s:12:\"12-248-001-8\";i:1;s:12:\"12-248-066-7\";i:2;s:12:\"12-248-002-7\";i:3;s:12:\"12-248-004-5\";i:4;s:12:\"12-248-068-5\";i:5;s:12:\"12-248-006-3\";}', '13:00', '16:00', 'Pajar Sidik N', '2011-09-929091', 'Nur Rohman', '2019-02909-2909', 'Tertib', '2019-09-08'),
-(8, 1, '2', 'R1', 'PTS', '', '', '', '', '', '', '', '', '', '', ''),
-(9, 1, '3', 'R1', 'PTS', '', '', '', '', '', '', '', '', '', '', ''),
-(10, 1, '1', 'R2', 'PTS', '', '', '', '', '', '', '', '', '', '', ''),
-(11, 1, '2', 'R2', 'PTS', '', '', '', '', '', '', '', '', '', '', ''),
-(12, 1, '3', 'R2', 'PTS', '', '', '', '', '', '', '', '', '', '', '');
+(1, 5, '1', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
+(2, 5, '2', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
+(3, 5, '3', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
+(4, 5, '1', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
+(5, 5, '2', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
+(6, 5, '3', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -102,64 +96,6 @@ CREATE TABLE `jawaban` (
   `nilai_esai` int(5) NOT NULL,
   `ragu` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `jawaban`
---
-
-INSERT INTO `jawaban` (`id_jawaban`, `id_siswa`, `id_mapel`, `id_soal`, `id_ujian`, `jawaban`, `jenis`, `esai`, `nilai_esai`, `ragu`) VALUES
-(1, 1, 1, 24, 10, 'E', 1, '', 0, 0),
-(2, 1, 1, 32, 10, 'A', 1, '', 0, 0),
-(3, 1, 1, 15, 10, 'A', 1, '', 0, 0),
-(4, 1, 1, 14, 10, 'E', 1, '', 0, 0),
-(5, 1, 1, 27, 10, 'E', 1, '', 0, 0),
-(6, 1, 1, 30, 10, 'D', 1, '', 0, 0),
-(7, 1, 1, 28, 10, 'E', 1, '', 0, 0),
-(8, 1, 1, 40, 10, 'D', 1, '', 0, 0),
-(9, 1, 1, 19, 10, 'D', 1, '', 0, 0),
-(10, 1, 1, 29, 10, 'D', 1, '', 0, 0),
-(11, 1, 1, 20, 10, 'D', 1, '', 0, 0),
-(12, 1, 1, 38, 10, 'C', 1, '', 0, 0),
-(13, 1, 1, 33, 10, 'E', 1, '', 0, 0),
-(14, 1, 1, 22, 10, 'D', 1, '', 0, 0),
-(15, 1, 1, 3, 10, 'C', 1, '', 0, 0),
-(16, 1, 1, 26, 10, 'A', 1, '', 0, 0),
-(17, 1, 1, 35, 10, 'E', 1, '', 0, 0),
-(18, 1, 1, 25, 10, 'D', 1, '', 0, 0),
-(19, 1, 1, 17, 10, 'B', 1, '', 0, 0),
-(20, 1, 1, 7, 10, 'B', 1, '', 0, 0),
-(21, 1, 1, 2, 10, 'D', 1, '', 0, 0),
-(22, 1, 1, 16, 10, 'C', 1, '', 0, 0),
-(23, 1, 2, 46, 11, 'B', 1, '', 0, 0),
-(24, 1, 2, 47, 11, 'A', 1, '', 0, 0),
-(25, 1, 2, 48, 11, 'B', 1, '', 0, 0),
-(26, 1, 2, 49, 11, 'B', 1, '', 0, 0),
-(27, 1, 2, 50, 11, 'C', 1, '', 0, 0),
-(28, 1, 2, 51, 11, 'B', 1, '', 0, 0),
-(29, 1, 2, 52, 11, 'C', 1, '', 0, 0),
-(30, 1, 2, 53, 11, 'B', 1, '', 0, 0),
-(31, 1, 2, 54, 11, 'A', 1, '', 0, 0),
-(32, 1, 2, 55, 11, 'B', 1, '', 0, 0),
-(33, 1, 2, 56, 11, 'B', 1, '', 0, 0),
-(34, 1, 2, 57, 11, 'D', 1, '', 0, 0),
-(35, 1, 2, 58, 11, 'D', 1, '', 0, 0),
-(36, 1, 2, 59, 11, 'A', 1, '', 0, 0),
-(37, 1, 2, 60, 11, 'B', 1, '', 0, 0),
-(38, 1, 2, 61, 11, 'D', 1, '', 0, 0),
-(39, 1, 2, 62, 11, 'A', 1, '', 0, 0),
-(40, 1, 2, 63, 11, 'B', 1, '', 0, 0),
-(41, 1, 2, 64, 11, 'B', 1, '', 0, 0),
-(42, 1, 2, 65, 11, 'C', 1, '', 0, 0),
-(43, 1, 2, 66, 11, 'C', 1, '', 0, 0),
-(44, 1, 2, 67, 11, 'C', 1, '', 0, 0),
-(45, 1, 2, 68, 11, 'C', 1, '', 0, 0),
-(46, 1, 2, 69, 11, 'A', 1, '', 0, 0),
-(47, 1, 2, 70, 11, 'C', 1, '', 0, 0),
-(48, 1, 2, 71, 11, 'A', 1, '', 0, 0),
-(49, 1, 2, 72, 11, 'D', 1, '', 0, 0),
-(50, 1, 2, 73, 11, 'A', 1, '', 0, 0),
-(51, 1, 2, 74, 11, 'C', 1, '', 0, 0),
-(52, 1, 2, 75, 11, 'D', 1, '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -236,6 +172,16 @@ CREATE TABLE `log` (
   `date` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `log`
+--
+
+INSERT INTO `log` (`id_log`, `id_siswa`, `type`, `text`, `date`) VALUES
+(1, 1, 'login', 'masuk', '2019-09-15 19:52:36'),
+(2, 1, 'logout', 'keluar', '2019-09-15 19:52:43'),
+(3, 5, 'login', 'masuk', '2019-09-15 20:57:26'),
+(4, 1, 'login', 'masuk', '2019-09-15 21:27:06');
+
 -- --------------------------------------------------------
 
 --
@@ -254,8 +200,9 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_log`, `id_siswa`, `ipaddress`, `date`) VALUES
-(1, 68, '', '2019-09-02 07:15:24'),
-(2, 1, '', '2019-09-08 05:53:37');
+(5, 3, '', '2019-09-12 21:53:29'),
+(7, 5, '', '2019-09-15 13:57:27'),
+(8, 1, '', '2019-09-15 14:27:07');
 
 -- --------------------------------------------------------
 
@@ -287,8 +234,7 @@ CREATE TABLE `mapel` (
 --
 
 INSERT INTO `mapel` (`id_mapel`, `idpk`, `idguru`, `nama`, `jml_soal`, `jml_esai`, `tampil_pg`, `tampil_esai`, `bobot_pg`, `bobot_esai`, `level`, `opsi`, `kelas`, `date`, `status`, `statusujian`) VALUES
-(1, 'semua', '51', 'MTK', 40, 5, 40, 5, 100, 100, 'XII', 5, 'a:1:{i:0;s:5:\"semua\";}', '2019-05-13 06:20:02', '1', 0),
-(2, '', '41', 'KIMIA', 30, 0, 30, 0, 100, 0, 'semua', 4, 'a:1:{i:0;s:5:\"semua\";}', '2019-09-08 06:01:14', '1', 0);
+(5, 'semua', '41', 'KIMIA', 30, 0, 30, 0, 100, 0, 'semua', 5, 'a:1:{i:0;s:5:\"semua\";}', '2019-09-15 08:17:50', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -334,14 +280,6 @@ CREATE TABLE `nilai` (
   `hasil` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `nilai`
---
-
-INSERT INTO `nilai` (`id_nilai`, `id_ujian`, `id_mapel`, `id_siswa`, `kode_ujian`, `ujian_mulai`, `ujian_berlangsung`, `ujian_selesai`, `jml_benar`, `jml_salah`, `nilai_esai`, `skor`, `total`, `status`, `ipaddress`, `hasil`) VALUES
-(1, 10, 1, 1, 'PTS', '2019-09-08 12:53:49', '2019-09-08 12:59:05', '2019-09-08 12:58:59', 8, 37, '', '20', '', 0, '192.168.43.1', 1),
-(2, 11, 2, 1, 'PH', '2019-09-08 13:05:36', '2019-09-08 13:07:26', '2019-09-08 13:07:25', 8, 22, '', '26.67', '26.67', 0, '192.168.43.1', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -357,13 +295,6 @@ CREATE TABLE `pengacak` (
   `id_esai` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `pengacak`
---
-
-INSERT INTO `pengacak` (`id_pengacak`, `id_ujian`, `id_siswa`, `id_mapel`, `id_soal`, `id_esai`) VALUES
-(1, 10, 1, 1, '24,32,15,14,27,30,28,40,19,29,20,38,33,22,3,26,35,25,17,7,2,16,8,23,6,9,11,5,39,31,4,18,12,21,13,34,36,37,1,10,', '45,44,43,42,41,');
-
 -- --------------------------------------------------------
 
 --
@@ -378,13 +309,6 @@ CREATE TABLE `pengacakopsi` (
   `id_soal` longtext NOT NULL,
   `id_esai` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pengacakopsi`
---
-
-INSERT INTO `pengacakopsi` (`id_pengacak`, `id_ujian`, `id_siswa`, `id_mapel`, `id_soal`, `id_esai`) VALUES
-(1, 10, 1, 1, 'E,A,B,D,C,D,A,B,E,C,A,B,E,C,D,E,A,C,B,D,E,D,B,A,C,A,D,B,C,E,C,E,B,A,D,D,B,C,A,E,C,D,B,E,A,A,D,E,C,B,D,E,C,A,B,C,B,D,E,A,E,C,A,D,B,C,D,B,A,E,B,C,A,E,D,D,A,C,E,B,E,D,C,B,A,B,D,A,E,C,B,D,A,E,C,B,E,A,C,D,D,E,A,B,C,C,E,D,B,A,C,B,A,D,E,D,C,A,E,B,A,D,C,E,B,D,A,C,B,E,B,A,C,D,E,C,B,D,A,E,A,B,C,D,E,B,E,A,C,D,A,E,D,B,C,E,D,A,B,C,B,D,C,E,A,C,B,E,A,D,A,B,C,E,D,A,E,D,C,B,C,E,B,A,D,D,B,A,C,E,C,E,D,A,B,D,C,B,E,A,', '45,44,43,42,41,');
 
 -- --------------------------------------------------------
 
@@ -627,7 +551,7 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id_setting`, `aplikasi`, `kode_sekolah`, `sekolah`, `jenjang`, `kepsek`, `nip`, `alamat`, `kecamatan`, `kota`, `telp`, `fax`, `web`, `email`, `logo`, `header`, `header_kartu`, `nama_ujian`, `versi`, `ip_server`, `waktu`) VALUES
-(1, 'SMK HS AGUNG', 'K123', 'SMK HS AGUNG', 'SMP', 'Dedi Baidillah, S.Pd, M.Pd', '-', 'IO : 503.15/015/IV/SK-SMK/BPMPPT/2013; NPSN: 69787351 ; NSS : 402022210005<br />\r\nJL.Buyut Kaipah .Pulo Bambu Karang Bahagia Kec.Karang Bahagia Kab. Bekasi <br />\r\n', 'Karang Bahagia', 'Bekasi', '021 123 123 123', '', 'smkhsagung.sch.id', 'smkhsagung@gmail.com', 'dist/img/logo43.png', 'YAYASAN SOFIA MUJAHIDA UTAMA', 'KARTU PESERTA\nUJIAN SEKOLAH BERBASIS KOMPUTER', 'UJIAN SEKOLAH BERSTANDAR NASIONAL', '2.5', 'http://192.168.0.200/candycbt', 'Asia/Jakarta');
+(1, 'SMK HS AGUNG', 'K123', 'SMK HS AGUNG', 'SMK', 'Dedi Baidillah, S.Pd, M.Pd', '-', 'IO : 503.15/015/IV/SK-SMK/BPMPPT/2013; NPSN: 69787351 ; NSS : 402022210005<br />\r\nJL.Buyut Kaipah .Pulo Bambu Karang Bahagia Kec.Karang Bahagia Kab. Bekasi <br />\r\n', 'Karang Bahagia', 'Bekasi', '021 123 123 123', '', 'smkhsagung.sch.id', 'smkhsagung@gmail.com', 'dist/img/logo6.png', 'YAYASAN SOFIA MUJAHIDA UTAMA', 'KARTU PESERTA\nUJIAN SEKOLAH BERBASIS KOMPUTER', 'UJIAN SEKOLAH BERSTANDAR NASIONAL', '2.5', 'http://192.168.0.200/candycbt', 'Asia/Jakarta');
 
 -- --------------------------------------------------------
 
@@ -850,91 +774,46 @@ CREATE TABLE `soal` (
 --
 
 INSERT INTO `soal` (`id_soal`, `id_mapel`, `nomor`, `soal`, `jenis`, `pilA`, `pilB`, `pilC`, `pilD`, `pilE`, `jawaban`, `file`, `file1`, `fileA`, `fileB`, `fileC`, `fileD`, `fileE`) VALUES
-(1, 1, 1, 'Partisi yang pertama kali dipasang dalam instalasi sistem operasi Linux adalah â€¦.', 1, '/root , /opt', '/root , /home', '/home, /opt', '/boot , /root', '/swap , /root', 'E', '', '', '', '', '', '', ''),
-(2, 1, 2, 'Jika komputer pada saat POST mengeluarkan bunyi 1 beep panjang dan 3 beep pendek, berarti ....', 1, 'Kerusakan di modul DRAM parity', 'Kerusakan di bagian VGA', 'Problem di memori', 'PC dalam keadaan baik', 'Kerusakan di modul memori atau memori video', 'C', 'gambar4.jpg', '', 'gambar1.png', 'gambar1.png', 'gambar1.png', 'gambar1.png', 'gambar1.png'),
-(3, 1, 3, 'Nama service untuk memberikan IP secara otomatis adalahâ€¦', 1, 'POP3', 'Apache', 'DHCP3', 'Bind9', 'Squid', 'C', '', '', '', '', '', '', ''),
-(4, 1, 4, 'Keuntungan menggunakan media transmisi jaringan tanpa kabel / Wireless adalah....', 1, 'Boros Kabel', 'Biaya peralatan dan peripherial relatif mahal', 'Kemampuan transfer data lebih kecil dari jaringan kabel', 'Keamanan data masih belum terjamin karena masih dimungkinkan dilakukan penyadapan', 'Teknologi wireles memungkinkan untuk mengakses internet lebih murah dibanding dengan sistem dial up atau leased line', 'E', '', '', '', '', '', '', ''),
-(5, 1, 5, 'Terjadinya tabrakan pengiriman data pada suatu jaringan komputer dikenal dengan istilahâ€¦', 1, 'Collision', 'Fusion', 'Broken', 'Attacking', 'Explode', 'A', '', '', '', '', '', '', ''),
-(6, 1, 6, 'Dua software yang digunakan untuk boot loader adalah.....', 1, 'GRUB dan FIFO', 'GRUB dan LIFO', 'GRUB dan LILO', 'LIFO dan SWAP', 'LILO dan SWAP', 'C', '', '', '', '', '', '', ''),
-(7, 1, 7, 'Kemampuan sistem operasi untuk menjalankan berbagai perintah dalam waktu bersamaan disebut.....', 1, 'Multi user', 'Pipelining', 'Threading', 'Multitasking', 'Management', 'D', '', '', '', '', '', '', ''),
-(8, 1, 8, 'Tipe file yang digunakan oleh linux secara umum adalah â€¦', 1, 'INF', 'FAT', 'FAT32', 'NTFS', 'EXT3', 'E', '', '', '', '', '', '', ''),
-(9, 1, 9, 'Sistem file yang disediakan oleh Windows XP dalam format hardisk adalah :', 1, 'FAT dan System', 'NTFS dan FAT', 'System dan NTFS', 'System dan DOS', 'DOS dan FAT', 'B', '', '', '', '', '', '', ''),
-(10, 1, 10, 'Perintah append firewall di linux yang memperbolehkan akses service web http adalahâ€¦', 1, '# iptables -A goodtcp -p TCP -m state -state ESTABLISHED, RELATED, j ACCEPTED', '# iptables -A goodtcp -p TCP -syn -j ACCEPT', '# iptables -A INPUT -p UDP -s 0/0 -dport 53 -j ACCEPT', '# iptables -A INPUT -P TCP -s 0/0 -dport 80 -j ACCEPT', '# iptables -I INPUT -s $BAD_IP/32 -j DROP', 'D', '', '', '', '', '', '', ''),
-(11, 1, 11, 'apt-get install postfix salah  satu  tahapan untuk konfigurasi â€¦', 1, 'DNS Server', 'MySql server', 'Database server', 'SSH server', 'Webmail server', 'E', '', '', '', '', '', '', ''),
-(12, 1, 12, 'Jika diketahui IP address 204.15.15.7 netmask 255.255.255.128, berapa jumlah host yang dapat digunakan untuk jaringan tersebut â€¦', 1, '62', '126', '128', '256', '512', 'B', '', '', '', '', '', '', ''),
-(13, 1, 13, 'Suatu jaringan local dengan ip address 193.17.17.6/27, IP broadcastnya adalahâ€¦', 1, '193.17.17.0', '193.17.17.31', '193.17.17.51', '193.17.17.224', '255255255224', 'B', '', '', '', '', '', '', ''),
-(14, 1, 14, 'Kerusakan yang sering terjadi pada keyboard jika mencul tulisan di layar Keyboard \"error or no keyboard present\" Maksud dari kalimat itu adalah....', 1, 'Tombol keyboard macet saat ditekan', 'Keyboard meminta untuk dibersihkan', 'Port keyboard pada motherboard rusak', 'Keyboard tidak terdeteksi oleh PC', 'Kabel keyboard putus', 'D', '', '', '', '', '', '', ''),
-(15, 1, 15, 'Alat yang digunakan sebagai pengaman CPU terhadap lonjakan tegangan jala-jala listrik maupun listrik yang tiba-tiba padam adalah â€¦.', 1, 'UPS', 'Power supply', 'Adaptor', 'Generator', 'Kontaktor', 'A', '', '', '', '', '', '', ''),
-(16, 1, 16, 'Perintah linux untuk mengarahkan dari port http ke port proxy adalahâ€¦', 1, 'iptables -t nat -D PREROUTING -s 192.168.55.0/24 -p tcp --dport 80 -j REDIRECT --to-ports 3128', 'iptables -t nat -A PREROUTING -s 192.168.55.0/24 -m tcp --dport 80 -j REDIRECT --to-ports 3128', 'iptables -t nat -A PREROUTING -s 192.168.55.0/24 -p tcp --dport 80 -j REDIRECT --to-ports 3128', 'iptables -s nat -A PREROUTING -s 192.168.55.0/24 -p tcp --dport 80 -j REDIRECT --to-ports 3128', 'iptables -t nat -A PREROUTING -s 192.168.55.0/24 -d tcp --dport 80 -j REDIRECT --to-ports 3128', 'C', '', '', '', '', '', '', ''),
-(17, 1, 17, 'Utilitas berupa program cadangan yang pertama kali ditulis oleh Igor Romanenko, digunakan untuk pembuangan data sebuah database atau kumpulan database, disebutâ€¦', 1, 'MySQLDump', 'Backup Physic', 'Backup offline', 'Backup Logika', 'Backup online', 'A', '', '', '', '', '', '', ''),
-(18, 1, 18, 'Mengambil datatabase dalam bentuk fisik, untuk database yang menggunakan Appserv secara fisik data disimpan pada folder C:\\Appserv\\Mysql\\data\\, disebut', 1, 'Backup logika', 'Backup Physic', 'Backup offline', 'MysqlBackup', 'Backup online', 'B', '', '', '', '', '', '', ''),
-(19, 1, 19, 'Untuk melakukan perawatan PC menggunakan Disk Cleanup yang ada pada Windows, file-file yang tidak diperlukan,dapat dihapus dengan cara â€¦.', 1, 'start > accessories > system tools > disk cleanup', 'accessories > system tools > start > disk cleanup', 'system tools > start > accessories > disk cleanup', 'start > system tools > accessories > disk cleanup', 'system tools > accessories > start > disk clean', 'A', '', '', '', '', '', '', ''),
-(20, 1, 20, 'Untuk menghubungkan komputer dengan Komputer digunakan kabel UTP dengan susunan ....', 1, 'rollover', 'straight', 'serial', 'crossover', 'DTE', 'D', '', '', '', '', '', '', ''),
-(21, 1, 21, 'Hasil konversi dari bilangan biner 101011 ke bilangan decimal adalahâ€¦', 1, '31', '34', '37', '40', '43', 'E', '', '', '', '', '', '', ''),
-(22, 1, 22, 'Salah satu jenis printer yang menggunakan metode hentakan jarum pada pita disebut â€¦', 1, 'Printer inkjet', 'Printer laserjet', 'Printer dotmatrix', 'Printer bubblejet', 'Plotter', 'C', '', '', '', '', '', '', ''),
-(23, 1, 23, 'Apabila dari perintah ping muncul keterangan \"Request timed out\" berartiâ€¦', 1, 'Hubungan kedua komputer berjalan secara normal.', 'Hubungan kedua komputer terputus', 'Topologi jaringan tidak sesuai', 'Internet tidak terhubung', 'Masalah pada server', 'B', '', '', '', '', '', '', ''),
-(24, 1, 24, 'Rumus dari gerbang logika AND adalah â€¦', 1, 'Y = A * B', 'Y = A / B', 'Y = A + B', 'A = B', 'B = A', 'A', '', '', '', '', '', '', ''),
-(25, 1, 25, 'VARCHAR dan CHAR (M) merupakan kolom MySQL tipeâ€¦.', 1, 'Numeric', 'Waktu', 'Kosong', 'String', 'Tanggal', 'D', '', '', '', '', '', '', ''),
-(26, 1, 26, 'Urut-urutan 7 layer (dimulai dari layer 1) dalam model Open System Interconnection adalah sebagai berikut :', 1, 'Physical, Session, Network, Transport, Data Link, Presentation, Application', 'Application, Network, Session, Transport, Presentation, Data Link, Physical', 'Physical, Presentation, Network, Transport, Session, Data Link, Application', 'Physical, Data Link, Network, Transport, Session, Presentation, Application', 'Application, Presentation, Session, Transport, Network, Data Link, Physical', 'D', '', '', '', '', '', '', ''),
-(27, 1, 27, 'Fungsi kecil dari router yang gunanya menggandakan IP address sehingga perangkat-perangkat yang ada di belakangnya bisa mengakses jaringan Internet adalahâ€¦.', 1, 'TCP/IP', 'NAT', 'Gateway', 'Router', 'Brigde', 'B', '', '', '', '', '', '', ''),
-(28, 1, 28, 'Perangkat yang berfungsi mengatur pemilihan jalur terbaik untuk dilewati paket data dikenal sebagai â€¦', 1, 'Switch', 'Router', 'Web server', 'Proxy server', 'Name server', 'B', '', '', '', '', '', '', ''),
-(29, 1, 29, 'Komputer yang bertugas menyimpan informasi halaman web yang pernah diakses sebelumnya adalah â€¦', 1, 'Router', 'Web server', 'Proxy server', 'Name server', 'Database server', 'C', '', '', '', '', '', '', ''),
-(30, 1, 30, 'Apabila suatu peripheral belum terinstal drivernya, pada device manager akan tampil symbol â€¦.', 1, 'Tanda seru (!) warna kuning', 'Tanda X warna merah', 'Tanda seru (!) warna merah', 'Tanda tanya (?) warna kuning', 'Tanda tanya (?) warna merah', 'D', '', '', '', '', '', '', ''),
-(31, 1, 31, 'Gangguan yang  disebabkan oleh tidak berjalannya aplikasi di wireless, konflik IP (Internet Protocol) pada proses proxy server pada server dikelompokkan dalam gangguan â€¦.', 1, 'brainware', 'hardware', 'pemasok daya', 'software', 'user', 'D', '', '', '', '', '', '', ''),
-(32, 1, 32, 'Kombinasi pengkabelan straight pada jaringan komputer yang sesuai dengan standart internasional  adalah...', 1, 'White orange - orange - white green - blue - white blue - green - white brown - brown', 'White orange - orange - white green - green - white blue - blue - white brown - brown', 'White green - green - white orange - blue - white blue - orange - white brown - brown', 'White orange - orange - white green - green - white blue - blue - white brown - brown', 'Orange - white orange - green - white green - white blue - blue - white brown - brown', 'A', '', '', '', '', '', '', ''),
-(33, 1, 33, 'Teknik yang digunakan untuk melindungi jaringan, dengan menyaring membatasi atau bahkan menolak koneksi adalah â€¦', 1, 'Proxy', 'Firewall', 'IP filter', 'Mac Filter', 'Firewire', 'B', '', '', '', '', '', '', ''),
-(34, 1, 34, 'Berapa kecepatan akses data pada access point yang memiliki standar kode IEEE 802.11b â€¦', 1, '11Mb/s', '54Mb/s', '108Mb/s', '216Mb/s', '432Mb/s', 'A', '', '', '', '', '', '', ''),
-(35, 1, 35, 'Yang membedakan paket software free dengan paket berbayar adalah â€¦.', 1, 'pada paket berbayar, ada permintaan memasukkan serial number untuk autentikasi', 'pada paket berbayar, dapat dipastikan kapasitas space besar', 'pada paket free, dapat dipastikan kapasitas space kecil', 'pada paket free, ada permintaan memasukkan serial number untuk autentikasi', 'pada paket berbayar, tidak dibatasi waktu penggunaannya', 'A', '', '', '', '', '', '', ''),
-(36, 1, 36, 'Penulisan IP Address 10.208.15.240 dalam bentuk binary ditulis sebagai berikut â€¦', 1, '1.0101101E+27', '1.0101101E+27', '1.0101101E+27', '1.0101101E+27', '1.0101101E+27', 'C', '', '', '', '', '', '', ''),
-(37, 1, 37, 'Sebuah komputer memiliki RAM sebesar 1,0 GB. Jika komputer tersebut akan diinstalasi sistem operasi Linux, swap yang dipasang sebesar â€¦.', 1, '1.0 GB', '1.5 GB', '2.0 GB', '2.5 GB', '3.0 GB', 'A', '', '', '', '', '', '', ''),
-(38, 1, 38, 'Batasan waktu agar paket data tidak mengambang di jaringan disebut.....', 1, 'Request Time Out', 'Time to Live', 'Time to Leave', 'Data Pending', 'Repply for All', 'B', '', '', '', '', '', '', ''),
-(39, 1, 39, 'Signal merewati 2 arah dengan satu kabel, kemungkinan terjadi collision (tabrakan data atau tercampurnya data) besar, adalah kelemahan dari kabel jenis.....', 1, 'Coaxial', 'UTP', 'STP', 'Twisted', 'Unshielded', 'A', '', '', '', '', '', '', ''),
-(40, 1, 40, 'Pada gambar dibawah komputer klien tidak dapat mengakses intenet melalui wireless, tetapi komputer yang terhubung melalui kabel dapat bisa terhubung ke internet, sebabnya adalah...', 1, 'Subnetmask klien salah', 'WEP key klien salah', 'Alamat IP klien salah', 'Default gateway klien salah', 'IP internal router salah', 'D', '', '', '', '', '', '', ''),
-(41, 1, 1, 'Diketahui IP Address 192.168.9.10/29 .\na. Tuliskan netmask nya dalam bentuk decimal\nb. Tuliskan Broadcast ID nya', 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(42, 1, 2, 'Ubahlah nilai berikut kedalam bentuk biner! :\na. Tuliskan netmask nya dalam bentuk decimal\nb. Tuliskan Broadcast ID nya', 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(43, 1, 3, 'Sebutkan 3 fungsi dari layer Aplikasi dalam lapisan OSI ?', 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(44, 1, 4, 'Apa yang dimaksud dengan jaringan Client - Server?', 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(45, 1, 5, 'Sebutkan 3 kelemahan Topologi Star?', 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(46, 2, 1, 'Pengambilan endapan partikel padat dengan jalan melewatkan air limbah ke dalam lapisan yang berpori, disebut...', 1, 'Activated sludge', 'Setting', 'Trickling filter', 'Flotation', 'Filtration', 'E', '', '', '', '', '', '', ''),
-(47, 2, 2, 'Larutan gula 3% (m) dengan laju alir 1000 kg/jam akan dipekatkan menjadi 25% (m) didalam evaporator. Air yang harus diuapkan...', 1, '120 kg/jam', '200 kg/jam', '420 kg/jam', '880 kg/jam', '920 kg/jam', 'D', '', '', '', '', '', '', ''),
-(48, 2, 3, 'Campuran cairan benzene &ndash; toluene didistilasi dalam menara fraksionasi, dimana umpan benzene-toluena yang terdistilasi memberikan komposisi distillate, xD = 0,95 dan komposisi bottom, xw = 0,10. Berdasarkan grafik untuk penentuan perbandingan refluks minimum ( minimum reflux ratio), Rm, diperoleh x&rsquo;=0,45 dan y&rsquo; =0,070. Besarnya perbandingan refluks minimum adalah&hellip;', 1, '0,50', '0,80', '1,25', '1,80', '2,80', 'A', '', '', '', '', '', '', ''),
-(49, 2, 4, 'Jenis filter yang digunakan untuk filtrasi jernih (Clarifyng Filtration), terutama untuk penanganan awal air minum atau untuk pembuatan air keperluan pabrik digunakan...', 1, 'Filter spiral', 'Filter pasir', 'Filter pelat', 'Filter hisap', 'Filter putar', 'B', '', '', '', '', '', '', ''),
-(50, 2, 5, 'Parameter limbah cair yang sangat berbahaya dinyatakan oleh...', 1, 'DO dan BOD besar', 'DO besar dan COD kecil', 'DO dan BOD kecil', 'DO besar dan BOD kecil', 'BOD dan COD kecil', 'E', '', '', '', '', '', '', ''),
-(51, 2, 6, 'Reaksi yang terdapat pada operasi absorpsi adalah...', 1, 'Zn + HCI&nbsp; --&gt;&nbsp; ZnCl<sub>2</sub> + H<sub>2</sub>', 'Zn + CuSO<sub>4</sub>&nbsp; --&gt;&nbsp; &nbsp;ZnSO<sub>4 </sub>+ Cu', 'RSO<sub>3</sub>H + CaCl<sub>2</sub> <sub>&nbsp;--&gt;&nbsp; &nbsp;</sub>(RSO<sub>3</sub>)<sub>2</sub>Ca + HCl', 'NaOH +HCI --&gt; NaCl + H<sub>2</sub>O', 'CaC<sub>2</sub> + H<sub>2</sub>O&nbsp; --&gt; C<sub>2</sub>H<sub>2</sub> + Ca(OH)<sub>2</sub>', 'C', '', '', '', '', '', '', ''),
-(52, 2, 7, 'Aplikasi operasi distilasi banyak dipakai di industri...', 1, 'Farmasi', 'Minyak bumi', 'Minuman', 'Minyak hewani', 'Minyak nabati', 'B', '', '', '', '', '', '', ''),
-(53, 2, 8, 'Gas karbondioksida yang terdapat di udara dengan kadar 50% diabsorpsi dengan air sehingga kadarnya menjadi 30%. jika laju alir udara 5L/dt dan laju alir air bebas Ca. 10% O<sub>2</sub>10L/dt, maka kadar CO<sub>2</sub>di dalam air adalah...', 1, '12,5%', '15,5%', '25%', '30%', '', 'B', '', '', '', '', '', '', ''),
-(54, 2, 9, 'Larutan gula hasil proses evaporasi dapat ditentukan berat jenisnya dalam derajat...', 1, 'API', 'Brix', 'Baume', 'Twaddel', 'Mesh', 'B', '', '', '', '', '', '', ''),
-(55, 2, 10, 'Dibawah ini senyawa yang dapat menyublim adalah...', 1, 'Natrium clorida', 'Asam clorida', 'Amonium klorida', 'Kalium klorida', 'Lithium klorida', 'C', '', '', '', '', '', '', ''),
-(56, 2, 11, 'Campuran yang terdiri dari 30% (m) benzana dan 70% (m) toluena didistilasi secara kontinyu sehingga diproduk atas mengandung 80% (m) benzena, sedangkan di produk bawah 5% (m). Jika laju alir umpan 1 ton/jam, maka laju alir produk atas..', 1, '222,4 kg/jam', '333,4 kg/jam', '411,8 kg/jam', '588,2 kg/jam', '666,6 kg/jam', 'B', '', '', '', '', '', '', ''),
-(57, 2, 12, 'Dua zat yang dicampur cenderung memilki sifat tidak saling larut, maka pada proses pencampuran harus...', 1, 'Dilakukan secara laminar', 'Ditambahkan asam kuat', 'Ditambah basa kuat', 'Dilengkapi dengan baffle/perintang aliran', 'Ditambahkan zat pengemulasi', 'E', '', '', '', '', '', '', ''),
-(58, 2, 13, 'Jenis alat pencampur seperti gambar di bawah cocok untuk...', 1, 'Pencampuran liquid-gas', 'Pencampuran gas-gas', 'Pencampuran solid-gas', 'Pencampuran solid-solid', 'Pencampuran liquid-solid', 'E', 'DASAR_TEKNIK_KIMIA_K13_13.jpg', '', '', '', '', '', ''),
-(59, 2, 14, 'Pada suatu industri gula pasir, pengujian kualitas produk gula yang dihasilkan diantaranya adalah penetuan kadar sakarosa yang merupakan senyawa dengan optis aktif dan digunakan alat...', 1, 'Water content apparatus', 'High perfomance liquid chromatography', 'Refractomer', 'Water distillation apparatus', 'Polarimeter', 'E', '', '', '', '', '', '', ''),
-(60, 2, 15, 'Jahe sebanyak 10 kg diekstraksi dengan 10 L alcohol (&rho;=0,85 g/ml), jika setelah proses ekstraksi diperoleh 10,5 L alcohol (&rho;=0,90 g/ml),maka kadar ekstrak didalam jahe adalah&hellip;', 1, '9,5 %', '12,5 %', '14,5 %', '17,5 %', '20,5 %', 'A', '', '', '', '', '', '', ''),
-(61, 2, 16, 'Tuti akan membuat 100mL larutan alkohol 5% dengan mencampur larutan alkohol 2% dan 7%. Berapakah dari larutan alkohol 2% dan 7% yang digunakan?', 1, '50mL dan 50mL', '40mL dan 60mL', '30mL dan 70mL', '45mL dan 55mL', '20mL dan 80mL', 'B', '', '', '', '', '', '', ''),
-(62, 2, 17, 'Jenis alat pengaduk seperti gambar dibawah ini adalah...', 1, 'Turbin', 'dayung', 'Propeller', 'Globe impeller', 'Padlle', 'C', 'DASAR_TEKNIK_KIMIA_K13_17.jpg', '', '', '', '', '', ''),
-(63, 2, 18, 'Kebakaran kelas B menurut nasional national free protection asosiation (NFPA) antara lain kebakaran yang dapat diakibatkan oleh terbakarnya...', 1, 'Plastik,kertas,dan karet', 'Etanol,dietil eter,dan N-heksana', 'Hot plate,etanol,sodium', 'Kertas,etanol,dan sodium', 'Magnesium, heating &ndash; mantle, plastik', 'B', '', '', '', '', '', '', ''),
-(64, 2, 19, 'Pada proses pengomposan, laju metabolisme yang menetukan laju biodegradasi limbah/sampah tergantung pada faktor-faktor rekayasa antara lain penerima elektron (electron aseptor) yang dalam respirasi anaerobik diperlukan...', 1, 'Oksigen', 'Ion karbonat', 'Ion nitrat', 'Metana', 'Asam sulfida', 'D', '', '', '', '', '', '', ''),
-(65, 2, 20, 'Jika diindustri kimia terjadi kebakaran yang di akibatkan oleh percikan api yang berasal dari hotplate stire, maka alat pemadam kebakaran yang cocok menurut natioanl free protection asosiation (NFPA) untuk memadamkan api tersebut adalah...', 1, 'Blanket fire', 'Water', 'Foam', 'Sand', 'Carbon dioksida', 'D', '', '', '', '', '', '', ''),
-(66, 2, 21, 'Jenis pompa yang umum digunakan oleh suatu pabrik/industri adalah pompa&hellip;', 1, 'Centrifugal', 'Rotary', 'Reciprocating', 'Torak', 'Plunger', 'A', '', '', '', '', '', '', ''),
-(67, 2, 22, 'Suatu larutan dalam air mengandung 46% gliserol (Mr. = 92) pada temperature 93oC. Tekanan uap air murni pada 93oC adalah 597 mmHg. Jika Mr. Air dianggap = 18, tekanan uap gliserol diabaikan, dan larutan dianggap dapat mengikuti hukum Roult, maka besarnya tekanan uap air pada keadaan kesetimbangan adalah&hellip; mmHg.', 1, '512', '515', '521', '551', '567', 'A', '', '', '', '', '', '', ''),
-(68, 2, 23, 'Di industri, soda abu dapat di buat dengan proses Solvay, yang menggunakan bahan baku garam dapur, batu kapur dan batubara atau kokas.penetuan kadar soda abu yang dihasilkan dilakukan dengan menggunakan larutan standar asam, dan dikenal dengan metoda&hellip;', 1, 'alkali metri', 'argentometri', 'asidimetri', 'yodometri', 'oksidimetri', 'C', '', '', '', '', '', '', ''),
-(69, 2, 24, 'Operasi distilasi dapat dilakukan untuk memperoleh kembali aseton dari aliran limbah cair (air). Umpan mengandung aseton sebanyak 40% massa. Komponen produk aseton yang diinginkan memiliki kemurnian minimal 90% massa dan jumlah aseton yang terikut pada komponen produk bawah 10%. Umpan berada pada temperature 20<sup>o</sup>C. Jika laju alir umpan 100kg/jam, maka laju alir produk bawah adalah&hellip;', 1, '62,5 kg/jam', '70,5 kg/jam', '75,5 kg/jam', '87,5 kg/jam', '90,5 kg/jam', 'A', '', '', '', '', '', '', ''),
-(70, 2, 25, '16. Sebuah pipa kaca mempunyai diameter luas 6 cm dan diameter dalam 3 cm. Dipakai untuk megalirkan fluida pada suhu 400 K dan diharapkan bagian luar pipa 300 K. Hitung panas yang hilang melewati pipa jika panjang pipa 0,693 m. (Kkaca = 0,35 W/mK dan In 2= 0,693) adalah&hellip;', 1, '110 W', '220 W', '330 W', '440 W', '550 W', 'B', '', '', '', '', '', '', ''),
-(71, 2, 26, 'Sebuah dinding tebalnya 5 cm berukuran 100 cm2 dipakai pada suhu 100 &ndash; 200 K. dinding terbuat dari kaolin dengan harga k=0,25 W/mK. Panas yang melewati dinding adalah &hellip;', 1, '0,005', '0,05', '0,5', '5', '500', 'D', '', '', '', '', '', '', ''),
-(72, 2, 27, 'Pada suatu proses netralisasi ,untuk menetralkan 50 ml NaOH 0,1 M diperlukan asam sulfat 0,1 M sebanyak&hellip;', 1, '0,5 ml', '5 ml', '50 ml', '100 ml', '200 ml', 'D', '', '', '', '', '', '', ''),
-(73, 2, 28, 'Suatu fluida cair mengalir dalam sebuah pipa berdiameter dalam 20 cm. Kecepatan aliran fluida tersebut 1 m/s. Debit aliran fluida dalam pipa tersebut adalah &hellip; ( m3/jam ). (&pi; = 3,14 )', 1, '0,0314', '0,314', '1,884', '314', '18.84', 'A', '', '', '', '', '', '', ''),
-(74, 2, 29, 'Steam dengan suhu 250oC masuk evaporator digunakan untuk menguapkan suatu bahan sehingga menjadi pekat. Bila suhu steam keluar dari evaporator adalah 150oC maka penurunan suhu steam bila dinyatakan dalam derajat Kelvin adalah &hellip;', 1, '523 K', '473 K', '423 K', '373 K', '273 K', 'D', '', '', '', '', '', '', ''),
-(75, 2, 30, 'Pada ekstraksi kemiri dengan ekstraksi soxchlet dengan pelarut N Heksana ternyata mi nyak kemiri yang didapat mempunyai densitas 0,7625 g/ml, yang artinya lebih kecil daripada densitas minyak kemiri SNI 01-4462-1998, yaitu 0,9240 pada temperature 30-70<sup>o</sup> hal ini belum memenuhi standar nasional , penyebab hal tersebut diperkirakan &hellip;', 1, 'Suhu pemanas terlalu rendah', 'Terlalu banyak penggunaan pelarut', 'Pemanasan terlalu lama', 'Suhu air pendingin terlalu rendah', 'Masih bercampur dengan pelarut', 'E', '', '', '', '', '', '', ''),
-(76, 2, 31, 'Perhatikan beberapa jenis mikroba berikut!<br />1) Rhizopus oryzae<br />2) Saccharomyces cerevisiae<br />3) Acetobacter xylinum<br />4) Aspergillus oryzae<br />5) Lactobacillus casei<br />Jenis jamur yang dapat dimanfaatkan dalam proses industri adalah....', 1, '1, 2, 3', '1, 2, 4', '1, 3, 5', '2, 3, 5', '3, 4, 5', 'D', '', '', '', '', '', '', ''),
-(77, 2, 32, 'Suatu senyawa direaksikan dengan beberapa pereaksi dan diperoleh data sebagai berikut :<br />1) direaksikan dengan larutan Fehling menghasilkan endapan merah bata,<br />2) direaksikan dengan larutan Tollens menghasilkan endapan berwarna perak,<br />3) direaksikan dengan larutan kalium dikromat menghasilkan senyawa bersifat asam,<br />Berdasarkan data hasil analisis, senyawa karbon tersebut mengandung gugus fungsi &hellip;.', 1, 'aldehid', 'alkohol', 'keton', 'ester', 'eter', 'A', '', '', '', '', '', '', ''),
-(78, 2, 33, 'Berikut adalah jumlah koloni bakteri pada pemeriksaan suatu sampel air minum :<br />\n<table>\n<tbody>\n<tr>\n<td width=\"110\">\n<p>Pengenceran</p>\n</td>\n<td width=\"106\">\n<p>Cawan I</p>\n</td>\n<td width=\"95\">\n<p>Cawan II</p>\n</td>\n</tr>\n<tr>\n<td width=\"110\">\n<p>10<sup>-2</sup></p>\n</td>\n<td width=\"106\">\n<p>220</p>\n</td>\n<td width=\"95\">\n<p>300</p>\n</td>\n</tr>\n<tr>\n<td width=\"110\">\n<p>10<sup>-3</sup></p>\n</td>\n<td width=\"106\">\n<p>20</p>\n</td>\n<td width=\"95\">\n<p>30</p>\n</td>\n</tr>\n</tbody>\n</table>\n<p>Besarnya angka lempeng total untuk sampel tersebut adalah...cfu/mL</p>', 1, '250 x 10<sup>2</sup>', '255 x 10<sup>2</sup>', '260 x 10<sup>2</sup>', '500 x 10<sup>2</sup>', '520 x 10<sup>2</sup>', 'C', '', '', '', '', '', '', ''),
-(79, 2, 34, 'Perhatikan beberapa teknik sterilisasi berikut!<br />1) pemijaran <br />2) udara panas<br />3) tyndalisasi<br />4) penyaringan/filtrasi<br />5) uap panas bertekanan<br />Teknik sterilisasi yang tepat digunakan untuk produk susu, enzim dan antibiotik agar tidak rusak adalah....', 1, '1 dan 2', '1 dan 3', '3 dan 4', '3 dan 5', '2 dan 5', 'C', '', '', '', '', '', '', ''),
-(80, 2, 35, 'Berikut merupakan beberapa persyaratan penyimpanan bahan kimia<br />1) Ruangan dingin, kering dan berventilasi<br />2) Disediakan pemadam kebakaran tipe CO2 atau dry powder<br />Syarat di atas merupakan persyaratan penyimpanan bahan kimia golongan....', 1, 'reaktif terhadap asam', 'reaktif terhadap air', 'mudah meledak', 'mudah terbakar', 'oksidator', 'B', '', '', '', '', '', '', ''),
-(81, 2, 36, 'Penanganan yang harus dilakukan jika seseorang memecahkan termometer raksa ketika sedang bekerja di laboratorium adalah....', 1, 'membersihkan dengan lap dan air bersih', 'membersihkan dengan lap dan asam cuka', 'menutup pecahan termometer menggunakan serbuk Na2CO3', 'menutup pecahan termometer menggunakan tepung sulfur', 'membersihkan dengan tisue atau lap kering kemudian membakarnya', 'D', '', '', '', '', '', '', ''),
-(82, 2, 37, 'Sebanyak 1 mL sampel asam cuka komersial dengan massa jenis 1,05 gr/mL diambil kemudian diencerkan hingga volume 25 mL. Selanjutnya sampel hasil pengenceran dititrasi dan membutuhkan 30,0 mL larutan NaOH 0,10 M untuk mencapai titik akhir titrasi. Kadar asam asetat (Mr: 60) yang terdapat dalam sampel tersebut adalah... %.', 1, '0,58', '1,71', '5,80', '15,80', '17,10', 'E', '', '', '', '', '', '', ''),
-(83, 2, 38, 'Identifikasi kation golongan I dalam suatu sampel limbah memberikan data sebagai berikut:<br />\n<ul>\n<li>Penambahan HCl menghasilkan endapan berwarna putih</li>\n<li>Penambahan K2CrO4 pada filtrat air panas hasil penyaringan menghasilkan endapan berwarna kuning</li>\n<li>Penambahan amonia pada residu hasil penyaringan melarutkan seluruh endapan</li>\n<li>Penambahan HNO3 pada filtrat setelah penambahan amonia menghasilkan endapan berwarna putih</li>\n</ul>\n<br />Berdasarkan data analisis tersebut, kation golongan I yang terdapat dalam sampel adalah....', 1, 'Ag+', 'Hg+', 'Pb2+', 'Ag+ dan Pb2+', 'Ag+ dan Hg+', 'D', '', '', '', '', '', '', ''),
-(84, 2, 39, 'Massa asam oksalat dihidrat yang harus ditimbang untuk membuat larutan asam oksalat 0,2 M sebanyak 500 mL adalah ... gr. (Diketahui Ar C:12; Ar O:16; Ar H:1)', 1, '0,63', '1,26', '6,30', '9,00', '12,60', 'E', '', '', '', '', '', '', ''),
-(85, 2, 40, 'Tahapan yang dilakukan untuk mengendapkan sulfat dengan metode gravimetri secara berurutan dan benar adalah ....<br />Berikut ini merupakan langkah kerja dalam analisis gravimetri:<br />\n<ol>\n<li>Menambahkan larutan pengasam asam klorida</li>\n<li>Mencuci endapan menggunakan akuades panas</li>\n<li>Mencuci endapan menggunakan asam nitrat encer</li>\n<li>Menyaring endapan, mengeringkan, memijarkan dan menimbang hingga bobot tetap</li>\n<li>Menambahkan larutan BaCl2</li>\n<li>Menambahkan larutan NaOH</li>\n<li>Menimbang sampel</li>\n</ol>', 1, '7-1-5-2-4', '7-1-5-3-4', '7-1-6-2-4', '7-1-6-3-4', '7-1-6-5-4', 'D', '', '', '', '', '', '', '');
+(1, 5, 1, 'Narkotika adalah zat atau obat yang berasal dari tanaman atau bukan tanaman baik sintetis maupun semi sintetis yang dapat menyebabkan penurunan atau perubahan kesadaran, hilangnya rasa, mengurangi sampai menghilangkan rasa nyeri, dan dapat menimbulkan ketergantungan.<br />Golongan narkotika yang hanya dapat digunakan untuk kepentingan pengembangan ilmu pengetahuan dan dilarang digunakan untuk kepentingan lainnya adalah golongan&hellip;', 1, '1', '2', '3', '4', '5', 'A', '', '', '', '', '', '', ''),
+(2, 5, 2, 'Perhatikan pernyataan di bawah ini :<br />1. Sediaan yang mempunyai konsistensi seperti mentega, tidak mencair pada suhu biasa tetapi mudah dioleskan tanpa memakai tenaga<br />2. Sediaan yang banyak mengandung air, mudah diserap kulit. Suatu tipe yang dapat dicuci dengan air.<br />3. Sediaan yang mengandung lebih dari 50% zat padat (serbuk). Merupakan sediaan yang berfunsi penutup atau pelindung bagian kulit yang diberi.<br />4. Sediaan yang mengandung persentase tinggi lilin (waxes), sehingga konsistensinya lebih keras<br />5. Sediaan yang umumnya cair dan mengandung sedikit atau tanpa lilin digunakan terutama pada membran mukosa sebagai pelicin atau basis. Biasanya terdiri dari campuran sederhana minyak dan lemak dengan titik lebur yang rendah<br />Berdasarkan informasi di atas, sediaan pada nomor 3, adalah sediaan :', 1, 'Kream', 'Pasta', 'Unguentum', 'Gel', 'Cerata', 'B', '', '', '', '', '', '', ''),
+(3, 5, 3, 'Terdapat obat-obat dibawah ini :<br />&bull; Obat kontrasepsi : Linestrenol<br />&bull; Obat saluran cerna : Antasid dan Sedativ/Spasmodik<br />&bull; Obat mulut dan tenggorokan : Hexetidine<br />&bull; Bacitracin, Clindamicin, Flumetason, dll.<br />&bull; Ranitidin , Asam fusidat, Alupurinol, dll<br />Obat obat tersebut memiliki lingkaran berwana merah, walaupun demikian dapat di beli tanpa menggunakan resep dokter. Termasuk golongan apakah obat obat tersebut :', 1, 'Obat bebas terbatas', 'Obat generik', 'Obat wajib apotek', 'Obat tradisional', 'Obat paten', 'C', '', '', '', '', '', '', ''),
+(4, 5, 4, 'Dibawah ini adalah sediaan mengenai kapsul :<br />1. Bentuknya menarik dan praktis<br />2. Menutupi bau dan rasa yang tidak enak dari obat yang ada di dalamnya.<br />3. Dapat digunakan untuk zat yang mudah menguap<br />4. Mudah ditelan dibanding tablet<br />5. Dapat dibagi-bagi<br />Yang termasuk ke dalam keuntungan kapsul adalah :', 1, '1,2,3', '1,2,4', '2,3,4', '2,3,5', '3,4,5', 'B', '', '', '', '', '', '', ''),
+(5, 5, 5, 'Sampah dibuang pada tanah yang rendah. Pembuangan sampah ini hanya cocok untuk sampah rubbish, sedangkan sampah jenis garbage dapat menimbulkan bau yang kurang sedap serta bersarangnya serangga dan tikus.<br />Cara pembuangan sampah jenis gabage dilakukan dengan cara :', 1, 'Individual incineration', 'Composting', 'Recycling', 'Pulverization', 'Land fill', 'E', '', '', '', '', '', '', ''),
+(6, 5, 6, 'Penanganan masalah pencemaran lingkungan perlu dilakukan sedini mungkin. Upaya yang dilakukan dalam penanganan pencemaran berupa limbah, yaitu dengan pengelompokkan limbah berdasarkan :', 1, 'Jenis dan dampaknya', 'Sifat dan jenisnya', 'Dampak dan karakteristiknya', 'Sifat dan karakterisiiknya', 'Wujud dan jenisnya', 'D', '', '', '', '', '', '', ''),
+(7, 5, 7, 'Setiap tahun pemerintah indonesia melaksanakan pekan imunisasi nasional, dalam hal ini setiap balita diberikan vaksin agar dapat meningkatkan kekebalan terhadap suatu penyakit. Sistem imunitas vaksin dalam memberi kekebalan pada tubuh termasuk ke dalam kekebalan&hellip;', 1, 'Kekebalan alami', 'Kekebalan adaptif humoral', 'Kekebalan adaptif dengan perantara sel', 'Kekebalan buatan aktif', 'Kekebalan buatan pasif', 'D', '', '', '', '', '', '', ''),
+(8, 5, 8, 'Alat Pelindung Diri (APD) yaitu satu alat yang memiliki kekuatan membuat perlindungan seorang yang manfaatnya mengisolasi beberapa atau semua badan dari potensi bahaya ditempat kerja. Alat yang berperan sebagai penyaring hawa yang dihirup saat bekerja ditempat dengan kwalitas hawa jelek (contoh berdebu, beracun, dll) adalah :', 1, 'Safety Glasses', 'Ear Plug', 'Face Shield', 'Safety Helmet', 'Masker', 'E', '', '', '', '', '', '', ''),
+(9, 5, 9, 'Berdasarkan simbol-simbol klasifikasi bahan kimia yang berbahaya, secara berturut-turut arti dari simbol di atas adalah :', 1, 'Korosif, beracun, iritasi', 'Racun, iritasi, karsinogenik', 'Mudah meledak, beracun, korosif', 'Pengoksidasi, berbahaya bagi lingkungan, karsinogenik', 'Karsinogenik, beracun, iritasi', 'E', 'DDK-K13-9.jpg', '', '', '', '', '', ''),
+(10, 5, 10, 'Usaha Kesehatan Gigi Sekolah (UKGS) dilaksanakan oleh perawat gigi sekolah dibawah pengawasan dokter. Penyakit dan kelainan yang menjadi perhatian ialah kebersihan mulut dan gigi, caries dentis, penyakit periodental, bibir sumbing dan celah langit maupun tumor dalam mulut. Diantara kegiatan UKGS adalah penambalan pada gigi yang berlubang.<br />Dibawah ini salah satu penyebab gigi berlubang adalah :', 1, 'Kebiasaan menghisap jari', 'Kebiasaan menggigit pensil', 'Makan terlalu manis dan plak', 'Benturan keras pada gigi', 'Faktor genetika', 'C', '', '', '', '', '', '', ''),
+(11, 5, 11, 'Cara mengidentifikasi sediaan farmasi dengan golongan obat tradisional ialah dengan memperhatikan lambang atau logo pada kemasan produk. Kemasan obat golongan Fitofarmaka ditandai dengan lambang ciri-ciri berikut &hellip;.&nbsp;', 1, 'jari-jari daun 3 pasang terletak dalam lingkaran terletak ditepi kemasan', 'lingkaran bulat berwarna biru dengan garis tepi berwarna hitam dengan dasar berwarna putih', 'jari-jari daun yang kemudian membentuk bintang terletak dalam lingkaran', 'lingkaran berwarna putih di dalamnya terdapat palang medali berwarna merah', 'logo berupa ranting daun terletak dalam lingkaran warna dicetak de&not;ngan warna hijau diatas dasar warna putih', 'C', '', '', '', '', '', '', ''),
+(12, 5, 12, 'Cara mengidentifikasi sediaan farmasi dengan golongan berbeda menurut Undang-undang Nomor 5 Tahun 1997 ialah dengan memperhatikan lambang atau logo pada kemasan produk. Kemasan untuk obat bebas ditandai dengan lambang &hellip;&nbsp;', 1, 'lingkaran bulat berwarna hijau de&not;ngan garis tepi warna hitam', 'lingkaran bulat berwarna biru dengan garis tepi berwarna hitam', 'lingkaran bulat berwarna merah dengan garis tepi berwarna hitam de&not;ngan huruf K yang menyentuh garis tepi', 'lingkaran berwarna putih di dalamnya terdapat palang medali berwarna merah', 'logo dan tulisan &ldquo;JAMU&rdquo; Logo berupa ranting daun terletak dalam lingkaran warna dicetak de&not;ngan warna hijau yang menyolok dan kontras', 'A', '', '', '', '', '', '', ''),
+(13, 5, 13, 'Seorang Siswi sewaktu melakukan praktikum di laboratorium kimia terjadi kecelakaan dan mengalami luka bakar akibat terkena bahan kimia yang bersifat asam. Pertolongan pertama yang dapat dilakukan adalah &hellip;.', 1, 'diberikan larutan bikarbonat 1% lalu cuci dengan air', 'dicuci dengan air kemudian dibersihkan dengan fosfor', 'dicuci dengan air kemudian dengan asam cuka encer (1:15)', 'dibilas dengan air, kemudian dioles dengan krim', 'direndam dengan pinset, kemudian rendam dengan tembaga sulfat', 'A', '', '', '', '', '', '', ''),
+(14, 5, 14, 'Di Indonesia, pemahaman publik tentang manfaat, penggunaan, juga dampak dari penggunaan antibiotik masih lemah. Ini menjadi persoalan serius karena tingkat penggunaan antibiotik di Indonesia sudah cukup memperihatinkan. Penggunaan antibiotik yang tidak tepat menyebabkan bakteri, virus dan parasit lainnya secara bertahap kehilangan kepekaan terhadap obat yang sebelumnya membunuh mereka. Kondisi kehilangan kepekaan terhadap obat ini termasuk kedalam kondisi :', 1, 'Kekebalan aktif alami', 'Kekebalan aktif buatan', 'Kekebalan pasif', 'Resistensi', 'Autoimun', 'D', '', '', '', '', '', '', ''),
+(15, 5, 15, 'Beberapa jenis gizi memegang peranan dalam pembentukan sel darah merah (hemopoiesis) . bila pembentukan sel darah merah terganggu dapat menimbulkan gejala diantaranya adalah cepat lelah, napas pendek, denyut jantung kencang, susa buang air besar, nafsu makan kurang, kepala pusing, mata berkunag-kunang, serta pucat pada wajah, bibir, telapak tangan, telapak kaki, kuku, dan lipatan pelupuk mata sebelah dalam. Gejala penyakit ini di sebabkan karena ...', 1, 'Kurang energy protein', 'Kurang Vitamin A', 'Kurang Iodium', 'Kurang Besi', 'Kurang Vit B12', 'D', '', '', '', '', '', '', ''),
+(16, 5, 16, 'Bagian resep di atas yang menerangkan tentang tanggal dan tempat resep dibuat adalah&hellip;', 1, 'Inscription', 'Subcriptio', 'Invocatio', 'Praecriptio', 'Signatura', 'A', 'DDK-K13-16.jpg', '', '', '', '', '', ''),
+(17, 5, 17, 'Cara membersihkan semua peralatan bekas pakai di laboratorium adalah &hellip;', 1, 'menggunakan larutan detergen dengan cara merendam selama 10 menit', 'menggunakan larutan klorin 0,5% + larutan pembersih lantai 1 sendok makan', 'menggunakan air steril secukupnya dengan cara direndam selama 20 menit', 'menggunakan desinfektan larutan klorin dengan cara direndam selama 30 menit', 'menggunakan desinfektan larutan klorin 0,5% dengan cara direndam selama 20-30 menit', 'E', '', '', '', '', '', '', ''),
+(18, 5, 18, 'Secara berkala seorang bidan selalu melakukan pemeriksaan janin pada ibu hamil. Untuk melakukan pemeriksaan awal hal yang pertama dilakukan adalah mendengarkan detak jantung janin. Alat yang digunakan untuk mendengarkan detak denyut jantung janin tersebut adalah disebut&hellip;', 1, 'Thermoimeter', 'Sphygmomanometer', 'Stethoscope monoaural', 'Blood transfusion set', 'Infusion set', 'C', '', '', '', '', '', '', ''),
+(19, 5, 19, 'Suatu tablet alergi (4 mg/tablet) dengan aturan pakai untuk dewasa sehari 3-4 kali 1 tablet, aturan pakai ini diberikan berdasarkan petunjuk umum pengobatan yang tidak mengikat namun dijadikan patokan pengobatan. Dosis (takaran) tersebut termasuk .&hellip;', 1, 'Dosis lazim', 'Dosis letal', 'Dosis maksimal', 'Dosis terapi', 'Dosis toksik', 'A', '', '', '', '', '', '', ''),
+(20, 5, 20, 'Vitamin yang berperan penting dalam pembentukan eritrosit dan dapat menimbulkan anemia jika tubuh kekurangan adalah&hellip;', 1, 'Asam pantotenat', 'Asam folat', 'Asam nikotin', 'Kolin dan biotin', 'Niasin', 'B', '', '', '', '', '', '', ''),
+(21, 5, 21, 'Bedak alergi merupakan sediaan berupa serbuk ringan yang digunakan secara topikal pada permukaan kulit misalnya untuk mengobati gatal dan biang keringat. Bedak alergi tersebut termasuk &hellip;.', 1, 'Pulveres', 'Pulvis adspersorius', 'Pulvis dentifricius', 'Pulvis effervescent', 'Pulvis strernutatorius', 'B', '', '', '', '', '', '', ''),
+(22, 5, 22, 'Tujuan umum dari usaha kesehatan sekolah adalah mempertinggi nilai promotif, preventif,kuratif serta rehabilitasi anak-anak sekolah dan lingkungannya sehingga didapatkan anak-anak yang sehat jasmani, rohani dan sosialnya<br />Di bawah ini yang termasuk ke dalam tindakan kuratif di sekolah adalah&hellip;', 1, 'pemberantasan penyakit menular', 'memberi pengobatan setelah diagnosa ditegakkan', 'menciptakan keadaan lingkungan yang sehat', 'pengambilan sampel darah', 'perawatan gigi', 'B', '', '', '', '', '', '', ''),
+(23, 5, 23, 'Penyakit yang pernah menyerang masyakarat kembali mewabah di Indonesia, ditandai dengan panas lebih kurang 380 C, untuk tingkat lanjut muncul pseudomembran putih keabuan yang tidak mudah lepas , terjadi pembengkakan kelenjar leher, sesak nafas disertai bunyi, mudah berdarah di faring, laring atau tonsil. <br />Kementerian Kesehatan bahkan sudah menetapkan status kejadian luar biasa (KLB) karena telah memakan puluhan korban jiwa setidaknya di 20 provinsi. Jenis penyakit tersebut adalah&hellip;', 1, 'Campak', 'Pes', 'Difteri', 'Pertussis', 'Rabies', 'C', '', '', '', '', '', '', ''),
+(24, 5, 24, 'Berikut ini merupakan contoh penyakit menular : <br />1. Cacar <br />2. Difteri <br />3. Kolera <br />4. Morbili <br />5. Pes <br />6. TBC <br />Penyakit yang tergolong karantina adalah &hellip;.', 1, '1,2,3', '1,2,5', '1,3,4', '2,4,5', '1,3,6', 'E', '', '', '', '', '', '', ''),
+(25, 5, 25, 'Penyakit yang secara alamiah dijumpai pada hewan vertebrata yang bisa ditularkan ke manusia adalah&hellip;.', 1, 'campak', 'dengue', 'polio', 'rabies', 'tifus', 'D', '', '', '', '', '', '', ''),
+(26, 5, 26, 'Kasus leptospirosis banyak terjadi di daerah yang sering terjadi bencana banjir. Selama tahun 2003-2007 kasus leptospirosis terbanyak adalah DKI Jakarta, tahun 2008 terbanyak dilaporkan di DI Jogjakarta yaitu 125 kasus, Jawa tengah 72 kasus, DKI Jakarta 37 kasus dan Jawa Timur 29 kasus. Kejadian tersebut merupakan jenis epidemiologi tingkat&hellip;&hellip;', 1, 'Epidemi', 'Pandemi', 'Endemi', 'Sporadik', 'Epidemologi', 'C', '', '', '', '', '', '', ''),
+(27, 5, 27, 'Tujuan Pengaturan psikotropika menurut UU no 35 tahun 2009, yaitu&hellip;<br />1) Menjamin ketersediaan guna kepentingan pelayanan kesehatan<br />2) Merencanakan kebutuhan perbekalan farmasi secara optimal<br />3) Mencegah terjadinya penyalahgunaan psikotropika<br />4) Memudahkan pencarian dan pengawasan<br />5) Memberantas peredaran gelap psikotropika<br />6) Sirkulasi udara yang baik', 1, '1,2,3 benar', '2,3,4 benar', '3,4,5 benar', '4,5,6 benar', '1,3,5 benar', 'E', '', '', '', '', '', '', ''),
+(28, 5, 28, 'Obat Zetamol memiliki nomor kode regristrasi: DBL8527900237A1<br />Berdasarkan kode regristrasinya, maka obat tersebut termasuk kedalam golongan obat &nbsp;', 1, 'Obat paten dengan golongan obat bebas terbatas yang diproduksi di dalam negeri', 'Obat paten dengan golongan obat bebas yang diproduksi di dalam negeri', 'Obat paten dengan golongan obat bebas yang diproduksi di luar negeri', 'Obat generik dengan golongan obat bebas yang diproduksi di luar negeri', 'Obat generik dengan golongan obat keras yang diproduksi di luar negeri', 'B', '', '', '', '', '', '', ''),
+(29, 5, 29, 'Kasus penggerebekan Industri Saus berbahaya di Kota Bandung harus menjadi momen pembelajaran serius bagi pemerintah dan masyarakat. Industri yang telah beroperasi selama puluhan tahun ini diidentifikasi menggunakan pewarna tekstil dan beberapa bahan kimia berbahaya<br />Berikut ini terdapat beberapa bahanpewarna :<br />1) Rhodamin B<br />2) Kurkumin <br />3) Magenta<br />4) Chorine<br />5) Auramine<br />6) Klorofil <br />Yang termasuk ke dalam zat warna yang berbahaya adalah&hellip;', 1, '1,3,5', '2,4,6', '1,2,3', '4,5,6', '1,4,5', 'A', '', '', '', '', '', '', ''),
+(30, 5, 30, 'Tata cara pendaftaran obat generic hanya dapat dilakukan dengan sertifikat CPOB yang dibuktikan dengan sertifikat CPOB dan wajib memenuhi&hellip;', 1, 'Spesifikasi baku dan persyaratan mutu', 'Mutu yang baik', 'Logo obat generik', 'Kemasannya sudah baku', 'Cara pembuatan obat yang baik', 'A', '', '', '', '', '', '', ''),
+(31, 5, 31, 'Alat pernafasan yang terletak di kerongkongan, tersusun dari tulang rawan yang berbentuk cincin, dinding sebelah dalamnya terdapat selaput lendir dan silia, berfungsi menahan dan mengeluarkan kotoran agar tidak masuk paru-paru jika kotoran tersebut tidak mampu ditangkap oleh cairan dari laring. Alat pernapasan yang dimaksud adalah.....', 1, 'Alveolus', 'Bronchioles', 'Bronchus', 'Trachea', 'Tenggorokan', 'D', '', '', '', '', '', '', ''),
+(32, 5, 32, 'Hidung dapat mencium berbagai macam bau karena di dalam rongga hidung terdapat ...', 1, 'Sel-sel saraf penunjang', 'Sel olfaktorius', 'Sel basah', 'Serabut saraf pembau', 'Selaput lender', 'D', '', '', '', '', '', '', ''),
+(33, 5, 33, 'Dalam system pencernaan, organ yang di tandai dengan angka 2 adalah...', 1, 'Usus dua belas jari', 'Kolon desendens', 'Kolon transversum', 'Kolon asendens', 'Rectum', 'D', 'DDK-K13-33.jpg', '', '', '', '', '', ''),
+(34, 5, 34, 'Makanan yang dapat dirasakan bagian-bagian pada lidah depan, pinggir depan dan belakang berturut-turut adalah ...', 1, 'Pahit, asam, manis', 'Asam, manis, pahit', 'Manis, asin, pahit', 'Manis, asam, asin', 'Manis, asam, pahit', 'C', '', '', '', '', '', '', ''),
+(35, 5, 35, 'Pada struktur organ jantung, simbol yang di tunjukkan huruf Y adalah :', 1, 'Aorta', 'Serambi kanan', 'Serambi kiri', 'Bilik kanan', 'Bilik kiri', 'E', 'DDK-K13-35.jpg', '', '', '', '', '', ''),
+(36, 5, 36, 'Gangguan ritme berupa kelainan dalam frekwensi (kecepatan) denyut jantung karena serambil (atrium) dan bilik (ventrikel) berdenyut lebih cepat (tachycardia) atau lebih lambat (bradycardia) dari normal. Dapat pula karena terjadinya kekacauan dalam ritme (irama) denyutan jantung, misalnya vibrasi (flutter), getaran (fibrilasi) ataupun extrasistole. Kondisi tersebut termasuk ke dalam&hellip;', 1, 'Angina Pectoris', 'Infark jantung', 'Aritmia', 'Dekompenasi Jantung', 'Shock', 'C', '', '', '', '', '', '', ''),
+(37, 5, 37, 'Perbedaan pembuluh nadi (arteri) dengan pembuluh balik (vena) yang benar adalah nomor..', 1, '1,2', '1,3', '2,3', '3,4', '1,4', 'E', 'DDK-K13-37.jpg', '', '', '', '', '', ''),
+(38, 5, 38, 'Aliran darah pada peredaran darah kecil melalui &hellip;', 1, 'Jantung &ndash; aorta &ndash; paru-paru &ndash; seluruh tubuh &ndash; jantung', 'Jantung &ndash; aorta &ndash; seluruh tubuh &ndash; arteri pulmonalis &ndash; jantung', 'Jantung &ndash; seluruh tubuh &ndash; paru-paru &ndash; arteri pulmonalis &ndash; jantung', 'Jantung &ndash; arteri pulmonalis &ndash; paru-paru &ndash; vena pulmonalis &ndash; jantung', 'Jantung &ndash; vena pulmonalis &ndash; paru-paru - arteri pulmonalis &ndash; jantung', 'D', '', '', '', '', '', '', ''),
+(39, 5, 39, 'Pada organ ginjal, lokasi yang ditunjukkan huruf B adalah :', 1, 'Cortex', 'Medulla', 'Renal artery', 'Major calyx', 'Ureter', 'A', 'DDK-K13-39.jpg', '', '', '', '', '', ''),
+(40, 5, 40, 'Organ yang berfungsi sebagai penampung urine yang disalurkan oleh ureter dari ginjal, ketika sudah full maka dengan kerja sistim syaraf seseorang akan diperintahkan untuk segera mengelurkan urine tersebut. <br />Organ dengan fungsi tersebut tersebut adalah..', 1, 'Ginjal', 'Kandung kemih', 'Ureter', 'Uretra', 'Vena renalis', 'B', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -954,7 +833,7 @@ CREATE TABLE `token` (
 --
 
 INSERT INTO `token` (`id_token`, `token`, `time`, `masa_berlaku`) VALUES
-(1, 'OYHLKW', '2019-09-01 09:17:18', '00:15:00');
+(1, 'LSQFLW', '2019-09-15 08:06:40', '00:15:00');
 
 -- --------------------------------------------------------
 
@@ -987,17 +866,17 @@ CREATE TABLE `ujian` (
   `acak` int(1) NOT NULL,
   `token` int(1) NOT NULL,
   `status` int(3) NOT NULL,
-  `hasil` int(2) NOT NULL
+  `hasil` int(2) NOT NULL,
+  `kkm` varchar(128) NOT NULL,
+  `ulang` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ujian`
 --
 
-INSERT INTO `ujian` (`id_ujian`, `id_pk`, `id_guru`, `id_mapel`, `kode_ujian`, `nama`, `jml_soal`, `jml_esai`, `bobot_pg`, `opsi`, `bobot_esai`, `tampil_pg`, `tampil_esai`, `lama_ujian`, `tgl_ujian`, `tgl_selesai`, `waktu_ujian`, `selesai_ujian`, `level`, `kelas`, `sesi`, `acak`, `token`, `status`, `hasil`) VALUES
-(9, 'semua', 51, 1, 'PAT', 'MATEMATIKA', 40, 5, 100, 5, 100, 40, 5, 60, '2019-09-06 21:00:00', '2019-09-06 23:00:00', '21:00:00', '00:00:00', 'XII', 'a:1:{i:0;s:5:\"semua\";}', '1', 1, 0, 1, 1),
-(10, 'semua', 51, 1, 'PTS', 'MATEMATIKA', 40, 5, 100, 5, 100, 40, 5, 60, '2019-09-08 08:00:00', '2019-09-08 23:00:00', '08:00:00', '00:00:00', 'XII', 'a:1:{i:0;s:5:\"semua\";}', '1', 1, 0, 1, 1),
-(11, '', 41, 2, 'PH', 'KIMIA', 30, 0, 100, 4, 0, 30, 0, 60, '2019-09-08 13:00:00', '2019-09-08 15:00:00', '13:00:00', '00:00:00', 'semua', 'a:1:{i:0;s:5:\"semua\";}', '1', 1, 0, 1, 1);
+INSERT INTO `ujian` (`id_ujian`, `id_pk`, `id_guru`, `id_mapel`, `kode_ujian`, `nama`, `jml_soal`, `jml_esai`, `bobot_pg`, `opsi`, `bobot_esai`, `tampil_pg`, `tampil_esai`, `lama_ujian`, `tgl_ujian`, `tgl_selesai`, `waktu_ujian`, `selesai_ujian`, `level`, `kelas`, `sesi`, `acak`, `token`, `status`, `hasil`, `kkm`, `ulang`) VALUES
+(12, 'semua', 41, 5, 'PAT', 'KIMIA', 30, 0, 100, 5, 0, 30, 0, 60, '2019-09-15 16:00:00', '2019-09-15 18:00:00', '16:00:00', '00:00:00', 'semua', 'a:1:{i:0;s:5:\"semua\";}', '1', 1, 0, 1, 1, '70', 3);
 
 --
 -- Indexes for dumped tables
@@ -1167,7 +1046,7 @@ ALTER TABLE `ujian`
 -- AUTO_INCREMENT for table `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id_berita` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_berita` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `hasil_jawaban`
@@ -1179,43 +1058,43 @@ ALTER TABLE `hasil_jawaban`
 -- AUTO_INCREMENT for table `jawaban`
 --
 ALTER TABLE `jawaban`
-  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `id_mapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_mapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `nilai`
 --
 ALTER TABLE `nilai`
-  MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengacak`
 --
 ALTER TABLE `pengacak`
-  MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengacakopsi`
 --
 ALTER TABLE `pengacakopsi`
-  MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengawas`
@@ -1263,7 +1142,7 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT for table `soal`
 --
 ALTER TABLE `soal`
-  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `token`
@@ -1275,7 +1154,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT for table `ujian`
 --
 ALTER TABLE `ujian`
-  MODIFY `id_ujian` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_ujian` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

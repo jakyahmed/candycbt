@@ -32,7 +32,7 @@
 				} else {
 					$_SESSION['id_pengawas'] = $user['id_pengawas'];
 					$_SESSION['level']='admin';
-					header('location:.');
+					header("location:.");
 				}
 			}elseif($user['level']=='guru'){
 			

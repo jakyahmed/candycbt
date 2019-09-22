@@ -34,7 +34,7 @@
 																<th style='text-align:center' rowspan='3'>No Peserta</th>
 																<th style='text-align:center' rowspan='3'>Nama Peserta</th>
 																<th style='text-align:center' rowspan='3'>Kelas</th>";
-																$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.kode_ujian ");
+																$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian ");
 																while($mapel=mysql_fetch_array($mapelQ)){
 																echo "
 																<th style='text-align:center' colspan='3'>$mapel[nama]</th>
@@ -43,7 +43,7 @@
 																echo "
 															</tr>
 															";
-																$kode = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.kode_ujian");
+																$kode = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian");
 																while($mapel=mysql_fetch_array($kode)){
 															echo "
 																<th style='text-align:center' colspan='3'>$mapel[kode_ujian]</th>";
@@ -51,7 +51,7 @@
 															echo "
 															</tr>
 															<tr>";
-																$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.kode_ujian ");
+																$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian ");
 																while($mapel=mysql_fetch_array($mapelQ)){
 															echo "
 																<th style='text-align:center'>B</th>
@@ -77,7 +77,7 @@
 																	<td align='center'>$siswa[no_peserta]</td>
 																	<td>$siswa[nama]</td>
 																	<td align='center'>$siswa[id_kelas]</td>";
-																	$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.kode_ujian ");
+																	$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian ");
 																	while($mapel=mysql_fetch_array($mapelQ)){
 																		$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_ujian='$mapel[id_ujian]' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$mapel[kode_ujian]'");
 																		$nilaiC = mysql_num_rows($nilaiQ);
@@ -95,4 +95,3 @@
 														</tbody>
 													</table>
 	";
-?>

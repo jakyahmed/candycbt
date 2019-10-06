@@ -3,7 +3,4 @@
 	$host = 'localhost';
 	$user = 'root';
 	$pass = '';
-	$debe = 'cbtcandy';
-	
-							
-?>
+	$debe = 'cbtcandy25';

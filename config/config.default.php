@@ -37,12 +37,19 @@ error_reporting(E_ALL);
 	$pass = $pass;
 	$debe = $debe;
 	
-	
 	$koneksi=mysql_connect($host,$user,$pass) or die(mysql_error());
-	$pilihdb=mysql_select_db($debe,$koneksi);
-	$setting = mysql_fetch_array(mysql_query("SELECT * FROM setting WHERE id_setting='1'"));
-	$sess = mysql_fetch_array(mysql_query("SELECT * FROM session WHERE id='1'"));
-	date_default_timezone_set($setting['waktu']);
+	if ($koneksi) {
+		$pilihdb = mysql_select_db($debe, $koneksi);
+		if ($pilihdb) {
+			$query = mysql_query("SELECT * FROM setting WHERE id_setting='1'");
+			if ($query) {
+				$setting = mysql_fetch_array($query);
+				$sess = mysql_fetch_array(mysql_query("SELECT * FROM session WHERE id='1'"));
+				date_default_timezone_set($setting['waktu']);
+			}
+		}
+	}
+	
 	$no = $jam = $mnt = $dtk = 0;
 	$info = '';
 	$waktu = date('H:i:s');

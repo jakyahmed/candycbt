@@ -251,7 +251,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/peserta_ujian.svg' width='30'> <span>Peserta Ujian</span></a></li>
 
 						<li><a href='?pg=banksoal'><img src='../dist/img/svg/briefcase.svg' width='30'> <span> Bank Soal</span></a></li>
-						<li><a href='?pg=jadwal'><img src='../dist/img/svg/planner.svg' width='30'> <span> Jadwal Ujian</span></a></li>
+						<li><a href='?pg=jadwal'><img src='../dist/img/svg/jadwal_ujian.svg' width='30'> <span> Jadwal Ujian</span></a></li>
 						<li class='treeview'>
 							<a href='#'><img src='../dist/img/svg/survey.svg' width='30'><span> UBK</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
 							<ul class='treeview-menu'>

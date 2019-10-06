@@ -2260,7 +2260,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
 									<div class='box-tools pull-right btn-group'>
 
-										<a href='?pg=$pg' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
+										<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 									</div>
 								</div><!-- /.box-header -->
 								<div class='box-body'>

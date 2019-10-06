@@ -211,7 +211,7 @@
 			$pass1 = $_POST['pass1'];
 			$pass2 = $_POST['pass2'];
 			$level = $_POST['level'];
-			if ($pass1 <> '' and $pass2 <> '') {
+			if ($pass1 <> '' && $pass2 <> '') {
 				if ($pass1 <> $pass2) {
 					$info = info("Password tidak cocok!", "NO");
 				} else {

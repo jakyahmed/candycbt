@@ -144,10 +144,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 		<header class='main-header'>
 			<a href='?' class='logo' style='background-color:#02948d'>
 				<span class='animated bounce logo-mini'>
-					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
+					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
 				<span class='animated bounce logo-lg'>
-					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
+					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' role='navigation'>
@@ -744,16 +744,16 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					</div>
 				<?php elseif ($pg == 'pengumuman') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['simpanpengumuman'])) {
-							$exec = mysql_query("INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
-							if (!$exec) {
-								$info = info("Gagal menyimpan!", "NO");
-							} else {
-								jump("?pg=$pg");
-							}
+					cek_session_admin();
+					if (isset($_POST['simpanpengumuman'])) {
+						$exec = mysql_query("INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
+						if (!$exec) {
+							$info = info("Gagal menyimpan!", "NO");
+						} else {
+							jump("?pg=$pg");
 						}
-						?>
+					}
+					?>
 					<div class='row'>
 						<form action='' method='post'>
 							<div class='col-md-6'>
@@ -788,80 +788,80 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								</div>
 							</div>
 						</form>
-					</div>
-					<div class='col-md-6'>
-						<div class='box box-solid'>
-							<div class='box-header with-border'>
-								<h3 class='box-title'> Pengumuman</h3>
-							</div><!-- /.box-header -->
-							<div class='box-body'>
-								<div class='table-responsive'>
-									<table id='example1' class='table table-bordered table-striped'>
-										<thead>
-											<tr>
-												<th width='5px'></th>
-												<th>Pengumuman</th>
-												<th>Untuk</th>
-												<th width='60px'></th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php $pengumumanq = mysql_query("SELECT * FROM pengumuman ORDER BY date DESC"); ?>
-											<?php while ($pengumuman = mysql_fetch_array($pengumumanq)) : ?>
-												<?php $no++; ?>
+						<div class='col-md-6'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'> Pengumuman</h3>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<div class='table-responsive'>
+										<table id='example1' class='table table-bordered table-striped'>
+											<thead>
 												<tr>
-													<td><?= $no ?></td>
-													<td><?= $pengumuman['judul'] ?></td>
-													<td>
-														<?php if ($pengumuman['type'] == 'eksternal') : ?>
-															<small class='label bg-blue'>siswa</label>
-															<?php else : ?>
-																<small class='label bg-green'>guru</label>
-																<?php endif ?>
-													</td>
-													<td align='center'>
-														<div class='btn-group'>
-															<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash-o'></i></button></a>
-														</div>
-													</td>
+													<th width='5px'></th>
+													<th>Pengumuman</th>
+													<th>Untuk</th>
+													<th width='60px'></th>
 												</tr>
-												<?php $info = info("Anda yakin akan menghapus pengumuman ini ?"); ?>
-												<?php
-														if (isset($_POST['hapus'])) {
-															$exec = mysql_query("DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
-															(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg");
-														}
-														?>
-												<div class='modal fade' id="hapus<?= $pengumuman['id_pengumuman'] ?>" style='display: none;'>
-													<div class='modal-dialog'>
-														<div class='modal-content'>
-															<div class='modal-header bg-maroon'>
-																<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																<h3 class='modal-title'>Hapus Pengumuman</h3>
+											</thead>
+											<tbody>
+												<?php $pengumumanq = mysql_query("SELECT * FROM pengumuman ORDER BY date DESC"); ?>
+												<?php while ($pengumuman = mysql_fetch_array($pengumumanq)) : ?>
+													<?php $no++; ?>
+													<tr>
+														<td><?= $no ?></td>
+														<td><?= $pengumuman['judul'] ?></td>
+														<td>
+															<?php if ($pengumuman['type'] == 'eksternal') : ?>
+																<small class='label bg-blue'>siswa</label>
+																<?php else : ?>
+																	<small class='label bg-green'>guru</label>
+																	<?php endif ?>
+														</td>
+														<td align='center'>
+															<div class='btn-group'>
+																<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash-o'></i></button></a>
 															</div>
-															<div class='modal-body'>
-																<form action='' method='post'>
-																	<input type='hidden' id='idu' name='idu' value="<?= $pengumuman['id_pengumuman'] ?>" />
-																	<div class='callout '>
-																		<h4><?= $info ?></h4>
-																	</div>
-																	<div class='modal-footer'>
-																		<div class='box-tools pull-right btn-group'>
-																			<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
-																			<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+														</td>
+													</tr>
+													<?php $info = info("Anda yakin akan menghapus pengumuman ini ?"); ?>
+													<?php
+															if (isset($_POST['hapus'])) {
+																$exec = mysql_query("DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
+																(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg");
+															}
+															?>
+													<div class='modal fade' id="hapus<?= $pengumuman['id_pengumuman'] ?>" style='display: none;'>
+														<div class='modal-dialog'>
+															<div class='modal-content'>
+																<div class='modal-header bg-maroon'>
+																	<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+																	<h3 class='modal-title'>Hapus Pengumuman</h3>
+																</div>
+																<div class='modal-body'>
+																	<form action='' method='post'>
+																		<input type='hidden' id='idu' name='idu' value="<?= $pengumuman['id_pengumuman'] ?>" />
+																		<div class='callout '>
+																			<h4><?= $info ?></h4>
 																		</div>
-																	</div>
-																</form>
+																		<div class='modal-footer'>
+																			<div class='box-tools pull-right btn-group'>
+																				<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+																			</div>
+																		</div>
+																	</form>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											<?php endwhile ?>
-										</tbody>
-									</table>
-								</div>
-							</div><!-- /.box-body -->
-						</div><!-- /.box -->
+												<?php endwhile ?>
+											</tbody>
+										</table>
+									</div>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
 					</div>
 					<script>
 						tinymce.init({

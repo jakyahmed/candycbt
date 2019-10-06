@@ -4457,7 +4457,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																						</div><!-- /.box-header -->
 																																						<div class='box-body'>
 
-																																							$infoword
+																																							
 																																							<div class='form-group'>
 																																								<label>Mata Pelajaran</label>
 																																								<input type='hidden' name='id_mapel' class='form-control' value='$mapel[id_mapel]' />
@@ -4528,7 +4528,6 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																						</div><!-- /.box-header -->
 																																						<div class='box-body'>
 
-																																							$infobee
 																																							<div class='form-group'>
 																																								<label>Mata Pelajaran</label>
 																																								<input type='hidden' name='id_mapel' class='form-control' value='$mapel[id_mapel]' />

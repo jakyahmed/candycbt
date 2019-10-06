@@ -107,7 +107,7 @@ if ($ac == '') {
 														</td>
 														<td>
 														<a href='#'  id='btnnilai' class='linknilai btn btn-sm btn-primary'><i class='fa fa-eye'></i> Lihat Hasil </a>
-														<button  class='ambiljawaban btn btn-sm btn-danger' data-id='$mapel[id_mapel]' $dis><i class='fa fa-download'></i> Ambil Jawaban </button>
+														
 														</td>
 														</tr>";
 		}

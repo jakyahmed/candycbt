@@ -255,7 +255,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								<li><a href='?pg=sesi'><i class='fa  fa-circle-o text-teal'></i> <span> Data Sesi</span></a></li>
 							</ul>
 						</li>
-						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/peserta_ujian.svg' width='30'> <span>Peserta Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/siswa_ujian.svg' width='30'> <span>Peserta Ujian</span></a></li>
 
 						<li><a href='?pg=banksoal'><img src='../dist/img/svg/briefcase.svg' width='30'> <span> Bank Soal</span></a></li>
 						<li><a href='?pg=jadwal'><img src='../dist/img/svg/jadwal_ujian.svg' width='30'> <span> Jadwal Ujian</span></a></li>
@@ -380,7 +380,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								<div class='animated swing col-md-4'>
 									<a href='?pg=siswa'>
 										<div class='info-box bg-green'>
-											<span class='info-box-icon bg-green'><img src='../dist/img/svg/manager.svg'></span>
+											<span class='info-box-icon bg-green'><img src='../dist/img/svg/siswa_ujian.svg' width="80%"></span>
 											<div class='info-box-content'>
 												<span class='info-box-text'>SISWA</span>
 												<span class='info-box-number'><?= $siswa ?></span>

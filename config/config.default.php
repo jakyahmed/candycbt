@@ -1,4 +1,5 @@
 <?php
+include_once "mysql-shim.php";
 error_reporting(E_ALL);
 
 session_cache_expire(0);

@@ -227,7 +227,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<li class=' treeview'>
 							<a href='#'>
-								<img src='../dist/img/svg/folder.svg' width='30'>
+								<img src='../dist/img/svg/data_master.svg' width='30'>
 								<span>Data Master</span>
 								<span class='pull-right-container'>
 									<i class='glyphicon glyphicon-plus pull-right'></i>
@@ -248,7 +248,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								<li><a href='?pg=sesi'><i class='fa  fa-circle-o text-teal'></i> <span> Data Sesi</span></a></li>
 							</ul>
 						</li>
-						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/manager.svg' width='30'> <span>Peserta Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/peserta_ujian.svg' width='30'> <span>Peserta Ujian</span></a></li>
 
 						<li><a href='?pg=banksoal'><img src='../dist/img/svg/briefcase.svg' width='30'> <span> Bank Soal</span></a></li>
 						<li><a href='?pg=jadwal'><img src='../dist/img/svg/planner.svg' width='30'> <span> Jadwal Ujian</span></a></li>

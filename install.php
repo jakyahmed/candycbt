@@ -134,7 +134,7 @@ if (isset($_POST['buat2'])) {
           <b>Candy Installer @ 2019</b>
         </div>
         <div class="pull-right ">
-          <b>Version</b> 1.0
+          <b>Version</b> 2.5
         </div>
         <strong></strong>
       </div>

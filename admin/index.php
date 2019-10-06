@@ -144,10 +144,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 		<header class='main-header'>
 			<a href='?' class='logo' style='background-color:#02948d'>
 				<span class='animated bounce logo-mini'>
-					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
 				<span class='animated bounce logo-lg'>
-					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' role='navigation'>

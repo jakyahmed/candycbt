@@ -54,6 +54,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 			src: url('../dist/fonts/poppins/Poppins-Light.ttf');
 		}
 
+		@font-face {
+			font-family: 'OCR A Extended';
+			font-style: normal;
+			font-weight: normal;
+			src: local('OCR A Extended'), url('OCRAEXT_2.woff') format('woff');
+		}
+
 		body {
 			font-family: 'tulisan_keren';
 			font-size: 13px;
@@ -144,10 +151,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 		<header class='main-header'>
 			<a href='?' class='logo' style='background-color:#02948d'>
 				<span class='animated bounce logo-mini'>
-					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
 				<span class='animated bounce logo-lg'>
-					<image src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' role='navigation'>
@@ -323,8 +330,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					&nbsp;<span class='hidden-xs'><?= $setting['aplikasi'] . '-' . $jenjang ?></span>
 				</h1>
 				<div style='float:right; margin-top:-37px'>
-					<button class='btn  btn-flat  bg-purple'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y') ?></button>
-					<button class='btn  btn-flat  bg-maroon'><span id='waktu'><?= $waktu ?></span></button>
+					<button class='btn  btn-flat  bg-purple' style="font-family:'OCR A Extended';font-weight:normal;"><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y') ?></button>
+					<button class='btn  btn-flat  bg-maroon'><span id='waktu' style="font-family:'OCR A Extended';font-weight:normal;"><?= $waktu ?></span></button>
 				</div>
 				<div class='breadcrumb'></div>
 			</section>
@@ -417,7 +424,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								<div class='animated flipInX col-md-12'>
 									<div class='box box-solid direct-chat direct-chat-warning'>
 										<div class='box-header with-border'>
-											<h3 class='box-title'><i class='fa fa-bullhorn'></i>
+											<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
 												Pengumuman
 											</h3>
 											<div class='box-tools pull-right'>
@@ -744,16 +751,16 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					</div>
 				<?php elseif ($pg == 'pengumuman') : ?>
 					<?php
-					cek_session_admin();
-					if (isset($_POST['simpanpengumuman'])) {
-						$exec = mysql_query("INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
-						if (!$exec) {
-							$info = info("Gagal menyimpan!", "NO");
-						} else {
-							jump("?pg=$pg");
+						cek_session_admin();
+						if (isset($_POST['simpanpengumuman'])) {
+							$exec = mysql_query("INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
+							if (!$exec) {
+								$info = info("Gagal menyimpan!", "NO");
+							} else {
+								jump("?pg=$pg");
+							}
 						}
-					}
-					?>
+						?>
 					<div class='row'>
 						<form action='' method='post'>
 							<div class='col-md-6'>
@@ -1190,13 +1197,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 														<td height='30'>Nomer Peserta</td>
 														<td height='30' width='60%' style='border-bottom:thin solid #000000'>
 															<?php
-																$dataArray = unserialize($ujian['no_susulan']);
-																if ($dataArray) {
-																	foreach ($dataArray as $key => $value) {
-																		echo "<small class='label label-success'>$value </small>&nbsp;";
+																	$dataArray = unserialize($ujian['no_susulan']);
+																	if ($dataArray) {
+																		foreach ($dataArray as $key => $value) {
+																			echo "<small class='label label-success'>$value </small>&nbsp;";
+																		}
 																	}
-																}
-															?>
+																	?>
 														</td>
 													</tr>
 													<tr height='30'>
@@ -1946,13 +1953,12 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												<tbody>";
 
 
-						$beritaQ = mysql_query("SELECT * FROM berita");
+						$beritaQ = mysql_query("SELECT * FROM berita WHERE no_susulan <> ''");
 
 						while ($berita = mysql_fetch_array($beritaQ)) {
 							$mapel = mysql_fetch_array(mysql_query("select * from mapel a left join mata_pelajaran b ON a.nama=b.kode_mapel where a.id_mapel='$berita[id_mapel]'"));
 							$dataArray = unserialize($berita['no_susulan']);
 							foreach ($dataArray as $key => $value) {
-
 								$siswaQ = mysql_query("select * from siswa where no_peserta='$value'");
 								while ($siswa = mysql_fetch_array($siswaQ)) {
 									$cek = mysql_num_rows(mysql_query("select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));

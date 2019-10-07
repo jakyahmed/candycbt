@@ -447,7 +447,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									<div class='box-header with-border'>
 										<h3 class='box-title'><i class='fa fa-history'></i> Log Aktifitas</h3>
 										<div class='box-tools pull-right'>
-											<a href='?pg=$pg&ac=clearlog' class='btn btn-sm btn-flat bg-maroon' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
+											<a href='?ac=clearlog' class='btn btn-sm btn-flat bg-maroon' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
@@ -2047,92 +2047,75 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						<iframe id='loadframe' name='frameresult' src='kartu.php' style='border:none;width:1px;height:1px;'></iframe>
 					<?php endif ?>
 				<?php elseif ($pg == 'absen') : ?>
-					<?php
-						if ($ac == '') {
-							echo "
-							<div class='row'>
-
-								<div class='col-md-3'></div>
-								<div class='col-md-6'>
-
-									<div class='box box-solid'>
-										<div class='box-header with-border'>
-											<h3 class='box-title'>Daftar Hadir Peserta</h3>
-											<div class='box-tools pull-right btn-group'>
-												<button id='btnabsen' class='btn btn-sm btn-flat btn-success' onclick=frames['frameresult'].print()><i class='fa fa-print'></i> Print</button>
-											</div>
-										</div><!-- /.box-header -->
-										<div class='box-body'>
-											$info
+					<?php if ($ac == '') : ?>
+						<div class='row'>
+							<div class='col-md-3'></div>
+							<div class='col-md-6'>
+								<div class='box box-solid'>
+									<div class='box-header with-border'>
+										<h3 class='box-title'>Daftar Hadir Peserta</h3>
+										<div class='box-tools pull-right btn-group'>
+											<button id='btnabsen' class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<?= $info ?>
+										<div class='form-group'>
 											<div class='form-group'>
-
-												<div class='form-group'>
-													<label>Pilih Mapel</label>
-													<select id='mapel' class='select2 form-control' onchange=printabsen();>";
-
-							$sql_mapel = mysql_query("SELECT * FROM ujian group by nama");
-							echo "<option value=''>pilih mapel</option>";
-							while ($mapel = mysql_fetch_array($sql_mapel)) {
-								echo "<option value='$mapel[id_mapel]'>$mapel[nama]</option>";
-							}
-							echo "
-													</select>
-												</div>
-												<div class='form-group'>
-													<label>Pilih Sesi</label>
-
-
-													<select id='sesi' class='form-control select2 ' onchange=printabsen();>";
-
-							$sql_sesi = mysql_query("SELECT * FROM siswa GROUP BY sesi ");
-							echo "<option value=''>pilih sesi</option>";
-							while ($sesi = mysql_fetch_array($sql_sesi)) {
-								echo "<option value='$sesi[sesi]'>sesi&nbsp;$sesi[sesi]</option>";
-							}
-							echo "
-													</select>
-												</div>
-
-												<div class='form-group'>
-													<label>Pilih Ruang</label>
-
-
-													<select id='ruang' class='form-control select2 ' onchange=printabsen();>";
-
-							$sql_sesi = mysql_query("SELECT * FROM ruang ");
-							echo "<option value=''>pilih Ruang</option>";
-							while ($ruang = mysql_fetch_array($sql_sesi)) {
-								echo "<option value='$ruang[kode_ruang]'>$ruang[kode_ruang]</option>";
-							}
-							echo "
-													</select>
-												</div>
-
-												<div class='form-group'>
-													<label>Pilih Kelas</label>
-
-
-													<select id='kelas' class='form-control select2 ' onchange=printabsen();>";
-
-							$sql_sesi = mysql_query("SELECT * FROM kelas ");
-							echo "<option value=''>pilih Kelas</option>";
-							while ($kelas = mysql_fetch_array($sql_sesi)) {
-								echo "<option value='$kelas[id_kelas]'>$kelas[nama]</option>";
-							}
-							echo "
-													</select>
-												</div>
-
-
-
+												<label>Pilih Mapel</label>
+												<select id='mapel' class='select2 form-control' onchange=printabsen();>
+													<?php
+															$sql_mapel = mysql_query("SELECT * FROM ujian group by nama");
+															?>
+													<option value=''>pilih mapel</option>
+													<?php while ($mapel = mysql_fetch_array($sql_mapel)) : ?>
+														<option value="<?= $mapel['id_mapel'] ?>"><?= $mapel['nama'] ?></option>
+													<?php endwhile ?>
+												</select>
 											</div>
-										</div><!-- /.box-body -->
-									</div><!-- /.box -->
-								</div>
+											<div class='form-group'>
+												<label>Pilih Sesi</label>
+												<select id='sesi' class='form-control select2' onchange=printabsen();>
+													<?php
+															$sql_sesi = mysql_query("SELECT * FROM siswa GROUP BY sesi")
+															?>
+													<option value=''>pilih sesi</option>
+													<?php while ($sesi = mysql_fetch_array($sql_sesi)) : ?>
+														echo "<option value="<?= $sesi['sesi'] ?>">sesi&nbsp;<?= $sesi['sesi'] ?></option>
+													<?php endwhile ?>
+												</select>
+											</div>
+											<div class='form-group'>
+												<label>Pilih Ruang</label>
+												<select id='ruang' class='form-control select2 ' onchange=printabsen();>";
+													<?php
+															$sql_sesi = mysql_query("SELECT * FROM ruang ");
+															?>
+													<option value=''>pilih Ruang</option>
+													<?php while ($ruang = mysql_fetch_array($sql_sesi)) : ?>
+														<option value="<?= $ruang['kode_ruang'] ?>"><?= $ruang['kode_ruang'] ?></option>
+													<?php endwhile ?>
+												</select>
+											</div>
+											<div class='form-group'>
+												<label>Pilih Kelas</label>
+												<select id='kelas' class='form-control select2' onchange=printabsen();>
+													<?php
+															$sql_sesi = mysql_query("SELECT * FROM kelas")
+															?>
+													<option value=''>pilih Kelas</option>
+													<?php while ($kelas = mysql_fetch_array($sql_sesi)) : ?>
+														<option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama'] ?></option>
+													<?php endwhile ?>
+												</select>
+											</div>
+										</div>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
 							</div>
-							<iframe id='loadabsen' name='frameresult' src='absen.php' style='border:none;width:0px;height:0px;'></iframe>";
-						}
-						?>
+						</div>
+						<iframe id='loadabsen' name='frameresult' src='absen.php' style='border:none;width:0px;height:0px;'></iframe>
+					<?php endif ?>
 				<?php elseif ($pg == 'siswa') : ?>
 					<?php include 'master_siswa.php'; ?>
 				<?php elseif ($pg == 'uplfotosiswa') : ?>

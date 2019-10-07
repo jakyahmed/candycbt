@@ -152,7 +152,7 @@ if (date('m') >= 7 and date('m') <= 12) {
 		<tr height='30'>
 			<td height='30' width='10px'></td>
 			<td height='30'>Jumlah Peserta Seharusnya</td>
-			<td height='30' width='60%' style='border-bottom:thin solid #000000'></td>
+			<td height='30' width='60%' style='border-bottom:thin solid #000000'><?= $ujian['ikut'] + $ujian['susulan'] ?></td>
 		</tr>
 		<tr height='30'>
 			<td height='30' width='5%'></td>

@@ -429,7 +429,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</h3>
 											<div class='box-tools pull-right'>
 
-												<a href='?pg=<?=$pg?>&ac=clearpengumuman' class='btn btn-sm bg-maroon' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+												<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-sm bg-maroon' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
 											</div>
 										</div><!-- /.box-header -->
 										<div class='box-body'>
@@ -447,7 +447,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									<div class='box-header with-border'>
 										<h3 class='box-title'><i class='fa fa-history'></i> Log Aktifitas</h3>
 										<div class='box-tools pull-right'>
-											<a href='?pg=<?=$pg?>&ac=clearlog' class='btn btn-sm btn-flat bg-maroon' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
+											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-sm btn-flat bg-maroon' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>

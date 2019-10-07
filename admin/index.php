@@ -144,7 +144,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 	</style>
 </head>
 
-<body class='hold-transition skin-green sidebar-mini fixed $sidebar'>
+<body class='hold-transition skin-green sidebar-mini fixed <?= $sidebar ?>'>
 	<div id='pesan'></div>
 	<div class='loader'></div>
 	<div class='wrapper'>
@@ -171,15 +171,15 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							<ul class='dropdown-menu'>
 								<li class='user-header'>
 									<?php
-									if ($pengawas['level'] == 'admin') {
+									if ($pengawas['level'] == 'admin') :
 										echo "<img src='$homeurl/dist/img/avatar-6.png' class='img-circle' alt='User Image'>";
-									} elseif ($pengawas['level'] == 'guru') {
+									elseif ($pengawas['level'] == 'guru') :
 										if ($pengawas['foto'] <> '') {
 											echo "<img src='$homeurl/foto/fotoguru/$pengawas[foto]' class='img-circle' alt='User Image'>";
 										} else {
 											echo "<img src='$homeurl/dist/img/avatar-6.png' class='img-circle' alt='User Image'>";
 										}
-									}
+									endif
 									?>
 									<p>
 										<?= $pengawas['nama'] ?>
@@ -189,11 +189,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								<li class='user-footer'>
 									<div class='pull-left'>
 										<?php
-										if ($pengawas['level'] == 'admin') {
+										if ($pengawas['level'] == 'admin') :
 											echo "<a href='?pg=pengaturan' class='btn btn-sm btn-default btn-flat'><i class='fa fa-gear'></i> Pengaturan</a>";
-										} elseif ($pengawas['level'] == 'guru') {
+										elseif ($pengawas['level'] == 'guru') :
 											echo "<a href='?pg=editguru' class='btn btn-sm btn-default btn-flat'><i class='fa fa-gear'></i> Edit Profil</a>";
-										}
+										endif
 										?>
 									</div>
 									<div class='pull-right'>
@@ -212,15 +212,15 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				<div class='user-panel'>
 					<div class='pull-left image'>
 						<?php
-						if ($pengawas['level'] == 'admin') {
+						if ($pengawas['level'] == 'admin') :
 							echo " <img src='$homeurl/dist/img/avatar-6.png' class='img-circle' style='border:3px solid white; max-width:60px' alt='+'>";
-						} elseif ($pengawas['level'] == 'guru') {
+						elseif ($pengawas['level'] == 'guru') :
 							if ($pengawas['foto'] <> '') {
 								echo " <img src='$homeurl/foto/fotoguru/$pengawas[foto]' class='img-circle' style='border:2px solid yellow; max-width:60px' alt='+'>";
 							} else {
 								echo " <img src='$homeurl/dist/img/avatar-6.png' class='img-circle' style='border:2px solid yellow; max-width:60px' alt='+'>";
 							}
-						}
+						endif
 						?>
 					</div>
 					<div class='pull-left info' style='left:65px'>
@@ -229,7 +229,6 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					</div>
 				</div>
 				<ul class=' sidebar-menu tree data-widget=' tree>
-
 					<li><a href='?'><img src='../dist/img/svg/home.svg' width='30'> <span>Dashboard</span></a></li>
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<li class=' treeview'>
@@ -2138,109 +2137,81 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											$zip->close();
 										}
 										$files = scandir($path);
-										//$name is extract folder from zip file
 										foreach ($files as $file) {
-											$file_ext = end(explode(".", $file));
+											$file_ext = pathinfo($file, PATHINFO_EXTENSION);
 											$allowed_ext = array('jpg', 'JPG');
 											if (in_array($file_ext, $allowed_ext)) {
-
-												$output .= '<div class="col-md-3">
-								<div style="padding:16px; border:1px solid #CCC;"><img class="img img-responsive" style="height:150px;" src="../foto/fotosiswa/' . $file . '" /></div>
-							</div>';
+												$output .= '<div class="col-md-3"><div style="padding:16px; border:1px solid #CCC;"><img class="img img-responsive" style="height:150px;" src="../foto/fotosiswa/' . $file . '" /></div></div>';
 											}
 										}
 										unlink($location);
-
-
-										$pesan = "
-							<div class='alert alert-success alert-dismissible'>
-								<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-								<h4><i class='icon fa fa-check'></i> Info</h4>
-								Upload File zip berhasil
-							</div>";
+										$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-check'></i> Info</h4>Upload File zip berhasil</div>";
 									}
 								} else {
-									$pesan = "
-							<div class='alert alert-warning alert-dismissible'>
-								<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-								<h4><i class='icon fa fa-info'></i> Gagal Upload</h4>
-								Mohon Upload file zip
-							</div>";
+									$pesan = "<div class='alert alert-warning alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-info'></i> Gagal Upload</h4>Mohon Upload file zip</div>";
 								}
 							}
 						}
+						?>
+					<?php
 						if (isset($_POST['hapussemuafoto'])) {
 							$files = glob('../foto/fotosiswa/*'); // Ambil semua file yang ada dalam folder
-
 							foreach ($files as $file) { // Lakukan perulangan dari file yang kita ambil
-
 								if (is_file($file)) // Cek apakah file tersebut benar-benar ada
-
 									unlink($file); // Jika ada, hapus file tersebut
-
 							}
 						}
-						echo "
-
-							<div class='box box-danger'>
-								<div class='box-header with-border'>
-									<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
-									<div class='box-tools pull-right btn-group'>
-
-										<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
-									</div>
-								</div><!-- /.box-header -->
-								<div class='box-body'>
-									<div class='alert alert-danger alert-dismissible'>
-										<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-										<h4><i class='icon fa fa-info'></i> Info</h4>
-										Upload gambar dalam berkas zip,,, Penamaan gambar sesuai dengan no peserta siswa ujian
-									</div>
-									<form action='' method='post' enctype='multipart/form-data'>
-										<div class='col-md-6'>
-											<input class='form-control' type='file' name='zip_file' accept='.zip' />
-										</div>
-										<div class='col-md-6'>
-											<button class='btn bg-maroon' name='uplod' type='submit'>Upload Foto</button>
-										</div>
-									</form>
-
-								</div><!-- /.box-body -->
-							</div><!-- /.box -->
-							<div class='box box-solid'>
-								<div class='box-header with-border'>
-									<h3 class='box-title'>Daftar Foto Peserta</h3>
-									<div class='box-tools pull-right btn-group'>
-										<form action='' method='post'>
-											<button class='btn btn-sm bg-maroon' name='hapussemuafoto'>hapus semua foto</button>
-										</form>
-
-									</div>
-								</div><!-- /.box-header -->
-								<div class='box-body'>";
-						$folder = "../foto/fotosiswa/"; //Sesuaikan Folder nya
-						if (!($buka_folder = opendir($folder))) die("eRorr... Tidak bisa membuka Folder");
-
-						$file_array = array();
-						while ($baca_folder = readdir($buka_folder)) {
-							$file_array[] = $baca_folder;
-						}
-
-						$jumlah_array = count($file_array);
-						for ($i = 2; $i < $jumlah_array; $i++) {
-							$nama_file = $file_array;
-							$nomor = $i - 1;
-							echo "
-													<div class='col-md-1'>
-													<img class='img-logo' src='$folder$nama_file[$i]' style='width:65px'/><br><br>
-													</div>";
-						}
-						closedir($buka_folder);
-						echo "	
-													</div><!-- /.box-body -->
-												</div><!-- /.box -->
-										";
 						?>
+					<div class='box box-danger'>
+						<div class='box-header with-border'>
+							<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
+							<div class='box-tools pull-right btn-group'>
+								<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
+							</div>
+						</div><!-- /.box-header -->
+						<div class='box-body'>
+							<div class='alert alert-danger alert-dismissible'>
+								<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+								<h4><i class='icon fa fa-info'></i> Info</h4>
+								Upload gambar dalam berkas zip. Penamaan gambar sesuai dengan no peserta siswa ujian
+							</div>
+							<form action='' method='post' enctype='multipart/form-data'>
+								<div class='col-md-6'>
+									<input class='form-control' type='file' name='zip_file' accept='.zip' />
+								</div>
+								<div class='col-md-6'>
+									<button class='btn bg-maroon' name='uplod' type='submit'>Upload Foto</button>
+								</div>
+							</form>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+					<div class='box box-solid'>
+						<div class='box-header with-border'>
+							<h3 class='box-title'>Daftar Foto Peserta</h3>
+							<div class='box-tools pull-right btn-group'>
+								<form action='' method='post'>
+									<button class='btn btn-sm bg-maroon' name='hapussemuafoto'>hapus semua foto</button>
+								</form>
+							</div>
+						</div><!-- /.box-header -->
+						<div class='box-body'>
+							<?php
+								$folder = "../foto/fotosiswa/"; //Sesuaikan Folder nya
+								if (!($buka_folder = opendir($folder))) die("eRorr... Tidak bisa membuka Folder");
+								$file_array = array();
+								while ($baca_folder = readdir($buka_folder)) :
+									$file_array[] = $baca_folder;
+								endwhile;
+								$jumlah_array = count($file_array);
+								for ($i = 2; $i < $jumlah_array; $i++) :
+									$nama_file = $file_array;
+									$nomor = $i - 1;
+									echo "<div class='col-md-1'><img class='img-logo' src='$folder$nama_file[$i]' style='width:65px'/><br><br></div>";
+								endfor;
+								closedir($buka_folder);
+							?>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
 				<?php elseif ($pg == 'importmaster') : ?>
 					<?php
 						cek_session_admin();

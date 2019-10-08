@@ -4720,13 +4720,14 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 
 	<script>
 		$(function() {
-			$(" #btnresetlogin").click(function() {
-				id_array = new Array() i = 0;
+			$("#btnresetlogin").click(function() {
+				id_array = new Array();
+				i = 0;
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
 					i++;
 				}) $.ajax({
-					url: 'resetlogin.php',
+					url: "resetlogin.php",
 					data: "kode=" + id_array,
 					type: "POST",
 					success: function(respon) {
@@ -4740,9 +4741,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					}
 				}) return false;
 			})
-		}) $(function() {
+		});
+		$(function() {
 			$("#btnhapusbank").click(function() {
-				id_array = new Array() i = 0;
+				id_array = new Array();
+				i = 0;
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
 					i++;
@@ -4774,38 +4777,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				})
 				return false;
 			})
-		})
-		$(function() {
-			$("#buatberita").click(function() {
-				swal({
-					title: 'Generate Berita Acara',
-					text: 'Pastikan pembuatan jadwal sudah fix ??',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Ya, Buat!'
-				}).then((result) => {
-					if (result.value) {
-						$.ajax({
-							url: 'buatberita.php',
-							type: "POST",
-							beforeSend: function() {
-								$('.loader').css('display', 'block');
-							},
-							success: function(respon) {
-								$('.loader').css('display', 'none');
-								location.reload();
-							}
-						})
-					}
-				})
-				return false;
-			})
-		})
+		});
 		$(function() {
 			$("#btnhapusjadwal").click(function() {
-				id_array = new Array()
+				id_array = new Array();
 				i = 0;
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
@@ -4839,7 +4814,39 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				})
 				return false;
 			})
-		})
+		});
+	</script>
+
+	<script>
+		$(function() {
+			$("#buatberita").click(function() {
+				swal({
+					title: 'Generate Berita Acara',
+					text: 'Pastikan pembuatan jadwal sudah fix ??',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Buat!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'buatberita.php',
+							type: "POST",
+							beforeSend: function() {
+								$('.loader').css('display', 'block');
+							},
+							success: function(respon) {
+								$('.loader').css('display', 'none');
+								location.reload();
+							}
+						})
+					}
+				})
+				return false;
+			})
+		});
+
 		$(document).ready(function() {
 			var messages = $('#pesan').notify({
 				type: 'messages',
@@ -4908,16 +4915,17 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					{
 						'data': 'password'
 					},
-					<?php if ($pengawas['level'] == 'admin') : ?> {
+					<?php if ($pengawas['level'] == 'admin') { ?> {
 							'data': 'id_siswa',
 							'width': '100px',
 							'sClass': 'text-center',
 							'orderable': false,
 							'mRender': function(data) {
-								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\ <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
+								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
+                                <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
 							}
 						}
-					<?php endif ?>
+					<?php } ?>
 				]
 			});
 			t.on('order.dt search.dt', function() {

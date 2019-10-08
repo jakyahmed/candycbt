@@ -4814,7 +4814,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							}
 						})
 					}
-				})
+				});
 				return false;
 			})
 		});
@@ -4845,7 +4845,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							}
 						})
 					}
-				})
+				});
 				return false;
 			})
 		});
@@ -4878,7 +4878,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							});
 						}
 					}
-				})
+				});
 				return false;
 			});
 			var t = $('#tabelsiswa').DataTable({

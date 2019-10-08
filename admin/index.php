@@ -135,13 +135,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 			color: #fff;
 		}
 	</style>
-	<style type='text/css' media='print'>
+	<!-- <style type='text/css' media='print'>
 		.page {
 			-webkit-transform: rotate(-90deg);
 			-moz-transform: rotate(-90deg);
 			filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=3)';
 		}
-	</style>
+	</style> -->
 </head>
 
 <body class='hold-transition skin-green sidebar-mini fixed <?= $sidebar ?>'>
@@ -4248,7 +4248,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php
 						cek_session_admin();
 						$info1 = $info2 = $info3 = $info4 = '';
-						if (isset($_POST['submit1'])) {
+						if (isset($_POST['submit1'])) :
 							$alamat = nl2br($_POST['alamat']);
 							$header = nl2br($_POST['header']);
 							$exec = mysql_query("UPDATE setting SET aplikasi='$_POST[aplikasi]',sekolah='$_POST[sekolah]',kode_sekolah='$_POST[kode]',jenjang='$_POST[jenjang]',kepsek='$_POST[kepsek]',nip='$_POST[nip]',alamat='$alamat',kecamatan='$_POST[kecamatan]',kota='$_POST[kota]',telp='$_POST[telp]',fax='$_POST[fax]',web='$_POST[web]',email='$_POST[email]',header='$header',ip_server='$_POST[ipserver]',waktu='$_POST[waktu]' WHERE id_setting='1'");
@@ -4271,9 +4271,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							} else {
 								$info1 = info('Gagal menyimpan pengaturan!', 'NO');
 							}
-						}
+						endif;
 
-						if (isset($_POST['submit3'])) {
+						if (isset($_POST['submit3'])) :
 							$password = $_POST['password'];
 							if (!password_verify($password, $pengawas['password'])) {
 								$info4 = info('Password salah!', 'NO');
@@ -4292,222 +4292,210 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									}
 								}
 							}
-						}
+						endif;
 						$admin = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE level='admin' AND id_pengawas='1'"));
 						$setting = mysql_fetch_array(mysql_query("SELECT * FROM setting WHERE id_setting='1'"));
 						$setting['alamat'] = str_replace('<br />', '', $setting['alamat']);
 						$setting['header'] = str_replace('<br />', '', $setting['header']);
-
-						echo "
-						<div class='row'>
-
-							<div class='col-md-12 notif'></div>
-							<div class='col-md-6'>
-								<form action='' method='post' enctype='multipart/form-data'>
-									<div class='box box-solid'>
-										<div class='box-header with-border'>
-											<h3 class='box-title'>Pengaturan Aplikasi</h3>
-											<div class='box-tools pull-right btn-group'>
-												<button type='submit' name='submit1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-											</div>
-										</div><!-- /.box-header -->
-										<div class='box-body'>
-											$info1
-											<div class='form-group'>
-												<label>Nama Aplikasi</label>
-												<input type='text' name='aplikasi' value='$setting[aplikasi]' class='form-control' required='true' />
-											</div>
-
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Nama Sekolah</label>
-														<input type='text' name='sekolah' value='$setting[sekolah]' class='form-control' required='true' />
-													</div>
-													<div class='col-md-6'>
-														<label>Kode Sekolah</label>
-														<input type='text' name='kode' value='$setting[kode_sekolah]' class='form-control' required='true' />
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Alamat Server / Ip Server</label>
-														<input type='text' name='ipserver' value='$setting[ip_server]' class='form-control' />
-													</div>
-													<div class='col-md-6'>
-														<label>Waktu Server</label>
-														<select name='waktu' class='form-control' required='true'>
-															<option value='$setting[waktu]'>$setting[waktu]</option>
-															<option value='Asia/Jakarta'>Asia/Jakarta</option>
-															<option value='Asia/Makassar'>Asia/Makassar</option>
-															<option value='Asia/Jayapura'>Asia/Jayapura</option>
-
-														</select>
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<label>Jenjang</label>
-												<select name='jenjang' class='form-control' required='true'>
-													<option value='$setting[jenjang]'>$setting[jenjang]</option>
-													<option value='SD'>SD/MI</option>
-													<option value='SMP'>SMP/MTS</option>
-													<option value='SMK'>SMK/SMA/MA</option>
-
-												</select>
-											</div>
-											<div class='form-group'>
-												<label>Kepala Sekolah</label>
-												<input type='text' name='kepsek' value='$setting[kepsek]' class='form-control' />
-											</div>
-											<div class='form-group'>
-												<label>NIP Kepala Sekolah</label>
-												<input type='text' name='nip' value='$setting[nip]' class='form-control' />
-											</div>
-											<div class='form-group'>
-												<label>Alamat</label>
-												<textarea name='alamat' class='form-control' rows='3'>$setting[alamat]</textarea>
-											</div>
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Kecamatan</label>
-														<input type='text' name='kecamatan' value='$setting[kecamatan]' class='form-control' />
-													</div>
-													<div class='col-md-6'>
-														<label>Kota/Kabupaten</label>
-														<input type='text' name='kota' value='$setting[kota]' class='form-control' />
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Telepon</label>
-														<input type='text' name='telp' value='$setting[telp]' class='form-control' />
-													</div>
-													<div class='col-md-6'>
-														<label>Fax</label>
-														<input type='text' name='fax' value='$setting[fax]' class='form-control' />
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Website</label>
-														<input type='text' name='web' value='$setting[web]' class='form-control' />
-													</div>
-													<div class='col-md-6'>
-														<label>E-mail</label>
-														<input type='text' name='email' value='$setting[email]' class='form-control' />
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<div class='row'>
-													<div class='col-md-6'>
-														<label>Logo</label>
-														<input type='file' name='logo' class='form-control' />
-													</div>
-													<div class='col-md-6'>
-														&nbsp;<br />
-														<img class='img img-responsive' src='$homeurl/$setting[logo]' height='100' />
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<label>Header Laporan</label>
-												<textarea name='header' class='form-control' rows='3'>$setting[header]</textarea>
-											</div>
-										</div><!-- /.box-body -->
-									</div><!-- /.box -->
-								</form>
-							</div>
-							<div class='col-md-6'>
-
-								<form action='' method='post'>
-									<div class='box box-danger'>
-										<div class='box-header with-border'>
-											<h3 class='box-title'>Kosongkan Data</h3>
-											<div class='box-tools pull-right btn-group'>
-												<button type='submit' name='submit3' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Kosongkan</button>
-											</div>
-										</div><!-- /.box-header -->
-										<div class='box-body'>
-											$info4
-											<div class='form-group'>
-												<label>Pilih Data</label>
-												<div class='row'>
-													<div class='col-md-5'>
-														<div class='checkbox'>
-															<small class='label bg-purple'>Pilih Data Hasil Nilai</small><br />
-															<label><input type='checkbox' name='data[]' value='nilai' /> Data Nilai</label><br />
-															<label><input type='checkbox' name='data[]' value='hasil_jawaban' /> Data Jawaban</label><br />
-															<label><input type='checkbox' name='data[]' value='jawaban' /> Temp_Jawaban</label><br />
-															<small class='label bg-green'>Pilih Data Bank Soal</small><br />
-															<label><input type='checkbox' name='data[]' value='soal' /> Data Soal</label><br />
-
-
-															<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />
-															<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
-															<small class='label label-danger'>Pilih Data Master</small><br />
-															<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />
-															<label><input type='checkbox' name='data[]' value='kelas' /> Data Kelas</label><br />
-															<label><input type='checkbox' name='data[]' value='mata_pelajaran' /> Data Mata Pelajaran</label><br />
-															<label><input type='checkbox' name='data[]' value='pk' /> Data Jurusan</label><br />
-															<label><input type='checkbox' name='data[]' value='level' /> Data Level</label><br />
-															<label><input type='checkbox' name='data[]' value='ruang' /> Data Ruangan</label><br />
-															<label><input type='checkbox' name='data[]' value='sesi' /> Data Sesi</label><br />
-
-														</div>
-													</div>
-													<div class='col-md-7'>
-														<p class='text-danger'><i class='fa fa-warning'></i> <strong>Mohon di ingat!</strong> Data yang telah dikosongkan tidak dapat dikembalikan.</p>
-													</div>
-												</div>
-											</div>
-											<div class='form-group'>
-												<label>Password Admin</label>
-												<input type='password' name='password' class='form-control' required='true' />
-											</div>
-
-										</div><!-- /.box-body -->
-									</div><!-- /.box -->
-								</form>
-								<div class='box box-danger'>
-									<div class='box-header with-border'>
-										<h3 class='box-title'>Backup Data</h3>
-
-									</div><!-- /.box-header -->
-									<div class='box-body'>
-										<p>Klik Tombol dibawah ini untuk membackup database </p>
-										<button id='btnbackup' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Backup Data</button>
-
-
-									</div><!-- /.box-body -->
-								</div><!-- /.box -->
+						?>
+					<div class='row'>
+						<div class='col-md-12 notif'></div>
+						<div class='col-md-6'>
+							<form action='' method='post' enctype='multipart/form-data'>
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
-										<h3 class='box-title'>Restore Data</h3>
-
+										<h3 class='box-title'>Pengaturan Aplikasi</h3>
+										<div class='box-tools pull-right btn-group'>
+											<button type='submit' name='submit1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
-										<form method='post' action='' name='postform' enctype='multipart/form-data'>
-											<p>Klik Tombol dibawah ini untuk merestore database </p>
-											<div class='col-md-8'>
-												<input class='form-control' name='datafile' type='file' />
+										<?= $info1 ?>
+										<div class='form-group'>
+											<label>Nama Aplikasi</label>
+											<input type='text' name='aplikasi' value="<?= $setting['aplikasi'] ?>" class='form-control' required='true' />
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Nama Sekolah</label>
+													<input type='text' name='sekolah' value="<?= $setting['sekolah'] ?>" class='form-control' required='true' />
+												</div>
+												<div class='col-md-6'>
+													<label>Kode Sekolah</label>
+													<input type='text' name='kode' value="<?= $setting['kode_sekolah'] ?>" class='form-control' required='true' />
+												</div>
 											</div>
-											<button name='restore' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Restore Data</button>
-
-										</form>
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Alamat Server / Ip Server</label>
+													<input type='text' name='ipserver' value="<?= $setting['ip_server'] ?>" class='form-control' />
+												</div>
+												<div class='col-md-6'>
+													<label>Waktu Server</label>
+													<select name='waktu' class='form-control' required='true'>
+														<option value="<?= $setting['waktu'] ?>"><?= $setting['waktu'] ?></option>
+														<option value='Asia/Jakarta'>Asia/Jakarta</option>
+														<option value='Asia/Makassar'>Asia/Makassar</option>
+														<option value='Asia/Jayapura'>Asia/Jayapura</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<label>Jenjang</label>
+											<select name='jenjang' class='form-control' required='true'>
+												<option value="<?= $setting['jenjang'] ?>"><?= $setting['jenjang'] ?></option>
+												<option value='SD'>SD/MI</option>
+												<option value='SMP'>SMP/MTS</option>
+												<option value='SMK'>SMK/SMA/MA</option>
+											</select>
+										</div>
+										<div class='form-group'>
+											<label>Kepala Sekolah</label>
+											<input type='text' name='kepsek' value="<?= $setting['kepsek'] ?>" class='form-control' />
+										</div>
+										<div class='form-group'>
+											<label>NIP Kepala Sekolah</label>
+											<input type='text' name='nip' value="<?= $setting['nip'] ?>" class='form-control' />
+										</div>
+										<div class='form-group'>
+											<label>Alamat</label>
+											<textarea name='alamat' class='form-control' rows='3'><?= $setting['alamat'] ?></textarea>
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Kecamatan</label>
+													<input type='text' name='kecamatan' value="<?= $setting['kecamatan'] ?> " class='form-control' />
+												</div>
+												<div class='col-md-6'>
+													<label>Kota/Kabupaten</label>
+													<input type='text' name='kota' value="<?= $setting['kota'] ?>" class='form-control' />
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Telepon</label>
+													<input type='text' name='telp' value="<?= $setting['telp'] ?>" class='form-control' />
+												</div>
+												<div class='col-md-6'>
+													<label>Fax</label>
+													<input type='text' name='fax' value="<?= $setting['fax'] ?>" class='form-control' />
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Website</label>
+													<input type='text' name='web' value="<?= $setting['web'] ?>" class='form-control' />
+												</div>
+												<div class='col-md-6'>
+													<label>E-mail</label>
+													<input type='text' name='email' value="<?= $setting['email'] ?>" class='form-control' />
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<div class='row'>
+												<div class='col-md-6'>
+													<label>Logo</label>
+													<input type='file' name='logo' class='form-control' />
+												</div>
+												<div class='col-md-6'>
+													&nbsp;<br />
+													<img class='img img-responsive' src="<?= $homeurl ?>/<?= $setting['logo'] ?>" height='100' />
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<label>Header Laporan</label>
+											<textarea name='header' class='form-control' rows='3'><?= $setting['header'] ?></textarea>
+										</div>
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
-							</div>
+							</form>
 						</div>
-						";
+						<div class='col-md-6'>
+							<form action='' method='post'>
+								<div class='box box-danger'>
+									<div class='box-header with-border'>
+										<h3 class='box-title'>Kosongkan Data</h3>
+										<div class='box-tools pull-right btn-group'>
+											<button type='submit' name='submit3' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Kosongkan</button>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<?= $info4 ?>
+										<div class='form-group'>
+											<label>Pilih Data</label>
+											<div class='row'>
+												<div class='col-md-5'>
+													<div class='checkbox'>
+														<small class='label bg-purple'>Pilih Data Hasil Nilai</small><br />
+														<label><input type='checkbox' name='data[]' value='nilai' /> Data Nilai</label><br />
+														<label><input type='checkbox' name='data[]' value='hasil_jawaban' /> Data Jawaban</label><br />
+														<label><input type='checkbox' name='data[]' value='jawaban' /> Temp_Jawaban</label><br />
+														<small class='label bg-green'>Pilih Data Bank Soal</small><br />
+														<label><input type='checkbox' name='data[]' value='soal' /> Data Soal</label><br />
+
+														<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />
+														<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
+														<small class='label label-danger'>Pilih Data Master</small><br />
+														<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />
+														<label><input type='checkbox' name='data[]' value='kelas' /> Data Kelas</label><br />
+														<label><input type='checkbox' name='data[]' value='mata_pelajaran' /> Data Mata Pelajaran</label><br />
+														<label><input type='checkbox' name='data[]' value='pk' /> Data Jurusan</label><br />
+														<label><input type='checkbox' name='data[]' value='level' /> Data Level</label><br />
+														<label><input type='checkbox' name='data[]' value='ruang' /> Data Ruangan</label><br />
+														<label><input type='checkbox' name='data[]' value='sesi' /> Data Sesi</label><br />
+
+													</div>
+												</div>
+												<div class='col-md-7'>
+													<p class='text-danger'><i class='fa fa-warning'></i> <strong>Mohon di ingat!</strong> Data yang telah dikosongkan tidak dapat dikembalikan.</p>
+												</div>
+											</div>
+										</div>
+										<div class='form-group'>
+											<label>Password Admin</label>
+											<input type='password' name='password' class='form-control' required='true' />
+										</div>
+
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
+							</form>
+							<div class='box box-danger'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Backup Data</h3>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<p>Klik Tombol dibawah ini untuk membackup database </p>
+									<button id='btnbackup' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Backup Data</button>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Restore Data</h3>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<form method='post' action='' name='postform' enctype='multipart/form-data'>
+										<p>Klik Tombol dibawah ini untuk merestore database </p>
+										<div class='col-md-8'>
+											<input class='form-control' name='datafile' type='file' />
+										</div>
+										<button name='restore' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Restore Data</button>
+									</form>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+					</div>
+					<?php
 						if (isset($_POST['restore'])) {
 							restore($_FILES['datafile']);
 						} else {
@@ -4528,731 +4516,672 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						</div><!-- /.error-content -->
 					</div><!-- /.error-page -->
 				<?php endif ?>
-				<?php
-				echo "
-																																						</section><!-- /.content -->
-																																		</div><!-- /.content-wrapper -->
-																																		<footer class='main-footer hidden-xs'>
-																																			<div class='container'>
-																																				<div class='pull-left hidden-xs'>
-																																					<strong>
-																																						<span id='end-sidebar'>
-																																							$setting[sekolah] support by $copyright $setting[versi]
-																																						</span>
-																																					</strong>
-																																				</div>
+			</section><!-- /.content -->
+		</div><!-- /.content-wrapper -->
+		<footer class='main-footer hidden-xs'>
+			<div class='container'>
+				<div class='pull-left hidden-xs'>
+					<strong>
+						<span id='end-sidebar'>
+							&copy; 2019 <?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?>
+						</span>
+					</strong>
+				</div>
 
-																																		</footer>
-																										</div><!-- ./wrapper -->
+		</footer>
+	</div><!-- ./wrapper -->
 
-																										<!-- REQUIRED JS SCRIPTS -->
+	<!-- REQUIRED JS SCRIPTS -->
+	<script src='<?= $homeurl ?>/dist/bootstrap/js/bootstrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/fastclick/fastclick.js'></script>
+	<script src='<?= $homeurl ?>/dist/js/adminlte.min.js'></script>
+	<script src='<?= $homeurl ?>/dist/js/app.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datetimepicker/build/jquery.datetimepicker.full.min.js'></script>
 
+	<script src='<?= $homeurl ?>/plugins/slimScroll/jquery.slimscroll.min.js'></script>
 
-																										<script src='$homeurl/dist/bootstrap/js/bootstrap.min.js'></script>
-																										<script src='$homeurl/plugins/fastclick/fastclick.js'></script>
-																										<script src='$homeurl/dist/js/adminlte.min.js'></script>
-																										<script src='$homeurl/dist/js/app.min.js'></script>
-																										<script src='$homeurl/plugins/datetimepicker/build/jquery.datetimepicker.full.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/jquery.dataTables.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/dataTables.bootstrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/dataTables.select.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/select.bootstrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/iCheck/icheck.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/select2/select2.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/tableedit/jquery.tabledit.js'></script>
 
-																										<script src='$homeurl/plugins/slimScroll/jquery.slimscroll.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/notify/js/notify.js'></script>
+	<script src='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
 
-																										<script src='$homeurl/plugins/datatables/jquery.dataTables.min.js'></script>
-																										<script src='$homeurl/plugins/datatables/dataTables.bootstrap.min.js'></script>
-																										<script src='$homeurl/plugins/datatables/extensions/Select/js/dataTables.select.min.js'></script>
-																										<script src='$homeurl/plugins/datatables/extensions/Select/js/select.bootstrap.min.js'></script>
-																										<script src='$homeurl/plugins/iCheck/icheck.min.js'></script>
-																										<script src='$homeurl/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>
-																										<script src='$homeurl/plugins/select2/select2.min.js'></script>
-																										<script src='$homeurl/plugins/tableedit/jquery.tabledit.js'></script>
+	<script>
+		$('.loader').fadeOut('slow');
+		$(function() {
+			$('#textarea').wysihtml5()
+		});
+		var autoRefresh = setInterval(
+			function() {
+				$('#waktu').load('<?= $homeurl ?>/admin/_load.php?pg=waktu');
+				$('#log-list').load('<?= $homeurl ?>/admin/_load.php?pg=log');
+				$('#pengumuman').load('<?= $homeurl ?>/admin/_load.php?pg=pengumuman');
+			}, 1000
+		);
+		var autoRefresh = setInterval(
+			function() {
+				$('#divstatus').load('<?= $homeurl ?>/admin/statuspeserta.php');
+			}, 1000
+		);
+		var autoRefresh = setInterval(
+			function() {
+				$('#isi_token').load('<?= $homeurl ?>/admin/_load.php?pg=token');
+			}, 100000
+		);
 
-																										<script src='$homeurl/plugins/notify/js/notify.js'></script>
-																										<script src='$homeurl/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
+		$('.datepicker').datetimepicker({
+			timepicker: false,
+			format: 'Y-m-d'
+		});
+		$('.tgl').datetimepicker();
+		$('.timer').datetimepicker({
+			datepicker: false,
+			format: 'H:i'
+		});
 
+		$(function() {
+			$('#jenis').change(function() {
+				if ($('#jenis').val() == '2') {
+					$('#jawabanpg').hide();
+					$('input:radio[name=jawaban]').attr('disabled', true);
+				} else {
+					$('#jawabanpg').show();
+					$('input:radio[name=jawaban]').attr('disabled', false);
+				}
+			});
+		});
 
+		function printkartu(idkelas, judul) {
+			$('#loadframe').attr('src', 'kartu.php?id_kelas=' + idkelas);
+		}
 
-																										<script>
-																											$('.loader').fadeOut('slow');
+		function printabsen() {
+			var idsesi = $('#sesi option:selected').val();
+			var idmapel = $('#mapel option:selected').val();
+			var idruang = $('#ruang option:selected').val();
+			var idkelas = $('#kelas option:selected').val();
+			$('#loadabsen').attr('src', 'absen.php?id_sesi=' + idsesi + '&id_ruang=' + idruang + '&id_mapel=' + idmapel + '&id_kelas=' + idkelas);
+		}
 
-																											$(function() {
+		function iCheckform() {
+			$('input[type=checkbox].flat-check, input[type=radio].flat-check').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+				increaseArea: '20%' // optional
+			});
+		}
 
-																												$('#textarea').wysihtml5()
-
-
-
-																											});
-
-																											var autoRefresh = setInterval(
-																												function() {
-																													$('#waktu').load('$homeurl/admin/_load.php?pg=waktu');
-
-																													$('#log-list').load('$homeurl/admin/_load.php?pg=log');
-
-																													$('#pengumuman').load('$homeurl/admin/_load.php?pg=pengumuman');
-
-																												}, 1000
-																											);
-																											var autoRefresh = setInterval(
-																												function() {
-																													$('#divstatus').load('$homeurl/admin/statuspeserta.php');
-																												}, 1000
-																											);
-																											var autoRefresh = setInterval(
-																												function() {
-
-																													$('#isi_token').load('$homeurl/admin/_load.php?pg=token');
-																												}, 100000
-																											);
-
-
-																											$('.datepicker').datetimepicker({
-																												timepicker: false,
-																												format: 'Y-m-d'
-																											});
-																											$('.tgl').datetimepicker();
-																											$('.timer').datetimepicker({
-																												datepicker: false,
-																												format: 'H:i'
-																											});
-
-																											$(function() {
-																												//Add text editor
-
-																												$('#jenis').change(function() {
-																													if ($('#jenis').val() == '2') {
-																														$('#jawabanpg').hide();
-																														$('input:radio[name=jawaban]').attr('disabled', true);
-																													} else {
-																														$('#jawabanpg').show();
-																														$('input:radio[name=jawaban]').attr('disabled', false);
-																													}
-																												});
-
-																											});
-
-																											function printkartu(idkelas, judul) {
-																												$('#loadframe').attr('src', 'kartu.php?id_kelas=' + idkelas);
-																											}
-
-																											function printabsen() {
-																												var idsesi = $('#sesi option:selected').val();
-																												var idmapel = $('#mapel option:selected').val();
-																												var idruang = $('#ruang option:selected').val();
-																												var idkelas = $('#kelas option:selected').val();
-																												$('#loadabsen').attr('src', 'absen.php?id_sesi=' + idsesi + '&id_ruang=' + idruang + '&id_mapel=' + idmapel + '&id_kelas=' + idkelas);
-
-
-																											}
-
-																											function iCheckform() {
-
-																												$('input[type=checkbox].flat-check, input[type=radio].flat-check').iCheck({
-																													checkboxClass: 'icheckbox_square-green',
-																													radioClass: 'iradio_square-green',
-																													increaseArea: '20%' // optional
-																												});
-																											}
-
-																											$(document).ready(function() {
-																												$('#example1').DataTable({
-																													select: true
-																												});
-																												$('#soalpg').keyup(function() {
-																													$('#tampilpg').val(this.value);
-																												});
-																												$('#soalesai').keyup(function() {
-																													$('#tampilesai').val(this.value);
-																												});
-																												$('#formsoal').submit(function(e) {
-
-																													e.preventDefault();
-																													var data = new FormData(this);
-																													$.ajax({
-																														type: 'POST',
-																														url: 'simpansoal.php',
-																														enctype: 'multipart/form-data',
-																														data: data,
-																														cache: false,
-																														contentType: false,
-																														processData: false,
-																														beforeSend: function() {
-																															swal({
-
-																																text: 'Proses menyimpan data',
-																																timer: 2000,
-																																onOpen: () => {
-																																	swal.showLoading()
-																																}
-																															});
-																														},
-																														success: function(data) {
-
-																															swal({
-																																position: 'top-end',
-																																type: 'success',
-																																title: 'Data Berhasil disimpan',
-																																showConfirmButton: true
-
-																															});
-
-																														}
-																													})
-																													return false;
-																												});
-
-
-																												$('#ceksemua').change(function() {
-																													$(this).parents('#tablereset:eq(0)').
-																													find(':checkbox').attr('checked', this.checked);
-																												});
-
-																												$('.idkel').change(function() {
-																													var thisval = $(this).val();
-																													var txt_id = $(this).attr('id').replace('me', 'txt');
-																													var idm = $('#' + txt_id).val();
-																													var idu = $('#iduj').val();
-																													console.log(thisval + idm);
-																													$('.linknilai').attr('href', '?pg=nilai&ac=lihat&idu=' + idu + '&idm=' + idm + '&idk=' + thisval);
-																												});
-																												$('.alert-dismissible').fadeTo(2000, 500).slideUp(500, function() {
-																													$('.alert-dismissible').alert('close');
-																												});
-																												$('.select2').select2();
-
-																												$('input:checkbox[name=masuksemua]').click(function() {
-																													if ($(this).is(':checked'))
-																														$('input:radio.absensi').attr('checked', 'checked');
-																													else
-																														$('input:radio.absensi').removeAttr('checked');
-																												});
-																												iCheckform()
-																												$('#btnbackup').click(function() {
-
-																													$('.notif').load('backup.php');
-																													console.log('sukses');
-
-																												});
-
-
-																											});
-																										</script>
-																										<script>
-																											function kirim_form() {
-																												var homeurl;
-																												homeurl = '$homeurl';
-																												var jawab = $('#headerkartu').val();
-																												$.ajax({
-																													type: 'POST',
-																													url: 'simpanheader.php',
-																													data: 'jawab=' + jawab,
-																													success: function(response) {
-																														location.reload();
-																													}
-																												});
-																											}
-																										</script>
-
-																										"; ?>
-				<script>
-					var url = window.location;
-					// for sidebar menu entirely but not cover treeview
-					$('ul.sidebar-menu a').filter(function() {
-						return this.href == url;
-					}).parent().addClass('active');
-					// for treeview
-					$('ul.treeview-menu a').filter(function() {
-						return this.href == url;
-					}).closest('.treeview').addClass('active');
-					$(function() {
-						$(" #btnresetlogin").click(function() {
-							id_array = new Array() i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							}) $.ajax({
-								url: 'resetlogin.php',
-								data: "kode=" + id_array,
-								type: "POST",
-								success: function(respon) {
-									if (respon == 1) {
-										$("input.cekpilih:checked").each(function() {
-											$(this).parent().parent().remove('.cekpilih').animate({
-												opacity: "hide"
-											}, "slow");
-										})
-									}
-								}
-							}) return false;
-						})
-					}) $(function() {
-						$("#btnhapusbank").click(function() {
-							id_array = new Array() i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							}) swal({
-								title: 'Bank Soal Terpilih ' + i,
-								text: 'Apakah kamu yakin akan menghapus data bank soal yang sudah dipilih  ini ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Hapus!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'hapusbanksoal.php',
-										data: "kode=" + id_array,
-										type: "POST",
-										success: function(respon) {
-											if (respon == 1) {
-												$("input.cekpilih:checked").each(function() {
-													$(this).parent().parent().remove('.cekpilih').animate({
-														opacity: "hide"
-													}, "slow");
-												})
-											}
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(function() {
-						$("#buatberita").click(function() {
-
-
-							swal({
-								title: 'Generate Berita Acara',
-								text: 'Pastikan pembuatan jadwal sudah fix ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Buat!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'buatberita.php',
-										type: "POST",
-										beforeSend: function() {
-											$('.loader').css('display', 'block');
-										},
-										success: function(respon) {
-											$('.loader').css('display', 'none');
-											location.reload();
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(function() {
-						$("#btnhapusjadwal").click(function() {
-							id_array = new Array()
-							i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							})
-
-							swal({
-								title: 'Jadwal Terpilih ' + i,
-								text: 'Apakah kamu yakin akan menghapus data jadwal yang sudah dipilih ini ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Hapus!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'hapusjadwal.php',
-										data: "kode=" + id_array,
-										type: "POST",
-										success: function(respon) {
-											if (respon == 1) {
-												$("input.cekpilih:checked").each(function() {
-													$(this).parent().parent().remove('.cekpilih').animate({
-														opacity: "hide"
-													}, "slow");
-												})
-											}
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(document).ready(function() {
-						var messages = $('#pesan').notify({
-							type: 'messages',
-							removeIcon: '<i class="icon icon-remove"></i>'
-						});
-						$('#formreset').submit(function(e) {
-
-							e.preventDefault();
-							$.ajax({
-								type: 'POST',
-								url: $(this).attr('action'),
-								data: $(this).serialize(),
-								success: function(data) {
-
-									if (data == "ok") {
-										messages.show("Reset Login Peserta Berhasil", {
-											type: 'success',
-											title: 'Berhasil',
-											icon: '<i class="icon icon-check-sign"></i>'
-										});
-									}
-									if (data == "pilihdulu") {
-										swal({
-											position: 'top-end',
-											type: 'success',
-											title: 'Data Berhasil disimpan',
-											showConfirmButton: true
-
-										});
-									}
-								}
-							})
-							return false;
-						});
-
-						var t = $('#tabelsiswa').DataTable({
-							'ajax': 'datasiswa.php',
-							'order': [
-								[1, 'asc']
-							],
-							'columns': [{
-									'data': null,
-									'width': '10px',
-									'sClass': 'text-center'
-								},
-
-								{
-									'data': 'no_peserta'
-								},
-								{
-									'data': 'nama'
-								},
-								{
-									'data': 'level'
-								},
-								{
-									'data': 'id_kelas'
-								},
-								<?php if ($setting['jenjang'] == 'SMK') { ?> {
-										'data': 'idpk'
-									},
-								<?php } ?> {
-									'data': 'sesi'
-								},
-								{
-									'data': 'ruang'
-								},
-								{
-									'data': 'username'
-								},
-								{
-									'data': 'password'
-								},
-								<?php if ($pengawas['level'] == 'admin') { ?> {
-										'data': 'id_siswa',
-										'width': '100px',
-										'sClass': 'text-center',
-										'orderable': false,
-										'mRender': function(data) {
-											return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
-																									<a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
-										}
-									}
-								<?php } ?>
-
-							]
-						});
-						t.on('order.dt search.dt', function() {
-							t.column(0, {
-								search: 'applied',
-								order: 'applied'
-							}).nodes().each(function(cell, i) {
-								cell.innerHTML = i + 1;
-							});
-						}).draw();
-					});
-				</script>
-				<script>
-					$('#formsiswa').on('submit', function(e) {
-
-						e.preventDefault();
-
-						$.ajax({
-							type: 'post',
-							url: 'importsiswa.php',
-							data: new FormData(this),
-							processData: false,
-							contentType: false,
-							cache: false,
-
-							beforeSend: function() {
-								$('#progressbox').html('<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>');
-								$('.progress-bar').animate({
-									width: "30%"
-								}, 100);
-							},
-							success: function(response) {
-								setTimeout(function() {
-									$('.progress-bar').css({
-										width: "100%"
-									});
-									setTimeout(function() {
-										$('#hasilimport').html(response);
-
-									}, 100);
-								}, 500);
-
+		$(document).ready(function() {
+			$('#example1').DataTable({
+				select: true
+			});
+			$('#soalpg').keyup(function() {
+				$('#tampilpg').val(this.value);
+			});
+			$('#soalesai').keyup(function() {
+				$('#tampilesai').val(this.value);
+			});
+			$('#formsoal').submit(function(e) {
+				e.preventDefault();
+				var data = new FormData(this);
+				$.ajax({
+					type: 'POST',
+					url: 'simpansoal.php',
+					enctype: 'multipart/form-data',
+					data: data,
+					cache: false,
+					contentType: false,
+					processData: false,
+					beforeSend: function() {
+						swal({
+							text: 'Proses menyimpan data',
+							timer: 2000,
+							onOpen: () => {
+								swal.showLoading()
 							}
 						});
+					},
+					success: function(data) {
+						swal({
+							position: 'top-end',
+							type: 'success',
+							title: 'Data Berhasil disimpan',
+							showConfirmButton: true
+						});
+					}
+				})
+				return false;
+			});
+			$('#ceksemua').change(function() {
+				$(this).parents('#tablereset:eq(0)').
+				find(':checkbox').attr('checked', this.checked);
+			});
 
-					});
-				</script>
+			$('.idkel').change(function() {
+				var thisval = $(this).val();
+				var txt_id = $(this).attr('id').replace('me', 'txt');
+				var idm = $('#' + txt_id).val();
+				var idu = $('#iduj').val();
+				console.log(thisval + idm);
+				$('.linknilai').attr('href', '?pg=nilai&ac=lihat&idu=' + idu + '&idm=' + idm + '&idk=' + thisval);
+			});
+			$('.alert-dismissible').fadeTo(2000, 500).slideUp(500, function() {
+				$('.alert-dismissible').alert('close');
+			});
+			$('.select2').select2();
 
-				<script>
-					<?php if ($pg == 'jenisujian') { ?>
-						$(document).ready(function() {
-							$('#tablejenis').Tabledit({
-								url: 'example.php?pg=jenisujian',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namajenis'],
-										[3, 'status', '{"aktif": "aktif", "tidak": "tidak aktif"}']
-									]
-								}
-							});
+			$('input:checkbox[name=masuksemua]').click(function() {
+				if ($(this).is(':checked'))
+					$('input:radio.absensi').attr('checked', 'checked');
+				else
+					$('input:radio.absensi').removeAttr('checked');
+			});
+			iCheckform()
+			$('#btnbackup').click(function() {
+				$('.notif').load('backup.php');
+				console.log('sukses');
+			});
+		});
+	</script>
+	<script>
+		function kirim_form() {
+			var homeurl;
+			homeurl = '<?= $homeurl ?>';
+			var jawab = $('#headerkartu').val();
+			$.ajax({
+				type: 'POST',
+				url: 'simpanheader.php',
+				data: 'jawab=' + jawab,
+				success: function(response) {
+					location.reload();
+				}
+			});
+		}
+	</script>
 
-						});
-					<?php } ?>
-					<?php if ($pg == 'pk') { ?>
-						$(document).ready(function() {
-							$('#tablejurusan').Tabledit({
-								url: 'example.php?pg=jurusan',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namajurusan']
-									]
-								}
-							});
+	<script type="text/javascript">
+		var url = window.location;
+		// for sidebar menu entirely but not cover treeview
+		$('ul.sidebar-menu a').filter(function() {
+			return this.href == url;
+		}).parent().addClass('active');
 
-						});
-					<?php } ?>
-					<?php if ($pg == 'level') { ?>
-						$(document).ready(function() {
-							$('#tablelevel').Tabledit({
-								url: 'example.php?pg=level',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namalevel']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'kelas') { ?>
-						$(document).ready(function() {
-							$('#tablekelas').Tabledit({
-								url: 'example.php?pg=kelas',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'level'],
-										[3, 'namakelas']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'matapelajaran') { ?>
-						$(document).ready(function() {
-							$('#tablemapel').Tabledit({
-								url: 'example.php?pg=mapel',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namamapel']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'ruang') { ?>
-						$(document).ready(function() {
-							$('#tableruang').Tabledit({
-								url: 'example.php?pg=ruang',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namaruang']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'sesi') { ?>
-						$(document).ready(function() {
-							$('#tablesesi').Tabledit({
-								url: 'example.php?pg=sesi',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namasesi']
-									]
-								}
-							});
-						});
-					<?php } ?>
-				</script>
-				<script>
-					$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
+		// for treeview
+		$('ul.treeview-menu a').filter(function() {
+			return this.href == url;
+		}).closest('.treeview').addClass('active');
+	</script>
 
-						$("#soallevel").change(function() { // Ketika user mengganti atau memilih data provinsi
-							// Sembunyikan dulu combobox kota nya
-							var level = $(this).val();
-							console.log(level);
-							$.ajax({
-								type: "POST", // Method pengiriman data bisa dengan GET atau POST
-								url: "datakelas.php", // Isi dengan url/path file php yang dituju
-								data: "level=" + level, // data yang akan dikirim ke file yang dituju
-								success: function(response) { // Ketika proses pengiriman berhasil
-
-									$("#soalkelas").html(response);
-								}
-							});
-						});
-						$(document).on('click', '.hapus', function() {
-							var id = $(this).data('id');
-							console.log(id);
-							$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
-							swal({
-								title: 'Apa anda yakin?',
-								text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
-
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Yes!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'selesaikan.php',
-										method: "POST",
-										data: 'id=' + id,
-										success: function(data) {
-											$('#htmlujianselesai').html('1');
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data berhasil disimpan',
-												showConfirmButton: false,
-												timer: 1500
-											});
-										}
-									});
-								}
+	<script>
+		$(function() {
+			$(" #btnresetlogin").click(function() {
+				id_array = new Array() i = 0;
+				$("input.cekpilih:checked").each(function() {
+					id_array[i] = $(this).val();
+					i++;
+				}) $.ajax({
+					url: 'resetlogin.php',
+					data: "kode=" + id_array,
+					type: "POST",
+					success: function(respon) {
+						if (respon == 1) {
+							$("input.cekpilih:checked").each(function() {
+								$(this).parent().parent().remove('.cekpilih').animate({
+									opacity: "hide"
+								}, "slow");
 							})
-
-						});
-						$(document).on('click', '.ulang', function() {
-							var id = $(this).data('id');
-							console.log(id);
-							swal({
-								title: 'Apa anda yakin?',
-								text: "Akan Mengulang Ujian Ini ??",
-
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Yes!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'ulangujian.php',
-										method: "POST",
-										data: 'id=' + id,
-										success: function(data) {
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data berhasil disimpan',
-												showConfirmButton: false,
-												timer: 1500
-											});
-										}
-									});
+						}
+					}
+				}) return false;
+			})
+		}) $(function() {
+			$("#btnhapusbank").click(function() {
+				id_array = new Array() i = 0;
+				$("input.cekpilih:checked").each(function() {
+					id_array[i] = $(this).val();
+					i++;
+				}) swal({
+					title: 'Bank Soal Terpilih ' + i,
+					text: 'Apakah kamu yakin akan menghapus data bank soal yang sudah dipilih  ini ??',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Hapus!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'hapusbanksoal.php',
+							data: "kode=" + id_array,
+							type: "POST",
+							success: function(respon) {
+								if (respon == 1) {
+									$("input.cekpilih:checked").each(function() {
+										$(this).parent().parent().remove('.cekpilih').animate({
+											opacity: "hide"
+										}, "slow");
+									})
 								}
-							})
-
-						});
-						$(document).on('click', '.ambiljawaban', function() {
-
-							var idmapel = $(this).data('id');
-							console.log(idmapel);
-							swal({
-								title: 'Are you sure?',
-								text: 'Fungsi ini akan memindahkan data jawaban dari temp_jawaban ke hasil jawaban',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Ambil!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										type: 'POST',
-										url: 'ambiljawaban.php',
-										data: 'id=' + idmapel,
-										beforeSend: function() {
-											swal({
-
-												text: 'Proses memindahkan',
-												timer: 1000,
-												onOpen: () => {
-													swal.showLoading()
-												}
-											});
-										},
-										success: function(response) {
-											$(this).attr('disabled', 'disabled');
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data Berhasil diambil',
-												showConfirmButton: false,
-												timer: 1500
-											});
-
-										}
-									});
-
+							}
+						})
+					}
+				})
+				return false;
+			})
+		})
+		$(function() {
+			$("#buatberita").click(function() {
+				swal({
+					title: 'Generate Berita Acara',
+					text: 'Pastikan pembuatan jadwal sudah fix ??',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Buat!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'buatberita.php',
+							type: "POST",
+							beforeSend: function() {
+								$('.loader').css('display', 'block');
+							},
+							success: function(respon) {
+								$('.loader').css('display', 'none');
+								location.reload();
+							}
+						})
+					}
+				})
+				return false;
+			})
+		})
+		$(function() {
+			$("#btnhapusjadwal").click(function() {
+				id_array = new Array()
+				i = 0;
+				$("input.cekpilih:checked").each(function() {
+					id_array[i] = $(this).val();
+					i++;
+				})
+				swal({
+					title: 'Jadwal Terpilih ' + i,
+					text: 'Apakah kamu yakin akan menghapus data jadwal yang sudah dipilih ini ??',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Hapus!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'hapusjadwal.php',
+							data: "kode=" + id_array,
+							type: "POST",
+							success: function(respon) {
+								if (respon == 1) {
+									$("input.cekpilih:checked").each(function() {
+										$(this).parent().parent().remove('.cekpilih').animate({
+											opacity: "hide"
+										}, "slow");
+									})
 								}
-							})
-
+							}
+						})
+					}
+				})
+				return false;
+			})
+		})
+		$(document).ready(function() {
+			var messages = $('#pesan').notify({
+				type: 'messages',
+				removeIcon: '<i class="icon icon-remove"></i>'
+			});
+			$('#formreset').submit(function(e) {
+				e.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(data) {
+						if (data == "ok") {
+							messages.show("Reset Login Peserta Berhasil", {
+								type: 'success',
+								title: 'Berhasil',
+								icon: '<i class="icon icon-check-sign"></i>'
+							});
+						}
+						if (data == "pilihdulu") {
+							swal({
+								position: 'top-end',
+								type: 'success',
+								title: 'Data Berhasil disimpan',
+								showConfirmButton: true
+							});
+						}
+					}
+				})
+				return false;
+			});
+			var t = $('#tabelsiswa').DataTable({
+				'ajax': 'datasiswa.php',
+				'order': [
+					[1, 'asc']
+				],
+				'columns': [{
+						'data': null,
+						'width': '10px',
+						'sClass': 'text-center'
+					},
+					{
+						'data': 'no_peserta'
+					},
+					{
+						'data': 'nama'
+					},
+					{
+						'data': 'level'
+					},
+					{
+						'data': 'id_kelas'
+					},
+					<?php if ($setting['jenjang'] == 'SMK') : ?> {
+							'data': 'idpk'
+						},
+					<?php endif; ?> {
+						'data': 'sesi'
+					},
+					{
+						'data': 'ruang'
+					},
+					{
+						'data': 'username'
+					},
+					{
+						'data': 'password'
+					},
+					<?php if ($pengawas['level'] == 'admin') : ?> {
+							'data': 'id_siswa',
+							'width': '100px',
+							'sClass': 'text-center',
+							'orderable': false,
+							'mRender': function(data) {
+								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\ <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
+							}
+						}
+					<?php endif ?>
+				]
+			});
+			t.on('order.dt search.dt', function() {
+				t.column(0, {
+					search: 'applied',
+					order: 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1;
+				});
+			}).draw();
+		});
+	</script>
+	<script>
+		$('#formsiswa').on('submit', function(e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: 'importsiswa.php',
+				data: new FormData(this),
+				processData: false,
+				contentType: false,
+				cache: false,
+				beforeSend: function() {
+					$('#progressbox').html('<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>');
+					$('.progress-bar').animate({
+						width: "30%"
+					}, 100);
+				},
+				success: function(response) {
+					setTimeout(function() {
+						$('.progress-bar').css({
+							width: "100%"
 						});
-					});
-				</script>
+						setTimeout(function() {
+							$('#hasilimport').html(response);
+						}, 100);
+					}, 500);
+				}
+			});
+		});
+	</script>
 
+	<script>
+		<?php if ($pg == 'jenisujian') : ?>
+			$(document).ready(function() {
+				$('#tablejenis').Tabledit({
+					url: 'example.php?pg=jenisujian',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namajenis'],
+							[3, 'status', '{"aktif": "aktif", "tidak": "tidak aktif"}']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'pk') : ?>
+			$(document).ready(function() {
+				$('#tablejurusan').Tabledit({
+					url: 'example.php?pg=jurusan',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namajurusan']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'level') : ?>
+			$(document).ready(function() {
+				$('#tablelevel').Tabledit({
+					url: 'example.php?pg=level',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namalevel']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'kelas') : ?>
+			$(document).ready(function() {
+				$('#tablekelas').Tabledit({
+					url: 'example.php?pg=kelas',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'level'],
+							[3, 'namakelas']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'matapelajaran') : ?>
+			$(document).ready(function() {
+				$('#tablemapel').Tabledit({
+					url: 'example.php?pg=mapel',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namamapel']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'ruang') : ?>
+			$(document).ready(function() {
+				$('#tableruang').Tabledit({
+					url: 'example.php?pg=ruang',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namaruang']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+		<?php if ($pg == 'sesi') : ?>
+			$(document).ready(function() {
+				$('#tablesesi').Tabledit({
+					url: 'example.php?pg=sesi',
+					restoreButton: false,
+					columns: {
+						identifier: [1, 'id'],
+						editable: [
+							[2, 'namasesi']
+						]
+					}
+				});
+			});
+		<?php endif; ?>
+	</script>
+	<script>
+		$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
+			$("#soallevel").change(function() { // Ketika user mengganti atau memilih data provinsi
+				var level = $(this).val();
+				console.log(level);
+				$.ajax({
+					type: "POST", // Method pengiriman data bisa dengan GET atau POST
+					url: "datakelas.php", // Isi dengan url/path file php yang dituju
+					data: "level=" + level, // data yang akan dikirim ke file yang dituju
+					success: function(response) { // Ketika proses pengiriman berhasil
+						$("#soalkelas").html(response);
+					}
+				});
+			});
 
+			$(document).on('click', '.hapus', function() {
+				var id = $(this).data('id');
+				console.log(id);
+				$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
+				swal({
+					title: 'Apa anda yakin?',
+					text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'selesaikan.php',
+							method: "POST",
+							data: 'id=' + id,
+							success: function(data) {
+								$('#htmlujianselesai').html('1');
+								swal({
+									position: 'top-end',
+									type: 'success',
+									title: 'Data berhasil disimpan',
+									showConfirmButton: false,
+									timer: 1500
+								});
+							}
+						});
+					}
+				})
+			});
+
+			$(document).on('click', '.ulang', function() {
+				var id = $(this).data('id');
+				console.log(id);
+				swal({
+					title: 'Apa anda yakin?',
+					text: "Akan Mengulang Ujian Ini ??",
+
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							url: 'ulangujian.php',
+							method: "POST",
+							data: 'id=' + id,
+							success: function(data) {
+								swal({
+									position: 'top-end',
+									type: 'success',
+									title: 'Data berhasil disimpan',
+									showConfirmButton: false,
+									timer: 1500
+								});
+							}
+						});
+					}
+				})
+			});
+
+			$(document).on('click', '.ambiljawaban', function() {
+				var idmapel = $(this).data('id');
+				console.log(idmapel);
+				swal({
+					title: 'Are you sure?',
+					text: 'Fungsi ini akan memindahkan data jawaban dari temp_jawaban ke hasil jawaban',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Ambil!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							type: 'POST',
+							url: 'ambiljawaban.php',
+							data: 'id=' + idmapel,
+							beforeSend: function() {
+								swal({
+									text: 'Proses memindahkan',
+									timer: 1000,
+									onOpen: () => {
+										swal.showLoading()
+									}
+								});
+							},
+							success: function(response) {
+								$(this).attr('disabled', 'disabled');
+								swal({
+									position: 'top-end',
+									type: 'success',
+									title: 'Data Berhasil diambil',
+									showConfirmButton: false,
+									timer: 1500
+								});
+							}
+						});
+					}
+				})
+			});
+		});
+	</script>
 </body>
 
 </html>

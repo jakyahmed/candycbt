@@ -58,6 +58,8 @@ $tanggal = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
 
 $copyright = 'Candy CBT';
+define("REVISI", "1");
+define("APLIKASI", "Candy CBT");
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Netscape')) {
 	$browser = 'Netscape';

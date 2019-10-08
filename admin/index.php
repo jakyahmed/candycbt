@@ -287,7 +287,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 
 						<li class='treeview'><a href='?pg=pengumuman'><img src='../dist/img/svg/advertising.svg' width='30'> <span> Pengumuman</span></a></li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/conference_call.svg' width='30'> <span>Manajemen User</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><img src='../dist/img/svg/manajemen_user.svg' width='30'> <span>Manajemen User</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<li><a href='?pg=pengawas'><i class='fa  fa-circle-o text-teal'></i> <span>Data Administrator</span></a></li>
 								<li><a href='?pg=guru'><i class='fa  fa-circle-o text-teal'></i> <span>Data Guru</span></a></li>
@@ -2209,207 +2209,62 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									echo "<div class='col-md-1'><img class='img-logo' src='$folder$nama_file[$i]' style='width:65px'/><br><br></div>";
 								endfor;
 								closedir($buka_folder);
-							?>
+								?>
 						</div><!-- /.box-body -->
 					</div><!-- /.box -->
 				<?php elseif ($pg == 'importmaster') : ?>
 					<?php
 						cek_session_admin();
-						if ($setting['jenjang'] == 'SMK') {
+						if ($setting['jenjang'] == 'SMK') :
 							$format = 'importdatamaster.xls';
-						} else {
+						else :
 							$format = 'importdatamaster2.xls';
-						}
-						echo "
-							<div class='row'>
-								
-								<div class='col-md-12'>
-									
-										<div class='box box-solid'>
-											<div class='box-header with-border '>
-												<h3 class='box-title'>Import Data Master</h3>
-												<div class='box-tools pull-right btn-group'>
-													<a href='$format' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
-													<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>
-												</div>
-											</div><!-- /.box-header -->
-											<div class='box-body'>
-												$info
-											<div class='box box-solid'>
-											<div class='box-body'>
-												<div class='form-group'>
-													<div class='row'>
-													<div class='col-md-4'>
+						endif;
+						?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='box box-solid'>
+								<div class='box-header with-border '>
+									<h3 class='box-title'><img src='../dist/img/svg/data_master.svg' width='20'> Import Data Master</h3>
+									<div class='box-tools pull-right btn-group'>
+										<a href='<?= $format ?>' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
+										<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<?= $info ?>
+									<div class='box box-solid'>
+										<div class='box-body'>
+											<div class='form-group'>
+												<div class='row'>
 													<form id='formsiswa' enctype='multipart/form-data'>
-														<label>Pilih File</label>
-														
-														<input type='file'  name='file' class='form-control' required='true'/>
-														
-													</div>
-													<div class='col-md-4'>
-													<label>&nbsp;</label><br>
-														<button type='submit' name='submit' class='btn btn-flat btn-success'><i class='fa fa-check'></i> Import Data</button>
-													</div>
-													</form>
-													</div>
-												</div>
-												<p>Menu ini berfungsi untuk import data Master</p>
-												<p><b>*Import Data Siswa, Jurusan, Kelas, Ruangan,Sesi dan Level</b>
-												<p>
-													Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan. <br/>
-												</p>
-												<div id='progressbox'></div>
-												<div id='hasilimport'></div>
-											</div>
-											</div>
-											</div><!-- /.box-body -->
-											<div class='box-footer'>
-												
-											</div>
-										</div><!-- /.box -->
-									
-								</div>
-							</div>
-						";
-						?>
-				<?php elseif ($pg == 'importword') : ?>
-					<?php
-						cek_session_admin();
-						if (isset($_POST['tambah'])) {
-							function xml_attribute($object, $attribute)
-							{
-								if (isset($object[$attribute])) return (string) $object[$attribute];
-							}
-							$ekstensi_diperbolehkan = array('docx');
-							$dir_file = '../word/';
-							$filename = basename($_FILES['file']['name']);
-							$x = explode('.', $filename);
-							$ekstensi = strtolower(end($x));
-							$filenamee = date("YmdHis") . '-' . basename($_FILES['file']['name']);
-							$uploadfile = $dir_file . $filenamee;
-							$nip = $_SESSION['id'];
-							if ($filename != '') {
-								if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
-									if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
-										$info = pathinfo($filenamee);
-										$new_name = $info['filename'] . '.Zip';
-										$new_name_path = $dir_file . $new_name;
-										rename($dir_file . $filenamee, $new_name_path);
-										$zip = new ZipArchive;
-										if ($zip->open($new_name_path)) {
-											$zip->extractTo($dir_file);
-											$zip->close();
-
-											$word_xml = $dir_file . "word/document.xml";
-											$word_xml_relational = $dir_file . "word/_rels/document.xml.rels";
-											$content = file_get_contents($word_xml);
-											$content = htmlentities(strip_tags($content, "<a:blip>"));
-											$xml = simplexml_load_file($word_xml_relational);
-
-											$supported_image = array(
-												'gif',
-												'jpg',
-												'jpeg',
-												'png'
-											);
-
-											$relation_image = array();
-											foreach ($xml as $key => $qjd) {
-												$ext = strtolower(pathinfo($qjd['Target'], PATHINFO_EXTENSION));
-												if (in_array($ext, $supported_image)) {
-													$id = xml_attribute($qjd, 'Id');
-													$target = xml_attribute($qjd, 'Target');
-													$relation_image[$id] = $target;
-												}
-											}
-											$word_folder = $dir_file . "word";
-											$prop_folder = $dir_file . "docProps";
-											$relat_folder = $dir_file . "_rels";
-											$content_folder = $dir_file . "[Content_Types].xml";
-
-											$rand_inc_number = 1;
-											foreach ($relation_image as $key => $value) {
-												$rplc_str = '&lt;a:blip r:embed=&quot;' . $key . '&quot; cstate=&quot;print&quot;/&gt;';
-												$rplc_str2 = '&lt;a:blip r:embed=&quot;' . $key . '&quot;&gt;&lt;/a:blip&gt;';
-												$rplc_str3 = '&lt;a:blip r:embed=&quot;' . $key . '&quot;/&gt;';
-												$ext_img = strtolower(pathinfo($value, PATHINFO_EXTENSION));
-												$imagenew_name = time() . $rand_inc_number . "." . $ext_img;
-												$old_path = $word_folder . "/media/" . $value;
-												$new_path = $dir_file . "../files" . $imagenew_name;
-
-												rename($old_path, $new_path);
-
-												$rand_inc_number++;
-											}
-										}
-									} else {
-										echo "<script>
-												window.alert('Gagal Tambahkan Berkas.');
-											</script>";
-									}
-								} else {
-									echo "<script>
-												window.alert('EKSTENSI FILE YANG DI UPLOAD TIDAK DI PERBOLEHKAN');
-											</script>";
-								}
-							}
-						}
-
-						echo "
-											<div class='row'>
-
-												<div class='col-md-12'>
-
-													<div class='box box-solid'>
-														<div class='box-header with-border '>
-															<h3 class='box-title'>Import Data Master</h3>
-															<div class='box-tools pull-right btn-group'>
-																<a href='importdatamaster.xls' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
-																<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>
-															</div>
-														</div><!-- /.box-header -->
-														<div class='box-body'>
-															$info
-															<div class='box box-solid'>
-																<div class='box-body'>
-																	<div class='form-group'>
-																		<div class='row'>
-																			<div class='col-md-4'>
-																				<form action='' method='post' enctype='multipart/form-data'>
-																					<label>Pilih File</label>
-
-																					<input type='file' name='file' class='form-control' required='true' />
-
-																			</div>
-																			<div class='col-md-4'>
-																				<label>&nbsp;</label><br>
-																				<button type='submit' name='tambah' class='btn btn-flat btn-success'><i class='fa fa-check'></i> Import Data</button>
-																			</div>
-																			</form>
-																		</div>
-																	</div>
-																	<p>Menu ini berfungsi untuk import data Master</p>
-																	<p><b>*Import Data Siswa, Jurusan, Kelas, Ruangan,Sesi dan Level</b>
-																		<p>
-																			Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan. <br />
-																		</p>
-
-																</div>
-															</div>
-														</div><!-- /.box-body -->
-														<div class='box-footer'>
-
+														<div class='col-md-4'>
+															<label>Pilih File</label>
+															<input type='file' name='file' class='form-control' required='true' />
 														</div>
-													</div><!-- /.box -->
-
+														<div class='col-md-4'>
+															<label>&nbsp;</label><br>
+															<button type='submit' name='submit' class='btn btn-flat btn-success'><i class='fa fa-check'></i> Import Data</button>
+														</div>
+													</form>
 												</div>
 											</div>
-											";
-						?>
+											<p>Menu ini berfungsi untuk import data Master</p>
+											<p><strong>*Import Data Siswa, Jurusan, Kelas, Ruangan, Sesi dan Level</strong></p>
+											<p>Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan.</p>
+											<div id='progressbox'></div>
+											<div id='hasilimport'></div>
+										</div>
+									</div>
+								</div><!-- /.box-body -->
+								<div class='box-footer'></div>
+							</div><!-- /.box -->
+						</div>
+					</div>
 				<?php elseif ($pg == 'importguru') : ?>
 					<?php
 						cek_session_admin();
-						if (isset($_POST['submit'])) {
+						if (isset($_POST['submit'])) :
 							$file = $_FILES['file']['name'];
 							$temp = $_FILES['file']['tmp_name'];
 							$ext = explode('.', $file);
@@ -2421,363 +2276,339 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$hasildata = $data->rowcount($sheet_index = 0);
 								$sukses = $gagal = 0;
 								$exec = mysql_query("delete from pengawas where level='guru'");
-								for ($i = 2; $i <= $hasildata; $i++) {
+								for ($i = 2; $i <= $hasildata; $i++) :
 									$nip = $data->val($i, 2);
 									$nama = $data->val($i, 3);
 									$nama = addslashes($nama);
 									$username = $data->val($i, 4);
 									$username = str_replace("'", "", $username);
 									$password = $data->val($i, 5);
-
-
-
 									$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
 									($exec) ? $sukses++ : $gagal++;
-								}
+								endfor;
 								$total = $hasildata - 1;
-
 								$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
 							}
-						}
-						echo "
-													<div class='row'>
-														<div class='col-md-3'></div>
-														<div class='col-md-6'>
-															<form action='' method='post' enctype='multipart/form-data'>
-																<div class='box box-solid'>
-																	<div class='box-header with-border'>
-																		<h3 class='box-title'>Import Guru</h3>
-																		<div class='box-tools pull-right btn-group'>
-																			<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
-																			<a href='?pg=guru' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
-																		</div>
-																	</div><!-- /.box-header -->
-																	<div class='box-body'>
-																		$info
-																		<div class='form-group'>
-																			<label>Pilih File</label>
-																			<input type='file' name='file' class='form-control' required='true' />
-																		</div>
-																		<p>
-																			Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan. <br />
-																		</p>
-																	</div><!-- /.box-body -->
-																	<div class='box-footer'>
-																		<a href='importdataguru.xls'><i class='fa fa-file-excel-o'></i> Download Format</a>
-																	</div>
-																</div><!-- /.box -->
-															</form>
-														</div>
-													</div>
-													";
+						endif;
 						?>
+					<div class='row'>
+						<div class='col-md-3'></div>
+						<div class='col-md-6'>
+							<form action='' method='post' enctype='multipart/form-data'>
+								<div class='box box-solid'>
+									<div class='box-header with-border'>
+										<h3 class='box-title'>Import Guru</h3>
+										<div class='box-tools pull-right btn-group'>
+											<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
+											<a href='?pg=guru' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<?= $info ?>
+										<div class='form-group'>
+											<label>Pilih File</label>
+											<input type='file' name='file' class='form-control' required='true' />
+										</div>
+										<p>Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan.</p>
+									</div><!-- /.box-body -->
+									<div class='box-footer'>
+										<a href='importdataguru.xls'><i class='fa fa-file-excel-o'></i> Download Format</a>
+									</div>
+								</div><!-- /.box -->
+							</form>
+						</div>
+					</div>
 				<?php elseif ($pg == 'pengawas') : ?>
-					<?php
-						cek_session_admin();
-						echo "
-													<div class='row'>
-														<div class='col-md-8'>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>Manajemen User</h3>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	<div class='table-responsive'>
-																		<table id='example1' class='table table-bordered table-striped'>
-																			<thead>
-																				<tr>
-																					<th width='5px'>#</th>
-																					<th>NIP</th>
-																					<th>Nama</th>
-																					<th>Username</th>
-																					<th>Level</th>
-																					<th width=60px></th>
-																				</tr>
-																			</thead>
-																			<tbody>";
-						$pengawasQ = mysql_query("SELECT * FROM pengawas where level='admin' ORDER BY nama ASC");
-						while ($pengawas = mysql_fetch_array($pengawasQ)) {
-							$no++;
-							echo "
-																				<tr>
-																					<td>$no</td>
-																					<td>$pengawas[nip]</td>
-																					<td>$pengawas[nama]</td>
-																					<td>$pengawas[username]</td>
-																					<td>$pengawas[level]</td>
-																					<td align='center'>
-																						<div class='btn-group'>
-																							<a href='?pg=$pg&ac=edit&id=$pengawas[id_pengawas]'> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
-																							<a href='?pg=$pg&ac=hapus&id=$pengawas[id_pengawas]'> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
-																						</div>
-																					</td>
-																				</tr>
-																				";
-						}
-						echo "
-																			</tbody>
-																		</table>
-																	</div>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-														<div class='col-md-4'>";
-						if ($ac == '') {
-							if (isset($_POST['submit'])) {
-								$nip = $_POST['nip'];
-								$nama = $_POST['nama'];
-								$nama = str_replace("'", "&#39;", $nama);
-								$username = $_POST['username'];
-								$pass1 = $_POST['pass1'];
-								$pass2 = $_POST['pass2'];
-
-								$cekuser = mysql_num_rows(mysql_query("SELECT * FROM pengawas WHERE username='$username'"));
-								if ($cekuser > 0) {
-									$info = info("Username $username sudah ada!", "NO");
-								} else {
-									if ($pass1 <> $pass2) {
-										$info = info("Password tidak cocok!", "NO");
-									} else {
-										$password = password_hash($pass1, PASSWORD_BCRYPT);
-										$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
-										(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
-									}
-								}
-							}
-							echo "
-																<form action='' method='post'>
-																	<div class='box box-solid'>
-																		<div class='box-header with-border'>
-																			<h3 class='box-title'>Tambah</h3>
-																			<div class='box-tools pull-right btn-group'>
-																				<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																			</div>
-																		</div><!-- /.box-header -->
-																		<div class='box-body'>
-																			$info
-																			<div class='form-group'>
-																				<label>NIP</label>
-																				<input type='text' name='nip' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama</label>
-																				<input type='text' name='nama' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Username</label>
-																				<input type='text' name='username' class='form-control' required='true' />
-																			</div>
-
-																			<div class='form-group'>
-																				<div class='row'>
-																					<div class='col-md-6'>
-																						<label>Password</label>
-																						<input type='password' name='pass1' class='form-control' required='true' />
-																					</div>
-																					<div class='col-md-6'>
-																						<label>Ulang Password</label>
-																						<input type='password' name='pass2' class='form-control' required='true' />
-																					</div>
-																				</div>
-																			</div>
-																		</div><!-- /.box-body -->
-																	</div><!-- /.box -->
-																</form>
-																";
-						}
-						if ($ac == 'edit') {
-							$id = $_GET['id'];
-							$value = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$id'"));
-							if (isset($_POST['submit'])) {
-								$nip = $_POST['nip'];
-								$nama = $_POST['nama'];
-								$nama = str_replace("'", "&#39;", $nama);
-								$username = $_POST['username'];
-								$pass1 = $_POST['pass1'];
-								$pass2 = $_POST['pass2'];
-
-								if ($pass1 <> '' and $pass2 <> '') {
-									if ($pass1 <> $pass2) {
-										$info = info("Password tidak cocok!", "NO");
-									} else {
-										$password = password_hash($pass1, PASSWORD_BCRYPT);
-										$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
-									}
-								} else {
-									$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
-								}
-								(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
-							}
-							echo "
-																			<form action='' method='post'>
-																				<div class='box box-solid'>
-																					<div class='box-header with-border'>
-																						<h3 class='box-title'>Edit</h3>
-																						<div class='box-tools pull-right btn-group'>
-																							<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																							<a href='?pg=$pg' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
-																						</div>
-																					</div><!-- /.box-header -->
-																					<div class='box-body'>
-																						$info
-																						<div class='form-group'>
-																							<label>NIP</label>
-																							<input type='text' name='nip' value='$value[nip]' class='form-control' required='true' />
-																						</div>
-																						<div class='form-group'>
-																							<label>Nama</label>
-																							<input type='text' name='nama' value='$value[nama]' class='form-control' required='true' />
-																						</div>
-																						<div class='form-group'>
-																							<label>Username</label>
-																							<input type='text' name='username' value='$value[username]' class='form-control' required='true' />
-																						</div>
-
-																						<div class='form-group'>
-																							<div class='row'>
-																								<div class='col-md-6'>
-																									<label>Password</label>
-																									<input type='password' name='pass1' class='form-control' />
-																								</div>
-																								<div class='col-md-6'>
-																									<label>Ulang Password</label>
-																									<input type='password' name='pass2' class='form-control' />
-																								</div>
-																							</div>
-																						</div>
-																					</div><!-- /.box-body -->
-																				</div><!-- /.box -->
-																			</form>
-																			";
-						}
-						if ($ac == 'hapus') {
-							$id = $_GET['id'];
-							$info = info("Anda yakin akan menghapus pengawas ini?");
-							if (isset($_POST['submit'])) {
-								$exec = mysql_query("DELETE FROM pengawas WHERE id_pengawas='$id'");
-								(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
-							}
-							echo "
-																			<form action='' method='post'>
-																				<div class='box box-danger'>
-																					<div class='box-header with-border'>
-																						<h3 class='box-title'>Hapus</h3>
-																						<div class='box-tools pull-right btn-group'>
-																							<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
-																							<a href='?pg=$pg' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
-																						</div>
-																					</div><!-- /.box-header -->
-																					<div class='box-body'>
-																						$info
-																					</div><!-- /.box-body -->
-																				</div><!-- /.box -->
-																			</form>
-																			";
-						}
-						echo "
-														</div>
-													</div>
-													";
-						?>
-				<?php elseif ($pg == 'pk') : ?>
-					<?php
-						if ($setting['jenjang'] == 'SMK') {
-							cek_session_admin();
-							if (isset($_POST['tambahmapel'])) {
-								$idpk = str_replace(' ', '', $_POST['idpk']);
-								$nama = $_POST['nama'];
-								$cek = mysql_num_rows(mysql_query("SELECT * FROM pk WHERE id_pk='$idpk'"));
-								if ($cek > 0) {
-									$info = info("Jurusan dengan kode $idpk sudah ada!", "NO");
-								} else {
-									$exec = mysql_query("INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
-									if (!$exec) {
-										$info = info("Gagal menyimpan!", "NO");
-									} else {
-										jump("?pg=$pg");
-									}
-								}
-							}
-							$info = '';
-							echo "
-													<div class='row'>
-														<div class='col-md-12'>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>Jurusan</h3>
-																	<div class='box-tools pull-right'>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahmapel'><i class='fa fa-check'></i> Tambah Jurusan</button>
-																	</div>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	$info
-																	<table id='tablejurusan' class='table table-bordered table-striped'>
-																		<thead>
-																			<tr>
-																				<th width='5px'>#</th>
-																				<th>Kode Jurusan</th>
-																				<th>Nama Jurusan</th>
-
-																			</tr>
-																		</thead>
-																		<tbody>";
-							$adminQ = mysql_query("SELECT * FROM pk ORDER BY id_pk ASC");
-							while ($adm = mysql_fetch_array($adminQ)) {
-								$no++;
-								echo "
-																			<tr>
-																				<td>$no</td>
-																				<td>$adm[id_pk]</td>
-																				<td>$adm[program_keahlian]</td>
-
-																			</tr>
-																			";
-							}
-							echo "
-																		</tbody>
-																	</table>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-
-														<div class='modal fade' id='tambahmapel' style='display: none;'>
-															<div class='modal-dialog'>
-																<div class='modal-content'>
-																	<div class='modal-header bg-blue'>
-																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h3 class='modal-title'>Tambah Jurusan</h3>
-																	</div>
-																	<div class='modal-body'>
-																		<form action='' method='post'>
-																			<div class='form-group'>
-																				<label>Kode Jurusan</label>
-																				<input type='text' name='idpk' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama Jurusan</label>
-																				<input type='text' name='nama' class='form-control' required='true' />
-																			</div>
-																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
-																					<button type='submit' name='tambahmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
+					<?php cek_session_admin(); ?>
+					<div class='row'>
+						<div class='col-md-8'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'><img src='../dist/img/svg/manajemen_user.svg' width='20'> Manajemen User</h3>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<div class='table-responsive'>
+										<table id='example1' class='table table-bordered table-striped'>
+											<thead>
+												<tr>
+													<th width='5px'>#</th>
+													<th>NIP</th>
+													<th>Nama</th>
+													<th>Username</th>
+													<th>Level</th>
+													<th width=60px></th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php $pengawasQ = mysql_query("SELECT * FROM pengawas where level='admin' ORDER BY nama ASC"); ?>
+												<?php while ($pengawas = mysql_fetch_array($pengawasQ)) : ?>
+													<?php $no++; ?>
+													<tr>
+														<td><?= $no ?></td>
+														<td><?= $pengawas['nip'] ?></td>
+														<td><?= $pengawas['nama'] ?></td>
+														<td><?= $pengawas['username'] ?></td>
+														<td><?= $pengawas['level'] ?></td>
+														<td style="text-align:center">
+															<div class='btn-group'>
+																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
+																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
 															</div>
-														</div>
+														</td>
+													</tr>
+												<?php endwhile; ?>
+											</tbody>
+										</table>
+									</div>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+						<div class='col-md-4'>
+							<?php if ($ac == '') : ?>
+								<?php
+										if (isset($_POST['submit'])) :
+											$nip = $_POST['nip'];
+											$nama = $_POST['nama'];
+											$nama = str_replace("'", "&#39;", $nama);
+											$username = $_POST['username'];
+											$pass1 = $_POST['pass1'];
+											$pass2 = $_POST['pass2'];
 
+											$cekuser = mysql_num_rows(mysql_query("SELECT * FROM pengawas WHERE username='$username'"));
+											if ($cekuser > 0) {
+												$info = info("Username $username sudah ada!", "NO");
+											} else {
+												if ($pass1 <> $pass2) :
+													$info = info("Password tidak cocok!", "NO");
+												else :
+													$password = password_hash($pass1, PASSWORD_BCRYPT);
+													$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
+													(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+												endif;
+											}
+										endif;
+										?>
+								<form action='' method='post'>
+									<div class='box box-solid'>
+										<div class='box-header with-border'>
+											<h3 class='box-title'>Tambah</h3>
+											<div class='box-tools pull-right btn-group'>
+												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+											</div>
+										</div><!-- /.box-header -->
+										<div class='box-body'>
+											<?= $info ?>
+											<div class='form-group'>
+												<label>NIP</label>
+												<input type='text' name='nip' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Nama</label>
+												<input type='text' name='nama' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Username</label>
+												<input type='text' name='username' class='form-control' required='true' />
+											</div>
 
+											<div class='form-group'>
+												<div class='row'>
+													<div class='col-md-6'>
+														<label>Password</label>
+														<input type='password' name='pass1' class='form-control' required='true' />
 													</div>
-													";
-						}
-						?>
+													<div class='col-md-6'>
+														<label>Ulang Password</label>
+														<input type='password' name='pass2' class='form-control' required='true' />
+													</div>
+												</div>
+											</div>
+										</div><!-- /.box-body -->
+									</div><!-- /.box -->
+								</form>
+							<?php elseif ($ac == 'edit') : ?>
+								<?php
+										$id = $_GET['id'];
+										$value = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$id'"));
+										if (isset($_POST['submit'])) :
+											$nip = $_POST['nip'];
+											$nama = $_POST['nama'];
+											$nama = str_replace("'", "&#39;", $nama);
+											$username = $_POST['username'];
+											$pass1 = $_POST['pass1'];
+											$pass2 = $_POST['pass2'];
+											if ($pass1 <> '' and $pass2 <> '') {
+												if ($pass1 <> $pass2) :
+													$info = info("Password tidak cocok!", "NO");
+												else :
+													$password = password_hash($pass1, PASSWORD_BCRYPT);
+													$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
+												endif;
+											} else {
+												$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
+											}
+											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+										endif;
+										?>
+								<form action='' method='post'>
+									<div class='box box-solid'>
+										<div class='box-header with-border'>
+											<h3 class='box-title'>Edit</h3>
+											<div class='box-tools pull-right btn-group'>
+												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
+											</div>
+										</div><!-- /.box-header -->
+										<div class='box-body'>
+											<?= $info ?>
+											<div class='form-group'>
+												<label>NIP</label>
+												<input type='text' name='nip' value="<?= $value['nip'] ?>" class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Nama</label>
+												<input type='text' name='nama' value="<?= $value['nama'] ?>" class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Username</label>
+												<input type='text' name='username' value="<?= $value['username'] ?>" class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<div class='row'>
+													<div class='col-md-6'>
+														<label>Password</label>
+														<input type='password' name='pass1' class='form-control' />
+													</div>
+													<div class='col-md-6'>
+														<label>Ulang Password</label>
+														<input type='password' name='pass2' class='form-control' />
+													</div>
+												</div>
+											</div>
+										</div><!-- /.box-body -->
+									</div><!-- /.box -->
+								</form>
+							<?php elseif ($ac == 'hapus') : ?>
+								<?php
+										$id = $_GET['id'];
+										$info = info("Anda yakin akan menghapus pengawas ini?");
+										if (isset($_POST['submit'])) {
+											$exec = mysql_query("DELETE FROM pengawas WHERE id_pengawas='$id'");
+											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
+										}
+										?>
+								<form action='' method='post'>
+									<div class='box box-danger'>
+										<div class='box-header with-border'>
+											<h3 class='box-title'>Hapus</h3>
+											<div class='box-tools pull-right btn-group'>
+												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
+											</div>
+										</div><!-- /.box-header -->
+										<div class='box-body'>
+											<?= $info ?>
+										</div><!-- /.box-body -->
+									</div><!-- /.box -->
+								</form>
+							<?php endif; ?>
+						</div>
+					</div>
+				<?php elseif ($pg == 'pk') : ?>
+					<?php if ($setting['jenjang'] == 'SMK') : ?>
+						<?php
+								cek_session_admin();
+								if (isset($_POST['tambahmapel'])) :
+									$idpk = str_replace(' ', '', $_POST['idpk']);
+									$nama = $_POST['nama'];
+									$cek = mysql_num_rows(mysql_query("SELECT * FROM pk WHERE id_pk='$idpk'"));
+									if ($cek > 0) {
+										$info = info("Jurusan dengan kode $idpk sudah ada!", "NO");
+									} else {
+										$exec = mysql_query("INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
+										if (!$exec) :
+											$info = info("Gagal menyimpan!", "NO");
+										else :
+											jump("?pg=$pg");
+										endif;
+									}
+								endif;
+								$info = '';
+								?>
+						<div class='row'>
+							<div class='col-md-12'>
+								<div class='box box-solid'>
+									<div class='box-header with-border'>
+										<h3 class='box-title'>Jurusan</h3>
+										<div class='box-tools pull-right'>
+											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahmapel'><i class='fa fa-check'></i> Tambah Jurusan</button>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<?= $info ?>
+										<table id='tablejurusan' class='table table-bordered table-striped'>
+											<thead>
+												<tr>
+													<th width='5px'>#</th>
+													<th>Kode Jurusan</th>
+													<th>Nama Jurusan</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php $adminQ = mysql_query("SELECT * FROM pk ORDER BY id_pk ASC"); ?>
+												<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+													<?php $no++; ?>
+													<tr>
+														<td><?= $no ?></td>
+														<td><?= $adm['id_pk'] ?></td>
+														<td><?= $adm['program_keahlian'] ?></td>
+													</tr>
+												<?php endwhile; ?>
+											</tbody>
+										</table>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
+							</div>
+							<div class='modal fade' id='tambahmapel' style='display: none;'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header bg-blue'>
+											<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+											<h3 class='modal-title'>Tambah Jurusan</h3>
+										</div>
+										<div class='modal-body'>
+											<form action='' method='post'>
+												<div class='form-group'>
+													<label>Kode Jurusan</label>
+													<input type='text' name='idpk' class='form-control' required='true' />
+												</div>
+												<div class='form-group'>
+													<label>Nama Jurusan</label>
+													<input type='text' name='nama' class='form-control' required='true' />
+												</div>
+												<div class='modal-footer'>
+													<div class='box-tools pull-right btn-group'>
+														<button type='submit' name='tambahmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+														<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php else : ?>
+						<div class="panel panel-body panel-info">
+							<h4>
+								Untuk Jenjang SD (sederajat) sampai SMP (sederajat), tidak memiliki jurusan
+							</h4>
+						</div>
+					<?php endif; ?>
 				<?php elseif ($pg == 'jenisujian') : ?>
 					<?php
 						cek_session_admin();
-						if (isset($_POST['tambahujian'])) {
+						if (isset($_POST['tambahujian'])) :
 							$id = str_replace(' ', '', $_POST['idujian']);
 							$nama = $_POST['nama'];
 							$cek = mysql_num_rows(mysql_query("SELECT * FROM jenis WHERE id_jenis='$id'"));
@@ -2791,82 +2622,74 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									jump("?pg=$pg");
 								}
 							}
-						}
+						endif;
 						$info = '';
-						echo "
-													<div class='row'>
-														<div class='col-md-12'>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>JENIS UJIAN</h3>
-																	<div class='box-tools pull-right'>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahujian'><i class='fa fa-check'></i> Tambah Ujian</button>
-																	</div>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	$info
-																	<table id='tablejenis' class='table table-bordered table-striped'>
-																		<thead>
-																			<tr>
-																				<th width='5px'>#</th>
-																				<th>Kode Ujian</th>
-																				<th>Nama Ujian</th>
-																				<th>Status</th>
-																			</tr>
-																		</thead>
-																		<tbody>";
-						$adminQ = mysql_query("SELECT * FROM jenis ORDER BY id_jenis ASC");
-						while ($adm = mysql_fetch_array($adminQ)) {
-							$no++;
-							echo "
-																			<tr>
-																				<td>$no</td>
-																				<td>$adm[id_jenis]</td>
-																				<td>$adm[nama]</td>
-																				<td>$adm[status]</td>
-																			</tr>
-																			";
-						}
-						echo "
-																		</tbody>
-																	</table>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-
-														<div class='modal fade' id='tambahujian' style='display: none;'>
-															<div class='modal-dialog'>
-																<div class='modal-content'>
-																	<div class='modal-header bg-blue'>
-																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h3 class='modal-title'>Tambah Ujian</h3>
-																	</div>
-																	<div class='modal-body'>
-																		<form action='' method='post'>
-																			<div class='form-group'>
-																				<label>Kode Ujian</label>
-																				<input type='text' name='idujian' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama Ujian</label>
-																				<input type='text' name='nama' class='form-control' required='true' />
-																			</div>
-																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
-																					<button type='submit' name='tambahujian' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-
-													</div>
-													";
 						?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>JENIS UJIAN</h3>
+									<div class='box-tools pull-right'>
+										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahujian'><i class='fa fa-check'></i> Tambah Ujian</button>
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<?= $info ?>
+									<table id='tablejenis' class='table table-bordered table-striped'>
+										<thead>
+											<tr>
+												<th width='5px'>#</th>
+												<th>Kode Ujian</th>
+												<th>Nama Ujian</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $adminQ = mysql_query("SELECT * FROM jenis ORDER BY id_jenis ASC"); ?>
+											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+												<?php $no++; ?>
+												<tr>
+													<td><?= $no ?></td>
+													<td><?= $adm['id_jenis'] ?></td>
+													<td><?= $adm['nama'] ?></td>
+													<td><?= $adm['status'] ?></td>
+												</tr>
+											<?php endwhile; ?>
+										</tbody>
+									</table>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+						<div class='modal fade' id='tambahujian' style='display: none;'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header bg-blue'>
+										<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+										<h3 class='modal-title'>Tambah Ujian</h3>
+									</div>
+									<div class='modal-body'>
+										<form action='' method='post'>
+											<div class='form-group'>
+												<label>Kode Ujian</label>
+												<input type='text' name='idujian' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Nama Ujian</label>
+												<input type='text' name='nama' class='form-control' required='true' />
+											</div>
+											<div class='modal-footer'>
+												<div class='box-tools pull-right btn-group'>
+													<button type='submit' name='tambahujian' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				<?php elseif ($pg == 'ruang') : ?>
 					<?php
 						cek_session_admin();
@@ -2875,7 +2698,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				<?php elseif ($pg == 'level') : ?>
 					<?php
 						cek_session_admin();
-						if (isset($_POST['submit'])) {
+						if (isset($_POST['submit'])) :
 							$level = str_replace(' ', '', $_POST['level']);
 							$ket = $_POST['keterangan'];
 
@@ -2890,83 +2713,70 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									jump("?pg=$pg");
 								}
 							}
-						}
-						echo "
-													<div class='row'>
-														<div class='col-md-12'>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>Level atau Tingkat</h3>
-																	<div class='box-tools pull-right'>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahlevel'><i class='fa fa-check'></i> Tambah Level</button>
-																	</div>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	<table id='tablelevel' class='table table-bordered table-striped'>
-																		<thead>
-																			<tr>
-																				<th width='5px'>#</th>
-
-																				<th>Kode Level</th>
-																				<th>Nama Level</th>
-
-																			</tr>
-																		</thead>
-																		<tbody>";
-						$adminQ = mysql_query("SELECT * FROM level ");
-						while ($adm = mysql_fetch_array($adminQ)) {
-							$no++;
-
-							echo "
-																			<tr>
-																				<td>$no</td>
-
-																				<td>$adm[kode_level]</td>
-																				<td>$adm[keterangan]</td>
-
-
-																			</tr>
-																			";
-						}
-						echo "
-																		</tbody>
-																	</table>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-
-														<div class='modal fade' id='tambahlevel' style='display: none;'>
-															<div class='modal-dialog'>
-																<div class='modal-content'>
-																	<div class='modal-header bg-blue'>
-																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h3 class='modal-title'>Tambah Level</h3>
-																	</div>
-																	<div class='modal-body'>
-																		<form action='' method='post'>
-																			<div class='form-group'>
-																				<label>Kode Level</label>
-																				<input type='text' name='level' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama Level</label>
-																				<input type='text' name='keterangan' class='form-control' required='true' />
-																			</div>
-																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
-																					<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-													</div>
-													";
+						endif;
 						?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Level atau Tingkat</h3>
+									<div class='box-tools pull-right'>
+										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahlevel'><i class='fa fa-check'></i> Tambah Level</button>
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<table id='tablelevel' class='table table-bordered table-striped'>
+										<thead>
+											<tr>
+												<th width='5px'>#</th>
+												<th>Kode Level</th>
+												<th>Nama Level</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $adminQ = mysql_query("SELECT * FROM level"); ?>
+											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+												<?php $no++; ?>
+												<tr>
+													<td><?= $no ?></td>
+													<td><?= $adm['kode_level'] ?></td>
+													<td><?= $adm['keterangan'] ?></td>
+												</tr>
+											<?php endwhile ?>
+										</tbody>
+									</table>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+						<div class='modal fade' id='tambahlevel' style='display: none;'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header bg-blue'>
+										<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+										<h3 class='modal-title'>Tambah Level</h3>
+									</div>
+									<div class='modal-body'>
+										<form action='' method='post'>
+											<div class='form-group'>
+												<label>Kode Level</label>
+												<input type='text' name='level' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Nama Level</label>
+												<input type='text' name='keterangan' class='form-control' required='true' />
+											</div>
+											<div class='modal-footer'>
+												<div class='box-tools pull-right btn-group'>
+													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				<?php elseif ($pg == 'sesi') : ?>
 					<?php
 						cek_session_admin();
@@ -2986,86 +2796,73 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								}
 							}
 						}
-						echo "
-													<div class='row'>
-														<div class='col-md-12'>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>Sesi atau Kelompok Test</h3>
-																	<div class='box-tools pull-right'>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahsesi'><i class='fa fa-check'></i> Tambah Kelompok</button>
-																	</div>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	<table id='tablesesi' class='table table-bordered table-striped'>
-																		<thead>
-																			<tr>
-																				<th width='5px'>#</th>
-
-																				<th>Kode Sesi</th>
-																				<th>Nama Sesi</th>
-
-																			</tr>
-																		</thead>
-																		<tbody>";
-						$adminQ = mysql_query("SELECT * FROM sesi ");
-						while ($adm = mysql_fetch_array($adminQ)) {
-							$no++;
-
-							echo "
-																			<tr>
-																				<td>$no</td>
-
-																				<td>$adm[kode_sesi]</td>
-																				<td>$adm[nama_sesi]</td>
-
-
-																			</tr>
-																			";
-						}
-						echo "
-																		</tbody>
-																	</table>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-
-														<div class='modal fade' id='tambahsesi' style='display: none;'>
-															<div class='modal-dialog'>
-																<div class='modal-content'>
-																	<div class='modal-header bg-blue'>
-																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h3 class='modal-title'>Tambah Sesi</h3>
-																	</div>
-																	<div class='modal-body'>
-																		<form action='' method='post'>
-																			<div class='form-group'>
-																				<label>Kode Sesi</label>
-																				<input type='text' name='sesi' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama Sesi</label>
-																				<input type='text' name='nama' class='form-control' required='true' />
-																			</div>
-																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
-																					<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-													</div>
-													";
 						?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Sesi atau Kelompok Test</h3>
+									<div class='box-tools pull-right'>
+										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahsesi'><i class='fa fa-check'></i> Tambah Kelompok</button>
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<table id='tablesesi' class='table table-bordered table-striped'>
+										<thead>
+											<tr>
+												<th width='5px'>#</th>
+												<th>Kode Sesi</th>
+												<th>Nama Sesi</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $adminQ = mysql_query("SELECT * FROM sesi"); ?>
+											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+												<?php $no++; ?>
+												<tr>
+													<td><?= $no ?></td>
+													<td><?= $adm['kode_sesi'] ?></td>
+													<td><?= $adm['nama_sesi'] ?></td>
+												</tr>
+											<?php endwhile; ?>
+										</tbody>
+									</table>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+						<div class='modal fade' id='tambahsesi' style='display: none;'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header bg-blue'>
+										<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+										<h3 class='modal-title'>Tambah Sesi</h3>
+									</div>
+									<div class='modal-body'>
+										<form action='' method='post'>
+											<div class='form-group'>
+												<label>Kode Sesi</label>
+												<input type='text' name='sesi' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Nama Sesi</label>
+												<input type='text' name='nama' class='form-control' required='true' />
+											</div>
+											<div class='modal-footer'>
+												<div class='box-tools pull-right btn-group'>
+													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				<?php elseif ($pg == 'kelas') : ?>
 					<?php
 						cek_session_admin();
-						if (isset($_POST['submit'])) {
+						if (isset($_POST['submit'])) :
 							$idkelas = str_replace(' ', '', $_POST['idkelas']);
 							$nama = $_POST['nama'];
 							$level = $_POST['level'];
@@ -3074,111 +2871,102 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$info = info("Kelas dengan kode $idkelas sudah ada!", "NO");
 							} else {
 								$exec = mysql_query("INSERT INTO kelas (id_kelas,nama,level) VALUES ('$idkelas','$nama','$level')");
-								if (!$exec) {
+								if (!$exec) :
 									$info = info("Gagal menyimpan!", "NO");
-								} else {
+								else :
 									jump("?pg=$pg");
-								}
+								endif;
 							}
-						}
-						echo "
-													<div class='row'>
-														<div class='col-md-12'>
-															<div class='alert alert-warning '>
-																<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-																<i class='icon fa fa-info'></i>
-																Level Kelas harus sama dengan Kode Level di data master
-															</div>
-															<div class='box box-solid'>
-																<div class='box-header with-border'>
-																	<h3 class='box-title'>Kelas</h3>
-																	<div class='box-tools pull-right'>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahkelas'><i class='fa fa-check'></i> Tambah Kelas</button>
-																	</div>
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	<table id='tablekelas' class='table table-bordered table-striped'>
-																		<thead>
-																			<tr>
-																				<th width='5px'>#</th>
-																				<th>Kode Kelas</th>
-																				<th>Level Kelas</th>
-																				<th>Nama Kelas</th>
-
-																			</tr>
-																		</thead>
-																		<tbody>";
-						$adminQ = mysql_query("SELECT * FROM kelas ORDER BY nama ASC");
-						while ($adm = mysql_fetch_array($adminQ)) {
-							$no++;
-							echo "
-																			<tr>
-																				<td>$no</td>
-																				<td>$adm[id_kelas]</td>
-																				<td>$adm[level]</td>
-																				<td>$adm[nama]</td>
-
-																			</tr>
-																			";
-						}
-						echo "
-																		</tbody>
-																	</table>
-																</div><!-- /.box-body -->
-															</div><!-- /.box -->
-														</div>
-														<div class='modal fade' id='tambahkelas' style='display: none;'>
-															<div class='modal-dialog'>
-																<div class='modal-content'>
-																	<div class='modal-header bg-blue'>
-																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h3 class='modal-title'>Tambah Kelas</h3>
-																	</div>
-																	<div class='modal-body'>
-																		<form action='' method='post'>
-																			<div class='form-group'>
-																				<label>Kode Kelas</label>
-																				<input type='text' name='idkelas' class='form-control' required='true' />
-																			</div>
-																			<div class='form-group'>
-																				<label>Level</label>
-																				<select name='level' class='form-control' required='true'>
-																					<option value=''></option>";
-						$levelQ = mysql_query("SELECT * FROM level ");
-						while ($level = mysql_fetch_array($levelQ)) {
-
-							echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
-						}
-						echo "
-																				</select>
-																			</div>
-																			<div class='form-group'>
-																				<label>Nama Kelas</label>
-																				<input type='text' name='nama' class='form-control' required='true' />
-																			</div>
-																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
-																					<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-
-													</div>
-													";
+						endif;
 						?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='alert alert-warning '>
+								<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+								<i class='icon fa fa-info'></i>
+								Level Kelas harus sama dengan Kode Level di data master
+							</div>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Kelas</h3>
+									<div class='box-tools pull-right'>
+										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahkelas'><i class='fa fa-check'></i> Tambah Kelas</button>
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<table id='tablekelas' class='table table-bordered table-striped'>
+										<thead>
+											<tr>
+												<th width='5px'>#</th>
+												<th>Kode Kelas</th>
+												<th>Level Kelas</th>
+												<th>Nama Kelas</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $adminQ = mysql_query("SELECT * FROM kelas ORDER BY nama ASC"); ?>
+											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+												<?php $no++; ?>
+												<tr>
+													<td><?= $no ?></td>
+													<td><?= $adm['id_kelas'] ?></td>
+													<td><?= $adm['level'] ?></td>
+													<td><?= $adm['nama'] ?></td>
+												</tr>
+											<?php endwhile; ?>
+										</tbody>
+									</table>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+						<div class='modal fade' id='tambahkelas' style='display: none;'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header bg-blue'>
+										<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+										<h3 class='modal-title'>Tambah Kelas</h3>
+									</div>
+									<div class='modal-body'>
+										<form action='' method='post'>
+											<div class='form-group'>
+												<label>Kode Kelas</label>
+												<input type='text' name='idkelas' class='form-control' required='true' />
+											</div>
+											<div class='form-group'>
+												<label>Level</label>
+												<select name='level' class='form-control' required='true'>
+													<option value=''></option>
+													<?php
+														$levelQ = mysql_query("SELECT * FROM level ");
+														while ($level = mysql_fetch_array($levelQ)) {
+															echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
+														}
+														?>
+												</select>
+											</div>
+											<div class='form-group'>
+												<label>Nama Kelas</label>
+												<input type='text' name='nama' class='form-control' required='true' />
+											</div>
+											<div class='modal-footer'>
+												<div class='box-tools pull-right btn-group'>
+													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				<?php elseif ($pg == 'banksoal') : ?>
 					<?php
-						if ($ac == '') {
+						if ($ac == '') :
 							$pesan = '';
 							$value = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id'"));
 							$tgl_ujian = explode(' ', $value['tgl_ujian']);
-							if (isset($_POST['editbanksoal'])) {
+							if (isset($_POST['editbanksoal'])) :
 								$id = $_POST['idm'];
 								$nama = $_POST['nama'];
 								$nama = str_replace("'", "&#39;", $nama);
@@ -3196,15 +2984,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$kelas = serialize($_POST['kelas']);
 								if ($pengawas['level'] == 'admin') {
 									$exec = mysql_query("UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',idguru='$guru',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
-
 									(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 								} elseif ($pengawas['level'] == 'guru') {
 									$exec = mysql_query("UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
-
 									(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 								}
-							}
-							if (isset($_POST['tambahbanksoal'])) {
+							endif;
+							if (isset($_POST['tambahbanksoal'])) :
 								$nama = $_POST['nama'];
 								$nama = str_replace("'", "&#39;", $nama);
 								$id_pk = $_POST['id_pk'];
@@ -3218,474 +3004,433 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$status = $_POST['status'];
 								$opsi = $_POST['opsi'];
 								$kelas = serialize($_POST['kelas']);
-
 								$cek = mysql_num_rows(mysql_query("SELECT * FROM mapel WHERE nama='$nama' and level='$level' and kelas ='$kelas'"));
 								if ($pengawas['level'] == 'admin') {
 									$guru = $_POST['guru'];
-									if ($cek > 0) {
-										$pesan = "<div class='alert alert-warning alert-dismissible'>
-														<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-														<i class='icon fa fa-info'></i>
-														Maaf Kode Mapel - Level - Kelas Soal Sudah ada !
-													</div>";
-									} else {
+									if ($cek > 0) :
+										$pesan = "<div class='alert alert-warning alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Maaf Kode Mapel - Level - Kelas Soal Sudah ada !</div>";
+									else :
 										$exec = mysql_query("INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$guru','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
-										$pesan = "<div class='alert alert-success alert-dismissible'>
-														<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-														<i class='icon fa fa-info'></i>
-														Data Berhasil ditambahkan ..
-													</div>";
-									}
+										$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Data Berhasil ditambahkan ..</div>";
+									endif;
 								} elseif ($pengawas['level'] == 'guru') {
-									if ($cek > 0) {
+									if ($cek > 0) :
 										$pesan = "<div class='alert alert-warning alert-dismissible'>
 														<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 														<i class='icon fa fa-info'></i>
 														Maaf Kode Mapel - Level - Kelas Sudah ada !
 													</div>";
-									} else {
+									else :
 										$exec = mysql_query("INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$id_pengawas','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
 										$pesan = "<div class='alert alert-success alert-dismissible'>
 														<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 														<i class='icon fa fa-info'></i>
 														Data Berhasil ditambahkan ..
 													</div>";
-									}
+									endif;
 								}
-							}
-							echo "
-													<div class='row'>
-														<div class='col-md-12'>$pesan
-															<div class='box box-solid '>
-																<div class='box-header with-border '>
-																	<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
-																	<div class='box-tools pull-right btn-group'>
-																		<button id='btnhapusbank' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
-																		<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
-
+							endif;
+							?>
+						<div class='row'>
+							<div class='col-md-12'><?= $pesan ?>
+								<div class='box box-solid '>
+									<div class='box-header with-border '>
+										<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
+										<div class='box-tools pull-right btn-group'>
+											<button id='btnhapusbank' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
+											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<div id='tablereset' class='table-responsive'>
+											<table id='example1' class='table table-bordered table-striped'>
+												<thead>
+													<tr>
+														<th width='5px'><input type='checkbox' id='ceksemua'></th>
+														<th width='5px'>#</th>
+														<th>Mata Pelajaran</th>
+														<th>Soal PG</th>
+														<th>Soal Esai</th>
+														<th>Kelas</th>
+														<th>Guru</th>
+														<th>Status</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php
+															if ($pengawas['level'] == 'admin') :
+																$mapelQ = mysql_query("SELECT * FROM mapel ORDER BY date ASC");
+															elseif ($pengawas['level'] == 'guru') :
+																$mapelQ = mysql_query("SELECT * FROM mapel WHERE idguru='$pengawas[id_pengawas]' ORDER BY date ASC");
+															endif;
+															?>
+													<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+														<?php
+																	$cek = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$mapel[id_mapel]'"));
+																	$no++;
+																	?>
+														<tr>
+															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value='$mapel[id_mapel]'></td>
+															<td><?= $no ?></td>
+															<td>
+																<?php
+																			if ($mapel['idpk'] == 'semua') :
+																				$jur = 'Semua';
+																			else :
+																				$jur = $mapel['idpk'];
+																			endif;
+																			?>
+																<b><small class='label bg-purple'><?= $mapel['nama'] ?></small></b>
+																<small class='label label-primary'><?= $mapel['level'] ?></small>
+																<small class='label label-primary'><?= $jur ?></small>
+															</td>
+															<td>
+																<small class='label label-warning'><?= $mapel['tampil_pg'] ?>/<?= $mapel['jml_soal'] ?></small>
+																<small class='label label-danger'><?= $mapel['bobot_pg'] ?> %</small>
+																<small class='label label-danger'><?= $mapel['opsi'] ?> opsi</small>
+															</td>
+															<td>
+																<small class='label label-warning'><?= $mapel['tampil_esai'] ?>/<?= $mapel['jml_esai'] ?></small>
+																<small class='label label-danger'><?= $mapel['bobot_esai'] ?> %</small>
+															</td>
+															<td>
+																<?php
+																			$dataArray = unserialize($mapel['kelas']);
+																			foreach ($dataArray as $key => $value) :
+																				echo "<small class='label label-success'>$value </small>&nbsp;";
+																			endforeach;
+																			?>
+															</td>
+															<?php
+																		if ($cek <> 0) {
+																			if ($mapel['status'] == '0') :
+																				$status = '<label class="label label-danger">non aktif</label>';
+																			else :
+																				$status = '<label class="label label-success"> aktif </label>';
+																			endif;
+																		} else {
+																			$status = '<label class="label label-warning"> Soal Kosong </label>';
+																		}
+																		$guruku = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas = '$mapel[idguru]'"));
+																		?>
+															<td>
+																<small class='label label-primary'><?= $guruku['nama'] ?></small>
+															</td>
+															<td style="text-align:center">
+																<?= $status ?>
+															</td>
+															<td style="text-align:center">
+																<div class='btn-group'>
+																	<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
+																	<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
+																	<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
+																</div>
+															</td>
+														</tr>
+														<div class='modal fade' id='editbanksoal<?= $mapel['id_mapel'] ?>' style='display: none;'>
+															<div class='modal-dialog'>
+																<div class='modal-content'>
+																	<div class='modal-header bg-blue'>
+																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+																		<h3 class='modal-title'>Edit Bank Soal</h3>
 																	</div>
+																	<form action='' method='post'>
+																		<div class='modal-body'>
+																			<input type='hidden' id='idm' name='idm' value='<?= $mapel['id_mapel'] ?>' />
+																			<div class='form-group'>
+																				<label>Mata Pelajaran</label>
+																				<select name='nama' class='form-control' required='true'>
+																					<option value=''></option>
+																					<?php
+																								$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
+																								while ($pk = mysql_fetch_array($pkQ)) : ($pk['kode_mapel'] == $mapel['nama']) ? $s = 'selected' : $s = '';
+																									echo "<option value='$pk[kode_mapel]' $s>$pk[nama_mapel]</option>";
+																								endwhile;
+																								?>
+																				</select>
+																			</div>
+																			<?php if ($setting['jenjang'] == 'SMK') : ?>
+																				<div class='form-group'>
+																					<label>Program Keahlian</label>
+																					<select name='id_pk' class='form-control' required='true'>
+																						<option value='semua'>Semua</option>
+																						<?php
+																										$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
+																										while ($pk = mysql_fetch_array($pkQ)) : ($pk['id_pk'] == $mapel['idpk']) ? $s = 'selected' : $s = '';
+																											echo "<option value='$pk[id_pk]' $s>$pk[program_keahlian]</option>";
+																										endwhile;
+																										?>
+																					</select>
+																				</div>
+																			<?php endif; ?>
+																			<div class='form-group'>
+																				<div class='row'>
+																					<div class='col-md-6'>
+																						<label>Pilih Level</label>
+																						<select name='level' class='form-control' required='true'>
+																							<option value='semua'>Semua Level</option>
+																							<?php
+																										$lev = mysql_query("SELECT * FROM level");
+																										while ($level = mysql_fetch_array($lev)) :
+																											echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
+																										endwhile;
+																										?>
+																						</select>
+																					</div>
+																					<div class='col-md-6'>
+																						<label>Pilih Kelas</label><br>
+																						<select name='kelas[]' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
+																							<option value='semua'>Semua Kelas</option>
+																							<?php
+																										$lev = mysql_query("SELECT * FROM kelas ");
+																										while ($kelas = mysql_fetch_array($lev)) {
+																											echo "<option value='$kelas[id_kelas]'>$kelas[id_kelas]</option>";
+																										}
+																										?>
+																						</select>
+																					</div>
+																				</div>
+																			</div>
+																			<div class='form-group'>
+																				<div class='row'>
+																					<div class='col-md-3'>
+																						<label>Jumlah Soal PG</label>
+																						<input type='number' name='jml_soal' class='form-control' value="<?= $mapel['jml_soal'] ?>" required='true' />
+																					</div>
+																					<div class='col-md-3'>
+																						<label>Bobot Soal PG %</label>
+																						<input type='number' name='bobot_pg' class='form-control' value="<?= $mapel['bobot_pg'] ?>" required='true' />
+																					</div>
+																					<div class='col-md-3'>
+																						<label>Soal Tampil</label>
+																						<input type='number' name='tampil_pg' class='form-control' value="<?= $mapel['tampil_pg'] ?>" required='true' />
+																					</div>
+																					<div class='col-md-3'>
+																						<label>Opsi</label>
+																						<select name='opsi' class='form-control'>
+																							<?php
+																										$opsi = array("3", "4", "5");
+																										for ($x = 0; $x < count($opsi); $x++) {
+																											if ($mapel['opsi'] == $opsi[$x]) :
+																												echo "<option value='$opsi[$x]' selected>$opsi[$x]</option>";
+																											else :
+																												echo "<option value='$opsi[$x]'>$opsi[$x]</option>";
+																											endif;
+																										}
+																										?>
+																						</select>
+																					</div>
+																				</div>
+																			</div>
+																			<div class='form-group'>
+																				<div class='row'>
+																					<div class='col-md-4'>
+																						<label>Jumlah Soal Essai</label>
+																						<input type='number' name='jml_esai' class='form-control' value="<?= $mapel['jml_esai'] ?>" required='true' />
+																					</div>
+																					<div class='col-md-4'>
+																						<label>Bobot Soal Essai %</label>
+																						<input type='number' name='bobot_esai' class='form-control' value="<?= $mapel['bobot_esai'] ?>" required='true' />
+																					</div>
+																					<div class='col-md-4'>
+																						<label>Soal Tampil</label>
+																						<input type='number' name='tampil_esai' class='form-control' value="<?= $mapel['tampil_esai'] ?>" required='true' />
+																					</div>
+																				</div>
+																			</div>
+																			<div class='form-group'>
+																				<div class='row'>
+																					<?php if ($pengawas['level'] == 'admin') : ?>
+																						<div class='col-md-6'>
+																							<label>Guru Pengampu</label>
+																							<select name='guru' class='form-control' required='true'>
+																								<?php
+																												$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
+																												while ($guru = mysql_fetch_array($guruku)) {
+																													($guru['id_pengawas'] == $mapel['idguru']) ? $s = 'selected' : $s = '';
+																													echo "<option value='$guru[id_pengawas]' $s>$guru[nama]</option>";
+																												}
+																												?>
+																							</select>
+																						</div>
+																					<?php endif; ?>
+																					<div class='col-md-6'>
+																						<label>Status Soal</label>
+																						<select name='status' class='form-control' required='true'>
+																							<option value='1'>Aktif</option>
+																							<option value='0'>Non Aktif</option>
+																						</select>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class='modal-footer'>
+																			<button type='submit' name='editbanksoal' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 
-																</div><!-- /.box-header -->
-																<div class='box-body'>
-																	<div id='tablereset' class='table-responsive'>
-																		<table id='example1' class='table table-bordered table-striped'>
-																			<thead>
-																				<tr>
-																					<th width='5px'><input type='checkbox' id='ceksemua'></th>
-																					<th width='5px'>#</th>
-																					<th>Mata Pelajaran</th>
-
-																					<th>Soal PG</th>
-																					<th>Soal Esai</th>
-
-
-																					<th>Kelas</th>
-																					<th>Guru</th>
-																					<th>Status</th>
-																					<th></th>
-																				</tr>
-																			</thead>
-																			<tbody>";
-							if ($pengawas['level'] == 'admin') {
-								$mapelQ = mysql_query("SELECT * FROM mapel ORDER BY date ASC");
-							} elseif ($pengawas['level'] == 'guru') {
-								$mapelQ = mysql_query("SELECT * FROM mapel where idguru='$pengawas[id_pengawas]' ORDER BY date ASC");
-							}
-
-							while ($mapel = mysql_fetch_array($mapelQ)) {
-								$cek = mysql_num_rows(mysql_query("select * from soal where id_mapel='$mapel[id_mapel]'"));
-								//parsing array
-
-								$no++;
-								echo "
-																				<tr>
-																					<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value='$mapel[id_mapel]'></td>
-																					<td>$no</td>
-																					<td>
-																						";
-								if ($mapel['idpk'] == 'semua') {
-									$jur = 'Semua';
-								} else {
-									$jur = $mapel['idpk'];
-								}
-								echo "
-																						<b><small class='label bg-purple'>$mapel[nama]</small></b>
-																						<small class='label label-primary'>$mapel[level]</small>
-																						<small class='label label-primary'>$jur</small>
-																					</td>";
-
-
-								echo "
-
-
-																					<td><small class='label label-warning'>$mapel[tampil_pg]/$mapel[jml_soal]</small> <small class='label label-danger'>$mapel[bobot_pg] %</small>
-																						<small class='label label-danger'>$mapel[opsi] opsi</small></td>
-																					<td><small class='label label-warning'>$mapel[tampil_esai]/$mapel[jml_esai]</small> <small class='label label-danger'>$mapel[bobot_esai] %</small></td>
-
-
-																					<td>";
-								$dataArray = unserialize($mapel['kelas']);
-								foreach ($dataArray as $key => $value) {
-									echo "<small class='label label-success'>$value </small>&nbsp;";
-								}
-								echo "</td>
-																					";
-								if ($cek <> 0) {
-									if ($mapel['status'] == '0') {
-										$status = '<label class="label label-danger">non aktif</label>';
-									} else {
-										$status = '<label class="label label-success"> aktif </label>';
-									}
-								} else {
-									$status = '<label class="label label-warning"> Soal Kosong </label>';
-								}
-								$guruku = mysql_fetch_array(mysql_query("select*from pengawas where id_pengawas = '$mapel[idguru]'"));
-								echo "
-																						<td><small class='label label-primary'>$guruku[nama]</small></td>
-																						<td align='center'>$status</td>
-
-																						<td align='center'>
-																							<div class='btn-group'>
-
-																								<a href='?pg=$pg&ac=lihat&id=$mapel[id_mapel]'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
-																								<a href='?pg=$pg&ac=importsoal&id=$mapel[id_mapel]'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
-																								<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal$mapel[id_mapel]'><i class='fa fa-pencil-square-o'></i></button></a>
-
-																							</div>
-																						</td>
-																				</tr>
-
-																				<div class='modal fade' id='editbanksoal$mapel[id_mapel]' style='display: none;'>
-																					<div class='modal-dialog'>
-																						<div class='modal-content'>
-																							<div class='modal-header bg-blue'>
-																								<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																								<h3 class='modal-title'>Edit Bank Soal</h3>
-																							</div>
-																							<div class='modal-body'>
-																								<form action='' method='post'>
-																									<input type='hidden' id='idm' name='idm' value='$mapel[id_mapel]' />
-																									<div class='form-group'>
-																										<label>Mata Pelajaran</label>
-																										<select name='nama' class='form-control' required='true'>
-																											<option value=''></option>";
-								$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
-								while ($pk = mysql_fetch_array($pkQ)) {
-									($pk['kode_mapel'] == $mapel['nama']) ? $s = 'selected' : $s = '';
-									echo "<option value='$pk[kode_mapel]' $s>$pk[nama_mapel]</option>";
-								}
-								echo "
-																										</select>
-																									</div>";
-								if ($setting['jenjang'] == 'SMK') {
-									echo "
-																									<div class='form-group'>
-																										<label>Program Keahlian</label>
-																										<select name='id_pk' class='form-control' required='true'>
-																											<option value='semua'>Semua</option>";
-									$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-									while ($pk = mysql_fetch_array($pkQ)) {
-										($pk['id_pk'] == $mapel['idpk']) ? $s = 'selected' : $s = '';
-										echo "<option value='$pk[id_pk]' $s>$pk[program_keahlian]</option>";
-									}
-									echo "
-																										</select>
-																									</div>";
-								}
-								echo "
-																									<div class='form-group'>
-																										<div class='row'>
-																											<div class='col-md-6'>
-																												<label>Pilih Level</label>
-																												<select name='level' class='form-control' required='true'>
-																													<option value='semua'>Semua Level</option>
-																													";
-								$lev = mysql_query("SELECT * FROM level");
-								while ($level = mysql_fetch_array($lev)) {
-									echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
-								}
-								echo "
-																												</select>
-																											</div>
-																											<div class='col-md-6'>
-																												<label>Pilih Kelas</label><br>
-																												<select name='kelas[]' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
-																													<option value='semua'>Semua Kelas</option>
-																													";
-								$lev = mysql_query("SELECT * FROM kelas ");
-								while ($kelas = mysql_fetch_array($lev)) {
-									echo "<option value='$kelas[id_kelas]'>$kelas[id_kelas]</option>";
-								}
-								echo "
-																												</select>
-																											</div>
-																										</div>
-																									</div>
-																									<div class='form-group'>
-																										<div class='row'>
-																											<div class='col-md-3'>
-																												<label>Jumlah Soal PG</label>
-																												<input type='number' name='jml_soal' class='form-control' value='$mapel[jml_soal]' required='true' />
-																											</div>
-																											<div class='col-md-3'>
-																												<label>Bobot Soal PG %</label>
-																												<input type='number' name='bobot_pg' class='form-control' value='$mapel[bobot_pg]' required='true' />
-																											</div>
-																											<div class='col-md-3'>
-																												<label>Soal Tampil</label>
-																												<input type='number' name='tampil_pg' class='form-control' value='$mapel[tampil_pg]' required='true' />
-																											</div>
-																											<div class='col-md-3'>
-																												<label>Opsi</label>
-																												<select name='opsi' class='form-control'>
-																													<option value='3' ";
-								if ($mapel['opsi'] == 3) {
-									echo " selected";
-								}
-								echo ">3</option>
-															<option value='4' ";
-								if ($mapel['opsi'] == 4) {
-									echo "selected";
-								}
-								echo ">4</option>
-															<option value='5' ";
-								if ($mapel['opsi'] == 5) {
-									echo "selected";
-								}
-								echo ">5</option>
-															</select>
-															</div>
+																		</div>
+																	</form>
+																</div>
 															</div>
 														</div>
-														<div class='form-group'>
-															<div class='row'>
-															<div class='col-md-4'>
-															<label>Jumlah Soal Essai</label>
-															<input type='number' name='jml_esai' class='form-control' value='$mapel[jml_esai]' required='true'/>
-															</div>
-															<div class='col-md-4'>
-															<label>Bobot Soal Essai %</label>
-															<input type='number' name='bobot_esai' class='form-control' value='$mapel[bobot_esai]' required='true'/>
-															</div>
-															<div class='col-md-4'>
-															<label>Soal Tampil</label>
-															<input type='number' name='tampil_esai' class='form-control' value='$mapel[tampil_esai]' required='true'/>
-															</div>
-															</div>
-														</div>
-														
-															<div class='form-group'>
-															<div class='row'>
-														";
-								if ($pengawas['level'] == 'admin') {
-									echo "
-															<div class='col-md-6'>
-															<label>Guru Pengampu</label>
-															<select name='guru' class='form-control' required='true'>
-															";
-									$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
-									while ($guru = mysql_fetch_array($guruku)) {
-										($guru['id_pengawas'] == $mapel['idguru']) ? $s = 'selected' : $s = '';
-										echo "<option value='$guru[id_pengawas]' $s>$guru[nama]</option>";
-									}
-									echo "
-															</select>
-														</div>";
-								}
-								echo "
-														<div class='col-md-6'>
-															<label>Status Soal</label>
-															<select name='status' class='form-control' required='true'>
-															
-																<option value='1'>Aktif</option>
-																<option value='0'>Non Aktif</option>
-															</select>
-														</div>	
-														</div>
-														</div>
-												
-												</div>
-												<div class='modal-footer'>
-												<button type='submit' name='editbanksoal' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-											
-												</div>
-												</form>
-													<!-- /.modal-content -->
-												</div>
-												<!-- /.modal-dialog -->
-												</div>
-													";
-							}
-							echo "
+													<?php endwhile; ?>
 												</tbody>
 											</table>
-											</div>
-										</div><!-- /.box-body -->
-									</div><!-- /.box -->
-								</div>
+										</div>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
 							</div>
-							
-					";
-							echo "<div class='modal fade' id='tambahbanksoal' style='display: none;'>
-												<div class='modal-dialog'>
-												<div class='modal-content'>
-												<div class='modal-header bg-blue'>
-												<button  class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-														<h3 class='modal-title'>Tambah Bank Soal</h3>
+						</div>
+						<div class='modal fade' id='tambahbanksoal' style='display: none;'>
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header bg-blue'>
+										<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+										<h3 class='modal-title'>Tambah Bank Soal</h3>
+									</div>
+									<form action='' method='post'>
+										<div class='modal-body'>
+											<div class='form-group'>
+												<label>Mata Pelajaran</label>
+												<select name='nama' class='form-control' required='true'>
+													<option value=''></option>";
+													<?php
+															$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
+															while ($pk = mysql_fetch_array($pkQ)) {
+																echo "<option value='$pk[kode_mapel]'>$pk[nama_mapel]</option>";
+															}
+															?>
+												</select>
+											</div>
+											<?php if ($setting['jenjang'] == 'SMK') : ?>
+												<div class='form-group'>
+													<label>Program Keahlian</label>
+													<select name='id_pk' class='form-control' required='true'>
+														<option value='semua'>Semua</option>
+														<?php
+																	$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
+																	while ($pk = mysql_fetch_array($pkQ)) :
+																		echo "<option value='$pk[id_pk]'>$pk[program_keahlian]</option>";
+																	endwhile;
+																	?>
+													</select>
 												</div>
-												<div class='modal-body'>
-												<form action='' method='post'>	
-														<div class='form-group'>
-															<label>Mata Pelajaran</label>
-															<select name='nama' class='form-control' required='true'>
-															<option value=''></option>";
-							$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
-							while ($pk = mysql_fetch_array($pkQ)) {
-								echo "<option value='$pk[kode_mapel]'>$pk[nama_mapel]</option>";
-							}
-							echo "
-														</select>
-														</div>";
-							if ($setting['jenjang'] == 'SMK') {
-								echo "
-														<div class='form-group'>
-														<label>Program Keahlian</label>
-														<select name='id_pk' class='form-control' required='true'>
-															<option value='semua'>Semua</option>";
-								$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-								while ($pk = mysql_fetch_array($pkQ)) {
-									echo "<option value='$pk[id_pk]'>$pk[program_keahlian]</option>";
-								}
-								echo "
-														</select>
-														</div>";
-							}
-							echo "
-														<div class='form-group'>
-															<div class='row'>
-															<div class='col-md-6'>
-															<label>Level Soal</label>
-															<select name='level' id='soallevel' class='form-control' required='true'>
+											<?php endif; ?>
+											<div class='form-group'>
+												<div class='row'>
+													<div class='col-md-6'>
+														<label>Level Soal</label>
+														<select name='level' id='soallevel' class='form-control' required='true'>
 															<option value=''></option>
 															<option value='semua'>Semua</option>
-															";
-							$lev = mysql_query("SELECT * FROM level");
-							while ($level = mysql_fetch_array($lev)) {
-								echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
-							}
-							echo "
-															</select>
-															</div>
-															<div class='col-md-6'>
-														
-															<label>Pilih Kelas</label><br>
-															<select name='kelas[]' id='soalkelas' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
-																															
-															</select>
-															</div>
-															</div>
-														</div>
-														<div class='form-group'>
-															<div class='row'>
-															<div class='col-md-3'>
-															<label>Jumlah Soal PG</label>
-															<input type='number' id='soalpg' name='jml_soal' class='form-control'  required='true'/>
-															</div>
-															<div class='col-md-3'>
-															<label>Bobot Soal PG %</label>
-															<input type='number' name='bobot_pg' class='form-control'  required='true'/>
-															</div>
-															<div class='col-md-3'>
-															<label>Soal Tampil</label>
-															<input type='number' id='tampilpg'  name='tampil_pg' class='form-control'  required='true'/>
-															</div>
-															<div class='col-md-3'>
-															<label>Opsi</label>
-															<select name='opsi' class='form-control'>
+															<?php
+																	$lev = mysql_query("SELECT * FROM level");
+																	while ($level = mysql_fetch_array($lev)) {
+																		echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
+																	}
+																	?>
+														</select>
+													</div>
+													<div class='col-md-6'>
+														<label>Pilih Kelas</label><br>
+														<select name='kelas[]' id='soalkelas' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class='form-group'>
+												<div class='row'>
+													<div class='col-md-3'>
+														<label>Jumlah Soal PG</label>
+														<input type='number' id='soalpg' name='jml_soal' class='form-control' required='true' />
+													</div>
+													<div class='col-md-3'>
+														<label>Bobot Soal PG %</label>
+														<input type='number' name='bobot_pg' class='form-control' required='true' />
+													</div>
+													<div class='col-md-3'>
+														<label>Soal Tampil</label>
+														<input type='number' id='tampilpg' name='tampil_pg' class='form-control' required='true' />
+													</div>
+													<div class='col-md-3'>
+														<label>Opsi</label>
+														<select name='opsi' class='form-control'>
 															<option value='3'>3</option>
 															<option value='4'>4</option>
 															<option value='5'>5</option>
-															</select>
-															</div>
-															</div>
-														</div>
-														<div class='form-group'>
-															<div class='row'>
-															<div class='col-md-4'>
-															<label>Jumlah Soal Essai</label>
-															<input type='number' id='soalesai' name='jml_esai' class='form-control'  required='true'/>
-															</div>
-															<div class='col-md-4'>
-															<label>Bobot Soal Essai %</label>
-															<input type='number' name='bobot_esai' class='form-control' required='true'/>
-															</div>
-															<div class='col-md-4'>
-															<label>Soal Tampil</label>
-															<input type='number' id='tampilesai' name='tampil_esai' class='form-control'  required='true'/>
-															</div>
-															</div>
-														</div>
-														<div class='form-group'>
-															<div class='row'>
-														";
-							if ($pengawas['level'] == 'admin') {
-								echo "
-															
-															<div class='col-md-6'>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class='form-group'>
+												<div class='row'>
+													<div class='col-md-4'>
+														<label>Jumlah Soal Essai</label>
+														<input type='number' id='soalesai' name='jml_esai' class='form-control' required='true' />
+													</div>
+													<div class='col-md-4'>
+														<label>Bobot Soal Essai %</label>
+														<input type='number' name='bobot_esai' class='form-control' required='true' />
+													</div>
+													<div class='col-md-4'>
+														<label>Soal Tampil</label>
+														<input type='number' id='tampilesai' name='tampil_esai' class='form-control' required='true' />
+													</div>
+												</div>
+											</div>
+											<div class='form-group'>
+												<div class='row'>
+													<?php if ($pengawas['level'] == 'admin') : ?>
+														<div class='col-md-6'>
 															<label>Guru Pengampu</label>
 															<select name='guru' class='form-control' required='true'>
-															";
-								$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
-								while ($guru = mysql_fetch_array($guruku)) {
-									echo "<option value='$guru[id_pengawas]'>$guru[nama]</option>";
-								}
-								echo "
+																<?php
+																			$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
+																			while ($guru = mysql_fetch_array($guruku)) {
+																				echo "<option value='$guru[id_pengawas]'>$guru[nama]</option>";
+																			}
+																			?>
 															</select>
-														</div>";
-							}
-							echo "
-														<div class='col-md-6'>
-															<label>Status Soal</label>
-															<select name='status' class='form-control' required='true'>
-															
-																<option value='1'>Aktif</option>
-																<option value='0'>Non Aktif</option>
-															</select>
-															</div>
-															</div>
-														</div>	
-												
+														</div>
+													<?php endif; ?>
+													<div class='col-md-6'>
+														<label>Status Soal</label>
+														<select name='status' class='form-control' required='true'>
+															<option value='1'>Aktif</option>
+															<option value='0'>Non Aktif</option>
+														</select>
+													</div>
+												</div>
+											</div>
 										</div>
 										<div class='modal-footer'>
 											<button type='submit' name='tambahbanksoal' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-											
 										</div>
-										</form>
-											<!-- /.modal-content -->
-										</div>
-										<!-- /.modal-dialog -->
-										</div>
-										";
-						} elseif ($ac == 'input') {
+									</form>
+								</div>
+							</div>
+						</div>
+					<?php
+						elseif ($ac == 'input') :
 							include 'inputsmk.php';
-						} elseif ($ac == 'hapusbank') {
-							$exec = mysql_query("delete from soal where id_mapel='$_GET[id]'");
+						elseif ($ac == 'hapusbank') :
+							$exec = mysql_query("DELETE FROM soal WHERE id_mapel='$_GET[id]'");
 							jump(" ?pg=$pg&ac=lihat&id=$_GET[id]");
-						} elseif ($ac == 'lihat') {
+						elseif ($ac == 'lihat') :
 							$id_mapel = $_GET['id'];
 							if (isset($_REQUEST['tambah'])) {
 								$sip = $_SERVER['SERVER_NAME'];
-								$smax = mysql_query("select max(qid) as maxi from savsoft_qbank");
-								while ($hmax = mysql_fetch_array($smax)) {
+								$smax = mysql_query("SELECT max(qid) AS maxi FROM savsoft_qbank");
+								while ($hmax = mysql_fetch_array($smax)) :
 									$jumsoal = $hmax['maxi'];
-								}
-								$smaop = mysql_query("select max(oid) as maxop from savsoft_options");
+								endwhile;
+								$smaop = mysql_query("SELECT max(oid) AS maxop FROM savsoft_options");
 								while ($hmaop = mysql_fetch_array($smaop)) {
 									$jumop = $hmaop['maxop'];
 								}
 								$b_op = $jumop / $jumsoal;
 								$no = 1;
-								$sqlcek = mysql_query("select * from savsoft_qbank");
+								$sqlcek = mysql_query("SELECT * FROM savsoft_qbank");
 								while ($r = mysql_fetch_array($sqlcek)) {
 									$s_soal = mysql_fetch_array(mysql_query("select * from savsoft_qbank where qid='$no'"));
 									$soal_tanya = $s_soal['question'];
@@ -3693,12 +3438,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$c_id = $s_soal['cid'];
 									$g_soal = $s_soal['description'];
 									$g_soal = str_replace(" ", "", $g_soal);
-
 									$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
 									while ($hmin = mysql_fetch_array($smin)) {
 										$min_op = $hmin['mini'];
 									}
-
 									$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
 									$ropc = mysql_fetch_array($sqlopc);
 									$opj1 = $ropc['q_option'];
@@ -3707,7 +3450,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$fileA = $ropc['q_option_match'];
 									$fileA = str_replace(" ", "", $fileA);
 
-									$dele = mysql_query(" delete from savsoft_options where qid='$no' and oid='$min_op'");
+									$dele = mysql_query("DELETE FROM savsoft_options WHERE qid='$no' AND oid='$min_op'");
 
 									$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
 									while ($hmin = mysql_fetch_array($smin)) {
@@ -3814,499 +3557,436 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$hasil2 = mysql_query("TRUNCATE TABLE savsoft_qbank");
 								$hasil2 = mysql_query("TRUNCATE TABLE savsoft_options");
 							}
-							$namamapel = mysql_fetch_array(mysql_query("select * from mapel where id_mapel='$id_mapel'"));
+							$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 							if ($namamapel['jml_esai'] == 0) {
 								$hide = 'hidden';
 							} else {
 								$hide = '';
 							}
-							echo " <div class='row'>
-																														<div class='col-md-12'>
-																															<div class='box box-solid'>
-																																<div class='box-header with-border '>
-																																	<h3 class='box-title'>Daftar Soal $namamapel[nama]</h3>
-																																	<div class='box-tools pull-right btn-group'>
+							?>
+						<div class='row'>
+							<div class='col-md-12'>
+								<div class='box box-solid'>
+									<div class='box-header with-border '>
+										<h3 class='box-title'>Daftar Soal <?= $namamapel['nama'] ?></h3>
+										<div class='box-tools pull-right btn-group'>
+											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> PG</a>
+											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=2' class='btn btn-sm btn-flat btn-success $hide'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> Essai</a>
+											<a class='btn btn-sm btn-flat btn-success' href='soal_excel.php?m=<?= $id_mapel ?>'><i class='fa fa-file-excel-o'></i><span class='hidden-xs'> Excel</span></a>
+											<button class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i><span class='hidden-xs'> Print</span></button>
+											<a href='?pg=<?= $pg ?>&ac=hapusbank&id=<?= $id_mapel ?>' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i><span class='hidden-xs'>kosongkan </span></a>
+											<iframe name='frameresult' src='cetaksoal.php?id=<?= $id_mapel ?>' style='border:none;width:1px;height:1px;'></iframe>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<div class='table-responsive'>
+											<b>A. Soal Pilihan Ganda</b>
+											<table class='table table-bordered table-striped'>
+												<tbody>
+													<?php $soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='1' order by nomor "); ?>
+													<?php while ($soal = mysql_fetch_array($soalq)) : ?>
+														<tr>
+															<td style='width:30px'>
+																<?= $soal['nomor'] ?>
+															</td>
+															<td style="text-align:justify">
+																<?php
+																			if ($soal['file'] <> '') :
+																				$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																				$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																				$ext = explode(".", $soal['file']);
+																				$ext = end($ext);
+																				if (in_array($ext, $image)) {
+																					echo "<img src='$homeurl/files/$soal[file]' style='max-width:200px;'/><br>";
+																				} elseif (in_array($ext, $audio)) {
+																					echo "<audio controls><source src='$homeurl/files/$soal[file]' type='audio/$ext'>Your browser does not support the audio tag.</audio><br>";
+																				} else {
+																					echo "File tidak didukung!";
+																				}
+																			endif;
+																			?>
+																			<?= $soal['soal']; ?>
+																			<?php
+																			if ($soal['file1'] <> '') :
+																				$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																				$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																				$ext = explode(".", $soal['file1']);
+																				$ext = end($ext);
+																				if (in_array($ext, $image)) {
+																					echo "<br><img src='$homeurl/files/$soal[file1]' style='max-width:200px;' />";
+																				} elseif (in_array($ext, $audio)) {
+																					echo "<br><audio controls><source src='$homeurl/files/$soal[file1]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																				} else {
+																					echo "File tidak didukung!";
+																				}
+																			endif;
+																			?>
+																<table width=100%>
+																	<tr>
+																		<td style="padding: 3px;width: 2%; vertical-align: text-top;">A.</td>
+																		<td style="padding: 3px;width: 31%; vertical-align: text-top;">
+																			<?php
+																						if ($soal['pilA'] <> '') {
+																							echo "$soal[pilA]<br>";
+																						}
+																						if ($soal['fileA'] <> '') {
+																							$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																							$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																							$ext = explode(".", $soal['fileA']);
+																							$ext = end($ext);
+																							if (in_array($ext, $image)) {
+																								echo "<img src='$homeurl/files/$soal[fileA]' style='max-width:100px;'/>";
+																							} elseif (in_array($ext, $audio)) {
+																								echo "<audio controls><source src='$homeurl/files/$soal[fileA]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																							} else {
+																								echo "File tidak didukung!";
+																							}
+																						}
+																						?>
+																		</td>
+																		<td style="padding: 3px;width: 2%; vertical-align: text-top;">C.</td>
+																		<td style="padding: 3px;width: 31%; vertical-align: text-top;">
+																			<?php
+																						if (!$soal['pilC'] == "") {
+																							echo "$soal[pilC]<br>";
+																						}
+																						if ($soal['fileC'] <> '') {
+																							$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																							$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																							$ext = explode(".", $soal['fileC']);
+																							$ext = end($ext);
+																							if (in_array($ext, $image)) {
+																								echo "<img src='$homeurl/files/$soal[fileC]' style='max-width:100px;' />";
+																							} elseif (in_array($ext, $audio)) {
+																								echo "<audio controls><source src='$homeurl/files/$soal[fileC]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																							} else {
+																								echo "File tidak didukung!";
+																							}
+																						}
+																						?>
+																		</td>
+																		<?php if ($namamapel['opsi'] == 5) : ?>
+																			<td style="padding: 3px;width: 2%; vertical-align: text-top;">E.</td>
+																			<td style="padding: 3px; vertical-align: text-top;">
+																				<?php
+																								if (!$soal['pilE'] == "") {
+																									echo "$soal[pilE]<br>";
+																								}
+																								if ($soal['fileE'] <> '') {
+																									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																									$ext = explode(".", $soal['fileE']);
+																									$ext = end($ext);
+																									if (in_array($ext, $image)) {
+																										echo "<img src='$homeurl/files/$soal[fileE]' style='max-width:100px;' />";
+																									} elseif (in_array($ext, $audio)) {
+																										echo "<audio controls><source src='$homeurl/files/$soal[fileE]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																									} else {
+																										echo "File tidak didukung!";
+																									}
+																								}
+																								?>
+																			</td>
+																		<?php endif; ?>
+																	</tr>
+																	<tr>
+																		<td style="padding: 3px;width: 2%; vertical-align: text-top;">B.</td>
+																		<td style="padding: 3px;width: 31%; vertical-align: text-top;">
+																			<?php
+																						if (!$soal['pilB'] == "") {
+																							echo "$soal[pilB]<br>";
+																						}
+																						if ($soal['fileB'] <> '') {
+																							$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																							$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																							$ext = explode(".", $soal['fileB']);
+																							$ext = end($ext);
+																							if (in_array($ext, $image)) {
+																								echo "<img src='$homeurl/files/$soal[fileB]' style='max-width:100px;' />";
+																							} elseif (in_array($ext, $audio)) {
+																								echo "<audio controls><source src='$homeurl/files/$soal[fileB]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																							} else {
+																								echo "File tidak didukung!";
+																							}
+																						}
+																						?>
+																		</td>
+																		<?php if ($namamapel['opsi'] <> 3) : ?>
+																			<td style="padding: 3px;width: 2%; vertical-align: text-top;">D.</td>
+																			<td style="padding: 3px;width: 31%; vertical-align: text-top;">
+																				<?php
+																								if (!$soal['pilD'] == "") {
+																									echo "$soal[pilD]<br>";
+																								}
+																								if ($soal['fileD'] <> '') {
+																									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																									$ext = explode(".", $soal['fileD']);
+																									$ext = end($ext);
+																									if (in_array($ext, $image)) {
+																										echo "<img src='$homeurl/files/$soal[fileD]' style='max-width:100px;' />";
+																									} elseif (in_array($ext, $audio)) {
+																										echo "<audio controls><source src='$homeurl/files/$soal[fileD]' type='audio/$ext'>Your browser does not support the audio tag.</audio>";
+																									} else {
+																										echo "File tidak didukung!";
+																									}
+																								}
+																								?>
+																			</td>
+																		<?php endif; ?>
+																	</tr>
+																	<tr>
+																		<td colspan='2' style="padding: 3px;vertical-align: text-top;">
+																			Kunci : <?= $soal['jawaban']; ?>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+															<td style='width:30px'>
+																<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['nomor'] ?>"><i class='fa fa-trash-o'></i></button></a>
+															</td>
+														</tr>
+														<?php
+																	$info = info("Anda yakin akan menghapus soal ini ?");
+																	if (isset($_POST['hapus'])) {
+																		$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
+																		(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
+																	}
+																	?>
+														<div class='modal fade' id="hapus<?= $soal['nomor'] ?>" style='display: none;'>
+															<div class='modal-dialog'>
+																<div class='modal-content'>
+																	<div class='modal-header bg-maroon'>
+																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+																		<h3 class='modal-title'>Hapus Soal</h3>
+																	</div>
+																	<div class='modal-body'>
+																		<form action='' method='post'>
+																			<input type='hidden' id='idu' name='idu' value="<?= $soal['id_soal'] ?>" />
+																			<div class='callout '>
+																				<h4><?= $info ?></h4>
+																			</div>
+																			<div class='modal-footer'>
+																				<div class='box-tools pull-right btn-group'>
+																					<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+																				</div>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</div>
+													<?php endwhile; ?>
+												</tbody>
+											</table>
+											<b>B. Soal Essai</b>
+											<table class='table table-bordered table-striped'>
+												<tbody>
+													<?php
+															$soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='2' order by nomor ");
+															while ($soal = mysql_fetch_array($soalq)) {
+																?>
+														<tr>
+															<td style='width:30px'>
+																<?= $soal['nomor'] ?>
+															</td>
+															<td style="text-align:justify">
+																<?php
+																			if ($soal['file'] <> '') :
+																				$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																				$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																				$ext = explode(".", $soal['file']);
+																				$ext = end($ext);
+																				if (in_array($ext, $image)) {
+																					echo "<img src='$homeurl/files/$soal[file]' style='max-width:200px;'/><br>";
+																				} elseif (in_array($ext, $audio)) {
+																					echo "<audio controls><source src='$homeurl/files/$soal[file]' type='audio/$ext'>Your browser does not support the audio tag.</audio><br>";
+																				} else {
+																					echo "File tidak didukung!";
+																				}
+																			endif;
+																			?>
+																<?= $soal['soal']; ?>
+																<?php
+																			if ($soal['file1'] <> '') :
+																				$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
+																				$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
+																				$ext = explode(".", $soal['file1']);
+																				$ext = end($ext);
+																				if (in_array($ext, $image)) {
+																					echo "<p><img src='$homeurl/files/$soal[file1]' style='max-width:200px;' /></p>";
+																				} elseif (in_array($ext, $audio)) {
+																					echo "<p><audio controls><source src='$homeurl/files/$soal[file1]' type='audio/$ext'>Your browser does not support the audio tag.</audio></p>";
+																				} else {
+																					echo "File tidak didukung!";
+																				}
+																			endif;
+																			?>
+															</td>
+															<td style='width:30px'>
+																<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['nomor'] ?>"><i class='fa fa-trash-o'></i></button></a>
+															</td>
+														</tr>
+												<?php
+															$info = info("Anda yakin akan menghapus soal ini ?");
+															if (isset($_POST['hapus'])) {
+																$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
+																(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
+															}
+															echo "
+																	<div class='modal fade' id='hapus$soal[nomor]' style='display: none;'>
+																		<div class='modal-dialog'>
+																			<div class='modal-content'>
+																				<div class='modal-header bg-maroon'>
+																					<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
+																					<h3 class='modal-title'>Hapus Soal</h3>
+														</div>
+														<div class='modal-body'>
+															<form action='' method='post'>
+																<input type='hidden' id='idu' name='idu' value='$soal[id_soal]' />
+																<div class='callout callout-warning'>
+																	<h4>$info</h4>
+																</div>
+																<div class='modal-footer'>
+																	<div class='box-tools pull-right btn-group'>
+																		<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+																		<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
+																	</div>
+																</div>
+															</form>
+														</div>
 
-																																		<a href='?pg=$pg&ac=input&id=$id_mapel&no=1&jenis=1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> PG</a>
-																																		<a href='?pg=$pg&ac=input&id=$id_mapel&no=1&jenis=2' class='btn btn-sm btn-flat btn-success $hide'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> Essai</a>
-																																		<a class='btn btn-sm btn-flat btn-success' href='soal_excel.php?m=$id_mapel'><i class='fa fa-file-excel-o'></i><span class='hidden-xs'> Excel</span></a>
-																																		<button class='btn btn-sm btn-flat btn-success' onclick=frames['frameresult'].print()><i class='fa fa-print'></i><span class='hidden-xs'> Print</span></button>
-																																		<a href='?pg=$pg&ac=hapusbank&id=$id_mapel' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i><span class='hidden-xs'>kosongkan </span></a>
-																																		<iframe name='frameresult' src='cetaksoal.php?id=$id_mapel' style='border:none;width:1px;height:1px;'></iframe>
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											";
+														}
+														echo "
+																						</tbody>
+																					</table>
+																				</div>
+																			</div><!-- /.box-body -->
+																		</div><!-- /.box -->
+																	</div>
+														</div>
 
-																																	</div>
+														";
+													elseif ($ac == 'hapusfile') :
+														$jenis = $_GET['jenis'];
+														$id = $_GET['id'];
+														$file = $_GET['file'];
+														$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$id'"));
+														(file_exists("../files/" . $soal[$file])) ? unlink("../files/" . $soal[$file]) : null;
+														mysql_query("UPDATE soal SET $file='' WHERE id_soal='$id'");
+														jump("?pg=$pg&ac=input&paket=$soal[paket]&id=$soal[id_mapel]&no=$soal[nomor]&jenis=$jenis");
+													elseif ($ac == 'importsoal') :
+														$id_mapel = $_GET['id'];
+														$mapelQ = mysql_query("SELECT * FROM mapel where id_mapel='$id_mapel'");
+														$mapel = mysql_fetch_array($mapelQ);
+														$cekmapel = mysql_num_rows($mapelQ);
+														if (isset($_POST['submit'])) {
+															$file = $_FILES['file']['name'];
+															$temp = $_FILES['file']['tmp_name'];
+															$ext = explode('.', $file);
+															$ext = end($ext);
+															if ($ext <> 'xls') {
+																$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
+															} else {
 
-																																</div><!-- /.box-header -->
-																																<div class='box-body'>
-																																	<div class='table-responsive'>
-																																		<b>A. Soal Pilihan Ganda</b>
-																																		<table class='table table-bordered table-striped'>
+																$data = new Spreadsheet_Excel_Reader($temp);
+																$hasildata = $data->rowcount($sheet_index = 0);
+																$sukses = $gagal = 0;
+																$exec = mysql_query("delete from soal where id_mapel='$id_mapel' ");
+																for ($i = 2; $i <= $hasildata; $i++) {
+																	$no = $data->val($i, 1);
+																	$soal = addslashes($data->val($i, 2));
+																	$pilA = addslashes($data->val($i, 3));
+																	$pilB = addslashes($data->val($i, 4));
+																	$pilC = addslashes($data->val($i, 5));
+																	$pilD = addslashes($data->val($i, 6));
+																	$pilE = addslashes($data->val($i, 7));
+																	$jawaban = $data->val($i, 8);
+																	$jenis = $data->val($i, 9);
+																	$file1 = $data->val($i, 10);
+																	$file2 = $data->val($i, 11);
+																	$fileA = $data->val($i, 12);
+																	$fileB = $data->val($i, 13);
+																	$fileC = $data->val($i, 14);
+																	$fileD = $data->val($i, 15);
+																	$fileE = $data->val($i, 16);
+																	$id_mapel = $_POST['id_mapel'];
 
-																																			<tbody>";
+																	if ($soal <> '' and $jenis <> '') {
+																		$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+																		($exec) ? $sukses++ : $gagal++;
+																	} else {
+																		$gagal++;
+																	}
+																}
+																$total = $hasildata - 1;
+																$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
+															}
+														}
 
-							$soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='1' order by nomor ");
+														if (isset($_POST['importbee'])) {
+															$file = $_FILES['file']['name'];
+															$temp = $_FILES['file']['tmp_name'];
+															$ext = explode('.', $file);
+															$ext = end($ext);
+															if ($ext <> 'xls') {
+																$infobee = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
+															} else {
 
-							while ($soal = mysql_fetch_array($soalq)) {
+																$data = new Spreadsheet_Excel_Reader($temp);
+																$hasildata = $data->rowcount($sheet_index = 0);
+																$sukses = $gagal = 0;
+																$exec = mysql_query("delete from soal where id_mapel='$id_mapel' ");
+																for ($i = 3; $i <= $hasildata; $i++) {
+																	$no = $data->val($i, 1);
+																	$soal = addslashes($data->val($i, 5));
+																	$pilA = addslashes($data->val($i, 6));
+																	$pilB = addslashes($data->val($i, 8));
+																	$pilC = addslashes($data->val($i, 10));
+																	$pilD = addslashes($data->val($i, 12));
+																	$pilE = addslashes($data->val($i, 14));
+																	$jawab = $data->val($i, 19);
+																	if ($jawab == '1') {
+																		$jawaban = 'A';
+																	} elseif ($jawab == '2') {
+																		$jawaban = 'B';
+																	} elseif ($jawab == '3') {
+																		$jawaban = 'C';
+																	} elseif ($jawab == '4') {
+																		$jawaban = 'D';
+																	} elseif ($jawab == '5') {
+																		$jawaban = 'E';
+																	}
+																	$jenis = $data->val($i, 2);
+																	$file1 = $data->val($i, 18);
+																	$file2 = $data->val($i, 17);
+																	$fileA = $data->val($i, 7);
+																	$fileB = $data->val($i, 9);
+																	$fileC = $data->val($i, 11);
+																	$fileD = $data->val($i, 13);
+																	$fileE = $data->val($i, 15);
+																	$id_mapel = $_POST['id_mapel'];
 
-								echo "
-																																				<tr>
-																																					<td style='width:30px'>$soal[nomor]</td>
-																																					<td>";
-								if ($soal['file'] <> '') {
-									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-									$ext = explode(".", $soal['file']);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "
+																	if ($jenis <> '') {
+																		$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+																		($exec) ? $sukses++ : $gagal++;
+																	} else {
+																		$gagal++;
+																	}
+																}
+																$total = $hasildata - 1;
+																$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
+															}
+														}
 
-																																							<img src='$homeurl/files/$soal[file]' style='max-width:200px;' />
-																																							";
-									} elseif (in_array($ext, $audio)) {
-										echo "
-
-																																							<audio controls>
-																																								<source src='$homeurl/files/$soal[file]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																							";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								if ($soal['file1'] <> '') {
-									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-									$ext = explode(".", $soal['file1']);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "
-
-																																								<img src='$homeurl/files/$soal[file1]' style='max-width:200px;' />
-																																								";
-									} elseif (in_array($ext, $audio)) {
-										echo "
-
-																																								<audio controls>
-																																									<source src='$homeurl/files/$soal[file1]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																								";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								echo "
-																																								$soal[soal]
-
-																																								<table width=100% border=0>
-																																									<tr>
-
-																																										<td width=4px valign=top>A.</td>
-																																										<td width=300px colspan=2 valign=top>";
-								if ($soal['pilA'] <> '') {
-									echo "$soal[pilA]<br>";
-								}
-								if ($soal['fileA'] <> '') {
-									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-									$ext = explode(".", $soal['fileA']);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "
-
-																																													<img src='$homeurl/files/$soal[fileA]' style='max-width:100px;' />
-																																													";
-									} elseif (in_array($ext, $audio)) {
-										echo "
-
-																																													<audio controls>
-																																														<source src='$homeurl/files/$soal[fileA]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																													";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								echo "
-
-																																										</td>
-
-																																										<td width=30px valign=top>&nbsp;</td>
-																																										<td width=4px valign=top>C.</td>
-																																										<td width=300px colspan=2 valign=top>";
-								if (!$soal['pilC'] == "") {
-									echo "$soal[pilC]<br>";
-								}
-								if ($soal['fileC'] <> '') {
-									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-									$ext = explode(".", $soal['fileC']);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "
-
-																																												<img src='$homeurl/files/$soal[fileC]' style='max-width:100px;' />
-																																												";
-									} elseif (in_array($ext, $audio)) {
-										echo "
-
-																																												<audio controls>
-																																													<source src='$homeurl/files/$soal[fileC]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																												";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								echo "
-																																										</td>";
-								if ($namamapel['opsi'] == 5) {
-									echo "
-																																										<td width=30px valign=top>&nbsp;</td>
-																																										<td width=4px valign=top>E.</td>
-																																										<td width=300px colspan=2 valign=top>";
-									if (!$soal['pilE'] == "") {
-										echo "$soal[pilE]<br>";
-									}
-									if ($soal['fileE'] <> '') {
-										$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-										$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-										$ext = explode(".", $soal['fileE']);
-										$ext = end($ext);
-										if (in_array($ext, $image)) {
-											echo "
-
-																																												<img src='$homeurl/files/$soal[fileE]' style='max-width:100px;' />
-																																												";
-										} elseif (in_array($ext, $audio)) {
-											echo "
-
-																																												<audio controls>
-																																													<source src='$homeurl/files/$soal[fileE]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																												";
-										} else {
-											echo "File tidak didukung!";
-										}
-									}
-									echo "
-																																										</td>
-																																										<td width=30px valign=top>&nbsp;</td>";
-								}
-								echo "
-																																									</tr>
-																																									<tr>
-
-																																										<td width=4px valign=top>B.</td>
-																																										<td width=300px colspan=2 valign=top>";
-								if (!$soal['pilB'] == "") {
-									echo "$soal[pilB]<br>";
-								}
-								if ($soal['fileB'] <> '') {
-									$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-									$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-									$ext = explode(".", $soal['fileB']);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "
-
-																																												<img src='$homeurl/files/$soal[fileB]' style='max-width:100px;' />
-																																												";
-									} elseif (in_array($ext, $audio)) {
-										echo "
-
-																																												<audio controls>
-																																													<source src='$homeurl/files/$soal[fileB]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																												";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								echo "
-																																										</td>
-																																										";
-								if ($namamapel['opsi'] <> 3) {
-									echo "
-																																											<td width=30px>&nbsp;</td>
-																																											<td width=4px valign=top>D.</td>
-																																											<td width=300px colspan=2 valign=top>";
-									if (!$soal['pilD'] == "") {
-										echo "$soal[pilD]<br>";
-									}
-									if ($soal['fileD'] <> '') {
-										$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
-										$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-										$ext = explode(".", $soal['fileD']);
-										$ext = end($ext);
-										if (in_array($ext, $image)) {
-											echo "
-
-																																													<img src='$homeurl/files/$soal[fileD]' style='max-width:100px;' />
-																																													";
-										} elseif (in_array($ext, $audio)) {
-											echo "
-
-																																													<audio controls>
-																																														<source src='$homeurl/files/$soal[fileD]' type='audio/$ext'>Your browser does not support the audio tag.</audio>
-																																													";
-										} else {
-											echo "File tidak didukung!";
-										}
-									}
-									echo "
-
-																																											</td>";
-								}
-								echo "
-																																											Kunci : $soal[jawaban]
-																																									</tr>
-																																								</table>
-
-																																					</td>
-																																					<td style='width:30px'>
-																																						<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target='#hapus$soal[nomor]'><i class='fa fa-trash-o'></i></button></a>
-																																					</td>
-																																				</tr>
-																																				";
-								$info = info("Anda yakin akan menghapus soal ini ?");
-								if (isset($_POST['hapus'])) {
-									$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
-									(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
-								}
-								echo "
-																																				<div class='modal fade' id='hapus$soal[nomor]' style='display: none;'>
-																																					<div class='modal-dialog'>
-																																						<div class='modal-content'>
-																																							<div class='modal-header bg-maroon'>
-																																								<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																																								<h3 class='modal-title'>Hapus Soal</h3>
-																																							</div>
-																																							<div class='modal-body'>
-																																								<form action='' method='post'>
-																																									<input type='hidden' id='idu' name='idu' value='$soal[id_soal]' />
-																																									<div class='callout '>
-																																										<h4>$info</h4>
-																																									</div>
-																																									<div class='modal-footer'>
-																																										<div class='box-tools pull-right btn-group'>
-																																											<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
-																																											<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																																										</div>
-																																									</div>
-																																								</form>
-																																							</div>
-
-																																						</div>
-																																						<!-- /.modal-content -->
-																																					</div>
-																																					<!-- /.modal-dialog -->
-																																				</div>
-
-																																				";
-							}
-							echo "
-																																			</tbody>
-																																		</table>
-																																		<b>B. Soal Essai</b>
-																																		<table class='table table-bordered table-striped'>
-
-																																			<tbody>";
-
-							$soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='2' order by nomor ");
-
-							while ($soal = mysql_fetch_array($soalq)) {
-
-								echo "
-																																				<tr>
-																																					<td style='width:30px'>$soal[nomor]</td>
-																																					<td>$soal[soal]";
-								if (!$soal['pilA'] == "") {
-									echo "
-																																						<table width=100% border=0>
-																																							<tr>
-
-																																								<td width=4px valign=top>A.</td>
-																																								<td width=300px colspan=2 valign=top> $soal[pilA]</td>
-
-																																								<td width=30px valign=top>&nbsp;</td>
-																																								<td width=4px valign=top>C.</td>
-																																								<td width=300px colspan=2 valign=top> $soal[pilC] </td>
-
-																																								<td width=30px valign=top>&nbsp;</td>
-																																								<td width=4px valign=top>E.</td>
-																																								<td width=300px colspan=2 valign=top> $soal[pilE] </td>
-																																								<td width=30px valign=top>&nbsp;</td>
-																																							</tr>
-																																							<tr>
-
-																																								<td width=4px valign=top>B.</td>
-																																								<td width=300px colspan=2 valign=top>$soal[pilB]</td>
-																																								<td width=30px>&nbsp;</td>
-																																								<td width=4px valign=top>D.</td>
-																																								<td width=300px colspan=2 valign=top>$soal[pilD] </td>
-																																							</tr>
-																																						</table>
-																																						";
-								}
-								echo "
-																																					</td>
-																																					<td style='width:30px'>
-																																						<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target='#hapus$soal[nomor]'><i class='fa fa-trash-o'></i></button></a>
-																																					</td>
-																																				</tr>
-																																				";
-								$info = info("Anda yakin akan menghapus soal ini ?");
-								if (isset($_POST['hapus'])) {
-									$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
-									(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
-								}
-								echo "
-																																				<div class='modal fade' id='hapus$soal[nomor]' style='display: none;'>
-																																					<div class='modal-dialog'>
-																																						<div class='modal-content'>
-																																							<div class='modal-header bg-maroon'>
-																																								<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																																								<h3 class='modal-title'>Hapus Soal</h3>
-																																							</div>
-																																							<div class='modal-body'>
-																																								<form action='' method='post'>
-																																									<input type='hidden' id='idu' name='idu' value='$soal[id_soal]' />
-																																									<div class='callout callout-warning'>
-																																										<h4>$info</h4>
-																																									</div>
-																																									<div class='modal-footer'>
-																																										<div class='box-tools pull-right btn-group'>
-																																											<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
-																																											<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
-																																										</div>
-																																									</div>
-																																								</form>
-																																							</div>
-
-																																						</div>
-																																						<!-- /.modal-content -->
-																																					</div>
-																																					<!-- /.modal-dialog -->
-																																				</div>
-																																				";
-							}
-							echo "
-																																			</tbody>
-																																		</table>
-																																	</div>
-																																</div><!-- /.box-body -->
-																															</div><!-- /.box -->
-																														</div>
-																											</div>
-
-																											";
-						} elseif ($ac == 'hapusfile') {
-							$jenis = $_GET['jenis'];
-							$id = $_GET['id'];
-							$file = $_GET['file'];
-							$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$id'"));
-							(file_exists("../files/" . $soal[$file])) ? unlink("../files/" . $soal[$file]) : null;
-							mysql_query("UPDATE soal SET $file='' WHERE id_soal='$id'");
-							jump("?pg=$pg&ac=input&paket=$soal[paket]&id=$soal[id_mapel]&no=$soal[nomor]&jenis=$jenis");
-						} elseif ($ac == 'importsoal') {
-							$id_mapel = $_GET['id'];
-							$mapelQ = mysql_query("SELECT * FROM mapel where id_mapel='$id_mapel'");
-							$mapel = mysql_fetch_array($mapelQ);
-							$cekmapel = mysql_num_rows($mapelQ);
-							if (isset($_POST['submit'])) {
-								$file = $_FILES['file']['name'];
-								$temp = $_FILES['file']['tmp_name'];
-								$ext = explode('.', $file);
-								$ext = end($ext);
-								if ($ext <> 'xls') {
-									$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-								} else {
-
-									$data = new Spreadsheet_Excel_Reader($temp);
-									$hasildata = $data->rowcount($sheet_index = 0);
-									$sukses = $gagal = 0;
-									$exec = mysql_query("delete from soal where id_mapel='$id_mapel' ");
-									for ($i = 2; $i <= $hasildata; $i++) {
-										$no = $data->val($i, 1);
-										$soal = addslashes($data->val($i, 2));
-										$pilA = addslashes($data->val($i, 3));
-										$pilB = addslashes($data->val($i, 4));
-										$pilC = addslashes($data->val($i, 5));
-										$pilD = addslashes($data->val($i, 6));
-										$pilE = addslashes($data->val($i, 7));
-										$jawaban = $data->val($i, 8);
-										$jenis = $data->val($i, 9);
-										$file1 = $data->val($i, 10);
-										$file2 = $data->val($i, 11);
-										$fileA = $data->val($i, 12);
-										$fileB = $data->val($i, 13);
-										$fileC = $data->val($i, 14);
-										$fileD = $data->val($i, 15);
-										$fileE = $data->val($i, 16);
-										$id_mapel = $_POST['id_mapel'];
-
-										if ($soal <> '' and $jenis <> '') {
-											$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
-											($exec) ? $sukses++ : $gagal++;
-										} else {
-											$gagal++;
-										}
-									}
-									$total = $hasildata - 1;
-									$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
-								}
-							}
-
-							if (isset($_POST['importbee'])) {
-								$file = $_FILES['file']['name'];
-								$temp = $_FILES['file']['tmp_name'];
-								$ext = explode('.', $file);
-								$ext = end($ext);
-								if ($ext <> 'xls') {
-									$infobee = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-								} else {
-
-									$data = new Spreadsheet_Excel_Reader($temp);
-									$hasildata = $data->rowcount($sheet_index = 0);
-									$sukses = $gagal = 0;
-									$exec = mysql_query("delete from soal where id_mapel='$id_mapel' ");
-									for ($i = 3; $i <= $hasildata; $i++) {
-										$no = $data->val($i, 1);
-										$soal = addslashes($data->val($i, 5));
-										$pilA = addslashes($data->val($i, 6));
-										$pilB = addslashes($data->val($i, 8));
-										$pilC = addslashes($data->val($i, 10));
-										$pilD = addslashes($data->val($i, 12));
-										$pilE = addslashes($data->val($i, 14));
-										$jawab = $data->val($i, 19);
-										if ($jawab == '1') {
-											$jawaban = 'A';
-										} elseif ($jawab == '2') {
-											$jawaban = 'B';
-										} elseif ($jawab == '3') {
-											$jawaban = 'C';
-										} elseif ($jawab == '4') {
-											$jawaban = 'D';
-										} elseif ($jawab == '5') {
-											$jawaban = 'E';
-										}
-										$jenis = $data->val($i, 2);
-										$file1 = $data->val($i, 18);
-										$file2 = $data->val($i, 17);
-										$fileA = $data->val($i, 7);
-										$fileB = $data->val($i, 9);
-										$fileC = $data->val($i, 11);
-										$fileD = $data->val($i, 13);
-										$fileE = $data->val($i, 15);
-										$id_mapel = $_POST['id_mapel'];
-
-										if ($jenis <> '') {
-											$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
-											($exec) ? $sukses++ : $gagal++;
-										} else {
-											$gagal++;
-										}
-									}
-									$total = $hasildata - 1;
-									$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
-								}
-							}
-
-							echo "
+														echo "
 																																		<div class='row'>
 																																			<div class='col-md-6'>
 																																				<form action='' method='post' enctype='multipart/form-data'>
@@ -4448,24 +4128,24 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																			</div>
 
 																																			";
-							include 'filesoal.php';
-							echo '
+														include 'filesoal.php';
+														echo '
 																																		</div>';
-						}
-						?>
-				<?php elseif ($pg == 'editguru') : ?>
-					<?php
-						if (isset($_POST['submit'])) {
-							$username = $_POST['username'];
+													endif;
+													?>
+											<?php elseif ($pg == 'editguru') : ?>
+												<?php
+													if (isset($_POST['submit'])) {
+														$username = $_POST['username'];
 
-							$nip = $_POST['nip'];
-							$nama = $_POST['nama'];
-							$nama = str_replace("'", "&#39;", $nama);
-							$exec = mysql_query("update pengawas set username='$username', nama='$nama',nip='$nip',password='$_POST[password]' where id_pengawas='$id_pengawas'");
-						}
-						if ($ac == '') {
-							$guru = mysql_fetch_array(mysql_query("select * from pengawas where id_pengawas='$pengawas[id_pengawas]'"));
-							echo "
+														$nip = $_POST['nip'];
+														$nama = $_POST['nama'];
+														$nama = str_replace("'", "&#39;", $nama);
+														$exec = mysql_query("update pengawas set username='$username', nama='$nama',nip='$nip',password='$_POST[password]' where id_pengawas='$id_pengawas'");
+													}
+													if ($ac == '') {
+														$guru = mysql_fetch_array(mysql_query("select * from pengawas where id_pengawas='$pengawas[id_pengawas]'"));
+														echo "
 																																		<div class='row'>
 																																			<div class='col-md-3'>
 																																				<div class='box box-solid'>
@@ -4553,13 +4233,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																				</div>
 																																			</div>
 																																			<!--row-->";
-						}
-						?>
-				<?php elseif ($pg == 'reset') : ?>
-					<?php
+													}
+													?>
+											<?php elseif ($pg == 'reset') : ?>
+												<?php
 
-						$info = '';
-						echo "
+													$info = '';
+													echo "
 																																			<div class='row'>
 																																				<div class='col-md-12'>
 
@@ -4586,11 +4266,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																										</tr>
 																																									</thead>
 																																									<tbody>";
-						$loginQ = mysql_query("SELECT * FROM login ORDER BY date DESC");
-						while ($login = mysql_fetch_array($loginQ)) {
-							$siswa = mysql_fetch_array(mysql_query("select * from siswa where id_siswa='$login[id_siswa]'"));
-							$no++;
-							echo "
+													$loginQ = mysql_query("SELECT * FROM login ORDER BY date DESC");
+													while ($login = mysql_fetch_array($loginQ)) {
+														$siswa = mysql_fetch_array(mysql_query("select * from siswa where id_siswa='$login[id_siswa]'"));
+														$no++;
+														echo "
 																																										<tr>
 																																											<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value='$login[id_log]'></td>
 																																											<td>$no</td>
@@ -4600,8 +4280,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 
 																																										</tr>
 																																										";
-						}
-						echo "
+													}
+													echo "
 																																									</tbody>
 																																								</table>
 																																							</div>
@@ -4611,62 +4291,62 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 
 																																				</div>
 																																			</div>";
-						?>
-				<?php elseif ($pg == 'pengaturan') : ?>
-					<?php
-						cek_session_admin();
-						$info1 = $info2 = $info3 = $info4 = '';
-						if (isset($_POST['submit1'])) {
-							$alamat = nl2br($_POST['alamat']);
-							$header = nl2br($_POST['header']);
-							$exec = mysql_query("UPDATE setting SET aplikasi='$_POST[aplikasi]',sekolah='$_POST[sekolah]',kode_sekolah='$_POST[kode]',jenjang='$_POST[jenjang]',kepsek='$_POST[kepsek]',nip='$_POST[nip]',alamat='$alamat',kecamatan='$_POST[kecamatan]',kota='$_POST[kota]',telp='$_POST[telp]',fax='$_POST[fax]',web='$_POST[web]',email='$_POST[email]',header='$header',ip_server='$_POST[ipserver]',waktu='$_POST[waktu]' WHERE id_setting='1'");
-							if ($exec) {
-								$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
-								if ($_FILES['logo']['name'] <> '') {
-									$logo = $_FILES['logo']['name'];
-									$temp = $_FILES['logo']['tmp_name'];
-									$ext = explode('.', $logo);
-									$ext = end($ext);
-									$dest = 'dist/img/logo' . rand(1, 100) . '.' . $ext;
-									$upload = move_uploaded_file($temp, '../' . $dest);
-									if ($upload) {
-										$exec = mysql_query("UPDATE setting SET logo='$dest' WHERE id_setting='1'");
-										$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
-									} else {
-										$info1 = info('Gagal menyimpan pengaturan!', 'NO');
-									}
-								}
-							} else {
-								$info1 = info('Gagal menyimpan pengaturan!', 'NO');
-							}
-						}
+													?>
+											<?php elseif ($pg == 'pengaturan') : ?>
+												<?php
+													cek_session_admin();
+													$info1 = $info2 = $info3 = $info4 = '';
+													if (isset($_POST['submit1'])) {
+														$alamat = nl2br($_POST['alamat']);
+														$header = nl2br($_POST['header']);
+														$exec = mysql_query("UPDATE setting SET aplikasi='$_POST[aplikasi]',sekolah='$_POST[sekolah]',kode_sekolah='$_POST[kode]',jenjang='$_POST[jenjang]',kepsek='$_POST[kepsek]',nip='$_POST[nip]',alamat='$alamat',kecamatan='$_POST[kecamatan]',kota='$_POST[kota]',telp='$_POST[telp]',fax='$_POST[fax]',web='$_POST[web]',email='$_POST[email]',header='$header',ip_server='$_POST[ipserver]',waktu='$_POST[waktu]' WHERE id_setting='1'");
+														if ($exec) {
+															$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
+															if ($_FILES['logo']['name'] <> '') {
+																$logo = $_FILES['logo']['name'];
+																$temp = $_FILES['logo']['tmp_name'];
+																$ext = explode('.', $logo);
+																$ext = end($ext);
+																$dest = 'dist/img/logo' . rand(1, 100) . '.' . $ext;
+																$upload = move_uploaded_file($temp, '../' . $dest);
+																if ($upload) {
+																	$exec = mysql_query("UPDATE setting SET logo='$dest' WHERE id_setting='1'");
+																	$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
+																} else {
+																	$info1 = info('Gagal menyimpan pengaturan!', 'NO');
+																}
+															}
+														} else {
+															$info1 = info('Gagal menyimpan pengaturan!', 'NO');
+														}
+													}
 
-						if (isset($_POST['submit3'])) {
-							$password = $_POST['password'];
-							if (!password_verify($password, $pengawas['password'])) {
-								$info4 = info('Password salah!', 'NO');
-							} else {
-								if (!empty($_POST['data'])) {
-									$data = $_POST['data'];
-									if ($data <> '') {
-										foreach ($data as $table) {
-											if ($table <> 'pengawas') {
-												mysql_query("TRUNCATE $table");
-											} else {
-												mysql_query("DELETE FROM $table WHERE level!='admin'");
-											}
-										}
-										$info4 = info('Data terpilih telah dikosongkan!', 'OK');
-									}
-								}
-							}
-						}
-						$admin = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE level='admin' AND id_pengawas='1'"));
-						$setting = mysql_fetch_array(mysql_query("SELECT * FROM setting WHERE id_setting='1'"));
-						$setting['alamat'] = str_replace('<br />', '', $setting['alamat']);
-						$setting['header'] = str_replace('<br />', '', $setting['header']);
+													if (isset($_POST['submit3'])) {
+														$password = $_POST['password'];
+														if (!password_verify($password, $pengawas['password'])) {
+															$info4 = info('Password salah!', 'NO');
+														} else {
+															if (!empty($_POST['data'])) {
+																$data = $_POST['data'];
+																if ($data <> '') {
+																	foreach ($data as $table) {
+																		if ($table <> 'pengawas') {
+																			mysql_query("TRUNCATE $table");
+																		} else {
+																			mysql_query("DELETE FROM $table WHERE level!='admin'");
+																		}
+																	}
+																	$info4 = info('Data terpilih telah dikosongkan!', 'OK');
+																}
+															}
+														}
+													}
+													$admin = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE level='admin' AND id_pengawas='1'"));
+													$setting = mysql_fetch_array(mysql_query("SELECT * FROM setting WHERE id_setting='1'"));
+													$setting['alamat'] = str_replace('<br />', '', $setting['alamat']);
+													$setting['header'] = str_replace('<br />', '', $setting['header']);
 
-						echo "
+													echo "
 																																						<div class='row'>
 
 																																							<div class='col-md-12 notif'></div>
@@ -4876,15 +4556,15 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																																							</div>
 																																						</div>
 																																						";
-						if (isset($_POST['restore'])) {
-							restore($_FILES['datafile']);
-						} else {
-							unset($_POST['restore']);
-						}
-						?>
-				<?php else : ?>
-					<?php
-						echo "
+													if (isset($_POST['restore'])) {
+														restore($_FILES['datafile']);
+													} else {
+														unset($_POST['restore']);
+													}
+													?>
+											<?php else : ?>
+												<?php
+													echo "
 			<div class='error-page'>
 				<h2 class='headline text-yellow'> 404</h2>
 				<div class='error-content'>
@@ -4898,10 +4578,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				</div><!-- /.error-content -->
 			</div><!-- /.error-page -->
 			";
-						?>
-				<?php endif ?>
-				<?php
-				echo "
+													?>
+											<?php endif ?>
+											<?php
+											echo "
 																																						</section><!-- /.content -->
 																																		</div><!-- /.content-wrapper -->
 																																		<footer class='main-footer hidden-xs'>
@@ -5124,513 +4804,505 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																										</script>
 
 																										"; ?>
-				<script>
-					var url = window.location;
-					// for sidebar menu entirely but not cover treeview
-					$('ul.sidebar-menu a').filter(function() {
-						return this.href == url;
-					}).parent().addClass('active');
-					// for treeview
-					$('ul.treeview-menu a').filter(function() {
-						return this.href == url;
-					}).closest('.treeview').addClass('active');
-					$(function() {
-						$("#btnresetlogin").click(function() {
-							id_array = new Array()
-							i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							})
-
-							$.ajax({
-								url: 'resetlogin.php',
-								data: "kode=" + id_array,
-								type: "POST",
-								success: function(respon) {
-									if (respon == 1) {
-										$("input.cekpilih:checked").each(function() {
-											$(this).parent().parent().remove('.cekpilih').animate({
-												opacity: "hide"
-											}, "slow");
-										})
-									}
-								}
-							})
-							return false;
-						})
-					})
-					$(function() {
-						$("#btnhapusbank").click(function() {
-							id_array = new Array()
-							i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							})
-
-							swal({
-								title: 'Bank Soal Terpilih ' + i,
-								text: 'Apakah kamu yakin akan menghapus data bank soal yang sudah dipilih  ini ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Hapus!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'hapusbanksoal.php',
-										data: "kode=" + id_array,
-										type: "POST",
-										success: function(respon) {
-											if (respon == 1) {
-												$("input.cekpilih:checked").each(function() {
-													$(this).parent().parent().remove('.cekpilih').animate({
-														opacity: "hide"
-													}, "slow");
+											<script>
+												var url = window.location;
+												// for sidebar menu entirely but not cover treeview
+												$('ul.sidebar-menu a').filter(function() {
+													return this.href == url;
+												}).parent().addClass('active');
+												// for treeview
+												$('ul.treeview-menu a').filter(function() {
+													return this.href == url;
+												}).closest('.treeview').addClass('active');
+												$(function() {
+													$(" #btnresetlogin").click(function() {
+														id_array = new Array() i = 0;
+														$("input.cekpilih:checked").each(function() {
+															id_array[i] = $(this).val();
+															i++;
+														}) $.ajax({
+															url: 'resetlogin.php',
+															data: "kode=" + id_array,
+															type: "POST",
+															success: function(respon) {
+																if (respon == 1) {
+																	$("input.cekpilih:checked").each(function() {
+																		$(this).parent().parent().remove('.cekpilih').animate({
+																			opacity: "hide"
+																		}, "slow");
+																	})
+																}
+															}
+														}) return false;
+													})
+												}) $(function() {
+													$("#btnhapusbank").click(function() {
+														id_array = new Array() i = 0;
+														$("input.cekpilih:checked").each(function() {
+															id_array[i] = $(this).val();
+															i++;
+														}) swal({
+															title: 'Bank Soal Terpilih ' + i,
+															text: 'Apakah kamu yakin akan menghapus data bank soal yang sudah dipilih  ini ??',
+															type: 'warning',
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Ya, Hapus!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	url: 'hapusbanksoal.php',
+																	data: "kode=" + id_array,
+																	type: "POST",
+																	success: function(respon) {
+																		if (respon == 1) {
+																			$("input.cekpilih:checked").each(function() {
+																				$(this).parent().parent().remove('.cekpilih').animate({
+																					opacity: "hide"
+																				}, "slow");
+																			})
+																		}
+																	}
+																})
+															}
+														})
+														return false;
+													})
 												})
-											}
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(function() {
-						$("#buatberita").click(function() {
+												$(function() {
+													$("#buatberita").click(function() {
 
 
-							swal({
-								title: 'Generate Berita Acara',
-								text: 'Pastikan pembuatan jadwal sudah fix ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Buat!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'buatberita.php',
-										type: "POST",
-										beforeSend: function() {
-											$('.loader').css('display', 'block');
-										},
-										success: function(respon) {
-											$('.loader').css('display', 'none');
-											location.reload();
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(function() {
-						$("#btnhapusjadwal").click(function() {
-							id_array = new Array()
-							i = 0;
-							$("input.cekpilih:checked").each(function() {
-								id_array[i] = $(this).val();
-								i++;
-							})
-
-							swal({
-								title: 'Jadwal Terpilih ' + i,
-								text: 'Apakah kamu yakin akan menghapus data jadwal yang sudah dipilih  ini ??',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Hapus!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'hapusjadwal.php',
-										data: "kode=" + id_array,
-										type: "POST",
-										success: function(respon) {
-											if (respon == 1) {
-												$("input.cekpilih:checked").each(function() {
-													$(this).parent().parent().remove('.cekpilih').animate({
-														opacity: "hide"
-													}, "slow");
+														swal({
+															title: 'Generate Berita Acara',
+															text: 'Pastikan pembuatan jadwal sudah fix ??',
+															type: 'warning',
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Ya, Buat!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	url: 'buatberita.php',
+																	type: "POST",
+																	beforeSend: function() {
+																		$('.loader').css('display', 'block');
+																	},
+																	success: function(respon) {
+																		$('.loader').css('display', 'none');
+																		location.reload();
+																	}
+																})
+															}
+														})
+														return false;
+													})
 												})
-											}
-										}
-									})
-								}
-							})
-							return false;
-						})
-					})
-					$(document).ready(function() {
-						var messages = $('#pesan').notify({
-							type: 'messages',
-							removeIcon: '<i class="icon icon-remove"></i>'
-						});
-						$('#formreset').submit(function(e) {
+												$(function() {
+													$("#btnhapusjadwal").click(function() {
+														id_array = new Array()
+														i = 0;
+														$("input.cekpilih:checked").each(function() {
+															id_array[i] = $(this).val();
+															i++;
+														})
 
-							e.preventDefault();
-							$.ajax({
-								type: 'POST',
-								url: $(this).attr('action'),
-								data: $(this).serialize(),
-								success: function(data) {
+														swal({
+															title: 'Jadwal Terpilih ' + i,
+															text: 'Apakah kamu yakin akan menghapus data jadwal yang sudah dipilih ini ??',
+															type: 'warning',
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Ya, Hapus!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	url: 'hapusjadwal.php',
+																	data: "kode=" + id_array,
+																	type: "POST",
+																	success: function(respon) {
+																		if (respon == 1) {
+																			$("input.cekpilih:checked").each(function() {
+																				$(this).parent().parent().remove('.cekpilih').animate({
+																					opacity: "hide"
+																				}, "slow");
+																			})
+																		}
+																	}
+																})
+															}
+														})
+														return false;
+													})
+												})
+												$(document).ready(function() {
+													var messages = $('#pesan').notify({
+														type: 'messages',
+														removeIcon: '<i class="icon icon-remove"></i>'
+													});
+													$('#formreset').submit(function(e) {
 
-									if (data == "ok") {
-										messages.show("Reset Login Peserta Berhasil", {
-											type: 'success',
-											title: 'Berhasil',
-											icon: '<i class="icon icon-check-sign"></i>'
-										});
-									}
-									if (data == "pilihdulu") {
-										swal({
-											position: 'top-end',
-											type: 'success',
-											title: 'Data Berhasil disimpan',
-											showConfirmButton: true
+														e.preventDefault();
+														$.ajax({
+															type: 'POST',
+															url: $(this).attr('action'),
+															data: $(this).serialize(),
+															success: function(data) {
 
-										});
-									}
-								}
-							})
-							return false;
-						});
+																if (data == "ok") {
+																	messages.show("Reset Login Peserta Berhasil", {
+																		type: 'success',
+																		title: 'Berhasil',
+																		icon: '<i class="icon icon-check-sign"></i>'
+																	});
+																}
+																if (data == "pilihdulu") {
+																	swal({
+																		position: 'top-end',
+																		type: 'success',
+																		title: 'Data Berhasil disimpan',
+																		showConfirmButton: true
 
-						var t = $('#tabelsiswa').DataTable({
-							'ajax': 'datasiswa.php',
-							'order': [
-								[1, 'asc']
-							],
-							'columns': [{
-									'data': null,
-									'width': '10px',
-									'sClass': 'text-center'
-								},
+																	});
+																}
+															}
+														})
+														return false;
+													});
 
-								{
-									'data': 'no_peserta'
-								},
-								{
-									'data': 'nama'
-								},
-								{
-									'data': 'level'
-								},
-								{
-									'data': 'id_kelas'
-								},
-								<?php if ($setting['jenjang'] == 'SMK') { ?> {
-										'data': 'idpk'
-									},
-								<?php } ?> {
-									'data': 'sesi'
-								},
-								{
-									'data': 'ruang'
-								},
-								{
-									'data': 'username'
-								},
-								{
-									'data': 'password'
-								},
-								<?php if ($pengawas['level'] == 'admin') { ?> {
-										'data': 'id_siswa',
-										'width': '100px',
-										'sClass': 'text-center',
-										'orderable': false,
-										'mRender': function(data) {
-											return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
-							<a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
-										}
-									}
-								<?php } ?>
+													var t = $('#tabelsiswa').DataTable({
+														'ajax': 'datasiswa.php',
+														'order': [
+															[1, 'asc']
+														],
+														'columns': [{
+																'data': null,
+																'width': '10px',
+																'sClass': 'text-center'
+															},
 
-							]
-						});
-						t.on('order.dt search.dt', function() {
-							t.column(0, {
-								search: 'applied',
-								order: 'applied'
-							}).nodes().each(function(cell, i) {
-								cell.innerHTML = i + 1;
-							});
-						}).draw();
-					});
-				</script>
-				<script>
-					$('#formsiswa').on('submit', function(e) {
+															{
+																'data': 'no_peserta'
+															},
+															{
+																'data': 'nama'
+															},
+															{
+																'data': 'level'
+															},
+															{
+																'data': 'id_kelas'
+															},
+															<?php if ($setting['jenjang'] == 'SMK') { ?> {
+																	'data': 'idpk'
+																},
+															<?php } ?> {
+																'data': 'sesi'
+															},
+															{
+																'data': 'ruang'
+															},
+															{
+																'data': 'username'
+															},
+															{
+																'data': 'password'
+															},
+															<?php if ($pengawas['level'] == 'admin') { ?> {
+																	'data': 'id_siswa',
+																	'width': '100px',
+																	'sClass': 'text-center',
+																	'orderable': false,
+																	'mRender': function(data) {
+																		return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
+																									<a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
+																	}
+																}
+															<?php } ?>
 
-						e.preventDefault();
+														]
+													});
+													t.on('order.dt search.dt', function() {
+														t.column(0, {
+															search: 'applied',
+															order: 'applied'
+														}).nodes().each(function(cell, i) {
+															cell.innerHTML = i + 1;
+														});
+													}).draw();
+												});
+											</script>
+											<script>
+												$('#formsiswa').on('submit', function(e) {
 
-						$.ajax({
-							type: 'post',
-							url: 'importsiswa.php',
-							data: new FormData(this),
-							processData: false,
-							contentType: false,
-							cache: false,
+													e.preventDefault();
 
-							beforeSend: function() {
-								$('#progressbox').html('<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>');
-								$('.progress-bar').animate({
-									width: "30%"
-								}, 100);
-							},
-							success: function(response) {
-								setTimeout(function() {
-									$('.progress-bar').css({
-										width: "100%"
-									});
-									setTimeout(function() {
-										$('#hasilimport').html(response);
+													$.ajax({
+														type: 'post',
+														url: 'importsiswa.php',
+														data: new FormData(this),
+														processData: false,
+														contentType: false,
+														cache: false,
 
-									}, 100);
-								}, 500);
+														beforeSend: function() {
+															$('#progressbox').html('<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>');
+															$('.progress-bar').animate({
+																width: "30%"
+															}, 100);
+														},
+														success: function(response) {
+															setTimeout(function() {
+																$('.progress-bar').css({
+																	width: "100%"
+																});
+																setTimeout(function() {
+																	$('#hasilimport').html(response);
 
-							}
-						});
+																}, 100);
+															}, 500);
 
-					});
-				</script>
+														}
+													});
 
-				<script>
-					<?php if ($pg == 'jenisujian') { ?>
-						$(document).ready(function() {
-							$('#tablejenis').Tabledit({
-								url: 'example.php?pg=jenisujian',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namajenis'],
-										[3, 'status', '{"aktif": "aktif", "tidak": "tidak aktif"}']
-									]
-								}
-							});
+												});
+											</script>
 
-						});
-					<?php } ?>
-					<?php if ($pg == 'pk') { ?>
-						$(document).ready(function() {
-							$('#tablejurusan').Tabledit({
-								url: 'example.php?pg=jurusan',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namajurusan']
-									]
-								}
-							});
+											<script>
+												<?php if ($pg == 'jenisujian') { ?>
+													$(document).ready(function() {
+														$('#tablejenis').Tabledit({
+															url: 'example.php?pg=jenisujian',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namajenis'],
+																	[3, 'status', '{"aktif": "aktif", "tidak": "tidak aktif"}']
+																]
+															}
+														});
 
-						});
-					<?php } ?>
-					<?php if ($pg == 'level') { ?>
-						$(document).ready(function() {
-							$('#tablelevel').Tabledit({
-								url: 'example.php?pg=level',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namalevel']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'kelas') { ?>
-						$(document).ready(function() {
-							$('#tablekelas').Tabledit({
-								url: 'example.php?pg=kelas',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'level'],
-										[3, 'namakelas']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'matapelajaran') { ?>
-						$(document).ready(function() {
-							$('#tablemapel').Tabledit({
-								url: 'example.php?pg=mapel',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namamapel']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'ruang') { ?>
-						$(document).ready(function() {
-							$('#tableruang').Tabledit({
-								url: 'example.php?pg=ruang',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namaruang']
-									]
-								}
-							});
-						});
-					<?php } ?>
-					<?php if ($pg == 'sesi') { ?>
-						$(document).ready(function() {
-							$('#tablesesi').Tabledit({
-								url: 'example.php?pg=sesi',
-								restoreButton: false,
-								columns: {
-									identifier: [1, 'id'],
-									editable: [
-										[2, 'namasesi']
-									]
-								}
-							});
-						});
-					<?php } ?>
-				</script>
-				<script>
-					$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
+													});
+												<?php } ?>
+												<?php if ($pg == 'pk') { ?>
+													$(document).ready(function() {
+														$('#tablejurusan').Tabledit({
+															url: 'example.php?pg=jurusan',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namajurusan']
+																]
+															}
+														});
 
-						$("#soallevel").change(function() { // Ketika user mengganti atau memilih data provinsi
-							// Sembunyikan dulu combobox kota nya
-							var level = $(this).val();
-							console.log(level);
-							$.ajax({
-								type: "POST", // Method pengiriman data bisa dengan GET atau POST
-								url: "datakelas.php", // Isi dengan url/path file php yang dituju
-								data: "level=" + level, // data yang akan dikirim ke file yang dituju
-								success: function(response) { // Ketika proses pengiriman berhasil
+													});
+												<?php } ?>
+												<?php if ($pg == 'level') { ?>
+													$(document).ready(function() {
+														$('#tablelevel').Tabledit({
+															url: 'example.php?pg=level',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namalevel']
+																]
+															}
+														});
+													});
+												<?php } ?>
+												<?php if ($pg == 'kelas') { ?>
+													$(document).ready(function() {
+														$('#tablekelas').Tabledit({
+															url: 'example.php?pg=kelas',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'level'],
+																	[3, 'namakelas']
+																]
+															}
+														});
+													});
+												<?php } ?>
+												<?php if ($pg == 'matapelajaran') { ?>
+													$(document).ready(function() {
+														$('#tablemapel').Tabledit({
+															url: 'example.php?pg=mapel',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namamapel']
+																]
+															}
+														});
+													});
+												<?php } ?>
+												<?php if ($pg == 'ruang') { ?>
+													$(document).ready(function() {
+														$('#tableruang').Tabledit({
+															url: 'example.php?pg=ruang',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namaruang']
+																]
+															}
+														});
+													});
+												<?php } ?>
+												<?php if ($pg == 'sesi') { ?>
+													$(document).ready(function() {
+														$('#tablesesi').Tabledit({
+															url: 'example.php?pg=sesi',
+															restoreButton: false,
+															columns: {
+																identifier: [1, 'id'],
+																editable: [
+																	[2, 'namasesi']
+																]
+															}
+														});
+													});
+												<?php } ?>
+											</script>
+											<script>
+												$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
 
-									$("#soalkelas").html(response);
-								}
-							});
-						});
-						$(document).on('click', '.hapus', function() {
-							var id = $(this).data('id');
-							console.log(id);
-							$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
-							swal({
-								title: 'Apa anda yakin?',
-								text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
+													$("#soallevel").change(function() { // Ketika user mengganti atau memilih data provinsi
+														// Sembunyikan dulu combobox kota nya
+														var level = $(this).val();
+														console.log(level);
+														$.ajax({
+															type: "POST", // Method pengiriman data bisa dengan GET atau POST
+															url: "datakelas.php", // Isi dengan url/path file php yang dituju
+															data: "level=" + level, // data yang akan dikirim ke file yang dituju
+															success: function(response) { // Ketika proses pengiriman berhasil
 
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Yes!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'selesaikan.php',
-										method: "POST",
-										data: 'id=' + id,
-										success: function(data) {
-											$('#htmlujianselesai').html('1');
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data berhasil disimpan',
-												showConfirmButton: false,
-												timer: 1500
-											});
-										}
-									});
-								}
-							})
+																$("#soalkelas").html(response);
+															}
+														});
+													});
+													$(document).on('click', '.hapus', function() {
+														var id = $(this).data('id');
+														console.log(id);
+														$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
+														swal({
+															title: 'Apa anda yakin?',
+															text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
 
-						});
-						$(document).on('click', '.ulang', function() {
-							var id = $(this).data('id');
-							console.log(id);
-							swal({
-								title: 'Apa anda yakin?',
-								text: "Akan Mengulang Ujian Ini ??",
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Yes!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	url: 'selesaikan.php',
+																	method: "POST",
+																	data: 'id=' + id,
+																	success: function(data) {
+																		$('#htmlujianselesai').html('1');
+																		swal({
+																			position: 'top-end',
+																			type: 'success',
+																			title: 'Data berhasil disimpan',
+																			showConfirmButton: false,
+																			timer: 1500
+																		});
+																	}
+																});
+															}
+														})
 
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Yes!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										url: 'ulangujian.php',
-										method: "POST",
-										data: 'id=' + id,
-										success: function(data) {
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data berhasil disimpan',
-												showConfirmButton: false,
-												timer: 1500
-											});
-										}
-									});
-								}
-							})
+													});
+													$(document).on('click', '.ulang', function() {
+														var id = $(this).data('id');
+														console.log(id);
+														swal({
+															title: 'Apa anda yakin?',
+															text: "Akan Mengulang Ujian Ini ??",
 
-						});
-						$(document).on('click', '.ambiljawaban', function() {
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Yes!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	url: 'ulangujian.php',
+																	method: "POST",
+																	data: 'id=' + id,
+																	success: function(data) {
+																		swal({
+																			position: 'top-end',
+																			type: 'success',
+																			title: 'Data berhasil disimpan',
+																			showConfirmButton: false,
+																			timer: 1500
+																		});
+																	}
+																});
+															}
+														})
 
-							var idmapel = $(this).data('id');
-							console.log(idmapel);
-							swal({
-								title: 'Are you sure?',
-								text: 'Fungsi ini akan memindahkan data jawaban dari temp_jawaban ke hasil jawaban',
-								type: 'warning',
-								showCancelButton: true,
-								confirmButtonColor: '#3085d6',
-								cancelButtonColor: '#d33',
-								confirmButtonText: 'Ya, Ambil!'
-							}).then((result) => {
-								if (result.value) {
-									$.ajax({
-										type: 'POST',
-										url: 'ambiljawaban.php',
-										data: 'id=' + idmapel,
-										beforeSend: function() {
-											swal({
+													});
+													$(document).on('click', '.ambiljawaban', function() {
 
-												text: 'Proses memindahkan',
-												timer: 1000,
-												onOpen: () => {
-													swal.showLoading()
-												}
-											});
-										},
-										success: function(response) {
-											$(this).attr('disabled', 'disabled');
-											swal({
-												position: 'top-end',
-												type: 'success',
-												title: 'Data Berhasil diambil',
-												showConfirmButton: false,
-												timer: 1500
-											});
+														var idmapel = $(this).data('id');
+														console.log(idmapel);
+														swal({
+															title: 'Are you sure?',
+															text: 'Fungsi ini akan memindahkan data jawaban dari temp_jawaban ke hasil jawaban',
+															type: 'warning',
+															showCancelButton: true,
+															confirmButtonColor: '#3085d6',
+															cancelButtonColor: '#d33',
+															confirmButtonText: 'Ya, Ambil!'
+														}).then((result) => {
+															if (result.value) {
+																$.ajax({
+																	type: 'POST',
+																	url: 'ambiljawaban.php',
+																	data: 'id=' + idmapel,
+																	beforeSend: function() {
+																		swal({
 
-										}
-									});
+																			text: 'Proses memindahkan',
+																			timer: 1000,
+																			onOpen: () => {
+																				swal.showLoading()
+																			}
+																		});
+																	},
+																	success: function(response) {
+																		$(this).attr('disabled', 'disabled');
+																		swal({
+																			position: 'top-end',
+																			type: 'success',
+																			title: 'Data Berhasil diambil',
+																			showConfirmButton: false,
+																			timer: 1500
+																		});
 
-								}
-							})
+																	}
+																});
 
-						});
-					});
-				</script>
+															}
+														})
+
+													});
+												});
+											</script>
 
 
 </body>

@@ -4726,7 +4726,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
 					i++;
-				}) $.ajax({
+				});
+				$.ajax({
 					url: "resetlogin.php",
 					data: "kode=" + id_array,
 					type: "POST",
@@ -4739,7 +4740,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							})
 						}
 					}
-				}) return false;
+				});
+				return false;
 			})
 		});
 		$(function() {
@@ -4749,7 +4751,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
 					i++;
-				}) swal({
+				});
+				swal({
 					title: 'Bank Soal Terpilih ' + i,
 					text: 'Apakah kamu yakin akan menghapus data bank soal yang sudah dipilih  ini ??',
 					type: 'warning',
@@ -4774,7 +4777,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							}
 						})
 					}
-				})
+				});
 				return false;
 			})
 		});

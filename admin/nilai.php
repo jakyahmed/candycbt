@@ -245,7 +245,7 @@
 							<!--<button class='btn btn-sm btn-default' onclick=frames['frameresult'].print()><i class='fa fa-print'></i> Print</button>-->
 							<!--<a class='btn btn-sm btn-success' href='report_excel.php?m=$id_mapel&k=$id_kelas'><i class='fa fa-download'></i> Excel</a>-->
 							<button class='btn btn-sm btn-primary' name='simpanesai'><i class='fa fa-check'></i> Simpan</button>
-							<a class='btn btn-sm btn-danger' href='?pg=nilai&ac=lihat&idm=<?= $id_mapel ?>&idk=<?= $id_kelas ?>'><i class='fa fa-times'></i></a>
+							<a class='btn btn-sm btn-danger' href='?pg=nilai&ac=lihat&idu=<?= $kode_ujian ?>&idm=<?= $id_mapel ?>&idk=<?= $id_kelas ?>'><i class='fa fa-times'></i></a>
 						</div>
 					</div><!-- /.box-header -->
 					<div class='box-body'>

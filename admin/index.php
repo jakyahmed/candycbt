@@ -269,7 +269,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							</ul>
 						</li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/document.svg' width='30'><span> Nilai </span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><img src='../dist/img/svg/nilai.svg' width='30'><span> Nilai </span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<li><a href='?pg=nilai'><i class='fa  fa-circle-o text-teal'></i> <span> Hasil Nilai</span></a></li>
 								<li><a href='?pg=semuanilai'><i class='fa  fa-circle-o text-teal'></i> <span>Semua Nilai</span></a></li>

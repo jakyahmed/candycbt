@@ -139,7 +139,7 @@
 											$no++;
 											$ket = '';
 											$esai = $lama = $jawaban = $skor = $total = '--';
-											$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas"));
+											$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas WHERE id_kelas='$id_kelas'"));
 											$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
 											$nilaiC = mysql_num_rows($nilaiQ);
 											$nilai = mysql_fetch_array($nilaiQ);

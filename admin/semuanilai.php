@@ -20,7 +20,7 @@ if ($ac == '') {
 													<!-- Add the bg color to the header using any of the bg-* classes -->
 													<div class='widget-user-header bg-teal'>
 													  <div class='widget-user-image'>
-														<img class='img-circle' src='../dist/img/svg/survey.svg' alt='User Avatar'>
+														<img class='img-thumbnail' src='../dist/img/svg/nilai.svg' alt='User Avatar'>
 													  </div>
 													  <!-- /.widget-user-image -->
 													  <h3 class='widget-user-username'>$jenis[id_kelas]</h3>

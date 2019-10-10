@@ -48,10 +48,10 @@
 							<table id='example' class='table table-bordered table-striped'>
 								<thead>
 									<tr>
-										<th rowspan='3' width='5px'>#</th>
-										<th style='text-align:center' rowspan='3'>No Peserta</th>
-										<th style='text-align:center' rowspan='3'>Nama Peserta</th>
-										<th style='text-align:center' rowspan='3'>Kelas</th>
+										<th rowspan='3' style="vertical-align:middle; width:5px">#</th>
+										<th style='text-align:center;vertical-align:middle' rowspan='3'>No Peserta</th>
+										<th style='text-align:center;vertical-align:middle' rowspan='3'>Nama Peserta</th>
+										<th style='text-align:center;vertical-align:middle' rowspan='3'>Kelas</th>
 										<?php
 												$mapelQ = mysql_query("SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian ");
 												while ($mapel = mysql_fetch_array($mapelQ)) :

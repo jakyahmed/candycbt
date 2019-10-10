@@ -3071,7 +3071,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																	$no++;
 																	?>
 														<tr>
-															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value='$mapel[id_mapel]'></td>
+															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value="<?= $mapel['id_mapel']?>"></td>
 															<td><?= $no ?></td>
 															<td>
 																<?php
@@ -4746,8 +4746,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 		});
 		$(function() {
 			$("#btnhapusbank").click(function() {
-				id_array = new Array();
 				i = 0;
+				id_array = new Array();
 				$("input.cekpilih:checked").each(function() {
 					id_array[i] = $(this).val();
 					i++;

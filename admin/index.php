@@ -11,8 +11,19 @@ $pengawas = mysql_fetch_array(mysql_query("SELECT * FROM pengawas  WHERE id_peng
 
 (isset($_GET['pg'])) ? $pg = $_GET['pg'] : $pg = '';
 (isset($_GET['ac'])) ? $ac = $_GET['ac'] : $ac = '';
-($pg == 'banksoal' && $ac == 'input') ? $sidebar = 'sidebar-collapse' : $sidebar = '';
-($pg == 'nilai' && $ac == 'lihat') ? $sidebar = 'sidebar-collapse' : $sidebar = '';
+
+if ($pg == 'siswa') :
+	$sidebar = 'sidebar-collapse';
+elseif ($pg == 'banksoal' && $ac == 'input') :
+	$sidebar = 'sidebar-collapse';
+elseif ($pg == 'nilai' && $ac == 'lihat') :
+	$sidebar = 'sidebar-collapse';
+elseif ($pg == 'semuanilai' && $ac == 'lihat') :
+	$sidebar = 'sidebar-collapse';
+else :
+	$sidebar = '';
+endif;
+
 $nilai = mysql_num_rows(mysql_query("SELECT * FROM nilai"));
 $soal = mysql_num_rows(mysql_query("SELECT * FROM mapel"));
 $siswa = mysql_num_rows(mysql_query("SELECT * FROM siswa"));
@@ -3071,7 +3082,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																	$no++;
 																	?>
 														<tr>
-															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value="<?= $mapel['id_mapel']?>"></td>
+															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-$no' value="<?= $mapel['id_mapel'] ?>"></td>
 															<td><?= $no ?></td>
 															<td>
 																<?php

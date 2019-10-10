@@ -39,7 +39,6 @@
 					<div class='box-header with-border bg-blue'>
 						<h3 class='box-title'><img src='../dist/img/svg/daftar_nilai.svg' width='30'> REKAP NILAI KELAS <?= $id_kelas ?></h3>
 						<div class='box-tools pull-right btn-group'>
-							<!-- <a class='btn btn-sm btn-primary' href='report_excel_all.php?m=<?= $id_mapel ?>&k=<?= $id_kelas ?>&i=<?= $kode_ujian ?>'><i class='fa fa-file-excel-o'></i> Excel</a> -->
 							<a class='btn btn-sm btn-primary' href='report_excel_all.php?k=<?= $id_kelas ?>'><i class='fa fa-file-excel-o'></i> Excel</a>
 							<a class='btn btn-sm btn-primary' href='?pg=nilai'><i class='fa fa-times'></i> Keluar</a>
 						</div>

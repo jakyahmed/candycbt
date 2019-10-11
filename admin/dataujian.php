@@ -57,7 +57,7 @@
                                     <td>
                                     <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
                                     <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-xs btn-danger' $dis2><i class='fa fa-trash'></i> Nilai</button>
-                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger'><i class='fa fa-trash'></i> Jawaban</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger' $dis2><i class='fa fa-trash'></i> Jawaban</button>
                                     
                                     </td>
                                 </tr>

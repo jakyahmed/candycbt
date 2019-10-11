@@ -2073,10 +2073,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										<div class='form-group'>
 											<div class='form-group'>
 												<label>Pilih Mapel</label>
-												<select id='mapel' class='select2 form-control' onchange=printabsen();>
-													<?php
-															$sql_mapel = mysql_query("SELECT * FROM ujian group by nama");
-															?>
+												<select id='absenmapel' class='select2 form-control' required='true' onchange=printabsen();>
+													<?php $sql_mapel = mysql_query("SELECT * FROM ujian group by nama"); ?>
 													<option value=''>pilih mapel</option>
 													<?php while ($mapel = mysql_fetch_array($sql_mapel)) : ?>
 														<option value="<?= $mapel['id_mapel'] ?>"><?= $mapel['nama'] ?></option>
@@ -2084,41 +2082,22 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</select>
 											</div>
 											<div class='form-group'>
-												<label>Pilih Sesi</label>
-												<select id='sesi' class='form-control select2' onchange=printabsen();>
-													<?php
-															$sql_sesi = mysql_query("SELECT * FROM siswa GROUP BY sesi")
-															?>
-													<option value=''>pilih sesi</option>
-													<?php while ($sesi = mysql_fetch_array($sql_sesi)) : ?>
-														echo "<option value="<?= $sesi['sesi'] ?>">sesi&nbsp;<?= $sesi['sesi'] ?></option>
-													<?php endwhile ?>
+												<label>Pilih Kelas</label>
+												<select id='absenkelas' class='form-control select2' onchange=printabsen();>
 												</select>
 											</div>
 											<div class='form-group'>
 												<label>Pilih Ruang</label>
-												<select id='ruang' class='form-control select2 ' onchange=printabsen();>";
-													<?php
-															$sql_sesi = mysql_query("SELECT * FROM ruang ");
-															?>
-													<option value=''>pilih Ruang</option>
-													<?php while ($ruang = mysql_fetch_array($sql_sesi)) : ?>
-														<option value="<?= $ruang['kode_ruang'] ?>"><?= $ruang['kode_ruang'] ?></option>
-													<?php endwhile ?>
+												<select id='absenruang' class='form-control select2' onchange=printabsen();>";
+													
 												</select>
 											</div>
 											<div class='form-group'>
-												<label>Pilih Kelas</label>
-												<select id='kelas' class='form-control select2' onchange=printabsen();>
-													<?php
-															$sql_sesi = mysql_query("SELECT * FROM kelas")
-															?>
-													<option value=''>pilih Kelas</option>
-													<?php while ($kelas = mysql_fetch_array($sql_sesi)) : ?>
-														<option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama'] ?></option>
-													<?php endwhile ?>
+												<label>Pilih Sesi</label>
+												<select id='absensesi' class='form-control select2' onchange=printabsen();>
 												</select>
 											</div>
+											
 										</div>
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
@@ -4613,10 +4592,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 		}
 
 		function printabsen() {
-			var idsesi = $('#sesi option:selected').val();
-			var idmapel = $('#mapel option:selected').val();
-			var idruang = $('#ruang option:selected').val();
-			var idkelas = $('#kelas option:selected').val();
+			var idsesi = $('#absensesi option:selected').val();
+			var idmapel = $('#absenmapel option:selected').val();
+			var idruang = $('#absenruang option:selected').val();
+			var idkelas = $('#absenkelas option:selected').val();
 			$('#loadabsen').attr('src', 'absen.php?id_sesi=' + idsesi + '&id_ruang=' + idruang + '&id_mapel=' + idmapel + '&id_kelas=' + idkelas);
 		}
 
@@ -5086,7 +5065,58 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 	</script>
 	<script>
 		$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
-			$("#soallevel").change(function() { // Ketika user mengganti atau memilih data provinsi
+			$("#absenmapel").change(function() {
+				var mapel_id = $(this).val();
+				console.log(mapel_id);
+				$.ajax({
+					type: "POST", // Method pengiriman data bisa dengan GET atau POST
+					url: "dataabsen_kelas.php", // Isi dengan url/path file php yang dituju
+					data: "mapel_id=" + mapel_id, // data yang akan dikirim ke file yang dituju
+					success: function(response) { // Ketika proses pengiriman berhasil
+						$("#absenkelas").html(response);
+						console.log(response);
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+					}
+				});
+			});
+
+			$("#absenkelas").change(function() {
+				var id_kelas = $(this).val();
+				console.log(id_kelas);
+				$.ajax({
+					type: "POST", // Method pengiriman data bisa dengan GET atau POST
+					url: "dataabsen_ruang.php", // Isi dengan url/path file php yang dituju
+					data: "id_kelas=" + id_kelas, // data yang akan dikirim ke file yang dituju
+					success: function(response) { // Ketika proses pengiriman berhasil
+						$("#absenruang").html(response);
+						console.log(response);
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+					}
+				});
+			});
+
+			$("#absenkelas").change(function() {
+				var id_kelas = $(this).val();
+				console.log(id_kelas);
+				$.ajax({
+					type: "POST", // Method pengiriman data bisa dengan GET atau POST
+					url: "dataabsen_sesi.php", // Isi dengan url/path file php yang dituju
+					data: "id_kelas=" + id_kelas, // data yang akan dikirim ke file yang dituju
+					success: function(response) { // Ketika proses pengiriman berhasil
+						$("#absensesi").html(response);
+						console.log(response);
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+					}
+				});
+			});
+
+			$("#soallevel").change(function() {
 				var level = $(this).val();
 				console.log(level);
 				$.ajax({

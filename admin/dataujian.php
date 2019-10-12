@@ -29,8 +29,11 @@
                             <tbody>
 
                                 <?php
-                                $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel group by id_ujian");
-
+                                if ($pengawas['level'] == 'guru') {
+                                    $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel where b.idguru='$id_pengawas' group by id_ujian");
+                                } else {
+                                    $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel  group by id_ujian");
+                                }
                                 while ($ujian = mysql_fetch_array($ujianQ)) {
                                     $cek = mysql_num_rows(mysql_query("select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai='' and id_siswa<>''"));
                                     $cek2 = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));

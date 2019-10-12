@@ -125,9 +125,9 @@
 									<th>Nama</th>
 									<th>Kelas</th>
 									<th>Lama Ujian</th>
-									<th>P. Ganda</th>
+									<th>Analisis</th>
+									<th>Nilai PG</th>
 									<th>Essai</th>
-									<th>Nilai</th>
 									<th>Total</th>
 									<th>Jawaban</th>
 								</tr>
@@ -178,8 +178,8 @@
 										<td><?= $kelas['nama'] ?></td>
 										<td><?= $ket . " " . $lama ?></td>
 										<td><?= $jawaban ?></td>
-										<td><?= $esai ?></td>
 										<td><?= $skor ?></td>
+										<td><?= $esai ?></td>
 										<td><?= $total ?></td>
 										<td>
 											<?php if ($nilai['skor'] <> "") : ?>
@@ -196,7 +196,7 @@
 															endif;
 															?>
 												<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-pencil-square-o'></i>input esai</a>
-												<a href='<?= $link2 ?>' class='btn btn-xs btn-success'><i class='fa fa-search'></i> lihat</a>
+												<a href='<?= $link2 ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-search'></i> lihat</a>
 											<?php endif; ?>
 										</td>
 									</tr>

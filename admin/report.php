@@ -1,47 +1,47 @@
 <?php
-	require("../config/config.default.php");
-	require("../config/config.function.php");
-	require("../config/functions.crud.php");
-	require("../config/dis.php");
-	
-	
-	$id_mapel = $_GET['m'];	//==> kode mapel di bank soal
-	$id_kelas = $_GET['k'];	
-	$kode_ujian = $_GET['i'];	//==> kode kode_ujian
-	
-	$pengawas = fetch('pengawas',array('id_pengawas'=>$id_pengawas));
-	
-	echo "
+require("../config/config.default.php");
+require("../config/config.function.php");
+require("../config/functions.crud.php");
+require("../config/dis.php");
+
+
+$id_mapel = $_GET['m'];	//==> kode mapel di bank soal
+$id_kelas = $_GET['k'];
+$kode_ujian = $_GET['i'];	//==> kode kode_ujian
+
+$pengawas = fetch('pengawas', array('id_pengawas' => $id_pengawas));
+
+echo "
 	<link rel='stylesheet' href='$homeurl/dist/bootstrap/css/bootstrap.min.css'/>
 	<link rel='stylesheet' href='$homeurl/dist/css/cetak.min.css'>";
 
-	$mapel=mysql_fetch_assoc(mysql_query("SELECT mapel.*, mata_pelajaran.nama_mapel FROM mapel INNER JOIN mata_pelajaran ON mapel.nama=mata_pelajaran.kode_mapel WHERE id_mapel='$id_mapel'"));
-	$jenis=mysql_fetch_array(mysql_query("select * from jenis where id_jenis='$kode_ujian'"));
-	if(date('m')>=7 AND date('m')<=12) {
-		$ajaran = date('Y')."/".(date('Y')+1);
-	}elseif(date('m')>=1 AND date('m')<=6) {
-		$ajaran = (date('Y')-1)."/".date('Y');
-	}
+$mapel = mysql_fetch_assoc(mysql_query("SELECT mapel.*, mata_pelajaran.nama_mapel FROM mapel INNER JOIN mata_pelajaran ON mapel.nama=mata_pelajaran.kode_mapel WHERE id_mapel='$id_mapel'"));
+$jenis = mysql_fetch_array(mysql_query("select * from jenis where id_jenis='$kode_ujian'"));
+if (date('m') >= 7 and date('m') <= 12) {
+	$ajaran = date('Y') . "/" . (date('Y') + 1);
+} elseif (date('m') >= 1 and date('m') <= 6) {
+	$ajaran = (date('Y') - 1) . "/" . date('Y');
+}
 
-	$querysetting=mysql_query("SELECT * FROM setting WHERE id_setting='1'");
-	$setting=mysql_fetch_assoc($querysetting);
-	
-	
-	$query=mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama");
-	
-	$jumlahData = mysql_num_rows($query);
-	$jumlahn = '28';	//jumlah baris yang ingin ditampilkan
-	$n = ceil($jumlahData/$jumlahn);	//jumlah halaman
-	$nomer = 1;
-	$tglsekarang = buat_tanggal('d M Y');
+$querysetting = mysql_query("SELECT * FROM setting WHERE id_setting='1'");
+$setting = mysql_fetch_assoc($querysetting);
 
-	for($i=1;$i<=$n;$i++){
-		$mulai = $i-1;
-		$batas = ($mulai*$jumlahn);	//jumlah baris yang tidak ingin ditampilkan
-		$startawal = $batas;
-		$batasakhir = $batas+$jumlahn;
-		if ($i==$n){
-			echo "
+
+$query = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama");
+
+$jumlahData = mysql_num_rows($query);
+$jumlahn = '28';	//jumlah baris yang ingin ditampilkan
+$n = ceil($jumlahData / $jumlahn);	//jumlah halaman
+$nomer = 1;
+$tglsekarang = buat_tanggal('d M Y');
+
+for ($i = 1; $i <= $n; $i++) {
+	$mulai = $i - 1;
+	$batas = ($mulai * $jumlahn);	//jumlah baris yang tidak ingin ditampilkan
+	$startawal = $batas;
+	$batasakhir = $batas + $jumlahn;
+	if ($i == $n) {
+		echo "
 			<div class='page'>
 				<table width='100%'>
 					<tr>
@@ -50,7 +50,7 @@
 							<CENTER>
 								<strong class='f12'>
 									REKAPITULASI NILAI <BR>
-									".strtoupper($jenis['nama'])."<BR>TAHUN PELAJARAN $ajaran
+									" . strtoupper($jenis['nama']) . "<BR>TAHUN PELAJARAN $ajaran
 								</strong>
 							</CENTER></td>
 							<td width='100'><img src='$homeurl/$setting[logo]' height='75'></td>
@@ -78,26 +78,26 @@
 					<th width='7%'>NEssai</th>
 					<th width='7%'>Total</th>
 				</tr>";
-					
-					
-					$ckck=mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
-					
-					while($siswa= mysql_fetch_array($ckck)){
-						$no++;
-						$lama = $jawaban = $skor = $totalskor = $skoresai='--';
-						
-						$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
-						$nilaiC = mysql_num_rows($nilaiQ);
-						$nilai = mysql_fetch_array($nilaiQ);
-						if($nilaiC<>0) {
-							if($nilai['ujian_mulai']<>'' AND $nilai['ujian_selesai']<>'') {
-								$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";
-								$skor = number_format($nilai['skor'],2,'.','');
-								$totalskor = number_format($nilai['total'],2,'.','');
-								$skoresai=number_format($nilai['nilai_esai'],2,'.','');
-							}
-						}
-						echo "
+
+
+		$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
+
+		while ($siswa = mysql_fetch_array($ckck)) {
+			$no++;
+			$lama = $jawaban = $skor = $totalskor = $skoresai = '--';
+
+			$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
+			$nilaiC = mysql_num_rows($nilaiQ);
+			$nilai = mysql_fetch_array($nilaiQ);
+			if ($nilaiC <> 0) {
+				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') {
+					$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";
+					$skor = number_format($nilai['skor'], 2, '.', '');
+					$totalskor = number_format($nilai['total'], 2, '.', '');
+					$skoresai = number_format($nilai['nilai_esai'], 2, '.', '');
+				}
+			}
+			echo "
 						<tr>
 							<td align='center'>$no</td>
 							
@@ -107,8 +107,8 @@
 							<td align='center'>$skoresai</td>
 							<td align='center'>$totalskor</td>
 						</tr>";
-					}
-					echo "
+		}
+		echo "
 				</table>
 				<br>
 				<table width='100%'>
@@ -134,16 +134,16 @@
 						<tr>
 							<td width='25px' style='border:1px solid black'></td>
 							<td width='5px'>&nbsp;</td>
-							<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'>KEMENTRIAN PENDIDIKAN DAN KEBUDAYAAN INDONESIA</td>
+							<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'>$setting[sekolah] - " . strtoupper($jenis['nama']) . "</td>
 							<td width='5px'>&nbsp;</td>
 							<td width='25px' style='border:1px solid black'></td>
 						</tr>
 					</table>
 				</div>
 			</div>";
-			break;
-		}
-		echo "
+		break;
+	}
+	echo "
 		<div class='page'>
 			<table width='100%'>
 				<tr>
@@ -152,7 +152,7 @@
 						<CENTER>
 							<strong class='f12'>
 								REKAPITULASI NILAI <BR>
-								".strtoupper($jenis['nama'])."<BR>TAHUN PELAJARAN $ajaran
+								" . strtoupper($jenis['nama']) . "<BR>TAHUN PELAJARAN $ajaran
 							</strong>
 						</CENTER></td>
 						<td width='100'><img src='$homeurl/$setting[logo]' height='75'></td>
@@ -180,25 +180,25 @@
 				<th width='7%'>NEssai</th>
 				<th width='7%'>Total</th>
 			</tr>";
-				
-				$ckck=mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
-				
-				while($siswa= mysql_fetch_array($ckck)){
-					$no++;
-					$lama = $jawaban = $skor = $totalskor = $skoresai='--';
-					
-					$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
-					$nilaiC = mysql_num_rows($nilaiQ);
-					$nilai = mysql_fetch_array($nilaiQ);
-					if($nilaiC<>0) {
-						if($nilai['ujian_mulai']<>'' AND $nilai['ujian_selesai']<>'') {
-							$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";
-							$skor = number_format($nilai['skor'],2,'.','');
-							$totalskor = number_format($nilai['total'],2,'.','');
-							$skoresai=number_format($nilai['nilai_esai'],2,'.','');
-						}
-					}
-					echo "
+
+	$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
+
+	while ($siswa = mysql_fetch_array($ckck)) {
+		$no++;
+		$lama = $jawaban = $skor = $totalskor = $skoresai = '--';
+
+		$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
+		$nilaiC = mysql_num_rows($nilaiQ);
+		$nilai = mysql_fetch_array($nilaiQ);
+		if ($nilaiC <> 0) {
+			if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') {
+				$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";
+				$skor = number_format($nilai['skor'], 2, '.', '');
+				$totalskor = number_format($nilai['total'], 2, '.', '');
+				$skoresai = number_format($nilai['nilai_esai'], 2, '.', '');
+			}
+		}
+		echo "
 					<tr>
 						<td align='center'>$no</td>
 						
@@ -208,20 +208,19 @@
 						<td align='center'>$skoresai</td>
 						<td align='center'>$totalskor</td>
 					</tr>";
-				}
-				echo "
+	}
+	echo "
 			</table>
 			<div class='footer'>
 				<table width='100%' height='30'>
 					<tr>
 						<td width='25px' style='border:1px solid black'></td>
 						<td width='5px'>&nbsp;</td>
-						<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'>KEMENTRIAN PENDIDIKAN DAN KEBUDAYAAN INDONESIA</td>
+						<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'>$setting[sekolah] - " . strtoupper($jenis['nama']) . " </td>
 						<td width='5px'>&nbsp;</td>
 						<td width='25px' style='border:1px solid black'></td>
 					</tr>
 				</table>
 			</div>
 		</div>";
-	}
-?>
+}

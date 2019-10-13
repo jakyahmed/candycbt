@@ -8,8 +8,8 @@
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'><?= $info ?>
-					<?php $jq = mysql_query("SELECT * FROM nilai group by kode_ujian"); ?>
-					<?php while ($jenis = mysql_fetch_array($jq)) : ?>
+					<?php $jq = mysqli_query($koneksi, "SELECT * FROM nilai group by kode_ujian"); ?>
+					<?php while ($jenis = mysqli_fetch_array($jq)) : ?>
 						<div class='col-md-4'>
 							<div class='box box-widget widget-user-2'>
 								<div class='widget-user-header bg-blue'>
@@ -17,7 +17,7 @@
 										<img class='img-thumbnail' src='../dist/img/svg/nilai.svg'>
 									</div>
 									<h3 class='widget-user-username'><?= $jenis['kode_ujian'] ?></h3>
-									<?php $nama = mysql_fetch_array(mysql_query("SELECT * FROM jenis WHERE id_jenis='$jenis[kode_ujian]'")); ?>
+									<?php $nama = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$jenis[kode_ujian]'")); ?>
 									<h5 class='widget-user-desc'><?= $nama['nama'] ?></h5>
 								</div>
 								<div class='box-footer'>
@@ -47,15 +47,15 @@
 								<th>Action</th>
 								<?php
 										if ($pengawas['level'] == 'admin') {
-											$mapelQ = mysql_query("SELECT mapel.*, nilai.* FROM mapel JOIN nilai ON mapel.id_mapel=nilai.id_mapel WHERE nilai.kode_ujian='$idu' GROUP BY mapel.id_mapel ASC");
+											$mapelQ = mysqli_query($koneksi, "SELECT mapel.*, nilai.* FROM mapel JOIN nilai ON mapel.id_mapel=nilai.id_mapel WHERE nilai.kode_ujian='$idu' GROUP BY mapel.id_mapel ASC");
 										} elseif ($pengawas['level'] == 'guru') {
-											$mapelQ = mysql_query("SELECT mapel.*,nilai.* FROM mapel INNER JOIN nilai ON mapel.id_mapel=nilai.id_mapel WHERE mapel.idguru='$pengawas[id_pengawas]' GROUP BY mapel.id_mapel ASC");
+											$mapelQ = mysqli_query($koneksi, "SELECT mapel.*,nilai.* FROM mapel INNER JOIN nilai ON mapel.id_mapel=nilai.id_mapel WHERE mapel.idguru='$pengawas[id_pengawas]' GROUP BY mapel.id_mapel ASC");
 										}
 										?>
-								<?php while ($mapel = mysql_fetch_array($mapelQ)) :  ?>
+								<?php while ($mapel = mysqli_fetch_array($mapelQ)) :  ?>
 									<?php
-												$cek = mysql_num_rows(mysql_query("SELECT * FROM nilai WHERE id_mapel='$mapel[id_mapel]' and ujian_selesai='' and id_siswa<>''"));
-												$cek2 = mysql_num_rows(mysql_query("SELECT * FROM jawaban WHERE id_mapel='$mapel[id_mapel]'"));
+												$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$mapel[id_mapel]' and ujian_selesai='' and id_siswa<>''"));
+												$cek2 = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jawaban WHERE id_mapel='$mapel[id_mapel]'"));
 												if ($cek <> 0 or $cek2 == 0) :
 													$dis = 'disabled';
 												else :
@@ -78,8 +78,8 @@
 											<select id="me<?= $mapel['id_mapel'] ?>" class='idkel form-control select2' style='width:100%'>
 												<option value=''></option>
 												<?php
-															$kelasQ = mysql_query("SELECT * FROM kelas");
-															while ($kelas = mysql_fetch_array($kelasQ)) :
+															$kelasQ = mysqli_query($koneksi, "SELECT * FROM kelas");
+															while ($kelas = mysqli_fetch_array($kelasQ)) :
 																echo "<option value='$kelas[id_kelas]'>$kelas[id_kelas]</option>";
 															endwhile;
 															?>
@@ -102,7 +102,7 @@
 		$id_mapel = $_GET['idm'];
 		$id_kelas = $_GET['idk'];
 		$kode_ujian = $_GET['idu'];
-		$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+		$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 		?>
 	<div class='row'>
 		<div class='col-md-12'>
@@ -133,16 +133,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php $siswaQ = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas'"); ?>
-								<?php while ($siswa = mysql_fetch_array($siswaQ)) : ?>
+								<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas'"); ?>
+								<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 									<?php
 											$no++;
 											$ket = '';
 											$esai = $lama = $jawaban = $skor = $total = '--';
-											$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas WHERE id_kelas='$id_kelas'"));
-											$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
-											$nilaiC = mysql_num_rows($nilaiQ);
-											$nilai = mysql_fetch_array($nilaiQ);
+											$kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$id_kelas'"));
+											$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
+											$nilaiC = mysqli_num_rows($nilaiQ);
+											$nilai = mysqli_fetch_array($nilaiQ);
 											if ($nilaiC <> 0) :
 												$lama = '';
 												if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') :
@@ -184,7 +184,7 @@
 										<td>
 											<?php if ($nilai['skor'] <> "") : ?>
 												<?php
-															$cekjawab = mysql_num_rows(mysql_query("SELECT * FROM hasil_jawaban WHERE id_siswa='$siswa[id_siswa]' and id_mapel='$id_mapel'"));
+															$cekjawab = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$siswa[id_siswa]' and id_mapel='$id_mapel'"));
 															if ($cekjawab <> 0) :
 																$ket = '';
 																$link = "?pg=" . $pg . "&ac=esai&idu=" . $_GET['idu'] . "&idm=" . $id_mapel . "&idk=" . $id_kelas . "&ids=" . $siswa['id_siswa'];
@@ -214,26 +214,26 @@
 	$id_kelas = $_GET['idk'];
 	$id_siswa = $_GET['ids'];
 	$kode_ujian = $_GET['idu'];
-	$nilai = mysql_fetch_array(mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND kode_ujian='$kode_ujian'"));
+	$nilai = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND kode_ujian='$kode_ujian'"));
 	if (isset($_POST['simpanesai'])) :
 		$jml_data = count($_POST['idsoal']);
 		$id_soal = $_POST['idsoal'];
 		$nilaiesai = $_POST['nilaiesai'];
-		$nilai = mysql_fetch_array(mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND kode_ujian='$kode_ujian'"));
+		$nilai = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND kode_ujian='$kode_ujian'"));
 		for ($i = 1; $i <= $jml_data; $i++) :
-			$exec = mysql_query("UPDATE hasil_jawaban SET nilai_esai='" . $nilaiesai[$i] . "' WHERE id_soal='" . $id_soal[$i] . "' AND jenis='2' and id_mapel='$id_mapel' AND id_ujian='$nilai[id_ujian]' AND id_siswa='$id_siswa'");
+			$exec = mysqli_query($koneksi, "UPDATE hasil_jawaban SET nilai_esai='" . $nilaiesai[$i] . "' WHERE id_soal='" . $id_soal[$i] . "' AND jenis='2' and id_mapel='$id_mapel' AND id_ujian='$nilai[id_ujian]' AND id_siswa='$id_siswa'");
 			(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=nilai&ac=esai&idm=$id_mapel&idk=$id_kelas&ids=$id_siswa");
 		endfor;
-		$sqljumlah = mysql_query("SELECT sum(nilai_esai) AS hasil FROM hasil_jawaban WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND jenis='2'");
-		$jumlah = mysql_fetch_array($sqljumlah);
-		$bobot = mysql_fetch_array(mysql_query("select * from mapel where id_mapel='$id_mapel'"));
+		$sqljumlah = mysqli_query($koneksi, "SELECT sum(nilai_esai) AS hasil FROM hasil_jawaban WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND jenis='2'");
+		$jumlah = mysqli_fetch_array($sqljumlah);
+		$bobot = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$id_mapel'"));
 		$nilai_esai1 = $jumlah['hasil'] * $bobot['bobot_esai'] / 100;
 		$nilai_esai = number_format($nilai_esai1, 2, '.', '');
 		$nilai_pg = number_format($nilai['skor'], 2, '.', '');
 		$total = $nilai_esai + $nilai_pg;
-		mysql_query("UPDATE nilai SET nilai_esai='$nilai_esai',total='$total' WHERE id_mapel='$id_mapel' and id_siswa='$id_siswa' and id_ujian='$nilai[id_ujian]'");
+		mysqli_query($koneksi, "UPDATE nilai SET nilai_esai='$nilai_esai',total='$total' WHERE id_mapel='$id_mapel' and id_siswa='$id_siswa' and id_ujian='$nilai[id_ujian]'");
 	endif;
-	$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+	$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 	?>
 	<div class='row'>
 		<div class='col-md-12'>
@@ -259,11 +259,11 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $jawabanQ = mysql_query("SELECT * FROM hasil_jawaban WHERE id_mapel='$id_mapel' and id_siswa='$id_siswa' and jenis='2' and id_ujian='$nilai[id_ujian]' "); ?>
-									<?php while ($jawaban = mysql_fetch_array($jawabanQ)) : ?>
+									<?php $jawabanQ = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_mapel='$id_mapel' and id_siswa='$id_siswa' and jenis='2' and id_ujian='$nilai[id_ujian]' "); ?>
+									<?php while ($jawaban = mysqli_fetch_array($jawabanQ)) : ?>
 										<?php
 												$no++;
-												$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]' and jenis='2' and id_mapel='$id_mapel' "));
+												$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]' and jenis='2' and id_mapel='$id_mapel' "));
 												if ($soal['file'] == '') {
 													$gambar = '';
 												} else {
@@ -296,10 +296,10 @@
 		$kode_ujian = $_GET['idu'];
 		$id_kelas = $_GET['idk'];
 		$id_siswa = $_GET['ids'];
-		$nilai = mysql_fetch_array(mysql_query("SELECT * FROM nilai WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and kode_ujian='$kode_ujian'"));
-		$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel where id_mapel='$nilai[id_mapel]'"));
-		$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
-		$siswa = mysql_fetch_array(mysql_query("SELECT * FROM siswa WHERE id_siswa='$id_siswa'"));
+		$nilai = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and kode_ujian='$kode_ujian'"));
+		$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel where id_mapel='$nilai[id_mapel]'"));
+		$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
+		$siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa='$id_siswa'"));
 		?>
 	<div class='row'>
 		<div class='col-md-12'>
@@ -348,11 +348,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php $nilaix = mysql_query("SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and id_ujian='$nilai[id_ujian]' and jenis='1' "); ?>
-							<?php while ($jawaban = mysql_fetch_array($nilaix)) : ?>
+							<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and id_ujian='$nilai[id_ujian]' and jenis='1' "); ?>
+							<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
 								<?php
 										$no++;
-										$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
+										$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
 										if ($jawaban['jawaban'] == $soal['jawaban']) :
 											$status = "<span class='text-green'><i class='fa fa-check'></i></span>";
 										else :
@@ -378,10 +378,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php $nilaiex = mysql_query("SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and jenis='2' and id_ujian='$nilai[id_ujian]' "); ?>
-							<?php while ($jawabane = mysql_fetch_array($nilaiex)) : ?>
+							<?php $nilaiex = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and jenis='2' and id_ujian='$nilai[id_ujian]' "); ?>
+							<?php while ($jawabane = mysqli_fetch_array($nilaiex)) : ?>
 								<?php
-										$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$jawabane[id_soal]'"));
+										$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawabane[id_soal]'"));
 										$nox++;
 										?>
 								<tr>

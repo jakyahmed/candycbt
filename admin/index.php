@@ -2601,9 +2601,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							$nama = $_POST['nama'];
 							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$id'"));
 							if ($cek > 0) {
-								$info = info("Jurusan dengan kode $id sudah ada!", "NO");
+								$info = info("Jenis Ujian dengan kode $id sudah ada!", "NO");
 							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO jenis (id_jenis,nama) VALUES ('$id','$nama')");
+								$exec = mysqli_query($koneksi, "INSERT INTO jenis (id_jenis,nama,status) VALUES ('$id','$nama','tidak')");
 								if (!$exec) {
 									$info = info("Gagal menyimpan!", "NO");
 								} else {
@@ -4969,7 +4969,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						identifier: [1, 'id'],
 						editable: [
 							[2, 'namajenis'],
-							[3, 'status', '{"aktif": "aktif", "tidak": "tidak aktif"}']
+							[3, 'status', '{"aktif": "aktif", "tidak": "tidak"}']
 						]
 					}
 				});

@@ -1,6 +1,7 @@
 <?php    
     function insert($table,$data=null) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'INSERT INTO '.$table;
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -15,7 +16,8 @@
     }
     
     function update($table,$data=null,$where=null) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'UPDATE '.$table.' SET ';
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -35,7 +37,8 @@
     }
     
     function delete($table,$where=null) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'DELETE FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -51,7 +54,9 @@
     }
     
     function fetch($table,$where=null) {
-		require("config.default.php");
+        include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+        
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -60,13 +65,15 @@
 			}
 			$command .= ' WHERE '.substr($value,1);
 			$command = str_replace('#',' AND ',$command);
-		}
-        $exec = mysqli_fetch_assoc(mysqli_query($koneksi, $command));
+        }
+        $sql = mysqli_query($koneksi, $command);
+        $exec = mysqli_fetch_assoc($sql);
         return $exec;
     }
     
     function select($table,$where=null,$order=null,$limit=null) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'SELECT * FROM '.$table;
         if($where!=null) {
             $value = null;
@@ -87,7 +94,8 @@
     }
     
     function rowcount($table,$where=null) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -102,7 +110,8 @@
     }
     
     function truncate($table) {
-		require("config.default.php");
+		include "config.database.php";
+        $koneksi = mysqli_connect($host, $user, $pass, $debe);
         $command = 'TRUNCATE '.$table;
         $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';

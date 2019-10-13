@@ -238,6 +238,7 @@ function create_zip($files = array(), $destination = '', $overwrite = false)
 
 function restore($file)
 {
+	require("../config/config.default.php");
 	global $rest_dir;
 	$nama_file	= $file['name'];
 	$ukrn_file	= $file['size'];
@@ -260,7 +261,7 @@ function restore($file)
 				$templine .= $line;
 
 				if (substr(trim($line), -1, 1) == ';') {
-					mysql_query($templine);
+					mysqli_query($koneksi, $templine);
 					$templine = '';
 				}
 			}
@@ -277,14 +278,15 @@ function restore($file)
 
 function backup($host, $user, $pass, $name, $nama_file, $tables)
 {
+	require("../config/config.default.php");
 	//untuk koneksi database
-	$link = mysql_connect($host, $user, $pass);
-	mysql_select_db($name, $link);
+	$link = mysqli_connect($host, $user, $pass);
+	mysqli_select_db($name, $link);
 	// Jika Semua Tabel
 	if ($tables == '*') {
 		$tables = array();
-		$result = mysql_query('SHOW TABLES');
-		while ($row = mysql_fetch_row($result)) {
+		$result = mysqli_query($koneksi, 'SHOW TABLES');
+		while ($row = mysqli_fetch_row($result)) {
 			$tables[] = $row[0];
 		}
 	} else {
@@ -292,14 +294,14 @@ function backup($host, $user, $pass, $name, $nama_file, $tables)
 		$tables = is_array($tables) ? $tables : explode(',', $tables);
 	}
 	foreach ($tables as $table) {
-		$result = mysql_query('SELECT * FROM ' . $table);
-		$num_fields = mysql_num_fields($result);
+		$result = mysqli_query($koneksi, 'SELECT * FROM ' . $table);
+		$num_fields = mysqli_num_fields($result);
 		//menyisipkan query drop table untuk nanti hapus table yang lama
 		$return = 'DROP TABLE ' . $table . '';
-		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
+		$row2 = mysqli_fetch_row(mysqli_query($koneksi, 'SHOW CREATE TABLE ' . $table));
 		$return .= "\n\n" . $row2[1] . ";\n\n";
 		for ($i = 0; $i < $num_fields; $i++) {
-			while ($row = mysql_fetch_row($result)) {
+			while ($row = mysqli_fetch_row($result)) {
 				$return .= 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j = 0; $j < $num_fields; $j++) {
 					$row[$j] = addslashes($row[$j]);

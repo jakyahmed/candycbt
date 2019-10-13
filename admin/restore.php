@@ -5,8 +5,8 @@ require("../config/config.default.php");
 
 function restore($file) {
 	global $rest_dir;
-	$koneksi=mysql_connect("localhost","root","root");
-	mysql_select_db("artikel",$koneksi);
+	$koneksi=mysqli_connect("localhost","root","root");
+	mysqli_select_db("artikel",$koneksi);
 	
 	$nama_file	= $file['name'];
 	$ukrn_file	= $file['size'];
@@ -35,7 +35,7 @@ function restore($file) {
 				$templine .= $line;
 
 				if (substr(trim($line), -1, 1) == ';'){
-					mysql_query($templine); 
+					mysqli_query($koneksi, $templine); 
 					$templine = '';
 				}
 			}

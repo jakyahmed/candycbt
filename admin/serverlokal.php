@@ -4,9 +4,9 @@ $pesan='';
 							$kode=$_POST['kodeserver'];
 							$nama=$_POST['namaserver'];
 							$status=$_POST['status'];
-							$cek=mysql_num_rows(mysql_query("select * from server where kode_server='$kode'"));
+							$cek=mysqli_num_rows(mysqli_query($koneksi, "select * from server where kode_server='$kode'"));
 							if($cek==0){
-							$exec=mysql_query("INSERT INTO server (kode_server,nama_server,status)value('$kode','$nama','$status')");
+							$exec=mysqli_query($koneksi, "INSERT INTO server (kode_server,nama_server,status)value('$kode','$nama','$status')");
 							$pesan= "<div class='alert alert-success alert-dismissible'>
 										<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 										<i class='icon fa fa-info'></i>
@@ -24,7 +24,7 @@ $pesan='';
 							$kode=$_POST['kodeserver'];
 							$nama=$_POST['namaserver'];
 							$status=$_POST['status'];
-							$exec=mysql_query("UPDATE server set nama_server='$nama',status='$status' where kode_server='$kode'");
+							$exec=mysqli_query($koneksi, "UPDATE server set nama_server='$nama',status='$status' where kode_server='$kode'");
 							$pesan= "<div class='alert alert-success alert-dismissible'>
 										<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 										<i class='icon fa fa-info'></i>
@@ -59,9 +59,9 @@ $pesan='';
 													</thead>
 													<tbody>";
 													
-													$serverQ = mysql_query("SELECT * FROM server ORDER BY nama_server ASC");
+													$serverQ = mysqli_query($koneksi, "SELECT * FROM server ORDER BY nama_server ASC");
 								
-													while($server = mysql_fetch_array($serverQ)) {
+													while($server = mysqli_fetch_array($serverQ)) {
 														$no++; 
 														echo "
 															<tr>
@@ -82,12 +82,12 @@ $pesan='';
 																	</div>
 																</td>
 															</tr>";
-											$sql=mysql_query("select * from server where kode_server='$server[kode_server]'");
-											$sqlx=mysql_fetch_array($sql);
+											$sql=mysqli_query($koneksi, "select * from server where kode_server='$server[kode_server]'");
+											$sqlx=mysqli_fetch_array($sql);
 											
 											$info = info("Anda yakin akan menghapus Nama Server $server[kode_server] ini  ?");
 											if(isset($_POST['hapus'])) {
-												$exec = mysql_query("DELETE from server where kode_server='$_POST[idu]'");
+												$exec = mysqli_query($koneksi, "DELETE from server where kode_server='$_POST[idu]'");
 												(!$exec) ? $info = info("Gagal menghapus!","NO") : jump("?pg=$pg");
 	
 											}

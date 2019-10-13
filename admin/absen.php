@@ -18,68 +18,68 @@ if ($sesi == '' and $ruang == '' and $mapel == '') {
 }
 $lebarusername = '10%';
 $lebarnopes = '17%';
-$namaruang = mysql_fetch_array(mysql_query("SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
+$namaruang = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
 
-$querytanggal = mysql_query("SELECT * FROM ujian WHERE id_mapel='$mapel'");
-$cektanggal = mysql_fetch_array($querytanggal);
+$querytanggal = mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_mapel='$mapel'");
+$cektanggal = mysqli_fetch_array($querytanggal);
 
-$mapelx = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$mapel'"));
+$mapelx = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$mapel'"));
 
-$namamapel =	mysql_fetch_array(mysql_query("SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapelx[nama]'"));
+$namamapel =	mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapelx[nama]'"));
 if (date('m') >= 7 and date('m') <= 12) {
 	$ajaran = date('Y') . "/" . (date('Y') + 1);
 } elseif (date('m') >= 1 and date('m') <= 6) {
 	$ajaran = (date('Y') - 1) . "/" . date('Y');
 }
 
-$querysetting = mysql_query("SELECT * FROM setting WHERE id_setting='1'");
-$setting = mysql_fetch_array($querysetting);
+$querysetting = mysqli_query($koneksi, "SELECT * FROM setting WHERE id_setting='1'");
+$setting = mysqli_fetch_array($querysetting);
 
 if (!$sesi == '' && !$ruang == '' && !$kelas == '') {
 	if ($mapelx['idpk'] == 'semua') :
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and id_kelas='$kelas'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and id_kelas='$kelas'");
 	else :
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' and idpk='$mapelx[idpk]'");
 	endif;
 } elseif ($sesi == '' and !$ruang == '' and !$kelas == '') {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas'");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]'");
 	}
 } elseif ($sesi == '' and $ruang == '' and !$kelas == '') {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas'");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]'");
 	}
 } elseif (!$sesi == '' and $ruang == '' and $kelas == '') {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi'");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]'");
 	}
 } elseif (!$sesi == '' and !$ruang == '' and $kelas == '') {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang'");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]'");
 	}
 } elseif ($sesi == '' and !$ruang == '' and $kelas == '') {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang'");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]'");
 	}
 } else {
 	if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-		$ckck = mysql_query("SELECT * FROM siswa");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa");
 	} else {
-		$ckck = mysql_query("SELECT * FROM siswa where idpk='$mapelx[idpk]'");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa where idpk='$mapelx[idpk]'");
 	}
 }
 
-$jumlahData = mysql_num_rows($ckck);
+$jumlahData = mysqli_num_rows($ckck);
 if ($jumlahData == 0) {
 	echo "<span style='font-size:30; color:red'>Tidak ada Peserta Ujian dengan mapel " . $mapelx["nama"] . ", pada: <br>= sesi: " . $sesi . ", <br>= ruang: " . $ruang . ", <br>= kelas: " . $kelas . "</span>";
 	die;
@@ -161,49 +161,49 @@ $date = date_create($cektanggal['tgl_ujian']);
 				<?php
 						if (!$sesi == '' && !$ruang == '' && !$kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' AND idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' AND idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} elseif ($sesi == '' and !$ruang == '' and !$kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} elseif ($sesi == '' and $ruang == '' and !$kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} elseif (!$sesi == '' and $ruang == '' and $kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} elseif (!$sesi == '' and !$ruang == '' and $kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} elseif ($sesi == '' and !$ruang == '' and $kelas == '') {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						} else {
 							if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-								$ckck = mysql_query("SELECT * FROM siswa limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa limit $batas,$jumlahn");
 							} else {
-								$ckck = mysql_query("SELECT * FROM siswa where idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+								$ckck = mysqli_query($koneksi, "SELECT * FROM siswa where idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 							}
 						}
 						?>
-				<?php while ($f = mysql_fetch_array($ckck)) : ?>
+				<?php while ($f = mysqli_fetch_array($ckck)) : ?>
 					<?php if ($nomer % 2 == 0) : ?>
 						<tr>
 							<td style="text-align:center;width:15">&nbsp;<?= $nomer ?>.</td>
@@ -345,49 +345,49 @@ $date = date_create($cektanggal['tgl_ujian']);
 				$s = $i - 1;
 				if (!$sesi == '' and !$ruang == '' and !$kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') { //semua jurusan
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
 					} else { //jurusan tertentu ==> filter berdasarkan jurusan tersebut!!!
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' AND ruang='$ruang' AND id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} elseif ($sesi == '' and !$ruang == '' and !$kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} elseif ($sesi == '' and $ruang == '' and !$kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas' limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$kelas' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} elseif (!$sesi == '' and $ruang == '' and $kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} elseif (!$sesi == '' and !$ruang == '' and $kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE sesi='$sesi' and ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} elseif ($sesi == '' and !$ruang == '' and $kelas == '') {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE ruang='$ruang' and idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				} else {
 					if ($mapelx['idpk'] == 'semua' or $mapelx['idpk'] == '') {
-						$ckck = mysql_query("SELECT * FROM siswa limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa limit $batas,$jumlahn");
 					} else {
-						$ckck = mysql_query("SELECT * FROM siswa where idpk='$mapelx[idpk]' limit $batas,$jumlahn");
+						$ckck = mysqli_query($koneksi, "SELECT * FROM siswa where idpk='$mapelx[idpk]' limit $batas,$jumlahn");
 					}
 				}
 				?>
-			<?php while ($f = mysql_fetch_array($ckck)) : ?>
+			<?php while ($f = mysqli_fetch_array($ckck)) : ?>
 				<?php if ($nomer % 2 == 0) : ?>
 					<tr>
 						<td style="text-align:center;width:15">&nbsp;<?= $nomer ?>.</td>

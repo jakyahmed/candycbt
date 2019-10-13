@@ -1,6 +1,4 @@
 <?php
-include_once "../config/mysql-shim.php";
-
 require("../config/config.default.php");
 require("../config/config.function.php");
 require("../config/functions.crud.php");

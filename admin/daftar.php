@@ -8,14 +8,14 @@
 		$ns = enkripsi($_POST['ns']);
 		$alamat = $_POST['alamat'];
 
-		$select=mysql_query("select * from syskey where npsn = '$npsn'");
+		$select=mysqli_query($koneksi, "select * from syskey where npsn = '$npsn'");
 		if($select >= 1){
-			$cek = mysql_query("insert into school (npsn,ns,alamat) values ('$npsn','$ns','$alamat')");
+			$cek = mysqli_query($koneksi, "insert into school (npsn,ns,alamat) values ('$npsn','$ns','$alamat')");
 			$npsn = enkripsi($_POST['npsn']);
 			if($cek >= 1){
 				?><script language="javascript"> alert('Sekolah anda berhasil Teregistrasi'); document.location='index.php';</script><?php
 			}else{
-				$dl = mysql_query("TRUNCATE school");
+				$dl = mysqli_query($koneksi, "TRUNCATE school");
 				?><script language="javascript"> alert('Gagal Meregistasi Sekolah'); document.location='daftar.php';</script><?php
 			}
 		}else{ ?><script language="javascript"> alert('Sekolah Anda Belum Terdaftar, Silahkan Hubungi ICT MKKSMK'); document.location='daftar.php';</script><?php }

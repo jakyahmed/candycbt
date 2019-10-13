@@ -1,5 +1,6 @@
 <?php    
     function insert($table,$data=null) {
+		require("../config/config.default.php");
         $command = 'INSERT INTO '.$table;
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -8,12 +9,13 @@
         }
         $command .=' ('.substr($field,1).')';
         $command .=' VALUES('.substr($value,1).')';
-        $exec = mysql_query($command);
+        $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';
         return $status;
     }
     
     function update($table,$data=null,$where=null) {
+		require("../config/config.default.php");
         $command = 'UPDATE '.$table.' SET ';
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -27,12 +29,13 @@
 			$command .= ' WHERE '.substr($value,1);
 			$command = str_replace('#',' AND ',$command);
 		}
-        $exec = mysql_query($command);
+        $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';
         return $status;
     }
     
     function delete($table,$where=null) {
+		require("../config/config.default.php");
         $command = 'DELETE FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -42,12 +45,13 @@
 			$command .= ' WHERE '.substr($value,1);
 			$command = str_replace('#',' AND ',$command);
 		}
-        $exec = mysql_query($command);
+        $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';
         return $status;
     }
     
     function fetch($table,$where=null) {
+		require("../config/config.default.php");
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -57,11 +61,12 @@
 			$command .= ' WHERE '.substr($value,1);
 			$command = str_replace('#',' AND ',$command);
 		}
-        $exec = mysql_fetch_assoc(mysql_query($command));
+        $exec = mysqli_fetch_assoc(mysqli_query($koneksi, $command));
         return $exec;
     }
     
     function select($table,$where=null,$order=null,$limit=null) {
+		require("../config/config.default.php");
         $command = 'SELECT * FROM '.$table;
         if($where!=null) {
             $value = null;
@@ -74,14 +79,15 @@
         ($order!=null) ? $command .= ' ORDER BY '.$order :null;
         ($limit!=null) ? $command .= ' LIMIT '.$limit :null;
         $result = array();
-        $sql = mysql_query($command);
-        while($field = mysql_fetch_assoc($sql)) {
+        $sql = mysqli_query($koneksi, $command);
+        while($field = mysqli_fetch_assoc($sql)) {
             $result[] = $field;
         }
         return $result;
     }
     
     function rowcount($table,$where=null) {
+		require("../config/config.default.php");
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -91,13 +97,14 @@
 			$command .= ' WHERE '.substr($value,1);
 			$command = str_replace('#',' AND ',$command);
 		}
-        $exec = mysql_num_rows(mysql_query($command));
+        $exec = mysqli_num_rows(mysqli_query($koneksi, $command));
         return $exec;
     }
     
     function truncate($table) {
+		require("../config/config.default.php");
         $command = 'TRUNCATE '.$table;
-        $exec = mysql_query($command);
+        $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';
         return $status;
     }
@@ -123,4 +130,3 @@
     // }
 	// echo "<pre>";
 	// print_r($sql);
-?>

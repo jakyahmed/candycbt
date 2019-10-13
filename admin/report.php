@@ -15,21 +15,21 @@ echo "
 	<link rel='stylesheet' href='$homeurl/dist/bootstrap/css/bootstrap.min.css'/>
 	<link rel='stylesheet' href='$homeurl/dist/css/cetak.min.css'>";
 
-$mapel = mysql_fetch_assoc(mysql_query("SELECT mapel.*, mata_pelajaran.nama_mapel FROM mapel INNER JOIN mata_pelajaran ON mapel.nama=mata_pelajaran.kode_mapel WHERE id_mapel='$id_mapel'"));
-$jenis = mysql_fetch_array(mysql_query("select * from jenis where id_jenis='$kode_ujian'"));
+$mapel = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT mapel.*, mata_pelajaran.nama_mapel FROM mapel INNER JOIN mata_pelajaran ON mapel.nama=mata_pelajaran.kode_mapel WHERE id_mapel='$id_mapel'"));
+$jenis = mysqli_fetch_array(mysqli_query($koneksi, "select * from jenis where id_jenis='$kode_ujian'"));
 if (date('m') >= 7 and date('m') <= 12) {
 	$ajaran = date('Y') . "/" . (date('Y') + 1);
 } elseif (date('m') >= 1 and date('m') <= 6) {
 	$ajaran = (date('Y') - 1) . "/" . date('Y');
 }
 
-$querysetting = mysql_query("SELECT * FROM setting WHERE id_setting='1'");
-$setting = mysql_fetch_assoc($querysetting);
+$querysetting = mysqli_query($koneksi, "SELECT * FROM setting WHERE id_setting='1'");
+$setting = mysqli_fetch_assoc($querysetting);
 
 
-$query = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama");
+$query = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama");
 
-$jumlahData = mysql_num_rows($query);
+$jumlahData = mysqli_num_rows($query);
 $jumlahn = '28';	//jumlah baris yang ingin ditampilkan
 $n = ceil($jumlahData / $jumlahn);	//jumlah halaman
 $nomer = 1;
@@ -80,15 +80,15 @@ for ($i = 1; $i <= $n; $i++) {
 				</tr>";
 
 
-		$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
+		$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
 
-		while ($siswa = mysql_fetch_array($ckck)) {
+		while ($siswa = mysqli_fetch_array($ckck)) {
 			$no++;
 			$lama = $jawaban = $skor = $totalskor = $skoresai = '--';
 
-			$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
-			$nilaiC = mysql_num_rows($nilaiQ);
-			$nilai = mysql_fetch_array($nilaiQ);
+			$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
+			$nilaiC = mysqli_num_rows($nilaiQ);
+			$nilai = mysqli_fetch_array($nilaiQ);
 			if ($nilaiC <> 0) {
 				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') {
 					$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";
@@ -181,15 +181,15 @@ for ($i = 1; $i <= $n; $i++) {
 				<th width='7%'>Total</th>
 			</tr>";
 
-	$ckck = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
+	$ckck = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' order by nama limit $batas, $jumlahn");
 
-	while ($siswa = mysql_fetch_array($ckck)) {
+	while ($siswa = mysqli_fetch_array($ckck)) {
 		$no++;
 		$lama = $jawaban = $skor = $totalskor = $skoresai = '--';
 
-		$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
-		$nilaiC = mysql_num_rows($nilaiQ);
-		$nilai = mysql_fetch_array($nilaiQ);
+		$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
+		$nilaiC = mysqli_num_rows($nilaiQ);
+		$nilai = mysqli_fetch_array($nilaiQ);
 		if ($nilaiC <> 0) {
 			if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') {
 				$jawaban = "$nilai[jml_benar] benar / $nilai[jml_salah] salah";

@@ -1,6 +1,6 @@
 <?php    
     function insert($table,$data=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'INSERT INTO '.$table;
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -15,7 +15,7 @@
     }
     
     function update($table,$data=null,$where=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'UPDATE '.$table.' SET ';
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -35,7 +35,7 @@
     }
     
     function delete($table,$where=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'DELETE FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -51,7 +51,7 @@
     }
     
     function fetch($table,$where=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -66,7 +66,7 @@
     }
     
     function select($table,$where=null,$order=null,$limit=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'SELECT * FROM '.$table;
         if($where!=null) {
             $value = null;
@@ -87,7 +87,7 @@
     }
     
     function rowcount($table,$where=null) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -102,7 +102,7 @@
     }
     
     function truncate($table) {
-		require("../config/config.default.php");
+		require("config.default.php");
         $command = 'TRUNCATE '.$table;
         $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';

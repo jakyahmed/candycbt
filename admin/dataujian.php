@@ -30,13 +30,13 @@
 
                                 <?php
                                 if ($pengawas['level'] == 'guru') {
-                                    $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel where b.idguru='$id_pengawas' group by id_ujian");
+                                    $ujianQ = mysqli_query($koneksi, "SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel where b.idguru='$id_pengawas' group by id_ujian");
                                 } else {
-                                    $ujianQ = mysql_query("SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel  group by id_ujian");
+                                    $ujianQ = mysqli_query($koneksi, "SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel  group by id_ujian");
                                 }
-                                while ($ujian = mysql_fetch_array($ujianQ)) {
-                                    $cek = mysql_num_rows(mysql_query("select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai='' and id_siswa<>''"));
-                                    $cek2 = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
+                                while ($ujian = mysqli_fetch_array($ujianQ)) {
+                                    $cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai='' and id_siswa<>''"));
+                                    $cek2 = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_ujian='$ujian[id_ujian]'"));
                                     if ($cek <> 0 or $cek2 == 0) {
                                         $dis = 'disabled';
                                         $dis2 = '';
@@ -45,9 +45,9 @@
                                         $dis2 = 'disabled';
                                     }
                                     $no++;
-                                    $tempjawaban = mysql_num_rows(mysql_query("select * from jawaban where id_ujian='$ujian[id_ujian]'"));
-                                    $datajawaban = mysql_num_rows(mysql_query("select * from hasil_jawaban where id_ujian='$ujian[id_ujian]'"));
-                                    $datanilai = mysql_num_rows(mysql_query("select * from nilai where id_ujian='$ujian[id_ujian]'"));
+                                    $tempjawaban = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_ujian='$ujian[id_ujian]'"));
+                                    $datajawaban = mysqli_num_rows(mysqli_query($koneksi, "select * from hasil_jawaban where id_ujian='$ujian[id_ujian]'"));
+                                    $datanilai = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]'"));
                                     echo "
                                 <tr>
 

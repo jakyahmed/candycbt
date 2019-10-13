@@ -4,16 +4,16 @@ require("../config/config.function.php");
 if(isset($_POST['mapel'])) {$nomor = $_POST['nomor'];
 								$jenis=$_POST['jenis'];
 								$id_mapel = $_POST['mapel'];
-								$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+								$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 								if($jenis=='1'){
-								$jumsoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'"));
-								$soalQ = mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'");
+								$jumsoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'"));
+								$soalQ = mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'");
 								}
 								if($jenis=='2'){
-								$jumsoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'"));
-								$soalQ = mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'");
+								$jumsoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'"));
+								$soalQ = mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'");
 								}
-								$soal = mysql_fetch_array($soalQ);
+								$soal = mysqli_fetch_array($soalQ);
 								$isi_soal = $_POST['isi_soal'];
 								if($jenis=='1'){
 									$pilA = addslashes($_POST['pilA']);
@@ -119,17 +119,17 @@ if(isset($_POST['mapel'])) {$nomor = $_POST['nomor'];
 									$jawaban = $_POST['jawaban'];
 									if($jumsoal==0) {
 										if($setting['jenjang']=='SMK'){
-										$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,jenis,pilA,pilB,pilC,pilD,pilE,jawaban,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$nomor','$isi_soal','1','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$urlx','$filex1','$filexA','$filexB','$filexC','$filexD','$filexE')");
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,jenis,pilA,pilB,pilC,pilD,pilE,jawaban,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$nomor','$isi_soal','1','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$urlx','$filex1','$filexA','$filexB','$filexC','$filexD','$filexE')");
 										
 										}else{
-										$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,jenis,pilA,pilB,pilC,pilD,jawaban,file,file1,fileA,fileB,fileC,fileD) VALUES ('$id_mapel','$nomor','$isi_soal','1','$pilA','$pilB','$pilC','$pilD','$jawaban','$urlx','$filex1','$filexA','$filexB','$filexC','$filexD')");	
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,jenis,pilA,pilB,pilC,pilD,jawaban,file,file1,fileA,fileB,fileC,fileD) VALUES ('$id_mapel','$nomor','$isi_soal','1','$pilA','$pilB','$pilC','$pilD','$jawaban','$urlx','$filex1','$filexA','$filexB','$filexC','$filexD')");	
 										}
 									} else {
 										if($setting['jenjang']=='SMK'){
-										$exec = mysql_query("UPDATE soal SET soal='$isi_soal',pilA='$pilA',pilB='$pilB',pilC='$pilC',pilD='$pilD',pilE='$pilE',jawaban='$jawaban',file='$urlx',file1='$filex1',fileA='$filexA',fileB='$filexB',fileC='$filexC',fileD='$filexD',fileE='$filexE' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='1'");
-										echo mysql_error();
+										$exec = mysqli_query($koneksi, "UPDATE soal SET soal='$isi_soal',pilA='$pilA',pilB='$pilB',pilC='$pilC',pilD='$pilD',pilE='$pilE',jawaban='$jawaban',file='$urlx',file1='$filex1',fileA='$filexA',fileB='$filexB',fileC='$filexC',fileD='$filexD',fileE='$filexE' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='1'");
+										echo mysqli_error($koneksi);
 										}else{
-										$exec = mysql_query("UPDATE soal SET soal='$isi_soal',pilA='$pilA',pilB='$pilB',pilC='$pilC',pilD='$pilD',jawaban='$jawaban',file='$urlx',file1='$filex1',fileA='$filexA',fileB='$filexB',fileC='$filexC',fileD='$filexD' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='1'");
+										$exec = mysqli_query($koneksi, "UPDATE soal SET soal='$isi_soal',pilA='$pilA',pilB='$pilB',pilC='$pilC',pilD='$pilD',jawaban='$jawaban',file='$urlx',file1='$filex1',fileA='$filexA',fileB='$filexB',fileC='$filexC',fileD='$filexD' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='1'");
 										}
 									}
 									
@@ -162,9 +162,9 @@ if(isset($_POST['mapel'])) {$nomor = $_POST['nomor'];
 										$filex1 = $soal['file1'];
 									}
 									if($jumsoal==0) {
-										$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,jenis,file,file1) VALUES ('$id_mapel','$nomor','$isi_soal','2','$urlx','$filex1')");
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,jenis,file,file1) VALUES ('$id_mapel','$nomor','$isi_soal','2','$urlx','$filex1')");
 									} else {
-										$exec = mysql_query("UPDATE soal SET soal='$isi_soal',file='$urlx',file1='$filex1' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='2'");
+										$exec = mysqli_query($koneksi, "UPDATE soal SET soal='$isi_soal',file='$urlx',file1='$filex1' WHERE id_mapel='$id_mapel' AND nomor='$nomor' AND jenis='2'");
 									}
 									}
 									(!$exec) ? $info = info('Gagal menyimpan soal!','NO') : $info = info('Berhasil menyimpan soal!','OK');

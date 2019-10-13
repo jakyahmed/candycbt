@@ -108,7 +108,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 					<td style="text-align:center">
 						<strong class='f12'>
 							DAFTAR HADIR PESERTA <BR>
-							<?= $setting['nama_ujian'] ?><BR>
+							 <?= strtoupper($setting['nama_ujian']) ?><BR>
 							TAHUN PELAJARAN <?= $ajaran ?>
 						</strong>
 					</td>
@@ -274,7 +274,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 					<tr>
 						<td width='25px' style='border:1px solid black'></td>
 						<td width='5px'>&nbsp;</td>
-						<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'><?= $setting['nama_ujian'] . " " . $setting['sekolah'] ?></td>
+						<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'><?= strtoupper($setting['nama_ujian']) . " " . $setting['sekolah'] ?></td>
 						<td width='5px'>&nbsp;</td>
 						<td width='25px' style='border:1px solid black'></td>
 					</tr>
@@ -290,7 +290,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 				<td style="text-align:center">
 					<strong class='f12'>
 						DAFTAR HADIR PESERTA <BR>
-						<?= $setting['nama_ujian'] ?><BR>
+						<?= strtoupper($setting['nama_ujian']) ?><BR>
 						TAHUN PELAJARAN <?= $ajaran ?>
 					</strong>
 				</td>
@@ -419,7 +419,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 				<tr>
 					<td width='25px' style='border:1px solid black'></td>
 					<td width='5px'>&nbsp;</td>
-					<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'><?= $setting['nama_ujian'] . " " . $setting['sekolah'] ?></td>
+					<td style='border:1px solid black;font-weight:bold;font-size:14px;text-align:center;'><?= strtoupper($setting['nama_ujian']) . " " . $setting['sekolah'] ?></td>
 					<td width='5px'>&nbsp;</td>
 					<td width='25px' style='border:1px solid black'></td>
 				</tr>

@@ -2,12 +2,12 @@
 <?php
 require("../config/config.default.php");
 require("../config/config.function.php");
-$cekdb = mysql_query('select 1 from `pengawas` LIMIT 1');
+$cekdb = mysqli_query($koneksi, "SELECT 1 FROM pengawas LIMIT 1");
 if ($cekdb == false) {
 	header("Location: ../install.php");
 }
 
-$ceks = mysql_fetch_array(mysql_query("select * from setting"));
+$ceks = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM setting"));
 
 $namaaplikasi = $ceks['aplikasi'];
 $namasekolah = $ceks['sekolah'];
@@ -17,10 +17,10 @@ if (isset($_POST['submit'])) {
 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
-	$query = mysql_query("SELECT * FROM pengawas WHERE username='$username'");
+	$query = mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'");
 
-	$cek = mysql_num_rows($query);
-	$user = mysql_fetch_array($query);
+	$cek = mysqli_num_rows($query);
+	$user = mysqli_fetch_array($query);
 
 
 	if ($cek <> 0) {

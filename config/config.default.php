@@ -1,5 +1,4 @@
 <?php
-include_once "mysql-shim.php";
 error_reporting(E_ALL);
 
 session_cache_expire(0);
@@ -38,14 +37,14 @@ $user = $user;
 $pass = $pass;
 $debe = $debe;
 
-$koneksi = mysql_connect($host, $user, $pass) or die(mysql_error());
+$koneksi = mysqli_connect($host, $user, $pass, "");
 if ($koneksi) {
-	$pilihdb = mysql_select_db($debe, $koneksi);
+	$pilihdb = mysqli_select_db($koneksi, $debe);
 	if ($pilihdb) {
-		$query = mysql_query("SELECT * FROM setting WHERE id_setting='1'");
+		$query = mysqli_query($koneksi, "SELECT * FROM setting WHERE id_setting='1'");
 		if ($query) {
-			$setting = mysql_fetch_array($query);
-			$sess = mysql_fetch_array(mysql_query("SELECT * FROM session WHERE id='1'"));
+			$setting = mysqli_fetch_array($query);
+			$sess = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM session WHERE id='1'"));
 			date_default_timezone_set($setting['waktu']);
 		}
 	}
@@ -58,7 +57,7 @@ $tanggal = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
 
 $copyright = 'Candy CBT';
-define("REVISI", "1");
+define("REVISI", "2");
 define("APLIKASI", "Candy CBT");
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Netscape')) {

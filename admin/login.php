@@ -53,22 +53,17 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
-	<title><?php echo "$copyright $setting[versi]"; ?></title>
+	<title><?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="../favicon.ico" />
-	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../dist/bootstrap/css/bootstrap.min.css">
-	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../plugins/font-awesome/css/font-awesome.css">
-
 
 	<link rel="stylesheet" type="text/css" href="../plugins/animate/animate.min.css">
 
 	<link rel="stylesheet" type="text/css" href="../dist/bootstrap/css/util.css">
 	<link rel="stylesheet" type="text/css" href="../dist/bootstrap/css/main.css">
-	<!--===============================================================================================-->
 	<style>
 		.judul {
 			position: absolute;

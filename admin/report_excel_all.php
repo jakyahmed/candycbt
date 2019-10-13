@@ -36,20 +36,20 @@ header("Content-Disposition: attachment; filename=" . $file . ".xls");
 			<th style='text-align:center' rowspan='3'>Nama Peserta</th>
 			<th style='text-align:center' rowspan='3'>Kelas</th>
 			<?php
-			$mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian ");
-			while ($mapel = mysql_fetch_array($mapelQ)) :
+			$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian ");
+			while ($mapel = mysqli_fetch_array($mapelQ)) :
 				echo "<th style='text-align:center' colspan='3'>$mapel[nama]</th>";
 			endwhile;
 			?>
 		</tr>
-		<?php $kode = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian"); ?>
-		<?php while ($mapel = mysql_fetch_array($kode)) : ?>
+		<?php $kode = mysqli_query($koneksi, "SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian"); ?>
+		<?php while ($mapel = mysqli_fetch_array($kode)) : ?>
 			<th style="border: 1px solid black;border-collapse: collapse;text-align:center" colspan='3'><?= $mapel['kode_ujian'] ?></th>
 		<?php endwhile; ?>
 		</tr>
 		<tr style="border: 1px solid black;border-collapse: collapse">
-			<?php $mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian "); ?>
-			<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+			<?php $mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian "); ?>
+			<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 				<th style='text-align:center'>B</th>
 				<th style='text-align:center'>S</th>
 				<th style='text-align:center'>SKOR</th>
@@ -57,8 +57,8 @@ header("Content-Disposition: attachment; filename=" . $file . ".xls");
 		</tr>
 	</thead>
 	<tbody>
-		<?php $siswaQ = mysql_query("SELECT * FROM siswa where id_kelas='$id_kelas' ORDER BY nama ASC"); ?>
-		<?php while ($siswa = mysql_fetch_array($siswaQ)) : ?>
+		<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa where id_kelas='$id_kelas' ORDER BY nama ASC"); ?>
+		<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 			<?php
 				$no++;
 				$ket = '';
@@ -69,12 +69,12 @@ header("Content-Disposition: attachment; filename=" . $file . ".xls");
 				<td style="text-align:center"><?= $siswa['no_peserta'] ?></td>
 				<td><?= $siswa['nama'] ?></td>
 				<td style="text-align:center"><?= $siswa['id_kelas'] ?></td>
-				<?php $mapelQ = mysql_query("SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian "); ?>
-				<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+				<?php $mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a inner join nilai b ON a.id_mapel=b.id_mapel group by b.id_ujian "); ?>
+				<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 					<?php
-							$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_ujian='$mapel[id_ujian]' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$mapel[kode_ujian]'");
-							$nilaiC = mysql_num_rows($nilaiQ);
-							$nilai = mysql_fetch_array($nilaiQ);
+							$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_ujian='$mapel[id_ujian]' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$mapel[kode_ujian]'");
+							$nilaiC = mysqli_num_rows($nilaiQ);
+							$nilai = mysqli_fetch_array($nilaiQ);
 							?>
 					<td style="text-align:center"><?= $nilai['jml_benar'] ?></td>
 					<td style="text-align:center"><?= $nilai['jml_salah'] ?></td>

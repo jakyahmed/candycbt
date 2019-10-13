@@ -1,16 +1,16 @@
 <?php 							$nomor = $_GET['no'];
 								$jenis=$_GET['jenis'];
 								$id_mapel = $_GET['id'];
-								$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+								$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 								if($jenis=='1'){
-								$jumsoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'"));
-								$soalQ = mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'");
+								$jumsoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'"));
+								$soalQ = mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='1'");
 								}
 								if($jenis=='2'){
-								$jumsoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'"));
-								$soalQ = mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'");
+								$jumsoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'"));
+								$soalQ = mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'");
 								}
-								$soal = mysql_fetch_array($soalQ);
+								$soal = mysqli_fetch_array($soalQ);
 								
 								
 								($soal['jawaban']=='A') ? $jwbA='checked':$jwbA='';
@@ -48,14 +48,14 @@
 															<div class='btn-group'>";
 															if($jenis=='1'){
 																for($i=1;$i<=$mapel['jml_soal'];$i++) {
-																	$ceksoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND nomor='$i' AND jenis='1'"));
+																	$ceksoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND nomor='$i' AND jenis='1'"));
 																	($ceksoal<>0) ? $a='success':$a='default';
 																	($i==$nomor) ? $a='danger':null;
 																	echo "<a href='?pg=$pg&ac=$ac&id=$id_mapel&no=$i&jenis=1' class='btn btn-xs btn-$a'>$i</a>";
 																}
 															}else{
 																for($i=1;$i<=$mapel['jml_esai'];$i++) {
-																	$ceksoal = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$id_mapel' AND nomor='$i' AND jenis='2'"));
+																	$ceksoal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND nomor='$i' AND jenis='2'"));
 																	($ceksoal<>0) ? $a='success':$a='default';
 																	($i==$nomor) ? $a='danger':null;
 																	echo "<a href='?pg=$pg&ac=$ac&id=$id_mapel&no=$i&jenis=2' class='btn btn-xs btn-$a'>$i</a>";

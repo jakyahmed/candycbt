@@ -1,6 +1,6 @@
 <?php
 require("config/config.default.php");
-$cekdb = mysql_query('select 1 from `pengawas` LIMIT 1');
+$cekdb = mysqli_query($koneksi, "SELECT 1 FROM pengawas LIMIT 1");
 if ($cekdb == false) {
 	header("Location: install.php");
 }

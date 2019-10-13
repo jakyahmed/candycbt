@@ -19,9 +19,16 @@ if (isset($_GET['pg'])) {
 	}
 	if ($pg == 'jenisujian') {
 		if ($input['action'] === 'edit') {
-			mysqli_query($koneksi, "UPDATE jenis SET nama='" . $input['namajenis'] . "', status='" . $input['status'] . "' WHERE id_jenis='" . $input['id'] . "'");
+			if ($input['status'] == "aktif") {
+				$namaujian = $input['namajenis'];
+				mysqli_query($koneksi, "UPDATE jenis SET status='tidak'");
+				mysqli_query($koneksi, "UPDATE jenis SET nama='" . $input['namajenis'] . "', status='" . $input['status'] . "' WHERE id_jenis='" . $input['id'] . "'");
+				mysqli_query($koneksi, "UPDATE setting SET nama_ujian='$namaujian'");
+			} else {
+				mysqli_query($koneksi, "UPDATE jenis SET nama='" . $input['namajenis'] . "', status='" . $input['status'] . "' WHERE id_jenis='" . $input['id'] . "'");
+			}
 		} else if ($input['action'] === 'delete') {
-			mysqli_query($koneksi, "delete from  jenis WHERE id_jenis='" . $input['id'] . "'");
+			mysqli_query($koneksi, "DELETE FROM jenis WHERE id_jenis='" . $input['id'] . "'");
 		}
 	}
 	if ($pg == 'level') {

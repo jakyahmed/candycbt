@@ -11,10 +11,10 @@
 		elseif($pg=='log') {
             $logC = 0;
 			echo "<div class='direct-chat-messages' style='height:470px'>";
-			$logQ = mysql_query("SELECT * FROM log ORDER BY date DESC limit 6");
-			while($log = mysql_fetch_array($logQ)) {
+			$logQ = mysqli_query($koneksi, "SELECT * FROM log ORDER BY date DESC limit 6");
+			while($log = mysqli_fetch_array($logQ)) {
                 $logC++;
-				$siswa = mysql_fetch_array(mysql_query("SELECT * FROM siswa WHERE id_siswa='$log[id_siswa]'"));
+				$siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa='$log[id_siswa]'"));
 				if($log['type']=='login' || $log['type']=='logout') {
 					($log['type']=='login') ? $icon = 'fa-sign-in' : $icon = 'fa-sign-out';
 					($log['type']=='login') ? $color = 'text-green' : $color = 'text-red';
@@ -52,11 +52,11 @@
 		elseif($pg=='pengumuman') {
             $logC = 0;
 			echo "<ul class='timeline'><li class='time-label'><span class='bg-blue'>- Terbaru -</span></li>";
-			$logQ = mysql_query("SELECT * FROM pengumuman ORDER BY date DESC");
+			$logQ = mysqli_query($koneksi, "SELECT * FROM pengumuman ORDER BY date DESC");
 			
-			while($log = mysql_fetch_array($logQ)) {
+			while($log = mysqli_fetch_array($logQ)) {
                 $logC++;
-				$user = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$log[user]'"));
+				$user = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$log[user]'"));
 				if($log['type']=='internal'){$bg='bg-green';$color='text-green';}else{$bg='bg-blue';$color='text-blue';}
 					echo "
 						
@@ -86,11 +86,11 @@
 		elseif($pg=='pengumumansiswa') {
             $logC = 0;
 			echo "<ul class='timeline'><br>";
-			$logQ = mysql_query("SELECT * FROM pengumuman where type='eksternal' ORDER BY date DESC");
+			$logQ = mysqli_query($koneksi, "SELECT * FROM pengumuman where type='eksternal' ORDER BY date DESC");
 			
-			while($log = mysql_fetch_array($logQ)) {
+			while($log = mysqli_fetch_array($logQ)) {
                 $logC++;
-				$user = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$log[user]'"));
+				$user = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$log[user]'"));
 				if($log['type']=='internal'){$bg='bg-green';$color='text-green';}else{$bg='bg-blue';$color='text-blue';}
 					echo "
 						
@@ -131,14 +131,14 @@
 						$token=create_random(6);
 						$now = date('Y-m-d H:i:s');
 						echo $token; 
-						$cek=mysql_num_rows(mysql_query("select * from token"));
+						$cek=mysqli_num_rows(mysqli_query($koneksi, "select * from token"));
 						if($cek<>0){
-						$query=mysql_fetch_array(mysql_query("select time from token"));
+						$query=mysqli_fetch_array(mysqli_query($koneksi, "select time from token"));
 						$time=$query['time'];
 						$tgl=buat_tanggal('H:i:s',$time);
-						$exec=mysql_query("update token set token='$token', time='$now' where  id_token='1'");
+						$exec=mysqli_query($koneksi, "update token set token='$token', time='$now' where  id_token='1'");
 						}else{
-						$exec = mysql_query("INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
+						$exec = mysqli_query($koneksi, "INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
 						}
 		}
 	}

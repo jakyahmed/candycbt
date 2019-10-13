@@ -1,13 +1,11 @@
 <?php
-include_once "../config/mysql-shim.php";
-
 require("../config/config.default.php");
 require("../config/config.function.php");
 require("../config/functions.crud.php");
 require("../config/excel_reader2.php");
 (isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
 ($id_pengawas == 0) ? header('location:login.php') : null;
-$pengawas = mysql_fetch_array(mysql_query("SELECT * FROM pengawas  WHERE id_pengawas='$id_pengawas'"));
+$pengawas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas  WHERE id_pengawas='$id_pengawas'"));
 
 (isset($_GET['pg'])) ? $pg = $_GET['pg'] : $pg = '';
 (isset($_GET['ac'])) ? $ac = $_GET['ac'] : $ac = '';
@@ -24,12 +22,12 @@ else :
 	$sidebar = '';
 endif;
 
-$nilai = mysql_num_rows(mysql_query("SELECT * FROM nilai"));
-$soal = mysql_num_rows(mysql_query("SELECT * FROM mapel"));
-$siswa = mysql_num_rows(mysql_query("SELECT * FROM siswa"));
-$ruang = mysql_num_rows(mysql_query("SELECT * FROM ruang"));
-$kelas = mysql_num_rows(mysql_query("SELECT * FROM kelas"));
-$mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
+$nilai = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai"));
+$soal = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel"));
+$siswa = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa"));
+$ruang = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ruang"));
+$kelas = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
+$mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"));
 ?>
 <!DOCTYPE html>
 <html>
@@ -348,8 +346,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 			<section class='content'>
 				<?php if ($pg == '') : ?>
 					<?php
-						$testongoing = mysql_num_rows(mysql_query("SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai=''"));
-						$testdone = mysql_num_rows(mysql_query("SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai!=''"));
+						$testongoing = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai=''"));
+						$testdone = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai!=''"));
 
 						if ($siswa <> 0) {
 							$testongoing_per = (1000 / $siswa) * $testongoing;
@@ -473,11 +471,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php endif ?>
 					<?php
 						if ($ac == 'clearlog') {
-							mysql_query("TRUNCATE log");
+							mysqli_query($koneksi, "TRUNCATE log");
 							jump('?');
 						}
 						if ($ac == 'clearpengumuman') {
-							mysql_query("TRUNCATE pengumuman");
+							mysqli_query($koneksi, "TRUNCATE pengumuman");
 							jump('?');
 						}
 						?>
@@ -531,9 +529,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						if (isset($_POST['simpanmapel'])) {
 							$kode = str_replace(' ', '', $_POST['kodemapel']);
 							$nama = addslashes($_POST['namamapel']);
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran WHERE kode_mapel='$kode'"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$kode'"));
 							if ($cek == 0) {
-								$exec = mysql_query("INSERT INTO mata_pelajaran (kode_mapel,nama_mapel)value('$kode','$nama')");
+								$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel)value('$kode','$nama')");
 								$pesan = "<div class='alert alert-success alert-dismissible'>
 									<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 									<i class='icon fa fa-info'></i>
@@ -561,10 +559,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$nama = addslashes($data->val($i, 3));
 									$kode = str_replace(' ', '', $kode);
 									$nama = addslashes($nama);
-									$cek = mysql_num_rows(mysql_query("select * from mata_pelajaran where kode_mapel='$kode'"));
+									$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from mata_pelajaran where kode_mapel='$kode'"));
 									if ($kode <> '' and $nama <> '') {
 										if ($cek == 0) {
-											$exec = mysql_query("INSERT INTO mata_pelajaran (kode_mapel,nama_mapel) VALUES ('$kode','$nama')");
+											$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel) VALUES ('$kode','$nama')");
 											($exec) ? $sukses++ : $gagal++;
 										}
 									} else {
@@ -598,8 +596,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $mapelQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC"); ?>
-												<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+												<?php $mapelQ = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC"); ?>
+												<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -688,17 +686,17 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							}
 							$token = create_random(6);
 							$now = date('Y-m-d H:i:s');
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM token"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM token"));
 							if ($cek <> 0) {
-								$query = mysql_fetch_array(mysql_query("SELECT time FROM token"));
+								$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT time FROM token"));
 								$time = $query['time'];
 								$tgl = buat_tanggal('H:i:s', $time);
-								$exec = mysql_query("UPDATE token SET token='$token', time='$now' where id_token='1'");
+								$exec = mysqli_query($koneksi, "UPDATE token SET token='$token', time='$now' where id_token='1'");
 							} else {
-								$exec = mysql_query("INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
+								$exec = mysqli_query($koneksi, "INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
 							}
 						}
-						$token = mysql_fetch_array(mysql_query("select token from token"))
+						$token = mysqli_fetch_array(mysqli_query($koneksi, "select token from token"))
 						?>
 					<div class='row'>
 						<form action='' method='post'>
@@ -742,8 +740,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $tokenku = mysql_query("SELECT * FROM token "); ?>
-												<?php while ($token = mysql_fetch_array($tokenku)) : ?>
+												<?php $tokenku = mysqli_query($koneksi, "SELECT * FROM token "); ?>
+												<?php while ($token = mysqli_fetch_array($tokenku)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -763,7 +761,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php
 						cek_session_admin();
 						if (isset($_POST['simpanpengumuman'])) {
-							$exec = mysql_query("INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
+							$exec = mysqli_query($koneksi, "INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
 							if (!$exec) {
 								$info = info("Gagal menyimpan!", "NO");
 							} else {
@@ -822,8 +820,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $pengumumanq = mysql_query("SELECT * FROM pengumuman ORDER BY date DESC"); ?>
-												<?php while ($pengumuman = mysql_fetch_array($pengumumanq)) : ?>
+												<?php $pengumumanq = mysqli_query($koneksi, "SELECT * FROM pengumuman ORDER BY date DESC"); ?>
+												<?php while ($pengumuman = mysqli_fetch_array($pengumumanq)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -844,7 +842,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													<?php $info = info("Anda yakin akan menghapus pengumuman ini ?"); ?>
 													<?php
 															if (isset($_POST['hapus'])) {
-																$exec = mysql_query("DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
+																$exec = mysqli_query($koneksi, "DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
 																(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg");
 															}
 															?>
@@ -929,8 +927,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $guruku = mysql_query("SELECT * FROM pengawas where level='guru' ORDER BY nama ASC"); ?>
-												<?php while ($pengawas = mysql_fetch_array($guruku)) : ?>
+												<?php $guruku = mysqli_query($koneksi, "SELECT * FROM pengawas where level='guru' ORDER BY nama ASC"); ?>
+												<?php while ($pengawas = mysqli_fetch_array($guruku)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -964,7 +962,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											$pass1 = $_POST['pass1'];
 											$pass2 = $_POST['pass2'];
 
-											$cekuser = mysql_num_rows(mysql_query("SELECT * FROM pengawas WHERE username='$username'"));
+											$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
 											if ($cekuser > 0) {
 												$info = info("Username $username sudah ada!", "NO");
 											} else {
@@ -972,7 +970,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													$info = info("Password tidak cocok!", "NO");
 												} else {
 													$password = $pass1;
-													$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
+													$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
 													(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 												}
 											}
@@ -1019,7 +1017,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							<?php elseif ($ac == 'edit') : ?>
 								<?php
 										$id = $_GET['id'];
-										$value = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$id'"));
+										$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
 										if (isset($_POST['submit'])) {
 											$nip = $_POST['nip'];
 											$nama = $_POST['nama'];
@@ -1033,10 +1031,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													$info = info("Password tidak cocok!", "NO");
 												} else {
 													$password = $pass1;
-													$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='guru' WHERE id_pengawas='$id'");
+													$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='guru' WHERE id_pengawas='$id'");
 												}
 											} else {
-												$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='guru' WHERE id_pengawas='$id'");
+												$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='guru' WHERE id_pengawas='$id'");
 											}
 											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 										}
@@ -1084,7 +1082,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$id = $_GET['id'];
 										$info = info("Anda yakin akan menghapus pengawas ini?");
 										if (isset($_POST['submit'])) {
-											$exec = mysql_query("DELETE FROM pengawas WHERE id_pengawas='$id'");
+											$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
 											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
 										}
 										?>
@@ -1109,9 +1107,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<?php
 								$idberita = $_GET['id'];
-								$sqlx = mysql_query("SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idberita'");
-								$ujian = mysql_fetch_array($sqlx);
-								$kodeujian = mysql_fetch_array(mysql_query("SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
+								$sqlx = mysqli_query($koneksi, "SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idberita'");
+								$ujian = mysqli_fetch_array($sqlx);
+								$kodeujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
 								$hari = buat_tanggal('D', $ujian['tgl_ujian']);
 								$tanggal = buat_tanggal('d', $ujian['tgl_ujian']);
 								// $bulan = buat_tanggal('F', $ujian['tgl_ujian']);
@@ -1312,9 +1310,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$tgl_selesai = $_POST['tgl_selesai'];
 								$kode_ujian = $_POST['kode_ujian'];
 								$idmapel = $_POST['idmapel'];
-								$mapelx = mysql_fetch_array(mysql_query("select * from mapel where id_mapel='$idmapel'"));
+								$mapelx = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$idmapel'"));
 								$namamapel = $mapelx['nama'];
-								$mapely = mysql_fetch_array(mysql_query("select * from mata_pelajaran where kode_mapel='$namamapel'"));
+								$mapely = mysqli_fetch_array(mysqli_query($koneksi, "select * from mata_pelajaran where kode_mapel='$namamapel'"));
 								$nama_mapel = $mapely['nama_mapel'];
 								$jmlsoal = $mapelx['jml_soal'];
 								$jml_esai = $mapelx['jml_esai'];
@@ -1336,7 +1334,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$hasil = (isset($_POST['hasil'])) ? 1 : 0;
 								$kkm = $_POST['kkm'];
 								$ulang = $_POST['ulang'];
-								$cek = mysql_num_rows(mysql_query("SELECT * FROM ujian WHERE nama='$nama_mapel' AND sesi='$sesi' AND kode_ujian='$kode_ujian' AND level='$level' AND kelas ='$kelas'"));
+								$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ujian WHERE nama='$nama_mapel' AND sesi='$sesi' AND kode_ujian='$kode_ujian' AND level='$level' AND kelas ='$kelas'"));
 								?>
 						<?php if ($cek > 0) : ?>
 							<div class='alert alert-danger alert-dismissible'>
@@ -1347,9 +1345,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						<?php else : ?>
 							<?php
 										if ($pengawas['level'] == 'admin') {
-											$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian,tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$idguru','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
+											$exec = mysqli_query($koneksi, "INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian,tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$idguru','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
 										} else {
-											$exec = mysql_query("INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian, tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$id_pengawas','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
+											$exec = mysqli_query($koneksi, "INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian, tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian,kkm,ulang) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$id_pengawas','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian','$kkm','$ulang')");
 										}
 										?>
 							<div class='alert alert-success alert-dismissible'>
@@ -1373,11 +1371,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<select name='idmapel' class='form-control' required='true'>
 												<?php
 													if ($pengawas['level'] == 'admin') {
-														$namamapelx = mysql_query("SELECT * FROM mapel where status='1' order by nama ASC");
+														$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' order by nama ASC");
 													} else {
-														$namamapelx = mysql_query("SELECT * FROM mapel where status='1' and idguru='$id_pengawas' order by nama ASC");
+														$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' and idguru='$id_pengawas' order by nama ASC");
 													}
-													while ($namamapel = mysql_fetch_array($namamapelx)) {
+													while ($namamapel = mysqli_fetch_array($namamapelx)) {
 														$dataArray = unserialize($namamapel['kelas']);
 														echo "<option value='$namamapel[id_mapel]'>$namamapel[nama] - $namamapel[level] - ";
 														foreach ($dataArray as $key => $value) {
@@ -1393,8 +1391,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<select name='kode_ujian' class='form-control' required='true'>
 												<option value=''>Pilih Jenis Ujian </option>
 												<?php
-													$namaujianx = mysql_query("SELECT * FROM jenis where status='aktif' order by nama ASC");
-													while ($ujian = mysql_fetch_array($namaujianx)) {
+													$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
+													while ($ujian = mysqli_fetch_array($namaujianx)) {
 														echo "<option value='$ujian[id_jenis]'>$ujian[id_jenis] - $ujian[nama] </option>";
 													}
 													?>
@@ -1416,8 +1414,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<label>Sesi</label>
 											<select name='sesi' class='form-control' required='true'>
 												<?php
-													$sesix = mysql_query("SELECT * from sesi");
-													while ($sesi = mysql_fetch_array($sesix)) {
+													$sesix = mysqli_query($koneksi, "SELECT * from sesi");
+													while ($sesi = mysqli_fetch_array($sesix)) {
 														echo "<option value='$sesi[kode_sesi]'>$sesi[kode_sesi]</option>";
 													}
 													?>
@@ -1505,16 +1503,16 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 															$waktu = explode(" ", $tglujian);
 															$waktu = $waktu[1];
 															$status = $_POST['status'];
-															$exec = mysql_query("UPDATE ujian SET sesi='$sesi',nama='$nama',tgl_ujian='$tglujian',tgl_selesai='$tglselesai',waktu_ujian='$waktu',lama_ujian='$lama',status='$status',kode_ujian='$kode_ujian' WHERE id_ujian='$idujian'");
+															$exec = mysqli_query($koneksi, "UPDATE ujian SET sesi='$sesi',nama='$nama',tgl_ujian='$tglujian',tgl_selesai='$tglselesai',waktu_ujian='$waktu',lama_ujian='$lama',status='$status',kode_ujian='$kode_ujian' WHERE id_ujian='$idujian'");
 															(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 														}
 														if ($pengawas['level'] == 'admin') {
-															$mapelQ = mysql_query("SELECT * FROM ujian ORDER BY tgl_ujian ASC, waktu_ujian ASC");
+															$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian ORDER BY tgl_ujian ASC, waktu_ujian ASC");
 														} else {
-															$mapelQ = mysql_query("SELECT * FROM ujian where id_guru='$id_pengawas' ORDER BY tgl_ujian ASC, waktu_ujian ASC");
+															$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian where id_guru='$id_pengawas' ORDER BY tgl_ujian ASC, waktu_ujian ASC");
 														}
 														?>
-													<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+													<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 														<?php
 																$tgl = explode(" ", $mapel['tgl_ujian']);
 																$tgl = $tgl[0];
@@ -1604,8 +1602,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																				<select name='kode_ujian' class='form-control' required='true'>
 																					<option value=''>Pilih Jenis Ujian </option>
 																					<?php
-																							$namaujianx = mysql_query("SELECT * FROM jenis where status='aktif' order by nama ASC");
-																							while ($ujian = mysql_fetch_array($namaujianx)) {
+																							$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
+																							while ($ujian = mysqli_fetch_array($namaujianx)) {
 																								($ujian['id_jenis'] == $mapel['kode_ujian']) ? $s = 'selected' : $s = '';
 																								echo "<option value='$ujian[id_jenis]' $s>$ujian[id_jenis] - $ujian[nama] </option>";
 																							}
@@ -1664,7 +1662,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							</div>
 							<?php
 								if ($ac == 'kosongkan') {
-									mysql_query("TRUNCATE ujian");
+									mysqli_query($koneksi, "TRUNCATE ujian");
 									jump('?pg=jadwal');
 								}
 								?>
@@ -1702,11 +1700,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</thead>
 											<tbody>
 												<?php
-													$beritaQ = mysql_query("SELECT * FROM berita");
+													$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita");
 													?>
-												<?php while ($berita = mysql_fetch_array($beritaQ)) : ?>
+												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
-															$mapel = mysql_fetch_array(mysql_query("select * from mapel a left join mata_pelajaran b ON a.nama=b.kode_mapel where a.id_mapel='$berita[id_mapel]'"));
+															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel a left join mata_pelajaran b ON a.nama=b.kode_mapel where a.id_mapel='$berita[id_mapel]'"));
 															$no++
 															?>
 													<tr>
@@ -1765,7 +1763,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																$nipproktor = $_POST['nip_proktor'];
 																$catatan = $_POST['catatan'];
 																$nosusulan = serialize($_POST['nosusulan']);
-																$exec = mysql_query("UPDATE berita SET ikut='$hadir',susulan='$tidakhadir',mulai='$mulai',selesai='$selesai',nama_pengawas='$pengawas',nip_pengawas='$nippengawas', nama_proktor='$proktor',nip_proktor='$nipproktor',catatan='$catatan',tgl_ujian='$tglujian',no_susulan='$nosusulan' WHERE id_berita='$idberita'");
+																$exec = mysqli_query($koneksi, "UPDATE berita SET ikut='$hadir',susulan='$tidakhadir',mulai='$mulai',selesai='$selesai',nama_pengawas='$pengawas',nip_pengawas='$nippengawas', nama_proktor='$proktor',nip_proktor='$nipproktor',catatan='$catatan',tgl_ujian='$tglujian',no_susulan='$nosusulan' WHERE id_berita='$idberita'");
 																(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=beritaacara&id=$idberita");
 															}
 															?>
@@ -1833,8 +1831,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																					<?php
 																							$bruang = $berita['ruang'];
 																							$bsesi = $berita['sesi'];
-																							$lev = mysql_query("SELECT * FROM siswa where ruang='$bruang' and sesi='$bsesi' ORDER BY nama ASC");
-																							while ($siswa = mysql_fetch_array($lev)) {
+																							$lev = mysqli_query($koneksi, "SELECT * FROM siswa where ruang='$bruang' and sesi='$bsesi' ORDER BY nama ASC");
+																							while ($siswa = mysqli_fetch_array($lev)) {
 																								echo "<option value='$siswa[no_peserta]'>$siswa[no_peserta] $siswa[nama]</option>";
 																							}
 																							?>
@@ -1917,20 +1915,20 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</thead>
 											<tbody>
 												<?php
-													$beritaQ = mysql_query("SELECT * FROM berita WHERE no_susulan <> ''");
+													$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita WHERE no_susulan <> ''");
 													?>
-												<?php while ($berita = mysql_fetch_array($beritaQ)) : ?>
+												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
-															$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
+															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
 															$dataArray = unserialize($berita['no_susulan']);
 															?>
 													<?php foreach ($dataArray as $key => $value) : ?>
 														<?php
-																	$siswaQ = mysql_query("select * from siswa where no_peserta='$value'");
+																	$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
 																	?>
-														<?php while ($siswa = mysql_fetch_array($siswaQ)) : ?>
+														<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 															<?php
-																			$cek = mysql_num_rows(mysql_query("select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
+																			$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
 																			?>
 															<?php if ($cek == 0) : ?>
 																<?php $no++; ?>
@@ -2017,12 +2015,12 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<div class='row'>
 												<div class='col-xs-4'>
 													<?php
-															$total = mysql_num_rows(mysql_query("SELECT * FROM kelas"));
+															$total = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
 															$limit = number_format($total / 3, 0, '', '');
 															$limit2 = number_format($limit * 2, 0, '', '');
-															$sql_kelas = mysql_query("SELECT * FROM kelas ORDER BY nama ASC LIMIT 0,$limit");
+															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT 0,$limit");
 															?>
-													<?php while ($kelas = mysql_fetch_array($sql_kelas)) : ?>
+													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
 														</div>
@@ -2030,9 +2028,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</div>
 												<div class='col-xs-4'>
 													<?php
-															$sql_kelas = mysql_query("SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit,$limit");
+															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit,$limit");
 															?>
-													<?php while ($kelas = mysql_fetch_array($sql_kelas)) : ?>
+													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
 														</div>
@@ -2040,9 +2038,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</div>
 												<div class='col-xs-4'>
 													<?php
-															$sql_kelas = mysql_query("SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit2,$total");
+															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit2,$total");
 															?>
-													<?php while ($kelas = mysql_fetch_array($sql_kelas)) : ?>
+													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
 														</div>
@@ -2074,9 +2072,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<div class='form-group'>
 												<label>Pilih Mapel</label>
 												<select id='absenmapel' class='select2 form-control' required='true' onchange=printabsen();>
-													<?php $sql_mapel = mysql_query("SELECT * FROM ujian group by nama"); ?>
+													<?php $sql_mapel = mysqli_query($koneksi, "SELECT * FROM ujian group by nama"); ?>
 													<option value=''>pilih mapel</option>
-													<?php while ($mapel = mysql_fetch_array($sql_mapel)) : ?>
+													<?php while ($mapel = mysqli_fetch_array($sql_mapel)) : ?>
 														<option value="<?= $mapel['id_mapel'] ?>"><?= $mapel['nama'] ?></option>
 													<?php endwhile ?>
 												</select>
@@ -2265,7 +2263,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$data = new Spreadsheet_Excel_Reader($temp);
 								$hasildata = $data->rowcount($sheet_index = 0);
 								$sukses = $gagal = 0;
-								$exec = mysql_query("delete from pengawas where level='guru'");
+								$exec = mysqli_query($koneksi, "delete from pengawas where level='guru'");
 								for ($i = 2; $i <= $hasildata; $i++) :
 									$nip = $data->val($i, 2);
 									$nama = $data->val($i, 3);
@@ -2273,7 +2271,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$username = $data->val($i, 4);
 									$username = str_replace("'", "", $username);
 									$password = $data->val($i, 5);
-									$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
+									$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
 									($exec) ? $sukses++ : $gagal++;
 								endfor;
 								$total = $hasildata - 1;
@@ -2330,8 +2328,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $pengawasQ = mysql_query("SELECT * FROM pengawas where level='admin' ORDER BY nama ASC"); ?>
-												<?php while ($pengawas = mysql_fetch_array($pengawasQ)) : ?>
+												<?php $pengawasQ = mysqli_query($koneksi, "SELECT * FROM pengawas where level='admin' ORDER BY nama ASC"); ?>
+												<?php while ($pengawas = mysqli_fetch_array($pengawasQ)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -2364,7 +2362,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											$pass1 = $_POST['pass1'];
 											$pass2 = $_POST['pass2'];
 
-											$cekuser = mysql_num_rows(mysql_query("SELECT * FROM pengawas WHERE username='$username'"));
+											$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
 											if ($cekuser > 0) {
 												$info = info("Username $username sudah ada!", "NO");
 											} else {
@@ -2372,7 +2370,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													$info = info("Password tidak cocok!", "NO");
 												else :
 													$password = password_hash($pass1, PASSWORD_BCRYPT);
-													$exec = mysql_query("INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
+													$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
 													(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 												endif;
 											}
@@ -2419,7 +2417,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							<?php elseif ($ac == 'edit') : ?>
 								<?php
 										$id = $_GET['id'];
-										$value = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$id'"));
+										$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
 										if (isset($_POST['submit'])) :
 											$nip = $_POST['nip'];
 											$nama = $_POST['nama'];
@@ -2432,10 +2430,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													$info = info("Password tidak cocok!", "NO");
 												else :
 													$password = password_hash($pass1, PASSWORD_BCRYPT);
-													$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
+													$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
 												endif;
 											} else {
-												$exec = mysql_query("UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
+												$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
 											}
 											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 										endif;
@@ -2483,7 +2481,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$id = $_GET['id'];
 										$info = info("Anda yakin akan menghapus pengawas ini?");
 										if (isset($_POST['submit'])) {
-											$exec = mysql_query("DELETE FROM pengawas WHERE id_pengawas='$id'");
+											$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
 											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
 										}
 										?>
@@ -2511,11 +2509,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								if (isset($_POST['tambahmapel'])) :
 									$idpk = str_replace(' ', '', $_POST['idpk']);
 									$nama = $_POST['nama'];
-									$cek = mysql_num_rows(mysql_query("SELECT * FROM pk WHERE id_pk='$idpk'"));
+									$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pk WHERE id_pk='$idpk'"));
 									if ($cek > 0) {
 										$info = info("Jurusan dengan kode $idpk sudah ada!", "NO");
 									} else {
-										$exec = mysql_query("INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
+										$exec = mysqli_query($koneksi, "INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
 										if (!$exec) :
 											$info = info("Gagal menyimpan!", "NO");
 										else :
@@ -2545,8 +2543,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $adminQ = mysql_query("SELECT * FROM pk ORDER BY id_pk ASC"); ?>
-												<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+												<?php $adminQ = mysqli_query($koneksi, "SELECT * FROM pk ORDER BY id_pk ASC"); ?>
+												<?php while ($adm = mysqli_fetch_array($adminQ)) : ?>
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
@@ -2601,11 +2599,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						if (isset($_POST['tambahujian'])) :
 							$id = str_replace(' ', '', $_POST['idujian']);
 							$nama = $_POST['nama'];
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM jenis WHERE id_jenis='$id'"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$id'"));
 							if ($cek > 0) {
 								$info = info("Jurusan dengan kode $id sudah ada!", "NO");
 							} else {
-								$exec = mysql_query("INSERT INTO jenis (id_jenis,nama) VALUES ('$id','$nama')");
+								$exec = mysqli_query($koneksi, "INSERT INTO jenis (id_jenis,nama) VALUES ('$id','$nama')");
 								if (!$exec) {
 									$info = info("Gagal menyimpan!", "NO");
 								} else {
@@ -2636,8 +2634,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</tr>
 										</thead>
 										<tbody>
-											<?php $adminQ = mysql_query("SELECT * FROM jenis ORDER BY id_jenis ASC"); ?>
-											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+											<?php $adminQ = mysqli_query($koneksi, "SELECT * FROM jenis ORDER BY id_jenis ASC"); ?>
+											<?php while ($adm = mysqli_fetch_array($adminQ)) : ?>
 												<?php $no++; ?>
 												<tr>
 													<td><?= $no ?></td>
@@ -2692,11 +2690,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							$level = str_replace(' ', '', $_POST['level']);
 							$ket = $_POST['keterangan'];
 
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM level WHERE kode_level='$level'"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM level WHERE kode_level='$level'"));
 							if ($cek > 0) {
 								$info = info("Level atau tingkat $level sudah ada!", "NO");
 							} else {
-								$exec = mysql_query("INSERT INTO level (kode_level,keterangan) VALUES ('$level','$ket')");
+								$exec = mysqli_query($koneksi, "INSERT INTO level (kode_level,keterangan) VALUES ('$level','$ket')");
 								if (!$exec) {
 									$info = info("Gagal menyimpan!", "NO");
 								} else {
@@ -2724,8 +2722,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</tr>
 										</thead>
 										<tbody>
-											<?php $adminQ = mysql_query("SELECT * FROM level"); ?>
-											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+											<?php $adminQ = mysqli_query($koneksi, "SELECT * FROM level"); ?>
+											<?php while ($adm = mysqli_fetch_array($adminQ)) : ?>
 												<?php $no++; ?>
 												<tr>
 													<td><?= $no ?></td>
@@ -2774,11 +2772,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							$sesi = str_replace(' ', '', $_POST['sesi']);
 							$nama = $_POST['nama'];
 
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM sesi WHERE kode_sesi='$sesi'"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM sesi WHERE kode_sesi='$sesi'"));
 							if ($cek > 0) {
 								$info = info("Kelompok Test atau Sesi $sesi sudah ada!", "NO");
 							} else {
-								$exec = mysql_query("INSERT INTO sesi (kode_sesi,nama_sesi) VALUES ('$sesi','$nama')");
+								$exec = mysqli_query($koneksi, "INSERT INTO sesi (kode_sesi,nama_sesi) VALUES ('$sesi','$nama')");
 								if (!$exec) {
 									$info = info("Gagal menyimpan!", "NO");
 								} else {
@@ -2806,8 +2804,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</tr>
 										</thead>
 										<tbody>
-											<?php $adminQ = mysql_query("SELECT * FROM sesi"); ?>
-											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+											<?php $adminQ = mysqli_query($koneksi, "SELECT * FROM sesi"); ?>
+											<?php while ($adm = mysqli_fetch_array($adminQ)) : ?>
 												<?php $no++; ?>
 												<tr>
 													<td><?= $no ?></td>
@@ -2856,11 +2854,11 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							$idkelas = str_replace(' ', '', $_POST['idkelas']);
 							$nama = $_POST['nama'];
 							$level = $_POST['level'];
-							$cek = mysql_num_rows(mysql_query("SELECT * FROM kelas WHERE id_kelas='$idkelas'"));
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$idkelas'"));
 							if ($cek > 0) {
 								$info = info("Kelas dengan kode $idkelas sudah ada!", "NO");
 							} else {
-								$exec = mysql_query("INSERT INTO kelas (id_kelas,nama,level) VALUES ('$idkelas','$nama','$level')");
+								$exec = mysqli_query($koneksi, "INSERT INTO kelas (id_kelas,nama,level) VALUES ('$idkelas','$nama','$level')");
 								if (!$exec) :
 									$info = info("Gagal menyimpan!", "NO");
 								else :
@@ -2894,8 +2892,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											</tr>
 										</thead>
 										<tbody>
-											<?php $adminQ = mysql_query("SELECT * FROM kelas ORDER BY nama ASC"); ?>
-											<?php while ($adm = mysql_fetch_array($adminQ)) : ?>
+											<?php $adminQ = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC"); ?>
+											<?php while ($adm = mysqli_fetch_array($adminQ)) : ?>
 												<?php $no++; ?>
 												<tr>
 													<td><?= $no ?></td>
@@ -2927,8 +2925,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												<select name='level' class='form-control' required='true'>
 													<option value=''></option>
 													<?php
-														$levelQ = mysql_query("SELECT * FROM level ");
-														while ($level = mysql_fetch_array($levelQ)) {
+														$levelQ = mysqli_query($koneksi, "SELECT * FROM level ");
+														while ($level = mysqli_fetch_array($levelQ)) {
 															echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
 														}
 														?>
@@ -2954,7 +2952,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 					<?php if ($ac == '') : ?>
 						<?php
 								$pesan = '';
-								$value = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id'"));
+								$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id'"));
 								$tgl_ujian = explode(' ', $value['tgl_ujian']);
 								if (isset($_POST['editbanksoal'])) :
 									$id = $_POST['idm'];
@@ -2973,10 +2971,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$guru = $_POST['guru'];
 									$kelas = serialize($_POST['kelas']);
 									if ($pengawas['level'] == 'admin') {
-										$exec = mysql_query("UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',idguru='$guru',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
+										$exec = mysqli_query($koneksi, "UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',idguru='$guru',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
 										(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 									} elseif ($pengawas['level'] == 'guru') {
-										$exec = mysql_query("UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
+										$exec = mysqli_query($koneksi, "UPDATE mapel SET idpk='$idpk',nama='$nama',level='$level',jml_soal='$jml_soal',jml_esai='$jml_esai',status='$status',bobot_pg='$bobot_pg',bobot_esai='$bobot_esai',tampil_pg='$tampil_pg',tampil_esai='$tampil_esai',kelas='$kelas',opsi='$opsi' WHERE id_mapel='$id'");
 										(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 									}
 								endif;
@@ -2994,13 +2992,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$status = $_POST['status'];
 									$opsi = $_POST['opsi'];
 									$kelas = serialize($_POST['kelas']);
-									$cek = mysql_num_rows(mysql_query("SELECT * FROM mapel WHERE nama='$nama' and level='$level' and kelas ='$kelas'"));
+									$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel WHERE nama='$nama' and level='$level' and kelas ='$kelas'"));
 									if ($pengawas['level'] == 'admin') {
 										$guru = $_POST['guru'];
 										if ($cek > 0) :
 											$pesan = "<div class='alert alert-warning alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Maaf Kode Mapel - Level - Kelas Soal Sudah ada !</div>";
 										else :
-											$exec = mysql_query("INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$guru','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
+											$exec = mysqli_query($koneksi, "INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$guru','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
 											$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Data Berhasil ditambahkan ..</div>";
 										endif;
 									} elseif ($pengawas['level'] == 'guru') {
@@ -3011,7 +3009,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 														Maaf Kode Mapel - Level - Kelas Sudah ada !
 													</div>";
 										else :
-											$exec = mysql_query("INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$id_pengawas','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
+											$exec = mysqli_query($koneksi, "INSERT INTO mapel (idpk, nama, jml_soal,jml_esai,level,status,idguru,bobot_pg,bobot_esai,tampil_pg,tampil_esai,kelas,opsi) VALUES ('$id_pk','$nama','$jml_soal','$jml_esai','$level','$status','$id_pengawas','$bobot_pg','$bobot_esai','$tampil_pg','$tampil_esai','$kelas','$opsi')");
 											$pesan = "<div class='alert alert-success alert-dismissible'>
 														<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 														<i class='icon fa fa-info'></i>
@@ -3050,14 +3048,14 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												<tbody>
 													<?php
 															if ($pengawas['level'] == 'admin') :
-																$mapelQ = mysql_query("SELECT * FROM mapel ORDER BY date ASC");
+																$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel ORDER BY date ASC");
 															elseif ($pengawas['level'] == 'guru') :
-																$mapelQ = mysql_query("SELECT * FROM mapel WHERE idguru='$pengawas[id_pengawas]' ORDER BY date ASC");
+																$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel WHERE idguru='$pengawas[id_pengawas]' ORDER BY date ASC");
 															endif;
 															?>
-													<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+													<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 														<?php
-																	$cek = mysql_num_rows(mysql_query("SELECT * FROM soal WHERE id_mapel='$mapel[id_mapel]'"));
+																	$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$mapel[id_mapel]'"));
 																	$no++;
 																	?>
 														<tr>
@@ -3102,7 +3100,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																		} else {
 																			$status = '<label class="label label-warning"> Soal Kosong </label>';
 																		}
-																		$guruku = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas = '$mapel[idguru]'"));
+																		$guruku = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas = '$mapel[idguru]'"));
 																		?>
 															<td>
 																<small class='label label-primary'><?= $guruku['nama'] ?></small>
@@ -3133,8 +3131,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																				<select name='nama' class='form-control' required='true'>
 																					<option value=''></option>
 																					<?php
-																								$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
-																								while ($pk = mysql_fetch_array($pkQ)) : ($pk['kode_mapel'] == $mapel['nama']) ? $s = 'selected' : $s = '';
+																								$pkQ = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
+																								while ($pk = mysqli_fetch_array($pkQ)) : ($pk['kode_mapel'] == $mapel['nama']) ? $s = 'selected' : $s = '';
 																									echo "<option value='$pk[kode_mapel]' $s>$pk[nama_mapel]</option>";
 																								endwhile;
 																								?>
@@ -3146,8 +3144,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																					<select name='id_pk' class='form-control' required='true'>
 																						<option value='semua'>Semua</option>
 																						<?php
-																										$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-																										while ($pk = mysql_fetch_array($pkQ)) : ($pk['id_pk'] == $mapel['idpk']) ? $s = 'selected' : $s = '';
+																										$pkQ = mysqli_query($koneksi, "SELECT * FROM pk ORDER BY program_keahlian ASC");
+																										while ($pk = mysqli_fetch_array($pkQ)) : ($pk['id_pk'] == $mapel['idpk']) ? $s = 'selected' : $s = '';
 																											echo "<option value='$pk[id_pk]' $s>$pk[program_keahlian]</option>";
 																										endwhile;
 																										?>
@@ -3161,8 +3159,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																						<select name='level' class='form-control' required='true'>
 																							<option value='semua'>Semua Level</option>
 																							<?php
-																										$lev = mysql_query("SELECT * FROM level");
-																										while ($level = mysql_fetch_array($lev)) :
+																										$lev = mysqli_query($koneksi, "SELECT * FROM level");
+																										while ($level = mysqli_fetch_array($lev)) :
 																											echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
 																										endwhile;
 																										?>
@@ -3173,8 +3171,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																						<select name='kelas[]' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
 																							<option value='semua'>Semua Kelas</option>
 																							<?php
-																										$lev = mysql_query("SELECT * FROM kelas ");
-																										while ($kelas = mysql_fetch_array($lev)) {
+																										$lev = mysqli_query($koneksi, "SELECT * FROM kelas ");
+																										while ($kelas = mysqli_fetch_array($lev)) {
 																											echo "<option value='$kelas[id_kelas]'>$kelas[id_kelas]</option>";
 																										}
 																										?>
@@ -3236,8 +3234,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 																							<label>Guru Pengampu</label>
 																							<select name='guru' class='form-control' required='true'>
 																								<?php
-																												$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
-																												while ($guru = mysql_fetch_array($guruku)) {
+																												$guruku = mysqli_query($koneksi, "SELECT * FROM pengawas where level='guru' order by nama asc");
+																												while ($guru = mysqli_fetch_array($guruku)) {
 																													($guru['id_pengawas'] == $mapel['idguru']) ? $s = 'selected' : $s = '';
 																													echo "<option value='$guru[id_pengawas]' $s>$guru[nama]</option>";
 																												}
@@ -3285,8 +3283,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												<select name='nama' class='form-control' required='true'>
 													<option value=''></option>";
 													<?php
-															$pkQ = mysql_query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
-															while ($pk = mysql_fetch_array($pkQ)) {
+															$pkQ = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran ORDER BY nama_mapel ASC");
+															while ($pk = mysqli_fetch_array($pkQ)) {
 																echo "<option value='$pk[kode_mapel]'>$pk[nama_mapel]</option>";
 															}
 															?>
@@ -3298,8 +3296,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 													<select name='id_pk' class='form-control' required='true'>
 														<option value='semua'>Semua</option>
 														<?php
-																	$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-																	while ($pk = mysql_fetch_array($pkQ)) :
+																	$pkQ = mysqli_query($koneksi, "SELECT * FROM pk ORDER BY program_keahlian ASC");
+																	while ($pk = mysqli_fetch_array($pkQ)) :
 																		echo "<option value='$pk[id_pk]'>$pk[program_keahlian]</option>";
 																	endwhile;
 																	?>
@@ -3314,8 +3312,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 															<option value=''></option>
 															<option value='semua'>Semua</option>
 															<?php
-																	$lev = mysql_query("SELECT * FROM level");
-																	while ($level = mysql_fetch_array($lev)) {
+																	$lev = mysqli_query($koneksi, "SELECT * FROM level");
+																	while ($level = mysqli_fetch_array($lev)) {
 																		echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
 																	}
 																	?>
@@ -3375,8 +3373,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 															<label>Guru Pengampu</label>
 															<select name='guru' class='form-control' required='true'>
 																<?php
-																			$guruku = mysql_query("SELECT * FROM pengawas where level='guru' order by nama asc");
-																			while ($guru = mysql_fetch_array($guruku)) {
+																			$guruku = mysqli_query($koneksi, "SELECT * FROM pengawas where level='guru' order by nama asc");
+																			while ($guru = mysqli_fetch_array($guruku)) {
 																				echo "<option value='$guru[id_pengawas]'>$guru[nama]</option>";
 																			}
 																			?>
@@ -3404,7 +3402,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						<?php include 'inputsmk.php'; ?>
 					<?php elseif ($ac == 'hapusbank') : ?>
 						<?php
-								$exec = mysql_query("DELETE FROM soal WHERE id_mapel='$_GET[id]'");
+								$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_mapel='$_GET[id]'");
 								jump(" ?pg=$pg&ac=lihat&id=$_GET[id]");
 								?>
 					<?php elseif ($ac == 'lihat') : ?>
@@ -3412,48 +3410,48 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$id_mapel = $_GET['id'];
 								if (isset($_REQUEST['tambah'])) {
 									$sip = $_SERVER['SERVER_NAME'];
-									$smax = mysql_query("SELECT max(qid) AS maxi FROM savsoft_qbank");
-									while ($hmax = mysql_fetch_array($smax)) :
+									$smax = mysqli_query($koneksi, "SELECT max(qid) AS maxi FROM savsoft_qbank");
+									while ($hmax = mysqli_fetch_array($smax)) :
 										$jumsoal = $hmax['maxi'];
 									endwhile;
-									$smaop = mysql_query("SELECT max(oid) AS maxop FROM savsoft_options");
-									while ($hmaop = mysql_fetch_array($smaop)) {
+									$smaop = mysqli_query($koneksi, "SELECT max(oid) AS maxop FROM savsoft_options");
+									while ($hmaop = mysqli_fetch_array($smaop)) {
 										$jumop = $hmaop['maxop'];
 									}
 									$b_op = $jumop / $jumsoal;
 									$no = 1;
-									$sqlcek = mysql_query("SELECT * FROM savsoft_qbank");
-									while ($r = mysql_fetch_array($sqlcek)) {
-										$s_soal = mysql_fetch_array(mysql_query("select * from savsoft_qbank where qid='$no'"));
+									$sqlcek = mysqli_query($koneksi, "SELECT * FROM savsoft_qbank");
+									while ($r = mysqli_fetch_array($sqlcek)) {
+										$s_soal = mysqli_fetch_array(mysqli_query($koneksi, "select * from savsoft_qbank where qid='$no'"));
 										$soal_tanya = $s_soal['question'];
 										$l_soal = $s_soal['lid'];
 										$c_id = $s_soal['cid'];
 										$g_soal = $s_soal['description'];
 										$g_soal = str_replace(" ", "", $g_soal);
-										$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
-										while ($hmin = mysql_fetch_array($smin)) {
+										$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
+										while ($hmin = mysqli_fetch_array($smin)) {
 											$min_op = $hmin['mini'];
 										}
-										$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
-										$ropc = mysql_fetch_array($sqlopc);
+										$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
+										$ropc = mysqli_fetch_array($sqlopc);
 										$opj1 = $ropc['q_option'];
 										$opj1 = str_replace(" &ndash;", "-", $opj1);
 										$opjs1 = $ropc['score'];
 										$fileA = $ropc['q_option_match'];
 										$fileA = str_replace(" ", "", $fileA);
 
-										$dele = mysql_query("DELETE FROM savsoft_options WHERE qid='$no' AND oid='$min_op'");
+										$dele = mysqli_query($koneksi, "DELETE FROM savsoft_options WHERE qid='$no' AND oid='$min_op'");
 
-										$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
-										while ($hmin = mysql_fetch_array($smin)) {
+										$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
+										while ($hmin = mysqli_fetch_array($smin)) {
 											$min_op = $hmin['mini'];
 										}
 
-										$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
-										$rubah = mysql_query(" select * from savsoft_options where qid='$no'");
-										$ck_jum = mysql_num_rows($rubah);
+										$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
+										$rubah = mysqli_query($koneksi, " select * from savsoft_options where qid='$no'");
+										$ck_jum = mysqli_num_rows($rubah);
 
-										$ropc = mysql_fetch_array($sqlopc);
+										$ropc = mysqli_fetch_array($sqlopc);
 										$opj2 = $ropc['q_option'];
 										$opj2 = str_replace(" &ndash;", "-", $opj2);
 										$opjs2 = $ropc['score'];
@@ -3461,15 +3459,15 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$fileB = str_replace(" ", "", $fileB);
 
 
-										$dele = mysql_query(" delete from savsoft_options where qid='$no' and oid='$min_op'");
+										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
-										$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
-										while ($hmin = mysql_fetch_array($smin)) {
+										$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
+										while ($hmin = mysqli_fetch_array($smin)) {
 											$min_op = $hmin['mini'];
 										}
 
-										$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
-										$ropc = mysql_fetch_array($sqlopc);
+										$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
+										$ropc = mysqli_fetch_array($sqlopc);
 										$opj3 = $ropc['q_option'];
 										$opj3 = str_replace(" &ndash;", "-", $opj3);
 										$opjs3 = $ropc['score'];
@@ -3477,30 +3475,30 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$fileC = str_replace(" ", "", $fileC);
 
 
-										$dele = mysql_query(" delete from savsoft_options where qid='$no' and oid='$min_op'");
+										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
-										$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
-										while ($hmin = mysql_fetch_array($smin)) {
+										$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
+										while ($hmin = mysqli_fetch_array($smin)) {
 											$min_op = $hmin['mini'];
 										}
 
-										$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
-										$ropc = mysql_fetch_array($sqlopc);
+										$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
+										$ropc = mysqli_fetch_array($sqlopc);
 										$opj4 = $ropc['q_option'];
 										$opj4 = str_replace(" &ndash;", "-", $opj4);
 										$opjs4 = $ropc['score'];
 										$fileD = $ropc['q_option_match'];
 										$fileD = str_replace(" ", "", $fileD);
 
-										$dele = mysql_query(" delete from savsoft_options where qid='$no' and oid='$min_op'");
+										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
-										$smin = mysql_query(" select min(oid) as mini from savsoft_options where qid='$no'");
-										while ($hmin = mysql_fetch_array($smin)) {
+										$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
+										while ($hmin = mysqli_fetch_array($smin)) {
 											$min_op = $hmin['mini'];
 										}
 
-										$sqlopc = mysql_query(" select * from savsoft_options where qid='$no' and oid='$min_op'");
-										$ropc = mysql_fetch_array($sqlopc);
+										$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
+										$ropc = mysqli_fetch_array($sqlopc);
 										$opj5 = $ropc['q_option'];
 										$opj5 = str_replace(" &ndash;", "-", $opj5);
 										$opjs5 = $ropc['score'];
@@ -3508,7 +3506,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$fileE = str_replace(" ", "", $fileE);
 
 
-										$dele = mysql_query(" delete from savsoft_options where qid='$no' and oid='$min_op'");
+										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
 										if ($opjs1 == 1) {
 											$kunci = " A";
@@ -3543,13 +3541,13 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$jwb22 = str_replace("&amp;gt;", ">", $jwb222);
 										$jwb12 = str_replace("&amp;gt;", ">", $jwb122);
 										$soal_tanya = str_replace("&amp;gt;", ">", $soal_tanya2);
-										$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
 										$no++;
 									}
-									$hasil2 = mysql_query("TRUNCATE TABLE savsoft_qbank");
-									$hasil2 = mysql_query("TRUNCATE TABLE savsoft_options");
+									$hasil2 = mysqli_query($koneksi, "TRUNCATE TABLE savsoft_qbank");
+									$hasil2 = mysqli_query($koneksi, "TRUNCATE TABLE savsoft_options");
 								}
-								$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+								$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
 								if ($namamapel['jml_esai'] == 0) {
 									$hide = 'hidden';
 								} else {
@@ -3575,8 +3573,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<b>A. Soal Pilihan Ganda</b>
 											<table class='table table-bordered table-striped'>
 												<tbody>
-													<?php $soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='1' order by nomor "); ?>
-													<?php while ($soal = mysql_fetch_array($soalq)) : ?>
+													<?php $soalq = mysqli_query($koneksi, "SELECT * FROM soal where id_mapel='$id_mapel' and jenis='1' order by nomor "); ?>
+													<?php while ($soal = mysqli_fetch_array($soalq)) : ?>
 														<tr>
 															<td style='width:30px'>
 																<?= $soal['nomor'] ?>
@@ -3741,7 +3739,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 														<?php
 																	$info = info("Anda yakin akan menghapus soal ini ?");
 																	if (isset($_POST['hapus'])) {
-																		$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
+																		$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
 																		(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
 																	}
 																	?>
@@ -3775,8 +3773,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											<b>B. Soal Essai</b>
 											<table class='table table-bordered table-striped'>
 												<tbody>
-													<?php $soalq = mysql_query("SELECT * FROM soal where id_mapel='$id_mapel' and jenis='2' order by nomor "); ?>
-													<?php while ($soal = mysql_fetch_array($soalq)) : ?>
+													<?php $soalq = mysqli_query($koneksi, "SELECT * FROM soal where id_mapel='$id_mapel' and jenis='2' order by nomor "); ?>
+													<?php while ($soal = mysqli_fetch_array($soalq)) : ?>
 														<tr>
 															<td style='width:30px'>
 																<?= $soal['nomor'] ?>
@@ -3821,7 +3819,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 														<?php
 																	$info = info("Anda yakin akan menghapus soal ini ?");
 																	if (isset($_POST['hapus'])) {
-																		$exec = mysql_query("DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
+																		$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_soal = '$_REQUEST[idu]'");
 																		(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
 																	}
 																	?>
@@ -3862,17 +3860,17 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								$jenis = $_GET['jenis'];
 								$id = $_GET['id'];
 								$file = $_GET['file'];
-								$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$id'"));
+								$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$id'"));
 								(file_exists("../files/" . $soal[$file])) ? unlink("../files/" . $soal[$file]) : null;
-								mysql_query("UPDATE soal SET $file='' WHERE id_soal='$id'");
+								mysqli_query($koneksi, "UPDATE soal SET $file='' WHERE id_soal='$id'");
 								jump("?pg=$pg&ac=input&paket=$soal[paket]&id=$soal[id_mapel]&no=$soal[nomor]&jenis=$jenis");
 								?>
 					<?php elseif ($ac == 'importsoal') : ?>
 						<?php
 								$id_mapel = $_GET['id'];
-								$mapelQ = mysql_query("SELECT * FROM mapel where id_mapel='$id_mapel'");
-								$mapel = mysql_fetch_array($mapelQ);
-								$cekmapel = mysql_num_rows($mapelQ);
+								$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel where id_mapel='$id_mapel'");
+								$mapel = mysqli_fetch_array($mapelQ);
+								$cekmapel = mysqli_num_rows($mapelQ);
 								if (isset($_POST['submit'])) :
 									$file = $_FILES['file']['name'];
 									$temp = $_FILES['file']['tmp_name'];
@@ -3884,7 +3882,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$data = new Spreadsheet_Excel_Reader($temp);
 										$hasildata = $data->rowcount($sheet_index = 0);
 										$sukses = $gagal = 0;
-										$exec = mysql_query("DELETE FROM soal WHERE id_mapel='$id_mapel' ");
+										$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_mapel='$id_mapel' ");
 										for ($i = 2; $i <= $hasildata; $i++) :
 											$no = $data->val($i, 1);
 											$soal = addslashes($data->val($i, 2));
@@ -3905,7 +3903,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											$id_mapel = $_POST['id_mapel'];
 
 											if ($soal <> '' and $jenis <> '') {
-												$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+												$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
 												($exec) ? $sukses++ : $gagal++;
 											} else {
 												$gagal++;
@@ -3928,7 +3926,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 										$data = new Spreadsheet_Excel_Reader($temp);
 										$hasildata = $data->rowcount($sheet_index = 0);
 										$sukses = $gagal = 0;
-										$exec = mysql_query("delete from soal where id_mapel='$id_mapel' ");
+										$exec = mysqli_query($koneksi, "delete from soal where id_mapel='$id_mapel' ");
 										for ($i = 3; $i <= $hasildata; $i++) :
 											$no = $data->val($i, 1);
 											$soal = addslashes($data->val($i, 5));
@@ -3960,7 +3958,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 											$id_mapel = $_POST['id_mapel'];
 
 											if ($jenis <> '') {
-												$exec = mysql_query("INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+												$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
 												($exec) ? $sukses++ : $gagal++;
 											} else {
 												$gagal++;
@@ -4108,12 +4106,12 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 							$nip = $_POST['nip'];
 							$nama = $_POST['nama'];
 							$nama = str_replace("'", "&#39;", $nama);
-							$exec = mysql_query("UPDATE pengawas SET username='$username', nama='$nama',nip='$nip',password='$_POST[password]' WHERE id_pengawas='$id_pengawas'");
+							$exec = mysqli_query($koneksi, "UPDATE pengawas SET username='$username', nama='$nama',nip='$nip',password='$_POST[password]' WHERE id_pengawas='$id_pengawas'");
 						endif;
 						?>
 					<?php if ($ac == '') : ?>
 						<?php
-								$guru = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE id_pengawas='$pengawas[id_pengawas]'"));
+								$guru = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$pengawas[id_pengawas]'"));
 								?>
 						<div class='row'>
 							<div class='col-md-3'>
@@ -4213,10 +4211,10 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 												</tr>
 											</thead>
 											<tbody>
-												<?php $loginQ = mysql_query("SELECT * FROM login ORDER BY date DESC"); ?>
-												<?php while ($login = mysql_fetch_array($loginQ)) : ?>
+												<?php $loginQ = mysqli_query($koneksi, "SELECT * FROM login ORDER BY date DESC"); ?>
+												<?php while ($login = mysqli_fetch_array($loginQ)) : ?>
 													<?php
-															$siswa = mysql_fetch_array(mysql_query("select * from siswa where id_siswa='$login[id_siswa]'"));
+															$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$login[id_siswa]'"));
 															$no++;
 															?>
 													<tr>
@@ -4241,7 +4239,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 						if (isset($_POST['submit1'])) :
 							$alamat = nl2br($_POST['alamat']);
 							$header = nl2br($_POST['header']);
-							$exec = mysql_query("UPDATE setting SET aplikasi='$_POST[aplikasi]',sekolah='$_POST[sekolah]',kode_sekolah='$_POST[kode]',jenjang='$_POST[jenjang]',kepsek='$_POST[kepsek]',nip='$_POST[nip]',alamat='$alamat',kecamatan='$_POST[kecamatan]',kota='$_POST[kota]',telp='$_POST[telp]',fax='$_POST[fax]',web='$_POST[web]',email='$_POST[email]',header='$header',ip_server='$_POST[ipserver]',waktu='$_POST[waktu]' WHERE id_setting='1'");
+							$exec = mysqli_query($koneksi, "UPDATE setting SET aplikasi='$_POST[aplikasi]',sekolah='$_POST[sekolah]',kode_sekolah='$_POST[kode]',jenjang='$_POST[jenjang]',kepsek='$_POST[kepsek]',nip='$_POST[nip]',alamat='$alamat',kecamatan='$_POST[kecamatan]',kota='$_POST[kota]',telp='$_POST[telp]',fax='$_POST[fax]',web='$_POST[web]',email='$_POST[email]',header='$header',ip_server='$_POST[ipserver]',waktu='$_POST[waktu]' WHERE id_setting='1'");
 							if ($exec) {
 								$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
 								if ($_FILES['logo']['name'] <> '') {
@@ -4252,7 +4250,7 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									$dest = 'dist/img/logo' . rand(1, 100) . '.' . $ext;
 									$upload = move_uploaded_file($temp, '../' . $dest);
 									if ($upload) {
-										$exec = mysql_query("UPDATE setting SET logo='$dest' WHERE id_setting='1'");
+										$exec = mysqli_query($koneksi, "UPDATE setting SET logo='$dest' WHERE id_setting='1'");
 										$info1 = info('Berhasil menyimpan pengaturan!', 'OK');
 									} else {
 										$info1 = info('Gagal menyimpan pengaturan!', 'NO');
@@ -4273,9 +4271,9 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 									if ($data <> '') {
 										foreach ($data as $table) {
 											if ($table <> 'pengawas') {
-												mysql_query("TRUNCATE $table");
+												mysqli_query($koneksi, "TRUNCATE $table");
 											} else {
-												mysql_query("DELETE FROM $table WHERE level!='admin'");
+												mysqli_query($koneksi, "DELETE FROM $table WHERE level!='admin'");
 											}
 										}
 										$info4 = info('Data terpilih telah dikosongkan!', 'OK');
@@ -4283,8 +4281,8 @@ $mapel = mysql_num_rows(mysql_query("SELECT * FROM mata_pelajaran"));
 								}
 							}
 						endif;
-						$admin = mysql_fetch_array(mysql_query("SELECT * FROM pengawas WHERE level='admin' AND id_pengawas='1'"));
-						$setting = mysql_fetch_array(mysql_query("SELECT * FROM setting WHERE id_setting='1'"));
+						$admin = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE level='admin' AND id_pengawas='1'"));
+						$setting = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM setting WHERE id_setting='1'"));
 						$setting['alamat'] = str_replace('<br />', '', $setting['alamat']);
 						$setting['header'] = str_replace('<br />', '', $setting['header']);
 						?>

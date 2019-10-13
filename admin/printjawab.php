@@ -29,8 +29,8 @@
 			</head>
 			<body>
 											<table class='table table-bordered table-striped table-condensed'> 
-											<tr><th width='150'>No Induk</th><td width='10'>:</td><td>$siswa[nis]</td><td width='150' align='center'>Nilai</td></tr>
-											<tr><th >Nama</th><td width='10'>:</td><td>$siswa[nama]</td><td rowspan='3' width='150' align='center' style='font-size:30px'>$nilai[skor]</td></tr>
+											<tr><th width='150'>No Induk</th><td width='10'>:</td><td>$siswa[nis]</td><td width='150' align='center'>Total Nilai</td></tr>
+											<tr><th >Nama</th><td width='10'>:</td><td>$siswa[nama]</td><td rowspan='3' width='150' align='center' style='font-size:30px'>$nilai[total]</td></tr>
 											<tr><th >Kelas</th><td width='10'>:</td><td>$siswa[id_kelas]</td></tr>
 											<tr><th >Mata Pelajaran</th><td width='10'>:</td><td>$namamapel[nama_mapel]</td></tr>
 											</table>
@@ -103,4 +103,3 @@
 			</body>
 		</html>
 	";
-?>

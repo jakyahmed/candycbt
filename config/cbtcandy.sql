@@ -115,9 +115,9 @@ CREATE TABLE `jenis` (
 
 INSERT INTO `jenis` (`id_jenis`, `nama`, `status`) VALUES
 ('PAT', 'Penilaian Akhir Tahun', 'aktif'),
-('PH', 'Penilaian Harian', 'aktif'),
-('PTS', 'Penilaian Tengah Semester', 'aktif'),
-('USBN', 'Ujian Nasionan Berstandar Nasional', '');
+('PH', 'Penilaian Harian', 'tidak'),
+('PTS', 'Penilaian Tengah Semester', 'tidak'),
+('USBN', 'Ujian Nasionan Berstandar Nasional', 'tidak');
 
 -- --------------------------------------------------------
 

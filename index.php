@@ -8,13 +8,13 @@ require("config/functions.crud.php");
 ($id_siswa == 0) ?  header("Location:$homeurl/login.php") : null;
 ($pg == 'testongoing') ? $sidebar = 'sidebar-collapse' : $sidebar = '';
 ($pg == 'testongoing') ? $disa = '' : $disa = 'offcanvas';
-$siswa = mysql_fetch_array(mysql_query("SELECT * FROM siswa WHERE id_siswa='$id_siswa'"));
+$siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa='$id_siswa'"));
 $idsesi = $siswa['sesi'];
 $idpk = $siswa['idpk'];
 $level = $siswa['level'];
 $kelasx = $siswa['id_kelas'];
 $tglsekarang = time();
-$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
+$kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
 $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 
 ?>
@@ -181,12 +181,12 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 										<tbody>
 											<?php
 												if ($idpk <> '') :
-													$mapelQ = mysql_query("SELECT * FROM ujian WHERE (id_pk='$idpk' or id_pk='semua') AND (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
+													$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (id_pk='$idpk' or id_pk='semua') AND (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
 												else :
-													$mapelQ = mysql_query("SELECT * FROM ujian WHERE (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
+													$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
 												endif;
 												?>
-											<?php while ($mapelx = mysql_fetch_array($mapelQ)) : ?>
+											<?php while ($mapelx = mysqli_fetch_array($mapelQ)) : ?>
 												<?php if (date('Y-m-d', strtotime($mapelx['tgl_selesai'])) >= date('Y-m-d') and date('Y-m-d', strtotime($mapelx['tgl_ujian'])) <= date('Y-m-d')) : ?>
 													<?php $datakelas = unserialize($mapelx['kelas']); ?>
 													<?php if (in_array($siswa['id_kelas'], $datakelas) or in_array('semua', $datakelas)) : ?>
@@ -271,10 +271,10 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 					</div>
 				<?php elseif ($pg == 'lihathasil') : ?>
 					<?php
-						$nilai = mysql_fetch_array(mysql_query("SELECT * FROM nilai WHERE id_siswa='$id_siswa' and id_ujian='$ac'"));
+						$nilai = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_siswa='$id_siswa' and id_ujian='$ac'"));
 						if ($nilai['hasil'] == 1) :
-							$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
-							$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
+							$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
+							$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
 							?>
 						<div class='row'>
 							<div class='col-md-12'>
@@ -326,11 +326,11 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 													</tr>
 												</thead>
 												<tbody>
-													<?php $nilaix = mysql_query("SELECT * FROM jawaban WHERE id_siswa='$id_siswa' and id_ujian='$ac' and jenis='1' "); ?>
-													<?php while ($jawaban = mysql_fetch_array($nilaix)) : ?>
+													<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM jawaban WHERE id_siswa='$id_siswa' and id_ujian='$ac' and jenis='1' "); ?>
+													<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
 														<?php
 																	$no++;
-																	$soal = mysql_fetch_array(mysql_query("SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
+																	$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
 																	$jawabQ = $jawaban['jawaban'];
 																	$kunci = $soal['jawaban'];
 																	if ($jawaban['jawaban'] == $soal['jawaban']) :
@@ -392,12 +392,12 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 											</tr>
 										</thead>
 										<tbody>
-											<?php $nilaix = mysql_query("SELECT * FROM nilai WHERE id_siswa='$id_siswa' AND ujian_selesai <>'' ORDER BY ujian_selesai ASC "); ?>
-											<?php while ($nilai = mysql_fetch_array($nilaix)) : ?>
+											<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_siswa='$id_siswa' AND ujian_selesai <>'' ORDER BY ujian_selesai ASC "); ?>
+											<?php while ($nilai = mysqli_fetch_array($nilaix)) : ?>
 												<?php
 														$no++;
-														$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
-														$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
+														$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
+														$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$mapel[nama]'"));
 														?>
 												<tr>
 													<td><?= $no ?></td>
@@ -417,7 +417,7 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 					</div>
 				<?php elseif ($pg == 'rules') : ?>
 					<?php
-						$query = mysql_fetch_array(mysql_query("SELECT * FROM ujian WHERE id_ujian='$ac'"));
+						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 						$idmapel = $query['id_mapel'];
 
 						$order = array(
@@ -526,8 +526,8 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 						);
 						$ref = "";
 						insert('log', $logdata);
-						$query = mysql_query("select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and id_ujian='$ac'");
-						$ceknilai = mysql_num_rows($query);
+						$query = mysqli_query($koneksi, "select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and id_ujian='$ac'");
+						$ceknilai = mysqli_num_rows($query);
 						if (!$ceknilai <> 0) {
 							insert('nilai', $nilaidata);
 							insert('pengacak', $acakdata);
@@ -537,25 +537,25 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 						?>
 				<?php elseif ($pg == 'konfirmasi') : ?>
 					<?php
-						$query = mysql_fetch_array(mysql_query("SELECT * FROM ujian WHERE id_ujian='$ac'"));
+						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 						$idmapel = $query['id_mapel'];
-						$namamapel = mysql_fetch_array(mysql_query("SELECT * FROM ujian WHERE id_ujian='$ac'"));
+						$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 						$pesan = '';
 						if ($namamapel['token'] == 1) :
 							$pesan = "<div class='alert alert-info alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Masukan Kode Token</div></div>";
 						endif;
 
 						if (isset($_POST['mulai'])) :
-							$query = mysql_fetch_array(mysql_query("SELECT * FROM ujian WHERE id_ujian='$ac'"));
+							$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 							$idmapel = $query['id_mapel'];
 							if ($namamapel['token'] == 1) :
 								$token = $_POST['token'];
-								$tokencek = mysql_fetch_array(mysql_query("select token from token"));
+								$tokencek = mysqli_fetch_array(mysqli_query($koneksi, "select token from token"));
 								if ($token == $tokencek['token']) {
 									$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Berhasil</div></div>";
-									$query = mysql_query("select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and ujian_selesai");
-									$nilaix = mysql_fetch_array($query);
-									$ceknilai = mysql_num_rows($query);
+									$query = mysqli_query($koneksi, "select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and ujian_selesai");
+									$nilaix = mysqli_fetch_array($query);
+									$ceknilai = mysqli_num_rows($query);
 									if ($ceknilai <> 0) :
 										if ($nilaix['ujian_selesai'] == '') :
 											jump("$homeurl/testongoing/$ac/$id_siswa");
@@ -566,9 +566,9 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 								} else {
 									$pesan = "<div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Kode Token Ujian Salah</div></div>";
 								} else :
-								$query = mysql_query("select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and id_ujian='$ac'");
-								$nilaix = mysql_fetch_array($query);
-								$ceknilai = mysql_num_rows($query);
+								$query = mysqli_query($koneksi, "select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and id_ujian='$ac'");
+								$nilaix = mysqli_fetch_array($query);
+								$ceknilai = mysqli_num_rows($query);
 								if ($ceknilai <> 0) {
 									if ($nilaix['ujian_selesai'] == '') :
 										jump("$homeurl/testongoing/$ac/$id_siswa/?$ref");
@@ -630,7 +630,7 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 														<td>
 															<b>Guru Pengampu</b>
 															<br>
-															<?php $guru = mysql_fetch_array(mysql_query("SELECT nama FROM pengawas WHERE id_pengawas='$namamapel[id_guru]'")); ?>
+															<?php $guru = mysqli_fetch_array(mysqli_query($koneksi, "SELECT nama FROM pengawas WHERE id_pengawas='$namamapel[id_guru]'")); ?>
 															<small class='label bg-red'><?= $guru['nama'] ?></small>
 														</td>
 														<td></td>
@@ -662,7 +662,7 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 					</div>
 				<?php elseif ($pg == 'testongoing') : ?>
 					<?php
-						$query = mysql_fetch_array(mysql_query("SELECT * FROM ujian WHERE id_ujian='$ac'"));
+						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 						$idmapel = $query['id_mapel'];
 						$no_soal = 0;
 						$no_prev = $no_soal - 1;
@@ -1098,9 +1098,9 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 												  <div style='overflow-y:auto; max-height:250px'>
 													  <div class='col-md-12' >
 															<div class='row' id='nomorsoal' >";
-														$cekpg = mysql_num_rows(mysql_query("select * from soal where id_mapel='$id_mapel' and jenis='1'"));
-														$cekesai = mysql_num_rows(mysql_query("select * from soal where id_mapel='$id_mapel' and jenis='2'"));
-														$quero = mysql_fetch_array(mysql_query("select * from mapel where id_mapel='$id_mapel'"));
+														$cekpg = mysqli_num_rows(mysqli_query($koneksi, "select * from soal where id_mapel='$id_mapel' and jenis='1'"));
+														$cekesai = mysqli_num_rows(mysqli_query($koneksi, "select * from soal where id_mapel='$id_mapel' and jenis='2'"));
+														$quero = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$id_mapel'"));
 
 														if ($cekpg >= $quero['tampil_pg']) {
 															$soalpg = $quero['tampil_pg'];
@@ -1113,7 +1113,7 @@ $pk = fetch('pk', array('id_pk' => $siswa['idpk']));
 															$soalpg = $cekesai;
 														}
 														echo "<div id='ketjawab'>";
-														$jumjawab = mysql_num_rows(mysql_query("select * from jawaban where id_mapel='$id_mapel' and id_siswa='$id_siswa' and id_ujian='$ac'"));
+														$jumjawab = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_mapel='$id_mapel' and id_siswa='$id_siswa' and id_ujian='$ac'"));
 														$jumsoal = $soalpg + $soalesai;
 														echo "
 															<input type='hidden' value='$jumsoal' id='jumsoal'/>

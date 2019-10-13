@@ -8,8 +8,8 @@
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'><?= $info ?>
-					<?php $jq = mysql_query("SELECT * FROM kelas"); ?>
-					<?php while ($jenis = mysql_fetch_array($jq)) : ?>
+					<?php $jq = mysqli_query($koneksi, "SELECT * FROM kelas"); ?>
+					<?php while ($jenis = mysqli_fetch_array($jq)) : ?>
 						<div class='col-md-3'>
 							<div class='box box-widget widget-user-2'>
 								<div class='widget-user-header bg-teal'>
@@ -32,7 +32,7 @@
 <?php elseif ($ac == 'lihat') : ?>
 	<?php
 		$id_kelas = $_GET['idk'];
-		$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel")); ?>
+		$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel")); ?>
 		<div class='row'>
 			<div class='col-md-12'>
 				<div class='box box-solid'>
@@ -53,23 +53,23 @@
 										<th style='text-align:center;vertical-align:middle' rowspan='3'>Nama Peserta</th>
 										<th style='text-align:center;vertical-align:middle' rowspan='3'>Kelas</th>
 										<?php
-												$mapelQ = mysql_query("SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian ");
-												while ($mapel = mysql_fetch_array($mapelQ)) :
+												$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian ");
+												while ($mapel = mysqli_fetch_array($mapelQ)) :
 													echo "<th style='text-align:center' colspan='3'>$mapel[nama]</th>";
 												endwhile;
 												?>
 									</tr>
 									<tr>
 										<?php
-												$kode = mysql_query("SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian");
-												while ($mapel = mysql_fetch_array($kode)) :
+												$kode = mysqli_query($koneksi, "SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian");
+												while ($mapel = mysqli_fetch_array($kode)) :
 													echo "<th style='text-align:center' colspan='3'>$mapel[kode_ujian]</th>";
 												endwhile;
 												?>
 									</tr>
 									<tr>
-										<?php $mapelQ = mysql_query("SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian "); ?>
-										<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+										<?php $mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian "); ?>
+										<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 											<th style='text-align:center'>B</th>
 											<th style='text-align:center'>S</th>
 											<th style='text-align:center'>SKOR</th>
@@ -77,8 +77,8 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $siswaQ = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC"); ?>
-									<?php while ($siswa = mysql_fetch_array($siswaQ)) : ?>
+									<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC"); ?>
+									<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 										<?php
 													$no++;
 													$ket = '';
@@ -89,12 +89,12 @@
 											<td style="text-align:center"><?= $siswa['no_peserta'] ?></td>
 											<td><?= $siswa['nama'] ?></td>
 											<td style="text-align:center"><?= $siswa['id_kelas'] ?></td>
-											<?php $mapelQ = mysql_query("SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian "); ?>
-											<?php while ($mapel = mysql_fetch_array($mapelQ)) : ?>
+											<?php $mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel a INNER JOIN nilai b ON a.id_mapel=b.id_mapel GROUP BY b.id_ujian "); ?>
+											<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 												<?php
-																$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_ujian='$mapel[id_ujian]' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$mapel[kode_ujian]'");
-																$nilaiC = mysql_num_rows($nilaiQ);
-																$nilai = mysql_fetch_array($nilaiQ);
+																$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_ujian='$mapel[id_ujian]' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$mapel[kode_ujian]'");
+																$nilaiC = mysqli_num_rows($nilaiQ);
+																$nilai = mysqli_fetch_array($nilaiQ);
 																?>
 												<td style="text-align:center"><?= $nilai['jml_benar'] ?></td>
 												<td style="text-align:center"><?= $nilai['jml_salah'] ?></td>

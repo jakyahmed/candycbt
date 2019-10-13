@@ -2,6 +2,7 @@
 	require("../config/config.default.php");
 	require("../config/config.function.php");
 	require("../config/functions.crud.php");
+	
 	(isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
 	($id_pengawas == 0) ? header('location:index.php') : null;
 ?>
@@ -72,9 +73,9 @@
 
 <?php
 $idujian = @$_GET['id'];
-$sqlx = mysql_query("SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idujian'");
-$ujian = mysql_fetch_array($sqlx);
-$kodeujian = mysql_fetch_array(mysql_query("SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
+$sqlx = mysqli_query($koneksi, "SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idujian'");
+$ujian = mysqli_fetch_array($sqlx);
+$kodeujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
 $hari = buat_tanggal('D', $ujian['tgl_ujian']);
 $tanggal = buat_tanggal('d', $ujian['tgl_ujian']);
 // $bulan = buat_tanggal('F', $ujian['tgl_ujian']);

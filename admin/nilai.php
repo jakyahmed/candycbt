@@ -318,13 +318,13 @@
 							<th width='150'>No Induk</th>
 							<td width='10'>:</td>
 							<td><?= $siswa['nis'] ?></td>
-							<td style="text-align:center; width:150">Nilai</td>
+							<td style="text-align:center; width:150">Total Nilai</td>
 						</tr>
 						<tr>
 							<th>Nama</th>
 							<td width='10'>:</td>
 							<td><?= $siswa['nama'] ?></td>
-							<td rowspan='3' style='font-size:30px; text-align:center; width:150'><?= $nilai['skor'] ?></td>
+							<td rowspan='3' style='font-size:30px; text-align:center; width:150'><?= $nilai['total'] ?></td>
 						</tr>
 						<tr>
 							<th>Kelas</th>

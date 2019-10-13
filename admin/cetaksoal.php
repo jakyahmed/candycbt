@@ -3,12 +3,13 @@
 	require("../config/config.function.php");
 	require("../config/functions.crud.php");
 	require("../config/dis.php");
+	
 	(isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
 	($id_pengawas==0) ? header('location:login.php'):null;
 	$id_mapel = $_GET['id'];
 	
 	$pengawas = fetch('pengawas',array('id_pengawas'=>$id_pengawas));
-	$mapel=mysql_fetch_array(mysql_query("select * from mapel where id_mapel='$id_mapel'"));
+	$mapel=mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$id_mapel'"));
 	if($mapel['idpk']=='0'){
 		$jurusan='Semua Jurusan';
 	}else{
@@ -69,8 +70,8 @@
 				";
 			
 			$nomer = 1;
-			$sql = mysql_query("SELECT * FROM soal where id_mapel=$id_mapel and jenis='1' order by nomor");			
-			while($sp = mysql_fetch_array($sql))
+			$sql = mysqli_query($koneksi, "SELECT * FROM soal where id_mapel=$id_mapel and jenis='1' order by nomor");			
+			while($sp = mysqli_fetch_array($sql))
 			{
 			
 				$Jawab1 = str_replace("<p>","",$sp['pilA']);
@@ -323,9 +324,9 @@
 			<h3 class='panel-title'>
 				<b>B. Soal Essai</b>
 				</h3>";
-			$sql = mysql_query("SELECT * FROM soal where id_mapel=$id_mapel and jenis='2' order by nomor");	
+			$sql = mysqli_query($koneksi, "SELECT * FROM soal where id_mapel=$id_mapel and jenis='2' order by nomor");	
 			$nomer=1;
-			while($sp = mysql_fetch_array($sql))
+			while($sp = mysqli_fetch_array($sql))
 			{
 				$soalnye=$sp['soal'];		
 				$soalnye = str_replace("<span >","",$soalnye);	

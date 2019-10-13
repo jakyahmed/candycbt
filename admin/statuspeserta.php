@@ -1,13 +1,13 @@
 <?php
 include "../config/config.default.php";
-$pengawas = mysql_fetch_array(mysql_query("SELECT * FROM pengawas  WHERE id_pengawas='$_SESSION[id_pengawas]'"));
+$pengawas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas  WHERE id_pengawas='$_SESSION[id_pengawas]'"));
 $tglsekarang = date('Y-m-d');
 if ($pengawas['level'] == 'admin') {
-	$nilaiq = mysql_query("SELECT *  FROM nilai  s LEFT JOIN ujian c ON s.id_ujian=c.id_ujian  where c.status='1' and s.id_siswa<>'' GROUP by s.id_nilai DESC");
+	$nilaiq = mysqli_query($koneksi, "SELECT *  FROM nilai  s LEFT JOIN ujian c ON s.id_ujian=c.id_ujian  where c.status='1' and s.id_siswa<>'' GROUP by s.id_nilai DESC");
 } else {
-	$nilaiq = mysql_query("SELECT *  FROM nilai  s LEFT JOIN ujian c ON s.id_ujian=c.id_ujian  where c.status='1' and s.id_siswa<>'' and c.id_guru='$_SESSION[id_pengawas]' GROUP by s.id_nilai DESC");
+	$nilaiq = mysqli_query($koneksi, "SELECT *  FROM nilai  s LEFT JOIN ujian c ON s.id_ujian=c.id_ujian  where c.status='1' and s.id_siswa<>'' and c.id_guru='$_SESSION[id_pengawas]' GROUP by s.id_nilai DESC");
 }
-while ($nilai = mysql_fetch_array($nilaiq)) {
+while ($nilai = mysqli_fetch_array($nilaiq)) {
 
 	$tglx = strtotime($nilai['ujian_mulai']);
 	$tgl = date('Y-m-d', $tglx);
@@ -15,12 +15,12 @@ while ($nilai = mysql_fetch_array($nilaiq)) {
 		$no++;
 		$ket = '';
 		$lama = $jawaban = $skor = '--';
-		$siswa = mysql_fetch_array(mysql_query("SELECT * FROM siswa WHERE id_siswa='$nilai[id_siswa]'"));
-		$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas WHERE id_kelas='$siswa[id_kelas]'"));
-		$mapel = mysql_fetch_array(mysql_query("SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
+		$siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa='$nilai[id_siswa]'"));
+		$kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$siswa[id_kelas]'"));
+		$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$nilai[id_mapel]'"));
 
-		$nilaiQ = mysql_query("SELECT * FROM nilai WHERE id_siswa='$siswa[id_siswa]'");
-		$nilaiC = mysql_num_rows($nilaiQ);
+		$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_siswa='$siswa[id_siswa]'");
+		$nilaiC = mysqli_num_rows($nilaiQ);
 
 		if ($nilaiC <> 0) {
 			$lama = '';

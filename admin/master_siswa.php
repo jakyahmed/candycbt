@@ -13,7 +13,7 @@
 			$level = $_POST['level'];
 			$pass1 = $_POST['pass1'];
 			$pass2 = $_POST['pass2'];
-			$cekuser = mysql_num_rows(mysql_query("SELECT * FROM siswa WHERE username='$username'"));
+			$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa WHERE username='$username'"));
 			if ($cekuser > 0) {
 				$info = info("Username $username sudah ada!", "NO");
 			} else {
@@ -21,9 +21,9 @@
 					$info = info("Password tidak cocok!", "NO");
 				} else {
 					if ($setting['jenjang'] == 'SMK') {
-						$exec = mysql_query("INSERT INTO siswa (id_kelas,idpk,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$idpk','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
+						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,idpk,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$idpk','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
 					} else {
-						$exec = mysql_query("INSERT INTO siswa (id_kelas,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
+						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
 					}
 					(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 				}
@@ -98,8 +98,8 @@
 													<select name='id_kelas' class='form-control' required='true'>
 														<option value=''></option>
 														<?php
-															$kelasQ = mysql_query("SELECT * FROM kelas ORDER BY nama ASC");
-															while ($kelas = mysql_fetch_array($kelasQ)) {
+															$kelasQ = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC");
+															while ($kelas = mysqli_fetch_array($kelasQ)) {
 																echo "<option value='$kelas[id_kelas]' $s>$kelas[nama]</option>";
 															}
 															?>
@@ -110,8 +110,8 @@
 													<select name='level' class='form-control' required='true'>
 														<option value=''></option>
 														<?php
-															$pkQ = mysql_query("SELECT * FROM level ");
-															while ($pk = mysql_fetch_array($pkQ)) {
+															$pkQ = mysqli_query($koneksi, "SELECT * FROM level ");
+															while ($pk = mysqli_fetch_array($pkQ)) {
 																echo "<option value='$pk[kode_level]'>$pk[kode_level]</option>";
 															}
 															?>
@@ -123,8 +123,8 @@
 														<select name='idpk' class='form-control' required='true'>
 															<option value=''></option>
 															<?php
-																	$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-																	while ($pk = mysql_fetch_array($pkQ)) {
+																	$pkQ = mysqli_query($koneksi, "SELECT * FROM pk ORDER BY program_keahlian ASC");
+																	while ($pk = mysqli_fetch_array($pkQ)) {
 																		echo "<option value='$pk[id_pk]'>$pk[program_keahlian]</option>";
 																	}
 																	?>
@@ -140,8 +140,8 @@
 													<select name='idsesi' class='form-control' required='true'>
 														<option value=''></option>
 														<?php
-															$sesiQ = mysql_query("SELECT * FROM sesi ");
-															while ($sesi = mysql_fetch_array($sesiQ)) {
+															$sesiQ = mysqli_query($koneksi, "SELECT * FROM sesi ");
+															while ($sesi = mysqli_fetch_array($sesiQ)) {
 
 																echo "<option value='$sesi[kode_sesi]' $s>$sesi[kode_sesi]</option>";
 															}
@@ -153,8 +153,8 @@
 													<select name='ruang' class='form-control' required='true'>
 														<option value=''></option>
 														<?php
-															$pkQ = mysql_query("SELECT * FROM ruang ");
-															while ($pk = mysql_fetch_array($pkQ)) {
+															$pkQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
+															while ($pk = mysqli_fetch_array($pkQ)) {
 																echo "<option value='$pk[kode_ruang]'>$pk[kode_ruang]</option>";
 															}
 															?>
@@ -196,7 +196,7 @@
 <?php elseif ($ac == 'edit') : ?>
 	<?php
 		$id = $_GET['id'];
-		$siswa = mysql_fetch_array(mysql_query("SELECT * FROM siswa WHERE id_siswa='$id'"));
+		$siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa='$id'"));
 		if (isset($_POST['submit'])) {
 			$nis = $_POST['nis'];
 			$nopes = $_POST['no_peserta'];
@@ -216,16 +216,16 @@
 					$info = info("Password tidak cocok!", "NO");
 				} else {
 					if ($setting['jenjang'] == 'SMK') {
-						$exec = mysql_query("UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
+						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
 					} else {
-						$exec = mysql_query("UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
+						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
 					}
 				}
 			} else {
 				if ($setting['jenjang'] == 'SMK') {
-					$exec = mysql_query("UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
+					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
 				} else {
-					$exec = mysql_query("UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
+					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
 				}
 			}
 			jump("?pg=$pg");
@@ -268,8 +268,8 @@
 									<select name='id_kelas' class='form-control' required='true'>
 										<option value=''></option>
 										<?php
-											$kelasQ = mysql_query("SELECT * FROM kelas ORDER BY nama ASC");
-											while ($kelas = mysql_fetch_array($kelasQ)) {
+											$kelasQ = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC");
+											while ($kelas = mysqli_fetch_array($kelasQ)) {
 												($kelas['id_kelas'] == $siswa['id_kelas']) ? $s = 'selected' : $s = '';
 												echo "<option value='$kelas[id_kelas]' $s>$kelas[nama]</option>";
 											}
@@ -281,8 +281,8 @@
 									<select name='level' class='form-control' required='true'>
 										<option value=''></option>
 										<?php
-											$pkQ = mysql_query("SELECT * FROM level ");
-											while ($pk = mysql_fetch_array($pkQ)) {
+											$pkQ = mysqli_query($koneksi, "SELECT * FROM level ");
+											while ($pk = mysqli_fetch_array($pkQ)) {
 												($pk['kode_level'] == $siswa['level']) ? $s = 'selected' : $s = '';
 												echo "<option value='$pk[kode_level]' $s>$pk[kode_level]</option>";
 											}
@@ -295,8 +295,8 @@
 										<select name='idpk' class='form-control' required='true'>
 											<option value=''></option>
 											<?php
-													$pkQ = mysql_query("SELECT * FROM pk ORDER BY program_keahlian ASC");
-													while ($pk = mysql_fetch_array($pkQ)) {
+													$pkQ = mysqli_query($koneksi, "SELECT * FROM pk ORDER BY program_keahlian ASC");
+													while ($pk = mysqli_fetch_array($pkQ)) {
 														($pk['id_pk'] == $siswa['idpk']) ? $s = 'selected' : $s = '';
 														echo "<option value='$pk[id_pk]' $s>$pk[program_keahlian]</option>";
 													}
@@ -313,8 +313,8 @@
 									<select name='idsesi' class='form-control' required='true'>
 										<option value=''></option>
 										<?php
-											$sesiQ = mysql_query("SELECT * FROM sesi ");
-											while ($sesi = mysql_fetch_array($sesiQ)) {
+											$sesiQ = mysqli_query($koneksi, "SELECT * FROM sesi ");
+											while ($sesi = mysqli_fetch_array($sesiQ)) {
 												($sesi['kode_sesi'] == $siswa['sesi']) ? $s = 'selected' : $s = '';
 												echo "<option value='$sesi[kode_sesi]' $s>$sesi[kode_sesi]</option>";
 											}
@@ -326,8 +326,8 @@
 									<select name='ruang' class='form-control' required='true'>
 										<option value=''></option>
 										<?php
-											$pkQ = mysql_query("SELECT * FROM ruang ");
-											while ($pk = mysql_fetch_array($pkQ)) {
+											$pkQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
+											while ($pk = mysqli_fetch_array($pkQ)) {
 												($pk['kode_ruang'] == $siswa['ruang']) ? $s = 'selected' : $s = '';
 												echo "<option value='$pk[kode_ruang]' $s>$pk[kode_ruang]</option>";
 											}
@@ -361,7 +361,7 @@
 	<?php
 		if (isset($_GET['id'])) {
 			$id = $_GET['id'];
-			$exec = mysql_query("DELETE FROM siswa WHERE id_siswa='$id'");
+			$exec = mysqli_query($koneksi, "DELETE FROM siswa WHERE id_siswa='$id'");
 			jump("?pg=$pg");
 		}
 		?>

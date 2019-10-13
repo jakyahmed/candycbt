@@ -1,5 +1,4 @@
 <?php
-include_once "config/mysql-shim.php";
 require("config/config.default.php");
 require("config/config.function.php");
 if (!$pilihdb) {
@@ -10,9 +9,9 @@ if (!$pilihdb) {
 	$ket2 = 'disabled';
 }
 if (isset($_POST['buat'])) {
-	$nama_db = "cbtcandy25";
+	$nama_db = "cbtcandy25r2";
 
-	mysql_query("create database $nama_db;");
+	mysqli_query($koneksi, "CREATE DATABASE $nama_db;");
 	header('location:admin/login.php');
 }
 if (isset($_POST['buat2'])) {
@@ -30,7 +29,7 @@ if (isset($_POST['buat2'])) {
 		$templine .= $line;
 
 		if (substr(trim($line), -1, 1) == ';') {
-			mysql_query($templine);
+			mysqli_query($koneksi, $templine);
 			$templine = '';
 		}
 	}

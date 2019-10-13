@@ -15,7 +15,7 @@ $level = $siswa['level'];
 $kelasx = $siswa['id_kelas'];
 $tglsekarang = time();
 $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
-$pk = fetch('pk', array('id_pk' => $siswa['idpk']));
+$pk = fetch('pk', array('id_pk' => $idpk));
 
 ?>
 <!DOCTYPE html>

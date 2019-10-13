@@ -15,7 +15,7 @@
 	elseif(date('m')>=1 AND date('m')<=6) {
 		$ajaran = (date('Y')-1)."/".date('Y');
 	}
-	$kelas = mysql_fetch_array(mysql_query("SELECT * FROM kelas WHERE id_kelas='$id_kelas'"));
+	$kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$id_kelas'"));
 	echo "
 		<style>
 			* { font-size:x-small; }
@@ -24,8 +24,8 @@
 		
 		<table border='0' width='100%' align='center' cellpadding='2'>
 			<tr>";
-				$siswaQ = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC");
-				while($siswa = mysql_fetch_array($siswaQ)) {
+				$siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC");
+				while($siswa = mysqli_fetch_array($siswaQ)) {
 					$nopeserta=$siswa['no_peserta'];
 					$no++;
 					
@@ -128,10 +128,10 @@
 										$sesi=$siswa['sesi'];
 										$idpk=$siswa['idpk'];
 										$level=$siswa['level'];
-										$jadwalx=mysql_query("select * from ujian where id_pk=$idpk and sesi='$sesi' and level='$level'");
-										$cekjadwal=mysql_num_rows($jadwalx);
+										$jadwalx=mysqli_query($koneksi, "select * from ujian where id_pk=$idpk and sesi='$sesi' and level='$level'");
+										$cekjadwal=mysqli_num_rows($jadwalx);
 										if($cekjadwal > 0){
-										while($jadwal=mysql_fetch_array($jadwalx)){
+										while($jadwal=mysqli_fetch_array($jadwalx)){
 										echo "
 										<tr>
 										<td align='center'>$jadwal[tgl_ujian]</td>

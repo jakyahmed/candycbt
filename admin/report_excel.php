@@ -54,11 +54,11 @@
 				<td>Nilai Essai</td>
 			</tr>";
 			if($id_kelas=='semua'){
-						$siswaQ = mysql_query("SELECT * FROM siswa ORDER BY id_kelas ASC");
+						$siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa ORDER BY id_kelas ASC");
 					}else{
-						$siswaQ = mysql_query("SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC");	
+						$siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_kelas='$id_kelas' ORDER BY nama ASC");	
 					}
-				while($siswa = mysql_fetch_array($siswaQ)) {
+				while($siswa = mysqli_fetch_array($siswaQ)) {
 				$no++;
 				$benar = $salah = 0;
 				$skor = $lama = '-';

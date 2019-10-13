@@ -3,11 +3,11 @@
 												$ruang = str_replace(' ', '',$_POST['ruang']);
 												$ket = $_POST['keterangan'];
 											
-												$cek = mysql_num_rows(mysql_query("SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
+												$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
 												if($cek>0) {
 													$info = info("ruang atau tingkat $ruang sudah ada!","NO");
 												} else {
-													$exec = mysql_query("INSERT INTO ruang (kode_ruang,keterangan) VALUES ('$ruang','$ket')");
+													$exec = mysqli_query($koneksi, "INSERT INTO ruang (kode_ruang,keterangan) VALUES ('$ruang','$ket')");
 													if(!$exec) {
 														$info = info("Gagal menyimpan!","NO");
 													} else {
@@ -38,8 +38,8 @@
 														</tr>
 													</thead>
 													<tbody>";
-													$ruanginQ = mysql_query("SELECT * FROM ruang ");
-													while($ruang = mysql_fetch_array($ruanginQ)) {
+													$ruanginQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
+													while($ruang = mysqli_fetch_array($ruanginQ)) {
 														$no++;
 														
 														echo "

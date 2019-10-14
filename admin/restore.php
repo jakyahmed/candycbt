@@ -5,8 +5,7 @@ require("../config/config.default.php");
 
 function restore($file) {
 	global $rest_dir;
-	$koneksi=mysqli_connect("localhost","root","root");
-	mysqli_select_db("artikel",$koneksi);
+	$koneksi=mysqli_connect("localhost","root","", "candycbt25");
 	
 	$nama_file	= $file['name'];
 	$ukrn_file	= $file['size'];

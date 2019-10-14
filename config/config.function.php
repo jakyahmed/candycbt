@@ -238,7 +238,8 @@ function create_zip($files = array(), $destination = '', $overwrite = false)
 
 function restore($file)
 {
-	require("config.default.php");
+	include "config.database.php";
+	$koneksi = mysqli_connect($host, $user, $pass, $debe);
 	global $rest_dir;
 	$nama_file	= $file['name'];
 	$ukrn_file	= $file['size'];

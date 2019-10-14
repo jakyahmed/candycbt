@@ -932,7 +932,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													<?php $no++; ?>
 													<tr>
 														<td><?= $no ?></td>
-														<td><? +$pengawas['nip'] ?></td>
+														<td><?= $pengawas['nip'] ?></td>
 														<td><?= $pengawas['nama'] ?></td>
 														<td><small class='label bg-purple'><?= $pengawas['username'] ?></small></td>
 														<td><small class='label bg-blue'><?= $pengawas['password'] ?></small></td>

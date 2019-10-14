@@ -3418,7 +3418,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									while ($hmaop = mysqli_fetch_array($smaop)) {
 										$jumop = $hmaop['maxop'];
 									}
-									$b_op = $jumop / $jumsoal;
+									
+									$b_op =($jumop!=0)? ($jumop / $jumsoal):0;
 									$no = 1;
 									$sqlcek = mysqli_query($koneksi, "SELECT * FROM savsoft_qbank");
 									while ($r = mysqli_fetch_array($sqlcek)) {

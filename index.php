@@ -897,7 +897,9 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 															$a = ($jawab['jawaban'] == $pil1) ? 'checked' : '';
 															$b = ($jawab['jawaban'] == $pil2) ? 'checked' : '';
 															$c = ($jawab['jawaban'] == $pil3) ? 'checked' : '';
-															$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
+															if ($mapel['opsi'] == 4) {
+																$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
+															}
 															if ($mapel['opsi'] == 5) {
 																$e = ($jawab['jawaban'] == $pil5) ? 'checked' : '';
 															}
@@ -1145,14 +1147,22 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 															$pil3 = $pengacakpil[$nop3];
 															if ($cekj == $pil1) {
 																$jawabl = "A";
-															} elseif ($cekj == $pil2) {
+															}
+															if ($cekj == $pil2) {
 																$jawabl = "B";
-															} elseif ($cekj == $pil3) {
+															}
+															if ($cekj == $pil3) {
 																$jawabl = "C";
-															} elseif ($cekj == $pil4) {
-																$jawabl = "D";
-															} elseif ($cekj == $pil5) {
-																$jawabl = "E";
+															}
+															if ($mapel['opsi'] == 4) {
+																if ($cekj == $pil4) {
+																	$jawabl = "D";
+																}
+															}
+															if ($mapel['opsi'] == 5) {
+																if ($cekj == $pil5) {
+																	$jawabl = "E";
+																}
 															}
 															$jawabisi = ($cekjwb <> 0) ? $jawabl : '';
 															$color1 = ($cekjwb <> 0) ? 'green' : 'gray';

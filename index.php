@@ -294,7 +294,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 												<th>Nama</th>
 												<td width='10'>:</td>
 												<td><?= $siswa['nama'] ?></td>
-												<td rowspan='4' style='font-size:30px; text-align:center; width:150'><?= $nilai['skor'] ?></td>
+												<td rowspan='4' style='font-size:30px; text-align:center; width:150'><?= $nilai['total'] ?></td>
 											</tr>
 											<tr>
 												<th>Kelas</th>
@@ -461,7 +461,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 						$r = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
 						$m = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
 						$soal = select('soal', $where, $order[$r]);
-						$soalesai = select('soal', $where2, $ordera[$m]);
+
 						$id_soal = '';
 						$id_esai = '';
 
@@ -477,7 +477,9 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							$ack1 = $acz[0];
 							$ack2 = $acz[1];
 							$ack3 = $acz[2];
-							$ack4 = $acz[3];
+							if ($mapel['opsi'] == 4) {
+								$ack4 = $acz[3];
+							}
 							if ($mapel['opsi'] == 3) :
 								$id_soal .= $s['id_soal'] . ',';
 								$id_opsi .= $ack1 . ',' . $ack2 . ',' . $ack3 . ',';
@@ -490,10 +492,12 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 								$id_opsi .= $ack1 . ',' . $ack2 . ',' . $ack3 . ',' . $ack4 . ',' . $ack5 . ',';
 							endif;
 						endforeach;
-
-						foreach ($soalesai as $m) :
-							$id_esai .= $m['id_soal'] . ',';
-						endforeach;
+						if ($mapel['jml_esai'] <> 0) {
+							$soalesai = select('soal', $where2, $ordera[$m]);
+							foreach ($soalesai as $m) :
+								$id_esai .= $m['id_soal'] . ',';
+							endforeach;
+						}
 
 						$acakdata = array(
 							'id_ujian' => $ac,

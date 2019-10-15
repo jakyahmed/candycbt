@@ -197,7 +197,7 @@ if (date('m') >= 7 and date('m') <= 12) {
 			<td height='30' colspan='2' width='5%'>Yang membuat berita acara: </td>
 		</tr>
 	</table>
-	<table style="width:80%; margin-left:50px">
+	<table style="width:95%; margin-left:10px">
 		<tr>
 			<td colspan='4'></td>
 			<td height='30' width='30%'>TTD</td>

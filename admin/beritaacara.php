@@ -127,7 +127,7 @@ if (date('m') >= 7 and date('m') <= 12) {
 	<table style="width:95%">
 		<tr height='30'>
 			<td colspan='4' style="height:'30'; text-align: justify;">
-				Pada hari ini <b> <?= $hari ?> </b> tanggal <b><?= $tanggal ?></b> bulan <b><?= $bulan ?></b> tahun <b><?= $tahun ?></b>, di <?= $setting['sekolah'] ?> telah diselenggarakan "<?= ucwords(strtolower($kodeujian['nama'])) ?>" untuk Mata Pelajaran <b><?= $ujian['nama_mapel'] ?></b> dari pukul <?= $ujian['mulai'] ?> sampai dengan pukul <?= $ujian['mulai'] ?>
+				Pada hari ini <b> <?= $hari ?> </b> tanggal <b><?= $tanggal ?></b> bulan <b><?= $bulan ?></b> tahun <b><?= $tahun ?></b>, di <?= $setting['sekolah'] ?> telah diselenggarakan "<?= ucwords(strtolower($kodeujian['nama'])) ?>" untuk Mata Pelajaran <b><?= $ujian['nama_mapel'] ?></b> dari pukul <?= $ujian['mulai'] ?> sampai dengan pukul <?= $ujian['selesai'] ?>
 			</td>
 		</tr>
 		<tr height='30'>

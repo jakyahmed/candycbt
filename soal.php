@@ -118,7 +118,9 @@
 						$a = ($jawab['jawaban']==$pil1) ? 'checked' : '';
 						$b = ($jawab['jawaban']==$pil2) ? 'checked' : '';
 						$c = ($jawab['jawaban']==$pil3) ? 'checked' : '';
+						if($mapel['opsi']==4){
 						$d = ($jawab['jawaban']==$pil4) ? 'checked' : '';
+						}
 						
 						if($mapel['opsi']==5){
 						$e = ($jawab['jawaban']==$pil5) ? 'checked' : '';

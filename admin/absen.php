@@ -219,7 +219,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 							<td width='<?= $lebarusername ?>' style="text-align:center">&nbsp;<?= $f['username'] ?></td>
 							<td width='<?= $lebarnopes ?>' style="text-align:center">&nbsp;<?= $f['no_peserta'] ?></td>
 							<td width='*'>&nbsp;<?= $f['nama'] ?></td>
-							<td width='150'><span style='float:right;width:80px;'>&nbsp;<?= $nomer ?>.</span></td>
+							<td width='150'><span style='float:left;width:80px;'>&nbsp;<?= $nomer ?>.</span></td>
 							<td width='6%'>&nbsp;</td>
 						</tr>
 					<?php endif; ?>
@@ -403,7 +403,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 						<td width='<?= $lebarusername ?>' style="text-align:center">&nbsp;<?= $f['username'] ?></td>
 						<td width='<?= $lebarnopes ?>' style="text-align:center">&nbsp;<?= $f['no_peserta'] ?></td>
 						<td width='*'>&nbsp;<?= $f['nama'] ?></td>
-						<td width='150'><span style='float:right;width:80px;'>&nbsp;<?= $nomer ?>.</span></td>
+						<td width='150'><span style='float:left;width:80px;'>&nbsp;<?= $nomer ?>.</span></td>
 						<td width='6%'>&nbsp;</td>
 					</tr>
 				<?php endif; ?>

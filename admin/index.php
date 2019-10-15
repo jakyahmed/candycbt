@@ -1083,7 +1083,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										$info = info("Anda yakin akan menghapus pengawas ini?");
 										if (isset($_POST['submit'])) {
 											$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
-											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
+											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=" . $pg);
 										}
 										?>
 								<form action='' method='post'>
@@ -1092,7 +1092,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<h3 class='box-title'>Hapus</h3>
 											<div class='box-tools pull-right btn-group'>
 												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
-												<a href='?pg=$pg' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
+												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
 										</div><!-- /.box-header -->
 										<div class='box-body'>
@@ -2087,7 +2087,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<div class='form-group'>
 												<label>Pilih Ruang</label>
 												<select id='absenruang' class='form-control select2' onchange=printabsen();>";
-													
+
 												</select>
 											</div>
 											<div class='form-group'>
@@ -2095,7 +2095,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<select id='absensesi' class='form-control select2' onchange=printabsen();>
 												</select>
 											</div>
-											
+
 										</div>
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
@@ -3418,8 +3418,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									while ($hmaop = mysqli_fetch_array($smaop)) {
 										$jumop = $hmaop['maxop'];
 									}
-									
-									$b_op =($jumop!=0)? ($jumop / $jumsoal):0;
+
+									$b_op = ($jumop != 0) ? ($jumop / $jumsoal) : 0;
 									$no = 1;
 									$sqlcek = mysqli_query($koneksi, "SELECT * FROM savsoft_qbank");
 									while ($r = mysqli_fetch_array($sqlcek)) {

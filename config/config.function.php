@@ -279,10 +279,8 @@ function restore($file)
 
 function backup($host, $user, $pass, $name, $nama_file, $tables)
 {
-	require("config.default.php");
-	//untuk koneksi database
-	$link = mysqli_connect($host, $user, $pass);
-	mysqli_select_db($name, $link);
+	include "config.database.php";
+	$koneksi = mysqli_connect($host, $user, $pass, $debe);
 	// Jika Semua Tabel
 	if ($tables == '*') {
 		$tables = array();

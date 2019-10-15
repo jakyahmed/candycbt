@@ -4560,7 +4560,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 		var autoRefresh = setInterval(
 			function() {
 				$('#isi_token').load('<?= $homeurl ?>/admin/_load.php?pg=token');
-			}, 100000
+			}, 900000
 		);
 
 		$('.datepicker').datetimepicker({

@@ -1920,9 +1920,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
 															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
-															$dataArray = unserialize($berita['no_susulan']);
+															
 															?>
-													<?php foreach ($dataArray as $key => $value) : ?>
+															
+													<?php
+													if($berita['no_susulan']<>""):
+														$dataArray = unserialize($berita['no_susulan']);
+													foreach ($dataArray as $key => $value) : ?>
 														<?php
 																	$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
 																	?>
@@ -1941,6 +1945,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 															<?php endif ?>
 														<?php endwhile ?>
 													<?php endforeach ?>
+													<?php endif ?>
 												<?php endwhile ?>
 											</tbody>
 										</table>
@@ -3510,7 +3515,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
 										if ($opjs1 == 1) {
-											$kunci = " A";
+											$kunci = "A";
 										}
 										if ($opjs2 == 1) {
 											$kunci = "B";

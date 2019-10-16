@@ -854,38 +854,37 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 													<table class='table'>
 														<tr>
 															<td>
-																<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'A','A',1,$ac)" <?= $ax ?> />
+																<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'A','A',1,<?= $ac ?>)" <?= $ax ?> />
 																<label class='button-label' for='A'>
 																	<h1>A</h1>
 																</label>
 															</td>
 															<td>
-																<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick="jawabsoal($id_mapel,$id_siswa,$soal['id_soal'],'C','C',1,$ac)" <?= $cx ?> />
+																<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'C','C',1,<?= $ac ?>)" <?= $cx ?> />
 																<label class='button-label' for='C'>
 																	<h1>C</h1>
 																</label>
 															</td>
 															<?php if ($mapel['opsi'] == 5) { ?>
 																<td>
-																	<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick="jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'E','E',1,$ac)" $ex />
+																	<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'E','E',1,<?= $ac ?>)" <?= $ex ?> />
 																	<label class='button-label' for='E'>
 																		<h1>E</h1>
 																	</label>
 																</td>
 															<?php	} ?>
-													<?php
-															echo "
-																		</tr>
-																		<tr>
-																			<td>
-																				<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'B','B',1) $bx />
-																				<label class='button-label' for='B'>
-																				  <h1>B</h1>
-																				</label>
-																				
-																			</td>
-																			";
-															if ($mapel['opsi'] <> 3) {
+
+														</tr>
+														<tr>
+															<td>
+																<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'B','B',1,<?= $ac ?>)" <?= $bx ?> />
+																<label class='button-label' for='B'>
+																	<h1>B</h1>
+																</label>
+
+															</td>
+
+													<?php if ($mapel['opsi'] <> 3) {
 																echo "
 																			<td>
 																				<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'D','D',1,$ac) $dx/>

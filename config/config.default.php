@@ -5,13 +5,6 @@ session_cache_expire(0);
 session_cache_limiter(0);
 session_start();
 set_time_limit(0);
-$_IP_SERVER = $_SERVER['SERVER_ADDR'];
-$_IP_ADDRESS = $_SERVER['REMOTE_ADDR'];
-
-if ($_IP_ADDRESS <> $_IP_SERVER) {
-	// arahkan ke halaman login siswa
-	header("Location: ../login.php");
-}
 
 (isset($_SESSION['id_user'])) ? $id_user = $_SESSION['id_user'] : $id_user = 0;
 

@@ -3530,19 +3530,19 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										if ($ck_jum == 0) {
 											$jns = "2";
 										}
-										$jwb522 = str_replace("&amp;lt;", "<", $jwb521);
-										$jwb422 = str_replace("&amp;lt;", "<", $jwb421);
-										$jwb322 = str_replace("&amp;lt;", "<", $jwb321);
-										$jwb222 = str_replace("&amp;lt;", "<", $jwb221);
-										$jwb122 = str_replace("&amp;lt;", "<", $jwb121);
+										// $jwb522 = str_replace("&amp;lt;", "<", $jwb521);
+										// $jwb422 = str_replace("&amp;lt;", "<", $jwb421);
+										// $jwb322 = str_replace("&amp;lt;", "<", $jwb321);
+										// $jwb222 = str_replace("&amp;lt;", "<", $jwb221);
+										// $jwb122 = str_replace("&amp;lt;", "<", $jwb121);
 										$soal_tanya2 = str_replace("&amp;lt;", "<", $soal_tanya);
-										$jwb52 = str_replace("&amp;gt;", ">", $jwb522);
-										$jwb42 = str_replace("&amp;gt;", ">", $jwb422);
-										$jwb32 = str_replace("&amp;gt;", ">", $jwb322);
-										$jwb22 = str_replace("&amp;gt;", ">", $jwb222);
-										$jwb12 = str_replace("&amp;gt;", ">", $jwb122);
+										// $jwb52 = str_replace("&amp;gt;", ">", $jwb522);
+										// $jwb42 = str_replace("&amp;gt;", ">", $jwb422);
+										// $jwb32 = str_replace("&amp;gt;", ">", $jwb322);
+										// $jwb22 = str_replace("&amp;gt;", ">", $jwb222);
+										// $jwb12 = str_replace("&amp;gt;", ">", $jwb122);
 										$soal_tanya = str_replace("&amp;gt;", ">", $soal_tanya2);
-										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$fileA','$fileB','$fileC','$fileD','$fileE')");
 										$no++;
 									}
 									$hasil2 = mysqli_query($koneksi, "TRUNCATE TABLE savsoft_qbank");

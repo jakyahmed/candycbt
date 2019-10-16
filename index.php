@@ -464,7 +464,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 
 						$id_soal = '';
 						$id_esai = '';
-
+						$id_opsi = "";
 						foreach ($soal as $s) :
 							if ($mapel['opsi'] == 5) :
 								$acz = array("A", "B", "C", "D", "E");
@@ -477,16 +477,15 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							$ack1 = $acz[0];
 							$ack2 = $acz[1];
 							$ack3 = $acz[2];
-							if ($mapel['opsi'] == 4) {
-								$ack4 = $acz[3];
-							}
 							if ($mapel['opsi'] == 3) :
 								$id_soal .= $s['id_soal'] . ',';
 								$id_opsi .= $ack1 . ',' . $ack2 . ',' . $ack3 . ',';
 							elseif ($mapel['opsi'] == 4) :
+								$ack4 = $acz[3];
 								$id_soal .= $s['id_soal'] . ',';
 								$id_opsi .= $ack1 . ',' . $ack2 . ',' . $ack3 . ',' . $ack4 . ',';
 							elseif ($mapel['opsi'] == 5) :
+								$ack4 = $acz[3];
 								$ack5 = $acz[4];
 								$id_soal .= $s['id_soal'] . ',';
 								$id_opsi .= $ack1 . ',' . $ack2 . ',' . $ack3 . ',' . $ack4 . ',' . $ack5 . ',';
@@ -812,10 +811,12 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 														$fileDD = "file" . $pil4;
 													elseif ($mapel['opsi'] == 5) :
 														$kali = 5;
+														
 														$nop4 = $no_soal * $kali + 3;
 														$pil4 = $pengacakpil[$nop4];
 														$pilDD = "pil" . $pil4;
 														$fileDD = "file" . $pil4;
+
 														$nop5 = $no_soal * $kali + 4;
 														$pil5 = $pengacakpil[$nop5];
 														$pilEE = "pil" . $pil5;
@@ -905,6 +906,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 																$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
 															}
 															if ($mapel['opsi'] == 5) {
+																$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
 																$e = ($jawab['jawaban'] == $pil5) ? 'checked' : '';
 															}
 															echo "

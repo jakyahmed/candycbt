@@ -2506,7 +2506,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php if ($setting['jenjang'] == 'SMK') : ?>
 						<?php
 								cek_session_admin();
-								if (isset($_POST['tambahmapel'])) :
+								if (isset($_POST['tambahPK'])) :
 									$idpk = str_replace(' ', '', $_POST['idpk']);
 									$nama = $_POST['nama'];
 									$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pk WHERE id_pk='$idpk'"));
@@ -2529,7 +2529,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Jurusan</h3>
 										<div class='box-tools pull-right'>
-											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahmapel'><i class='fa fa-check'></i> Tambah Jurusan</button>
+											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahPK'><i class='fa fa-check'></i> Tambah Jurusan</button>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
@@ -2557,7 +2557,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
 							</div>
-							<div class='modal fade' id='tambahmapel' style='display: none;'>
+							<div class='modal fade' id='tambahPK' style='display: none;'>
 								<div class='modal-dialog'>
 									<div class='modal-content'>
 										<div class='modal-header bg-blue'>
@@ -2576,7 +2576,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												</div>
 												<div class='modal-footer'>
 													<div class='box-tools pull-right btn-group'>
-														<button type='submit' name='tambahmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
+														<button type='submit' name='tambahPK' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 														<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 													</div>
 												</div>

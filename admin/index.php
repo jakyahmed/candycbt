@@ -4435,6 +4435,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />
 														<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
 														<label><input type='checkbox' name='data[]' value='berita' /> Data Berita Acara</label><br />
+														<label><input type='checkbox' name='data[]' value='pengacak' /> Data Pengacak Soal</label><br />
+														<label><input type='checkbox' name='data[]' value='pengacakopsi' /> Data Pengacak Opsi</label><br />
 
 														<small class='label label-danger'>Pilih Data Master</small><br />
 														<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />

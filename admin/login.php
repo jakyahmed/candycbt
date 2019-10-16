@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <?php
 
+$_IP_SERVER = $_SERVER['SERVER_ADDR'];
+$_IP_ADDRESS = $_SERVER['REMOTE_ADDR'];
+
+if ($_IP_ADDRESS <> $_IP_SERVER) {
+	header("Location: ../login.php")
+}
+
 require("../config/config.default.php");
 require("../config/config.function.php");
 $cekdb = mysqli_query($koneksi, "SELECT 1 FROM pengawas LIMIT 1");

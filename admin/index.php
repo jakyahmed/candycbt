@@ -1920,9 +1920,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
 															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
-															$dataArray = unserialize($berita['no_susulan']);
+															
 															?>
-													<?php foreach ($dataArray as $key => $value) : ?>
+															
+													<?php
+													if($berita['no_susulan']<>""):
+														$dataArray = unserialize($berita['no_susulan']);
+													foreach ($dataArray as $key => $value) : ?>
 														<?php
 																	$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
 																	?>
@@ -1941,6 +1945,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 															<?php endif ?>
 														<?php endwhile ?>
 													<?php endforeach ?>
+													<?php endif ?>
 												<?php endwhile ?>
 											</tbody>
 										</table>
@@ -3510,7 +3515,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
 
 										if ($opjs1 == 1) {
-											$kunci = " A";
+											$kunci = "A";
 										}
 										if ($opjs2 == 1) {
 											$kunci = "B";
@@ -3530,19 +3535,19 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										if ($ck_jum == 0) {
 											$jns = "2";
 										}
-										$jwb522 = str_replace("&amp;lt;", "<", $jwb521);
-										$jwb422 = str_replace("&amp;lt;", "<", $jwb421);
-										$jwb322 = str_replace("&amp;lt;", "<", $jwb321);
-										$jwb222 = str_replace("&amp;lt;", "<", $jwb221);
-										$jwb122 = str_replace("&amp;lt;", "<", $jwb121);
+										// $jwb522 = str_replace("&amp;lt;", "<", $jwb521);
+										// $jwb422 = str_replace("&amp;lt;", "<", $jwb421);
+										// $jwb322 = str_replace("&amp;lt;", "<", $jwb321);
+										// $jwb222 = str_replace("&amp;lt;", "<", $jwb221);
+										// $jwb122 = str_replace("&amp;lt;", "<", $jwb121);
 										$soal_tanya2 = str_replace("&amp;lt;", "<", $soal_tanya);
-										$jwb52 = str_replace("&amp;gt;", ">", $jwb522);
-										$jwb42 = str_replace("&amp;gt;", ">", $jwb422);
-										$jwb32 = str_replace("&amp;gt;", ">", $jwb322);
-										$jwb22 = str_replace("&amp;gt;", ">", $jwb222);
-										$jwb12 = str_replace("&amp;gt;", ">", $jwb122);
+										// $jwb52 = str_replace("&amp;gt;", ">", $jwb522);
+										// $jwb42 = str_replace("&amp;gt;", ">", $jwb422);
+										// $jwb32 = str_replace("&amp;gt;", ">", $jwb322);
+										// $jwb22 = str_replace("&amp;gt;", ">", $jwb222);
+										// $jwb12 = str_replace("&amp;gt;", ">", $jwb122);
 										$soal_tanya = str_replace("&amp;gt;", ">", $soal_tanya2);
-										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
+										$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$fileA','$fileB','$fileC','$fileD','$fileE')");
 										$no++;
 									}
 									$hasil2 = mysqli_query($koneksi, "TRUNCATE TABLE savsoft_qbank");

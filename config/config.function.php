@@ -1,4 +1,5 @@
 <?php
+
 function enkripsi($string)
 {
 	$output = false;
@@ -238,8 +239,7 @@ function create_zip($files = array(), $destination = '', $overwrite = false)
 
 function restore($file)
 {
-	include "config.database.php";
-	$koneksi = mysqli_connect($host, $user, $pass, $debe);
+	require("../config/config.default.php");
 	global $rest_dir;
 	$nama_file	= $file['name'];
 	$ukrn_file	= $file['size'];
@@ -252,6 +252,7 @@ function restore($file)
 		$templine	= array();
 
 		if (move_uploaded_file($tmp_file, $alamatfile)) {
+
 			$templine	= '';
 			$lines		= file($alamatfile);
 
@@ -266,62 +267,15 @@ function restore($file)
 					$templine = '';
 				}
 			}
-			echo "<div class='alert alert-success alert-dismissible'>
-				<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-				<h4><i class='icon fa fa-check'></i> Info</h4>
-				berhasil upload restore data
-				</div>";
+			echo "
+											<div class='alert alert-success alert-dismissible'>
+															<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+															<h4><i class='icon fa fa-check'></i> Info</h4>
+															berhasil upload restore data
+															</div>
+											";
 		} else {
 			echo "Proses upload gagal, kode error = " . $file['error'];
 		}
 	}
-}
-
-function backup($host, $user, $pass, $name, $nama_file, $tables)
-{
-	include "config.database.php";
-	$koneksi = mysqli_connect($host, $user, $pass, $debe);
-	// Jika Semua Tabel
-	if ($tables == '*') {
-		$tables = array();
-		$result = mysqli_query($koneksi, 'SHOW TABLES');
-		while ($row = mysqli_fetch_row($result)) {
-			$tables[] = $row[0];
-		}
-	} else {
-		//jika hanya table-table tertentu
-		$tables = is_array($tables) ? $tables : explode(',', $tables);
-	}
-	foreach ($tables as $table) {
-		$result = mysqli_query($koneksi, 'SELECT * FROM ' . $table);
-		$num_fields = mysqli_num_fields($result);
-		//menyisipkan query drop table untuk nanti hapus table yang lama
-		$return = 'DROP TABLE ' . $table . '';
-		$row2 = mysqli_fetch_row(mysqli_query($koneksi, 'SHOW CREATE TABLE ' . $table));
-		$return .= "\n\n" . $row2[1] . ";\n\n";
-		for ($i = 0; $i < $num_fields; $i++) {
-			while ($row = mysqli_fetch_row($result)) {
-				$return .= 'INSERT INTO ' . $table . ' VALUES(';
-				for ($j = 0; $j < $num_fields; $j++) {
-					$row[$j] = addslashes($row[$j]);
-					$row[$j] = ereg_replace("\n", "\\n", $row[$j]);
-					if (isset($row[$j])) {
-						$return .= '"' . $row[$j] . '"';
-					} else {
-						$return .= '""';
-					}
-					if ($j < ($num_fields - 1)) {
-						$return .= ',';
-					}
-				}
-				$return .= ");\n";
-			}
-		}
-		$return .= "\n\n\n";
-	}
-
-	$nama_file;
-	$handle = fopen($nama_file, 'w+');
-	fwrite($handle, $return);
-	fclose($handle);
 }

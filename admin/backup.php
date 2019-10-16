@@ -5,20 +5,20 @@ require("../config/config.default.php");
 
 function &backup_tables($host, $user, $pass, $name, $tables = '*')
 {
-	require("../config/config.default.php");
+
 	$data = "\n/*---------------------------------------------------------------" .
 		"\n  SQL DB BACKUP " . date("d.m.Y H:i") . " " .
 		"\n  HOST: {$host}" .
 		"\n  DATABASE: {$name}" .
 		"\n  TABLES: {$tables}" .
 		"\n  ---------------------------------------------------------------*/\n";
-	$link = mysqli_connect($host, $user, $pass);
-	mysqli_select_db($name, $link);
-	mysqli_query($koneksi,  "SET NAMES `utf8` COLLATE `utf8_general_ci`", $link); // Unicode
+	$con = mysqli_connect($host, $user, $pass);
+	mysqli_select_db($con, $name);
+	mysqli_query($con,  "SET NAMES `utf8` COLLATE `utf8_general_ci`"); // Unicode
 
 	if ($tables == '*') {
 		$tables = array();
-		$result = mysqli_query($koneksi, "SHOW TABLES");
+		$result = mysqli_query($con, "SHOW TABLES");
 		while ($row = mysqli_fetch_row($result)) {
 			$tables[] = $row[0];
 		}
@@ -31,11 +31,11 @@ function &backup_tables($host, $user, $pass, $name, $tables = '*')
 			"\n  TABLE: `{$table}`" .
 			"\n  ---------------------------------------------------------------*/\n";
 		$data .= "DROP TABLE IF EXISTS `{$table}`;\n";
-		$res = mysqli_query($koneksi, "SHOW CREATE TABLE `{$table}`", $link);
+		$res = mysqli_query($con, "SHOW CREATE TABLE `{$table}`");
 		$row = mysqli_fetch_row($res);
 		$data .= $row[1] . ";\n";
 
-		$result = mysqli_query($koneksi, "SELECT * FROM `{$table}`", $link);
+		$result = mysqli_query($con, "SELECT * FROM `{$table}`");
 		$num_rows = mysqli_num_rows($result);
 
 		if ($num_rows > 0) {
@@ -46,7 +46,7 @@ function &backup_tables($host, $user, $pass, $name, $tables = '*')
 				$vals[$z] = "(";
 				for ($j = 0; $j < count($items); $j++) {
 					if (isset($items[$j])) {
-						$vals[$z] .= "'" . mysqli_real_escape_string($items[$j], $link) . "'";
+						$vals[$z] .= "'" . mysqli_real_escape_string($con, $items[$j]) . "'";
 					} else {
 						$vals[$z] .= "NULL";
 					}
@@ -62,7 +62,7 @@ function &backup_tables($host, $user, $pass, $name, $tables = '*')
 		}
 	}
 
-	mysqli_close($link);
+	mysqli_close($con);
 	return $data;
 }
 
@@ -72,7 +72,7 @@ if (!file_exists('backup')) {
 
 $tabel = "*";
 $backup_file = 'backup/candycbt_' . time() . '.sql';
-$mybackup = backup_tables($host, $user, $pass, $tabel);
+$mybackup = backup_tables($host, $user, $pass, $debe, $tabel);
 
 // save to file
 $handle = fopen($backup_file, 'w+');

@@ -113,7 +113,7 @@ if ($pg == 'soal') {
 					$a = ($jawab['jawaban'] == $pil1) ? 'checked' : '';
 					$b = ($jawab['jawaban'] == $pil2) ? 'checked' : '';
 					$c = ($jawab['jawaban'] == $pil3) ? 'checked' : '';
-					
+
 					if ($mapel['opsi'] == 4) :
 						$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
 					elseif ($mapel['opsi'] == 5) :
@@ -178,7 +178,7 @@ if ($pg == 'soal') {
 						<tr>
 							<!-- Opsi A -->
 							<td width='60'>
-								<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil1 ?>','A',1, <?= $ac ?>)" <?= $a ?> />
+								<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'<?= $pil1 ?>','A',1, $ac)" $a />
 								<label class='button-label' for='A'>
 									<h1>A</h1>
 								</label>
@@ -203,7 +203,7 @@ if ($pg == 'soal') {
 						<tr>
 							<!-- Opsi B -->
 							<td width='60'>
-								<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil2 ?>','B',1,<?= $ac ?>)" <?= $b ?> />
+								<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'<?= $pil2 ?>','B',1, $ac)" <?= $b ?> />
 								<label class='button-label' for='B'>
 									<h1>B</h1>
 								</label>
@@ -228,7 +228,7 @@ if ($pg == 'soal') {
 						<tr>
 							<!-- Opsi C -->
 							<td>
-								<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil3 ?>','C',1,<?= $ac ?>)" <?= $c ?> />
+								<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'<?= $pil3 ?>','C',1,<?= $ac ?>)" <?= $c ?> />
 								<label class='button-label' for='C'>
 									<h1>C</h1>
 								</label>
@@ -253,7 +253,7 @@ if ($pg == 'soal') {
 						<?php if ($mapel['opsi'] <> 3) { ?>
 							<tr>
 								<td>
-									<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil4 ?>','D',1,<?= $ac ?>)" <?= $d ?> />
+									<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'<?= $pil4 ?>','D',1,<?= $ac ?>)" <?= $d ?> />
 									<label class='button-label' for='D'>
 										<h1>D</h1>
 									</label>

@@ -811,7 +811,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 														$fileDD = "file" . $pil4;
 													elseif ($mapel['opsi'] == 5) :
 														$kali = 5;
-														
+
 														$nop4 = $no_soal * $kali + 3;
 														$pil4 = $pengacakpil[$nop4];
 														$pilDD = "pil" . $pil4;
@@ -826,12 +826,15 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 													$nop1 = $no_soal * $kali;
 													$nop2 = $no_soal * $kali + 1;
 													$nop3 = $no_soal * $kali + 2;
+
 													$pil1 = $pengacakpil[$nop1];
 													$pilAA = "pil" . $pil1;
 													$fileAA = "file" . $pil1;
+
 													$pil2 = $pengacakpil[$nop2];
 													$pilBB = "pil" . $pil2;
 													$fileBB = "file" . $pil2;
+
 													$pil3 = $pengacakpil[$nop3];
 													$pilCC = "pil" . $pil3;
 													$fileCC = "file" . $pil3;
@@ -851,7 +854,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 													<table class='table'>
 														<tr>
 															<td>
-																<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal($id_mapel,$id_siswa,$soal['id_soal'],'A','A',1,$ac)" <?= $ax ?> />
+																<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal($id_mapel, $id_siswa, $soal['id_soal'],'A','A',1,$ac)" <?= $ax ?> />
 																<label class='button-label' for='A'>
 																	<h1>A</h1>
 																</label>
@@ -862,17 +865,15 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 																	<h1>C</h1>
 																</label>
 															</td>
+															<?php if ($mapel['opsi'] == 5) { ?>
+																<td>
+																	<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick="jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'E','E',1,$ac)" $ex />
+																	<label class='button-label' for='E'>
+																		<h1>E</h1>
+																	</label>
+																</td>
+															<?php	} ?>
 													<?php
-															if ($mapel['opsi'] == 5) {
-																echo "
-																			<td>
-																				<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'E','E',1,$ac) $ex/>
-																				<label class='button-label' for='E'>
-																				  <h1>E</h1>
-																				</label>
-
-																			</td>";
-															}
 															echo "
 																		</tr>
 																		<tr>

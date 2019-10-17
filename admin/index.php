@@ -3173,14 +3173,16 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																					</div>
 																					<div class='col-md-6'>
 																						<label>Pilih Kelas</label><br>
-																						<select name='kelas[]' class='form-control select2' multiple='multiple' style='width:100%' required='true'>
+																						<select name='kelas[]' class='form-control select2' style='width:100%' multiple required='true'>
 																							<option value='semua'>Semua Kelas</option>
-																							<?php
-																										$lev = mysqli_query($koneksi, "SELECT * FROM kelas ");
-																										while ($kelas = mysqli_fetch_array($lev)) {
-																											echo "<option value='$kelas[id_kelas]'>$kelas[id_kelas]</option>";
-																										}
-																										?>
+																							<?php $lev = mysqli_query($koneksi, "SELECT * FROM kelas"); ?>
+																							<?php while ($kelas = mysqli_fetch_array($lev)) : ?>
+																								<?php if (in_array($kelas['id_kelas'], unserialize($mapel['kelas']))) : ?>
+																									<option value="<?= $kelas['id_kelas'] ?>" selected><?= $kelas['id_kelas'] ?></option>"
+																								<?php else : ?>
+																									<option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['id_kelas'] ?></option>"
+																								<?php endif; ?>
+																							<?php endwhile ?>
 																						</select>
 																					</div>
 																				</div>

@@ -4070,7 +4070,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											</p>
 										</div><!-- /.box-body -->
 										<div class='box-footer'>
-											<a href='$homeurl/admin/pages/word_import/import/sample/sample.docx'><i class='fa fa-file-word-o'></i> Download Format</a>
+											<a href='<?= $homeurl ?>/admin/pages/word_import/import/sample/sample.docx'><i class='fa fa-file-word-o'></i> Download Format</a>
 										</div>
 									</div><!-- /.box -->
 								</form>

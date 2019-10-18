@@ -355,7 +355,7 @@ if ($pg == 'soal') {
 							echo "	
 					<div class='col-md-4 text-right'>
 						<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
-						<button id='badgeesai$id_esai' class='btn  btn-success' onclick=loadsoalesai($id_mapel,$id_siswa,0,2)><span class='hidden-xs'>SOAL ESAI </span><i class='fa fa-chevron-right'></i></button>
+						<button id='badgeesai' class='btn  btn-success' onclick=loadsoalesai($id_mapel,$id_siswa,0,2)><span class='hidden-xs'>SOAL ESAI </span><i class='fa fa-chevron-right'></i></button>
 					</div>";
 						}
 
@@ -512,7 +512,7 @@ if ($pg == 'soal') {
 					} elseif (($no_soal == 0) && ($cekno_soal < $jumsoalesai)) {
 						echo "	
 					<div class='col-md-4 text-left'>
-						<button id='badge$id_soal' class='btn btn-flat btn-warning' onclick=loadsoal($id_mapel,$id_siswa,$pg_max,1)><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL PG</span></button>
+						<button id='badge' class='btn btn-flat btn-warning' onclick=loadsoal($id_mapel,$id_siswa,$pg_max,1)><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL PG</span></button>
 						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
 					</div></td><td>";
 					}

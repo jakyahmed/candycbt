@@ -18,7 +18,7 @@
 	elseif(date('m')>=1 AND date('m')<=6) {
 		$ajaran = (date('Y')-1)."/".date('Y');
 	}
-	$file = "NILAI_".$mapel['tgl_ujian']."_".$mapel['nama']."_".$kelas['nama'];
+	$file = "NILAI_".$mapel['date']."_".$mapel['nama']."_".$kelas['nama'];
 	$file = str_replace(" ","-",$file);
 	$file = str_replace(":","",$file);
 	header("Content-type: application/octet-stream");
@@ -27,7 +27,7 @@
 	header("Content-Disposition: attachment; filename=".$file.".xls");
 	echo "
 		Mata Pelajaran: $mapel[nama]<br/>
-		Tanggal Ujian: ".buat_tanggal('D, d M Y - H:i',$mapel['tgl_ujian'])."<br/>
+		Tanggal Ujian: ".buat_tanggal('D, d M Y - H:i',$mapel['date'])."<br/>
 		Jumlah Soal: $mapel[jml_soal]<br/>
 		Nama Ujian: $kode_ujian<br/>
 		Kelas: $id_kelas<br/>

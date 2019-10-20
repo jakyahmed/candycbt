@@ -63,6 +63,14 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 			src: url('../dist/fonts/poppins/Poppins-Light.ttf');
 		}
 
+		.btn {
+			border-radius: 20em;
+		}
+
+		.btn.btn-flat {
+			border-radius: 20em;
+		}
+
 		@font-face {
 			font-family: 'OCR A Extended';
 			font-style: normal;
@@ -580,7 +588,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Mata Pelajaran</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahmapel'><i class='fa fa-check'></i> Tambah Mapel</button>
 										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#importmapel'><i class='fa fa-upload'></i> Import Mapel</button>
 									</div>
@@ -629,7 +637,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='namamapel' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='simpanmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -659,7 +667,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<a href='importdatamapel.xls'><i class='fa fa-file-excel-o'></i> Download Format</a>
 
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='importmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-upload'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -834,7 +842,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																	<?php endif ?>
 														</td>
 														<td align='center'>
-															<div class='btn-group'>
+															<div class=''>
 																<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash-o'></i></button></a>
 															</div>
 														</td>
@@ -860,7 +868,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																			<h4><?= $info ?></h4>
 																		</div>
 																		<div class='modal-footer'>
-																			<div class='box-tools pull-right btn-group'>
+																			<div class='box-tools pull-right '>
 																				<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																			</div>
@@ -908,7 +916,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Manajemen Guru</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<a href='?pg=importguru' class='btn btn-sm btn-flat btn-success'><i class='fa fa-upload'></i> Import Guru</a>
 									</div>
 								</div><!-- /.box-header -->
@@ -938,7 +946,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><small class='label bg-blue'><?= $pengawas['password'] ?></small></td>
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
 																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
 															</div>
@@ -980,7 +988,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Tambah</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 											</div>
 										</div><!-- /.box-header -->
@@ -1043,7 +1051,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Edit</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -1090,7 +1098,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -1126,7 +1134,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header'>
 										<h3 class='box-title'>Preview Berita Acara</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button onclick="frames['printberita'].print()" class='btn btn-sm btn-flat btn-success'><i class='fa fa-print'></i> Print</button>
 											<iframe name='printberita' src='beritaacara.php?id=<?= $idberita ?>' style='border:none;width:1px;height:1px;'></iframe>
 										</div>
@@ -1464,7 +1472,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Jadwal Ujian</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<?php if ($pengawas['level'] == 'admin') : ?>
 											<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
 										<?php endif ?>
@@ -1643,7 +1651,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																			</div>
 																			<input type='hidden' id='idm' name='idu' value="<?= $mapel['id_ujian'] ?>" />
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='update' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Update</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -1674,7 +1682,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/berita_acara.svg' width='20'> Berita Acara</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<?php if ($pengawas['level'] == 'admin') : ?>
 											<button id='buatberita' class='btn btn-sm btn-flat btn-success'><i class='fa fa-refresh'></i> Generate</button>
 										<?php endif ?>
@@ -1744,7 +1752,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 															<?= $berita['nama_pengawas'] ?>
 														</td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a class='btn btn-flat btn-success btn-flat btn-xs' data-toggle='modal' data-backdrop='static' data-target="#print<?= $berita['id_berita'] ?>"><i class='glyphicon glyphicon-print'></i></a>
 															</div>
 														</td>
@@ -1871,7 +1879,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																		</div>
 																		<input type='hidden' id='idm' name='idu' value="<?= $berita['id_berita'] ?>" />
 																		<div class='modal-footer'>
-																			<div class='box-tools pull-right btn-group'>
+																			<div class='box-tools pull-right '>
 																				<button type='submit' name='print' class='btn btn-sm btn-flat btn-success'><i class='fa fa-print'></i> Print</button>
 																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																			</div>
@@ -1899,7 +1907,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><i class='fa fa-file'></i> Daftar Siswa Susulan</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 									</div>
 								</div>
 								<div class='box-body'>
@@ -1966,7 +1974,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Status Peserta </h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
@@ -2004,7 +2012,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Kartu Peserta Ujian</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
 											<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 										</div>
@@ -2067,7 +2075,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Daftar Hadir Peserta</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button id='btnabsen' class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
 										</div>
 									</div><!-- /.box-header -->
@@ -2158,7 +2166,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<div class='box box-danger'>
 						<div class='box-header with-border'>
 							<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
-							<div class='box-tools pull-right btn-group'>
+							<div class='box-tools pull-right '>
 								<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 							</div>
 						</div><!-- /.box-header -->
@@ -2181,7 +2189,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<div class='box box-solid'>
 						<div class='box-header with-border'>
 							<h3 class='box-title'>Daftar Foto Peserta</h3>
-							<div class='box-tools pull-right btn-group'>
+							<div class='box-tools pull-right '>
 								<form action='' method='post'>
 									<button class='btn btn-sm bg-maroon' name='hapussemuafoto'>hapus semua foto</button>
 								</form>
@@ -2219,7 +2227,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/data_master.svg' width='20'> Import Data Master</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<a href='<?= $format ?>' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
 										<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>
 									</div>
@@ -2291,7 +2299,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Import Guru</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 											<a href='?pg=guru' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 										</div>
@@ -2343,7 +2351,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><?= $pengawas['username'] ?></td>
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
 																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
 															</div>
@@ -2385,7 +2393,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Tambah</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 											</div>
 										</div><!-- /.box-header -->
@@ -2447,7 +2455,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Edit</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -2494,7 +2502,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -2580,7 +2588,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													<input type='text' name='nama' class='form-control' required='true' />
 												</div>
 												<div class='modal-footer'>
-													<div class='box-tools pull-right btn-group'>
+													<div class='box-tools pull-right '>
 														<button type='submit' name='tambahPK' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 														<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 													</div>
@@ -2672,7 +2680,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='tambahujian' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2759,7 +2767,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='keterangan' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2841,7 +2849,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2942,7 +2950,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -3029,7 +3037,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid '>
 									<div class='box-header with-border '>
 										<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Hapus</button>
 											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
 										</div>
@@ -3114,7 +3122,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																<?= $status ?>
 															</td>
 															<td style="text-align:center">
-																<div class='btn-group'>
+																<div class=''>
 																	<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
 																	<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
 																	<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
@@ -3567,7 +3575,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border '>
 										<h3 class='box-title'>Daftar Soal <?= $namamapel['nama'] ?></h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> PG</a>
 											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=2' class='btn btn-sm btn-flat btn-success $hide'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> Essai</a>
 											<a class='btn btn-sm btn-flat btn-success' href='soal_excel.php?m=<?= $id_mapel ?>'><i class='fa fa-file-excel-o'></i><span class='hidden-xs'> Excel</span></a>
@@ -3765,7 +3773,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																				<h4><?= $info ?></h4>
 																			</div>
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -3845,7 +3853,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																				<h4><?= $info ?></h4>
 																			</div>
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -3983,7 +3991,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header  bg-green with-border'>
 											<h3 class='box-title'>Import Soal Excel</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4014,7 +4022,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Import Soal Ms Word</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4082,7 +4090,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header  bg-yellow with-border'>
 											<h3 class='box-title'>Import Soal Excel (Bee)</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='importbee' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4201,7 +4209,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Reset Login Peserta</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<button id='btnresetlogin' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Reset Login</button>
 									</div>
 								</div><!-- /.box-header -->
@@ -4482,7 +4490,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											</div>
 											<!-- /.tab-pane -->
 											<div class="tab-pane" id="tab_3">
-											<div class='col-md-12 notif'></div>
+												<div class='col-md-12 notif'></div>
 												<div class='col-md-6'>
 													<div class='box box-solid'>
 														<div class='box-header '>
@@ -4518,7 +4526,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</div>
 							</div>
 						</div>
-						
+
 
 
 					</div>

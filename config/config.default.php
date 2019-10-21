@@ -59,6 +59,7 @@ $datetime = date('Y-m-d H:i:s');
 $copyright = 'Candy CBT';
 define("REVISI", "2");
 define("APLIKASI", "Candy CBT");
+define("KEY", "76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5");
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Netscape')) {
 	$browser = 'Netscape';

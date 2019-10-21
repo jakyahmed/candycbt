@@ -4,6 +4,11 @@ $cekdb = mysqli_query($koneksi, "SELECT 1 FROM pengawas LIMIT 1");
 if ($cekdb == false) {
 	header("Location: install.php");
 }
+
+if ($_SERVER["QUERY_STRING"] <> KEY) {
+	echo '<img src="dist/img/octo.gif" style="display: block; margin: auto;">';
+	exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

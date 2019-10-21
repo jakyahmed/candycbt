@@ -63,6 +63,14 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 			src: url('../dist/fonts/poppins/Poppins-Light.ttf');
 		}
 
+		.btn {
+			border-radius: 20em;
+		}
+
+		.btn.btn-flat {
+			border-radius: 20em;
+		}
+
 		@font-face {
 			font-family: 'OCR A Extended';
 			font-style: normal;
@@ -113,11 +121,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 		.box-header {
 
-			background: #d81b60;
+			background: #a8dbff;
 		}
 
 		.box-header .box-title {
-			color: #fff;
+			color: #3d6baf;
 		}
 
 		.box-header {
@@ -437,7 +445,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											</h3>
 											<div class='box-tools pull-right'>
 
-												<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-sm bg-maroon' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+												<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
 											</div>
 										</div><!-- /.box-header -->
 										<div class='box-body'>
@@ -455,7 +463,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box-header with-border'>
 										<h3 class='box-title'><i class='fa fa-history'></i> Log Aktifitas</h3>
 										<div class='box-tools pull-right'>
-											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-sm btn-flat bg-maroon' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
+											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-default' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
@@ -580,7 +588,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Mata Pelajaran</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahmapel'><i class='fa fa-check'></i> Tambah Mapel</button>
 										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#importmapel'><i class='fa fa-upload'></i> Import Mapel</button>
 									</div>
@@ -629,7 +637,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='namamapel' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='simpanmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -659,7 +667,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<a href='importdatamapel.xls'><i class='fa fa-file-excel-o'></i> Download Format</a>
 
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='importmapel' class='btn btn-sm btn-flat btn-success'><i class='fa fa-upload'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -834,7 +842,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																	<?php endif ?>
 														</td>
 														<td align='center'>
-															<div class='btn-group'>
+															<div class=''>
 																<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash-o'></i></button></a>
 															</div>
 														</td>
@@ -860,7 +868,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																			<h4><?= $info ?></h4>
 																		</div>
 																		<div class='modal-footer'>
-																			<div class='box-tools pull-right btn-group'>
+																			<div class='box-tools pull-right '>
 																				<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																			</div>
@@ -908,7 +916,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Manajemen Guru</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<a href='?pg=importguru' class='btn btn-sm btn-flat btn-success'><i class='fa fa-upload'></i> Import Guru</a>
 									</div>
 								</div><!-- /.box-header -->
@@ -938,7 +946,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><small class='label bg-blue'><?= $pengawas['password'] ?></small></td>
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
 																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
 															</div>
@@ -980,7 +988,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Tambah</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 											</div>
 										</div><!-- /.box-header -->
@@ -1043,7 +1051,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Edit</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -1090,7 +1098,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -1126,7 +1134,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header'>
 										<h3 class='box-title'>Preview Berita Acara</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button onclick="frames['printberita'].print()" class='btn btn-sm btn-flat btn-success'><i class='fa fa-print'></i> Print</button>
 											<iframe name='printberita' src='beritaacara.php?id=<?= $idberita ?>' style='border:none;width:1px;height:1px;'></iframe>
 										</div>
@@ -1464,9 +1472,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Jadwal Ujian</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<?php if ($pengawas['level'] == 'admin') : ?>
-											<a id='btnhapusjadwal' class='btn btn-sm bg-maroon'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
+											<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
 										<?php endif ?>
 										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-backdrop='static' data-target='#tambahjadwal'><i class='glyphicon glyphicon-plus'></i> Tambah Jadwal</button>
 									</div>
@@ -1643,7 +1651,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																			</div>
 																			<input type='hidden' id='idm' name='idu' value="<?= $mapel['id_ujian'] ?>" />
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='update' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Update</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -1674,7 +1682,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/berita_acara.svg' width='20'> Berita Acara</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<?php if ($pengawas['level'] == 'admin') : ?>
 											<button id='buatberita' class='btn btn-sm btn-flat btn-success'><i class='fa fa-refresh'></i> Generate</button>
 										<?php endif ?>
@@ -1744,7 +1752,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 															<?= $berita['nama_pengawas'] ?>
 														</td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a class='btn btn-flat btn-success btn-flat btn-xs' data-toggle='modal' data-backdrop='static' data-target="#print<?= $berita['id_berita'] ?>"><i class='glyphicon glyphicon-print'></i></a>
 															</div>
 														</td>
@@ -1871,7 +1879,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																		</div>
 																		<input type='hidden' id='idm' name='idu' value="<?= $berita['id_berita'] ?>" />
 																		<div class='modal-footer'>
-																			<div class='box-tools pull-right btn-group'>
+																			<div class='box-tools pull-right '>
 																				<button type='submit' name='print' class='btn btn-sm btn-flat btn-success'><i class='fa fa-print'></i> Print</button>
 																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																			</div>
@@ -1899,7 +1907,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><i class='fa fa-file'></i> Daftar Siswa Susulan</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 									</div>
 								</div>
 								<div class='box-body'>
@@ -1920,31 +1928,31 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
 															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
-															
+
 															?>
-															
+
 													<?php
-													if($berita['no_susulan']<>""):
-														$dataArray = unserialize($berita['no_susulan']);
-													foreach ($dataArray as $key => $value) : ?>
-														<?php
-																	$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
-																	?>
-														<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
+															if ($berita['no_susulan'] <> "") :
+																$dataArray = unserialize($berita['no_susulan']);
+																foreach ($dataArray as $key => $value) : ?>
 															<?php
-																			$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
+																			$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
 																			?>
-															<?php if ($cek == 0) : ?>
-																<?php $no++; ?>
-																<tr>
-																	<td><?= $no ?></td>
-																	<td><?= $siswa['no_peserta'] ?></td>
-																	<td><?= $siswa['nama'] ?></td>
-																	<td><?= $mapel['nama_mapel'] ?></td>
-																</tr>
-															<?php endif ?>
-														<?php endwhile ?>
-													<?php endforeach ?>
+															<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
+																<?php
+																					$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
+																					?>
+																<?php if ($cek == 0) : ?>
+																	<?php $no++; ?>
+																	<tr>
+																		<td><?= $no ?></td>
+																		<td><?= $siswa['no_peserta'] ?></td>
+																		<td><?= $siswa['nama'] ?></td>
+																		<td><?= $mapel['nama_mapel'] ?></td>
+																	</tr>
+																<?php endif ?>
+															<?php endwhile ?>
+														<?php endforeach ?>
 													<?php endif ?>
 												<?php endwhile ?>
 											</tbody>
@@ -1966,7 +1974,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Status Peserta </h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 										</div>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
@@ -2004,7 +2012,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Kartu Peserta Ujian</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
 											<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 										</div>
@@ -2067,7 +2075,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Daftar Hadir Peserta</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button id='btnabsen' class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
 										</div>
 									</div><!-- /.box-header -->
@@ -2158,7 +2166,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<div class='box box-danger'>
 						<div class='box-header with-border'>
 							<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
-							<div class='box-tools pull-right btn-group'>
+							<div class='box-tools pull-right '>
 								<a href='?pg=siswa' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 							</div>
 						</div><!-- /.box-header -->
@@ -2181,7 +2189,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<div class='box box-solid'>
 						<div class='box-header with-border'>
 							<h3 class='box-title'>Daftar Foto Peserta</h3>
-							<div class='box-tools pull-right btn-group'>
+							<div class='box-tools pull-right '>
 								<form action='' method='post'>
 									<button class='btn btn-sm bg-maroon' name='hapussemuafoto'>hapus semua foto</button>
 								</form>
@@ -2219,7 +2227,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/data_master.svg' width='20'> Import Data Master</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<a href='<?= $format ?>' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
 										<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>
 									</div>
@@ -2291,7 +2299,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border'>
 										<h3 class='box-title'>Import Guru</h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 											<a href='?pg=guru' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 										</div>
@@ -2343,7 +2351,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><?= $pengawas['username'] ?></td>
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
-															<div class='btn-group'>
+															<div class=''>
 																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
 																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
 															</div>
@@ -2385,7 +2393,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Tambah</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 											</div>
 										</div><!-- /.box-header -->
@@ -2447,7 +2455,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Edit</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -2494,7 +2502,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -2580,7 +2588,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													<input type='text' name='nama' class='form-control' required='true' />
 												</div>
 												<div class='modal-footer'>
-													<div class='box-tools pull-right btn-group'>
+													<div class='box-tools pull-right '>
 														<button type='submit' name='tambahPK' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 														<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 													</div>
@@ -2672,7 +2680,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='tambahujian' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2759,7 +2767,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='keterangan' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2841,7 +2849,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -2942,7 +2950,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<input type='text' name='nama' class='form-control' required='true' />
 											</div>
 											<div class='modal-footer'>
-												<div class='box-tools pull-right btn-group'>
+												<div class='box-tools pull-right '>
 													<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
 													<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 												</div>
@@ -3029,8 +3037,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid '>
 									<div class='box-header with-border '>
 										<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
-										<div class='box-tools pull-right btn-group'>
-											<button id='btnhapusbank' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
+										<div class='box-tools pull-right '>
+											<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Hapus</button>
 											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
 										</div>
 									</div><!-- /.box-header -->
@@ -3114,7 +3122,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																<?= $status ?>
 															</td>
 															<td style="text-align:center">
-																<div class='btn-group'>
+																<div class=''>
 																	<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
 																	<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
 																	<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
@@ -3567,12 +3575,12 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<div class='box box-solid'>
 									<div class='box-header with-border '>
 										<h3 class='box-title'>Daftar Soal <?= $namamapel['nama'] ?></h3>
-										<div class='box-tools pull-right btn-group'>
+										<div class='box-tools pull-right '>
 											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> PG</a>
 											<a href='?pg=<?= $pg ?>&ac=input&id=<?= $id_mapel ?>&no=1&jenis=2' class='btn btn-sm btn-flat btn-success $hide'><i class='fa fa-plus'></i><span class='hidden-xs'> Tambah</span> Essai</a>
 											<a class='btn btn-sm btn-flat btn-success' href='soal_excel.php?m=<?= $id_mapel ?>'><i class='fa fa-file-excel-o'></i><span class='hidden-xs'> Excel</span></a>
 											<button class='btn btn-sm btn-flat btn-success' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i><span class='hidden-xs'> Print</span></button>
-											<a href='?pg=<?= $pg ?>&ac=hapusbank&id=<?= $id_mapel ?>' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i><span class='hidden-xs'>kosongkan </span></a>
+											<a href='?pg=<?= $pg ?>&ac=hapusbank&id=<?= $id_mapel ?>' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i><span class='hidden-xs'> Kosongkan </span></a>
 											<iframe name='frameresult' src='cetaksoal.php?id=<?= $id_mapel ?>' style='border:none;width:1px;height:1px;'></iframe>
 										</div>
 									</div><!-- /.box-header -->
@@ -3765,7 +3773,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																				<h4><?= $info ?></h4>
 																			</div>
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -3845,7 +3853,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																				<h4><?= $info ?></h4>
 																			</div>
 																			<div class='modal-footer'>
-																				<div class='box-tools pull-right btn-group'>
+																				<div class='box-tools pull-right '>
 																					<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
 																					<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																				</div>
@@ -3983,7 +3991,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header  bg-green with-border'>
 											<h3 class='box-title'>Import Soal Excel</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4014,7 +4022,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Import Soal Ms Word</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4082,7 +4090,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box box-solid'>
 										<div class='box-header  bg-yellow with-border'>
 											<h3 class='box-title'>Import Soal Excel (Bee)</h3>
-											<div class='box-tools pull-right btn-group'>
+											<div class='box-tools pull-right '>
 												<button type='submit' name='importbee' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
@@ -4201,7 +4209,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<div class='box box-solid'>
 								<div class='box-header with-border'>
 									<h3 class='box-title'>Reset Login Peserta</h3>
-									<div class='box-tools pull-right btn-group'>
+									<div class='box-tools pull-right '>
 										<button id='btnresetlogin' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Reset Login</button>
 									</div>
 								</div><!-- /.box-header -->
@@ -4295,204 +4303,232 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						$setting['header'] = str_replace('<br />', '', $setting['header']);
 						?>
 					<div class='row'>
-						<div class='col-md-12 notif'></div>
-						<div class='col-md-6'>
-							<form action='' method='post' enctype='multipart/form-data'>
-								<div class='box box-solid'>
-									<div class='box-header with-border'>
-										<h3 class='box-title'>Pengaturan Aplikasi</h3>
-										<div class='box-tools pull-right btn-group'>
-											<button type='submit' name='submit1' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Simpan</button>
-										</div>
-									</div><!-- /.box-header -->
-									<div class='box-body'>
-										<?= $info1 ?>
-										<div class='form-group'>
-											<label>Nama Aplikasi</label>
-											<input type='text' name='aplikasi' value="<?= $setting['aplikasi'] ?>" class='form-control' required='true' />
-										</div>
-										<div class='form-group'>
-											<div class='row'>
+						<div class='col-md-12'>
+							<div class="box box-widget widget-user-2">
+								<!-- Add the bg color to the header using any of the bg-* classes -->
+								<div class="widget-user-header bg-blue">
+									<div class="widget-user-image">
+										<img class="img-circle" src="../dist/img/svg/services.svg" alt="User Avatar">
+									</div>
+									<!-- /.widget-user-image -->
+									<h3 class="widget-user-username">Pengaturan</h3>
+									<h5 class="widget-user-desc">Pengaturan Aplikasi</h5>
+								</div>
+								<div class="box-footer no-padding ">
+									<div class="nav-tabs-custom">
+										<ul class="nav nav-tabs">
+											<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Pengaturan Umum</a></li>
+											<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Hapus Data</a></li>
+											<li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Backup & Restore</a></li>
+
+
+										</ul>
+										<div class="tab-content">
+											<div class="tab-pane active" id="tab_1">
+												<form action='' method='post' enctype='multipart/form-data'>
+
+													<div class='box-body'>
+														<button type='submit' name='submit1' class='btn btn-flat pull-right btn-success' style='margin-bottom:5px'><i class='fa fa-check'></i> Simpan</button>
+														<?= $info1 ?>
+														<div class='form-group'>
+															<label>Nama Aplikasi</label>
+															<input type='text' name='aplikasi' value="<?= $setting['aplikasi'] ?>" class='form-control' required='true' />
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Nama Sekolah</label>
+																	<input type='text' name='sekolah' value="<?= $setting['sekolah'] ?>" class='form-control' required='true' />
+																</div>
+																<div class='col-md-6'>
+																	<label>Kode Sekolah</label>
+																	<input type='text' name='kode' value="<?= $setting['kode_sekolah'] ?>" class='form-control' required='true' />
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Alamat Server / Ip Server</label>
+																	<input type='text' name='ipserver' value="<?= $setting['ip_server'] ?>" class='form-control' />
+																</div>
+																<div class='col-md-6'>
+																	<label>Waktu Server</label>
+																	<select name='waktu' class='form-control' required='true'>
+																		<option value="<?= $setting['waktu'] ?>"><?= $setting['waktu'] ?></option>
+																		<option value='Asia/Jakarta'>Asia/Jakarta</option>
+																		<option value='Asia/Makassar'>Asia/Makassar</option>
+																		<option value='Asia/Jayapura'>Asia/Jayapura</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<label>Jenjang</label>
+															<select name='jenjang' class='form-control' required='true'>
+																<option value="<?= $setting['jenjang'] ?>"><?= $setting['jenjang'] ?></option>
+																<option value='SD'>SD/MI</option>
+																<option value='SMP'>SMP/MTS</option>
+																<option value='SMK'>SMK/SMA/MA</option>
+															</select>
+														</div>
+														<div class='form-group'>
+															<label>Kepala Sekolah</label>
+															<input type='text' name='kepsek' value="<?= $setting['kepsek'] ?>" class='form-control' />
+														</div>
+														<div class='form-group'>
+															<label>NIP Kepala Sekolah</label>
+															<input type='text' name='nip' value="<?= $setting['nip'] ?>" class='form-control' />
+														</div>
+														<div class='form-group'>
+															<label>Alamat</label>
+															<textarea name='alamat' class='form-control' rows='3'><?= $setting['alamat'] ?></textarea>
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Kecamatan</label>
+																	<input type='text' name='kecamatan' value="<?= $setting['kecamatan'] ?> " class='form-control' />
+																</div>
+																<div class='col-md-6'>
+																	<label>Kota/Kabupaten</label>
+																	<input type='text' name='kota' value="<?= $setting['kota'] ?>" class='form-control' />
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Telepon</label>
+																	<input type='text' name='telp' value="<?= $setting['telp'] ?>" class='form-control' />
+																</div>
+																<div class='col-md-6'>
+																	<label>Fax</label>
+																	<input type='text' name='fax' value="<?= $setting['fax'] ?>" class='form-control' />
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Website</label>
+																	<input type='text' name='web' value="<?= $setting['web'] ?>" class='form-control' />
+																</div>
+																<div class='col-md-6'>
+																	<label>E-mail</label>
+																	<input type='text' name='email' value="<?= $setting['email'] ?>" class='form-control' />
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<div class='row'>
+																<div class='col-md-6'>
+																	<label>Logo</label>
+																	<input type='file' name='logo' class='form-control' />
+																</div>
+																<div class='col-md-2'>
+																	&nbsp;<br />
+																	<img class='img img-responsive' src="<?= $homeurl ?>/<?= $setting['logo'] ?>" height='50' />
+																</div>
+															</div>
+														</div>
+														<div class='form-group'>
+															<label>Header Laporan</label>
+															<textarea name='header' class='form-control' rows='3'><?= $setting['header'] ?></textarea>
+														</div>
+													</div><!-- /.box-body -->
+
+												</form>
+											</div>
+											<!-- /.tab-pane -->
+											<div class="tab-pane" id="tab_2">
+												<form action='' method='post'>
+													<div class='box-body'>
+														<?= $info4 ?>
+
+														<div class='form-group'>
+															<label>Pilih Data</label>
+															<div class='row'>
+																<div class='col-md-5'>
+																	<div class='checkbox'>
+																		<small class='label bg-purple'>Pilih Data Hasil Nilai</small><br />
+																		<label><input type='checkbox' name='data[]' value='nilai' /> Data Nilai</label><br />
+																		<label><input type='checkbox' name='data[]' value='hasil_jawaban' /> Data Jawaban</label><br />
+																		<label><input type='checkbox' name='data[]' value='jawaban' /> Temp_Jawaban</label><br />
+																		<small class='label bg-green'>Pilih Data Ujian</small><br />
+																		<label><input type='checkbox' name='data[]' value='soal' /> Data Soal</label><br />
+																		<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />
+																		<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
+																		<label><input type='checkbox' name='data[]' value='berita' /> Data Berita Acara</label><br />
+																		<label><input type='checkbox' name='data[]' value='pengacak' /> Data Pengacak Soal</label><br />
+																		<label><input type='checkbox' name='data[]' value='pengacakopsi' /> Data Pengacak Opsi</label><br />
+
+																		<small class='label label-danger'>Pilih Data Master</small><br />
+																		<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />
+																		<label><input type='checkbox' name='data[]' value='kelas' /> Data Kelas</label><br />
+																		<label><input type='checkbox' name='data[]' value='mata_pelajaran' /> Data Mata Pelajaran</label><br />
+																		<label><input type='checkbox' name='data[]' value='pk' /> Data Jurusan</label><br />
+																		<label><input type='checkbox' name='data[]' value='level' /> Data Level</label><br />
+																		<label><input type='checkbox' name='data[]' value='ruang' /> Data Ruangan</label><br />
+																		<label><input type='checkbox' name='data[]' value='sesi' /> Data Sesi</label><br />
+
+																	</div>
+																</div>
+																<div class='col-md-7'>
+																	<button type='submit' name='submit3' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Kosongkan</button>
+																	<div class='form-group'>
+																		<label>Password Admin</label>
+																		<input type='password' name='password' class='form-control' required='true' />
+																	</div>
+
+																	<p class='text-danger'><i class='fa fa-warning'></i> <strong>Mohon di ingat!</strong> Data yang telah dikosongkan tidak dapat dikembalikan.</p>
+																</div>
+															</div>
+														</div>
+													</div><!-- /.box-body -->
+												</form>
+											</div>
+											<!-- /.tab-pane -->
+											<div class="tab-pane" id="tab_3">
+												<div class='col-md-12 notif'></div>
 												<div class='col-md-6'>
-													<label>Nama Sekolah</label>
-													<input type='text' name='sekolah' value="<?= $setting['sekolah'] ?>" class='form-control' required='true' />
+													<div class='box box-solid'>
+														<div class='box-header '>
+															<h3 class='box-title'>Backup Data</h3>
+														</div><!-- /.box-header -->
+														<div class='box-body'>
+															<p>Klik Tombol dibawah ini untuk membackup database </p>
+															<button id='btnbackup' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Backup Data</button>
+														</div><!-- /.box-body -->
+													</div><!-- /.box -->
 												</div>
 												<div class='col-md-6'>
-													<label>Kode Sekolah</label>
-													<input type='text' name='kode' value="<?= $setting['kode_sekolah'] ?>" class='form-control' required='true' />
+													<div class='box box-solid'>
+														<div class='box-header '>
+															<h3 class='box-title'>Restore Data</h3>
+														</div><!-- /.box-header -->
+														<div class='box-body'>
+															<form method='post' action='' name='postform' enctype='multipart/form-data'>
+																<p>Klik Tombol dibawah ini untuk merestore database </p>
+																<div class='col-md-8'>
+																	<input class='form-control' name='datafile' type='file' />
+																</div>
+																<button name='restore' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Restore Data</button>
+															</form>
+														</div><!-- /.box-body -->
+													</div><!-- /.box -->
 												</div>
 											</div>
+											<!-- /.tab-pane -->
 										</div>
-										<div class='form-group'>
-											<div class='row'>
-												<div class='col-md-6'>
-													<label>Alamat Server / Ip Server</label>
-													<input type='text' name='ipserver' value="<?= $setting['ip_server'] ?>" class='form-control' />
-												</div>
-												<div class='col-md-6'>
-													<label>Waktu Server</label>
-													<select name='waktu' class='form-control' required='true'>
-														<option value="<?= $setting['waktu'] ?>"><?= $setting['waktu'] ?></option>
-														<option value='Asia/Jakarta'>Asia/Jakarta</option>
-														<option value='Asia/Makassar'>Asia/Makassar</option>
-														<option value='Asia/Jayapura'>Asia/Jayapura</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<label>Jenjang</label>
-											<select name='jenjang' class='form-control' required='true'>
-												<option value="<?= $setting['jenjang'] ?>"><?= $setting['jenjang'] ?></option>
-												<option value='SD'>SD/MI</option>
-												<option value='SMP'>SMP/MTS</option>
-												<option value='SMK'>SMK/SMA/MA</option>
-											</select>
-										</div>
-										<div class='form-group'>
-											<label>Kepala Sekolah</label>
-											<input type='text' name='kepsek' value="<?= $setting['kepsek'] ?>" class='form-control' />
-										</div>
-										<div class='form-group'>
-											<label>NIP Kepala Sekolah</label>
-											<input type='text' name='nip' value="<?= $setting['nip'] ?>" class='form-control' />
-										</div>
-										<div class='form-group'>
-											<label>Alamat</label>
-											<textarea name='alamat' class='form-control' rows='3'><?= $setting['alamat'] ?></textarea>
-										</div>
-										<div class='form-group'>
-											<div class='row'>
-												<div class='col-md-6'>
-													<label>Kecamatan</label>
-													<input type='text' name='kecamatan' value="<?= $setting['kecamatan'] ?> " class='form-control' />
-												</div>
-												<div class='col-md-6'>
-													<label>Kota/Kabupaten</label>
-													<input type='text' name='kota' value="<?= $setting['kota'] ?>" class='form-control' />
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<div class='row'>
-												<div class='col-md-6'>
-													<label>Telepon</label>
-													<input type='text' name='telp' value="<?= $setting['telp'] ?>" class='form-control' />
-												</div>
-												<div class='col-md-6'>
-													<label>Fax</label>
-													<input type='text' name='fax' value="<?= $setting['fax'] ?>" class='form-control' />
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<div class='row'>
-												<div class='col-md-6'>
-													<label>Website</label>
-													<input type='text' name='web' value="<?= $setting['web'] ?>" class='form-control' />
-												</div>
-												<div class='col-md-6'>
-													<label>E-mail</label>
-													<input type='text' name='email' value="<?= $setting['email'] ?>" class='form-control' />
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<div class='row'>
-												<div class='col-md-6'>
-													<label>Logo</label>
-													<input type='file' name='logo' class='form-control' />
-												</div>
-												<div class='col-md-6'>
-													&nbsp;<br />
-													<img class='img img-responsive' src="<?= $homeurl ?>/<?= $setting['logo'] ?>" height='100' />
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<label>Header Laporan</label>
-											<textarea name='header' class='form-control' rows='3'><?= $setting['header'] ?></textarea>
-										</div>
-									</div><!-- /.box-body -->
-								</div><!-- /.box -->
-							</form>
+										<!-- /.tab-content -->
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class='col-md-6'>
-							<form action='' method='post'>
-								<div class='box box-danger'>
-									<div class='box-header with-border'>
-										<h3 class='box-title'>Kosongkan Data</h3>
-										<div class='box-tools pull-right btn-group'>
-											<button type='submit' name='submit3' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Kosongkan</button>
-										</div>
-									</div><!-- /.box-header -->
-									<div class='box-body'>
-										<?= $info4 ?>
-										<div class='form-group'>
-											<label>Pilih Data</label>
-											<div class='row'>
-												<div class='col-md-5'>
-													<div class='checkbox'>
-														<small class='label bg-purple'>Pilih Data Hasil Nilai</small><br />
-														<label><input type='checkbox' name='data[]' value='nilai' /> Data Nilai</label><br />
-														<label><input type='checkbox' name='data[]' value='hasil_jawaban' /> Data Jawaban</label><br />
-														<label><input type='checkbox' name='data[]' value='jawaban' /> Temp_Jawaban</label><br />
-														<small class='label bg-green'>Pilih Data Ujian</small><br />
-														<label><input type='checkbox' name='data[]' value='soal' /> Data Soal</label><br />
-														<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />
-														<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
-														<label><input type='checkbox' name='data[]' value='berita' /> Data Berita Acara</label><br />
-														<label><input type='checkbox' name='data[]' value='pengacak' /> Data Pengacak Soal</label><br />
-														<label><input type='checkbox' name='data[]' value='pengacakopsi' /> Data Pengacak Opsi</label><br />
 
-														<small class='label label-danger'>Pilih Data Master</small><br />
-														<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />
-														<label><input type='checkbox' name='data[]' value='kelas' /> Data Kelas</label><br />
-														<label><input type='checkbox' name='data[]' value='mata_pelajaran' /> Data Mata Pelajaran</label><br />
-														<label><input type='checkbox' name='data[]' value='pk' /> Data Jurusan</label><br />
-														<label><input type='checkbox' name='data[]' value='level' /> Data Level</label><br />
-														<label><input type='checkbox' name='data[]' value='ruang' /> Data Ruangan</label><br />
-														<label><input type='checkbox' name='data[]' value='sesi' /> Data Sesi</label><br />
 
-													</div>
-												</div>
-												<div class='col-md-7'>
-													<p class='text-danger'><i class='fa fa-warning'></i> <strong>Mohon di ingat!</strong> Data yang telah dikosongkan tidak dapat dikembalikan.</p>
-												</div>
-											</div>
-										</div>
-										<div class='form-group'>
-											<label>Password Admin</label>
-											<input type='password' name='password' class='form-control' required='true' />
-										</div>
 
-									</div><!-- /.box-body -->
-								</div><!-- /.box -->
-							</form>
-							<div class='box box-danger'>
-								<div class='box-header with-border'>
-									<h3 class='box-title'>Backup Data</h3>
-								</div><!-- /.box-header -->
-								<div class='box-body'>
-									<p>Klik Tombol dibawah ini untuk membackup database </p>
-									<button id='btnbackup' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Backup Data</button>
-								</div><!-- /.box-body -->
-							</div><!-- /.box -->
-							<div class='box box-solid'>
-								<div class='box-header with-border'>
-									<h3 class='box-title'>Restore Data</h3>
-								</div><!-- /.box-header -->
-								<div class='box-body'>
-									<form method='post' action='' name='postform' enctype='multipart/form-data'>
-										<p>Klik Tombol dibawah ini untuk merestore database </p>
-										<div class='col-md-8'>
-											<input class='form-control' name='datafile' type='file' />
-										</div>
-										<button name='restore' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Restore Data</button>
-									</form>
-								</div><!-- /.box-body -->
-							</div><!-- /.box -->
-						</div>
 					</div>
 					<?php
 						if (isset($_POST['restore'])) {

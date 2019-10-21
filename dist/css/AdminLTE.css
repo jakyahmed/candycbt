@@ -9,6 +9,8 @@
  * Core: General Layout Style
  * -------------------------
  */
+@import url(../fonts/font-me_quran/me_quran.css);
+
 html,
 body {
   height: 100%;

@@ -4,12 +4,12 @@
 // yang mau pasang di hosting,
 // HAPUS BARIS INI
 // Start =================>>>
-$_IP_SERVER = $_SERVER['SERVER_ADDR'];
-$_IP_ADDRESS = $_SERVER['REMOTE_ADDR'];
-
-if ($_IP_ADDRESS <> $_IP_SERVER) {
-	header("Location: ../login.php");
-}
+// $_IP_SERVER = $_SERVER['SERVER_ADDR'];
+// $_IP_ADDRESS = $_SERVER['REMOTE_ADDR'];
+//
+// if ($_IP_ADDRESS <> $_IP_SERVER) {
+// 	header("Location: ../login.php");
+// }
 // End ===================<<<
 
 require("../config/config.default.php");

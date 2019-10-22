@@ -417,7 +417,7 @@ INSERT INTO `pengumuman` (`id_pengumuman`, `type`, `judul`, `user`, `text`, `dat
 CREATE TABLE `pk` (
   `id_pk` varchar(10) NOT NULL,
   `program_keahlian` varchar(50) NOT NULL,
-  `kode` varchar(10) NOT NULL
+  `kode` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

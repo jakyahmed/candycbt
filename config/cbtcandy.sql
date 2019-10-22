@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 17, 2019 at 12:06 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 5.6.36
+-- Host: localhost
+-- Waktu pembuatan: 22 Okt 2019 pada 05.03
+-- Versi server: 10.4.8-MariaDB
+-- Versi PHP: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cbtcandy`
+-- Database: `cbtcandy25`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `berita`
+-- Struktur dari tabel `berita`
 --
 
 CREATE TABLE `berita` (
@@ -34,35 +34,23 @@ CREATE TABLE `berita` (
   `sesi` varchar(10) NOT NULL,
   `ruang` varchar(20) NOT NULL,
   `jenis` varchar(30) NOT NULL,
-  `ikut` varchar(10) NOT NULL,
-  `susulan` varchar(10) NOT NULL,
-  `no_susulan` text NOT NULL,
-  `mulai` varchar(10) NOT NULL,
-  `selesai` varchar(10) NOT NULL,
-  `nama_proktor` varchar(50) NOT NULL,
-  `nip_proktor` varchar(50) NOT NULL,
-  `nama_pengawas` varchar(50) NOT NULL,
-  `nip_pengawas` varchar(50) NOT NULL,
-  `catatan` text NOT NULL,
-  `tgl_ujian` varchar(20) NOT NULL
+  `ikut` varchar(10) DEFAULT NULL,
+  `susulan` varchar(10) DEFAULT NULL,
+  `no_susulan` text DEFAULT NULL,
+  `mulai` varchar(10) DEFAULT NULL,
+  `selesai` varchar(10) DEFAULT NULL,
+  `nama_proktor` varchar(50) DEFAULT NULL,
+  `nip_proktor` varchar(50) DEFAULT NULL,
+  `nama_pengawas` varchar(50) DEFAULT NULL,
+  `nip_pengawas` varchar(50) DEFAULT NULL,
+  `catatan` text DEFAULT NULL,
+  `tgl_ujian` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `berita`
---
-
-INSERT INTO `berita` (`id_berita`, `id_mapel`, `sesi`, `ruang`, `jenis`, `ikut`, `susulan`, `no_susulan`, `mulai`, `selesai`, `nama_proktor`, `nip_proktor`, `nama_pengawas`, `nip_pengawas`, `catatan`, `tgl_ujian`) VALUES
-(1, 5, '1', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(2, 5, '2', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(3, 5, '3', 'R1', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(4, 5, '1', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(5, 5, '2', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', ''),
-(6, 5, '3', 'R2', 'PAT', '', '', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hasil_jawaban`
+-- Struktur dari tabel `hasil_jawaban`
 --
 
 CREATE TABLE `hasil_jawaban` (
@@ -73,15 +61,15 @@ CREATE TABLE `hasil_jawaban` (
   `id_ujian` int(11) NOT NULL,
   `jawaban` char(1) NOT NULL,
   `jenis` int(1) NOT NULL,
-  `esai` text NOT NULL,
-  `nilai_esai` int(5) NOT NULL,
-  `ragu` int(1) NOT NULL
+  `esai` text DEFAULT NULL,
+  `nilai_esai` int(5) DEFAULT NULL,
+  `ragu` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jawaban`
+-- Struktur dari tabel `jawaban`
 --
 
 CREATE TABLE `jawaban` (
@@ -92,15 +80,15 @@ CREATE TABLE `jawaban` (
   `id_ujian` int(11) NOT NULL,
   `jawaban` char(1) NOT NULL,
   `jenis` int(1) NOT NULL,
-  `esai` text NOT NULL,
-  `nilai_esai` int(5) NOT NULL,
-  `ragu` int(1) NOT NULL
+  `esai` text DEFAULT NULL,
+  `nilai_esai` int(5) NOT NULL DEFAULT 0,
+  `ragu` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jenis`
+-- Struktur dari tabel `jenis`
 --
 
 CREATE TABLE `jenis` (
@@ -110,19 +98,20 @@ CREATE TABLE `jenis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `jenis`
+-- Dumping data untuk tabel `jenis`
 --
 
 INSERT INTO `jenis` (`id_jenis`, `nama`, `status`) VALUES
 ('PAT', 'Penilaian Akhir Tahun', 'aktif'),
 ('PH', 'Penilaian Harian', 'tidak'),
 ('PTS', 'Penilaian Tengah Semester', 'tidak'),
+('UKK', 'Uji Kompetensi Kejuruan', 'tidak'),
 ('USBN', 'Ujian Nasionan Berstandar Nasional', 'tidak');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kelas`
+-- Struktur dari tabel `kelas`
 --
 
 CREATE TABLE `kelas` (
@@ -132,7 +121,7 @@ CREATE TABLE `kelas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `kelas`
+-- Dumping data untuk tabel `kelas`
 --
 
 INSERT INTO `kelas` (`id_kelas`, `level`, `nama`) VALUES
@@ -143,7 +132,7 @@ INSERT INTO `kelas` (`id_kelas`, `level`, `nama`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `level`
+-- Struktur dari tabel `level`
 --
 
 CREATE TABLE `level` (
@@ -152,7 +141,7 @@ CREATE TABLE `level` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `level`
+-- Dumping data untuk tabel `level`
 --
 
 INSERT INTO `level` (`kode_level`, `keterangan`) VALUES
@@ -161,7 +150,7 @@ INSERT INTO `level` (`kode_level`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log`
+-- Struktur dari tabel `log`
 --
 
 CREATE TABLE `log` (
@@ -173,41 +162,60 @@ CREATE TABLE `log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `log`
+-- Dumping data untuk tabel `log`
 --
 
 INSERT INTO `log` (`id_log`, `id_siswa`, `type`, `text`, `date`) VALUES
 (1, 1, 'login', 'masuk', '2019-09-15 19:52:36'),
 (2, 1, 'logout', 'keluar', '2019-09-15 19:52:43'),
 (3, 5, 'login', 'masuk', '2019-09-15 20:57:26'),
-(4, 1, 'login', 'masuk', '2019-09-15 21:27:06');
+(4, 1, 'login', 'masuk', '2019-09-15 21:27:06'),
+(5, 2, 'login', 'masuk', '2019-10-21 14:16:29'),
+(6, 2, 'testongoing', 'sedang ujian', '2019-10-21 14:16:42'),
+(7, 2, 'testongoing', 'sedang ujian', '2019-10-21 14:16:42'),
+(8, 4, 'login', 'masuk', '2019-10-21 14:22:07'),
+(9, 4, 'testongoing', 'sedang ujian', '2019-10-21 14:22:12'),
+(10, 4, 'testongoing', 'sedang ujian', '2019-10-21 14:22:12'),
+(11, 2, 'logout', 'keluar', '2019-10-21 14:31:57'),
+(12, 4, 'logout', 'keluar', '2019-10-21 14:32:45'),
+(13, 2, 'login', 'masuk', '2019-10-21 14:33:03'),
+(14, 2, 'testongoing', 'sedang ujian', '2019-10-21 14:33:08'),
+(15, 2, 'testongoing', 'sedang ujian', '2019-10-21 14:33:08'),
+(16, 2, 'logout', 'keluar', '2019-10-21 14:46:07'),
+(17, 4, 'login', 'masuk', '2019-10-21 14:46:13'),
+(18, 4, 'testongoing', 'sedang ujian', '2019-10-21 14:46:17'),
+(19, 4, 'testongoing', 'sedang ujian', '2019-10-21 14:46:17'),
+(20, 4, 'logout', 'keluar', '2019-10-21 14:48:26'),
+(21, 5, 'login', 'masuk', '2019-10-21 14:48:33'),
+(22, 5, 'testongoing', 'sedang ujian', '2019-10-21 14:48:36'),
+(23, 5, 'testongoing', 'sedang ujian', '2019-10-21 14:48:36'),
+(24, 1, 'login', 'masuk', '2019-10-22 09:23:55'),
+(25, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:24:22'),
+(26, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:24:22'),
+(27, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:38:59'),
+(28, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:38:59'),
+(29, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:40:28'),
+(30, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:40:28'),
+(31, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:52:00'),
+(32, 1, 'testongoing', 'sedang ujian', '2019-10-22 09:52:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Struktur dari tabel `login`
 --
 
 CREATE TABLE `login` (
   `id_log` int(11) NOT NULL,
   `id_siswa` int(11) NOT NULL,
   `ipaddress` varchar(20) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `login`
---
-
-INSERT INTO `login` (`id_log`, `id_siswa`, `ipaddress`, `date`) VALUES
-(5, 3, '', '2019-09-12 21:53:29'),
-(7, 5, '', '2019-09-15 13:57:27'),
-(8, 1, '', '2019-09-15 14:27:07');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mapel`
+-- Struktur dari tabel `mapel`
 --
 
 CREATE TABLE `mapel` (
@@ -224,22 +232,24 @@ CREATE TABLE `mapel` (
   `level` varchar(5) NOT NULL,
   `opsi` int(1) NOT NULL,
   `kelas` varchar(255) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` varchar(2) NOT NULL,
-  `statusujian` int(11) NOT NULL
+  `statusujian` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mapel`
+-- Dumping data untuk tabel `mapel`
 --
 
 INSERT INTO `mapel` (`id_mapel`, `idpk`, `idguru`, `nama`, `jml_soal`, `jml_esai`, `tampil_pg`, `tampil_esai`, `bobot_pg`, `bobot_esai`, `level`, `opsi`, `kelas`, `date`, `status`, `statusujian`) VALUES
-(5, 'semua', '41', 'KIMIA', 30, 0, 30, 0, 100, 0, 'semua', 5, 'a:1:{i:0;s:5:\"semua\";}', '2019-09-15 08:17:50', '1', 0);
+(5, 'semua', '41', 'KIMIA', 30, 0, 30, 0, 100, 0, 'semua', 5, 'a:1:{i:0;s:5:\"semua\";}', '2019-09-15 08:17:50', '1', 0),
+(6, 'TKJ', '51', 'BING', 100, 0, 100, 0, 100, 0, 'semua', 3, 'a:1:{i:0;s:5:\"semua\";}', '2019-10-21 05:55:21', '1', NULL),
+(7, 'semua', '51', 'MTK', 100, 0, 100, 0, 100, 0, 'semua', 3, 'a:1:{i:0;s:5:\"semua\";}', '2019-10-21 05:57:01', '1', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mata_pelajaran`
+-- Struktur dari tabel `mata_pelajaran`
 --
 
 CREATE TABLE `mata_pelajaran` (
@@ -248,17 +258,18 @@ CREATE TABLE `mata_pelajaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mata_pelajaran`
+-- Dumping data untuk tabel `mata_pelajaran`
 --
 
 INSERT INTO `mata_pelajaran` (`kode_mapel`, `nama_mapel`) VALUES
+('BING', 'BAHASA INGGRIS'),
 ('KIMIA', 'KIMIA'),
 ('MTK', 'MATEMATIKA');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai`
+-- Struktur dari tabel `nilai`
 --
 
 CREATE TABLE `nilai` (
@@ -268,14 +279,14 @@ CREATE TABLE `nilai` (
   `id_siswa` int(11) NOT NULL,
   `kode_ujian` varchar(30) NOT NULL,
   `ujian_mulai` varchar(20) NOT NULL,
-  `ujian_berlangsung` varchar(20) NOT NULL,
-  `ujian_selesai` varchar(20) NOT NULL,
-  `jml_benar` int(10) NOT NULL,
-  `jml_salah` int(10) NOT NULL,
-  `nilai_esai` varchar(10) NOT NULL,
-  `skor` varchar(10) NOT NULL,
-  `total` varchar(10) NOT NULL,
-  `status` int(1) NOT NULL,
+  `ujian_berlangsung` varchar(20) DEFAULT NULL,
+  `ujian_selesai` varchar(20) DEFAULT NULL,
+  `jml_benar` int(10) DEFAULT NULL,
+  `jml_salah` int(10) DEFAULT NULL,
+  `nilai_esai` varchar(10) DEFAULT NULL,
+  `skor` varchar(10) DEFAULT NULL,
+  `total` varchar(10) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
   `ipaddress` varchar(20) NOT NULL,
   `hasil` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -283,7 +294,7 @@ CREATE TABLE `nilai` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengacak`
+-- Struktur dari tabel `pengacak`
 --
 
 CREATE TABLE `pengacak` (
@@ -298,7 +309,7 @@ CREATE TABLE `pengacak` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengacakopsi`
+-- Struktur dari tabel `pengacakopsi`
 --
 
 CREATE TABLE `pengacakopsi` (
@@ -313,52 +324,52 @@ CREATE TABLE `pengacakopsi` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengawas`
+-- Struktur dari tabel `pengawas`
 --
 
 CREATE TABLE `pengawas` (
   `id_pengawas` int(11) NOT NULL,
   `nip` varchar(50) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `jabatan` varchar(50) NOT NULL,
+  `jabatan` varchar(50) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
   `password` text NOT NULL,
   `level` varchar(10) NOT NULL,
-  `no_ktp` varchar(16) NOT NULL,
-  `tempat_lahir` varchar(30) NOT NULL,
-  `tgl_lahir` date NOT NULL,
-  `jenis_kelamin` varchar(10) NOT NULL,
-  `agama` varchar(10) NOT NULL,
-  `no_hp` varchar(13) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat_jalan` varchar(255) NOT NULL,
-  `rt_rw` varchar(8) NOT NULL,
-  `dusun` varchar(50) NOT NULL,
-  `kelurahan` varchar(50) NOT NULL,
-  `kecamatan` varchar(30) NOT NULL,
-  `kode_pos` int(6) NOT NULL,
-  `nuptk` varchar(20) NOT NULL,
-  `bidang_studi` varchar(50) NOT NULL,
-  `jenis_ptk` varchar(50) NOT NULL,
-  `tgs_tambahan` varchar(50) NOT NULL,
-  `status_pegawai` varchar(50) NOT NULL,
-  `status_aktif` varchar(20) NOT NULL,
-  `status_nikah` varchar(20) NOT NULL,
-  `sumber_gaji` varchar(30) NOT NULL,
-  `ahli_lab` varchar(10) NOT NULL,
-  `nama_ibu` varchar(40) NOT NULL,
-  `nama_suami` varchar(50) NOT NULL,
-  `nik_suami` varchar(20) NOT NULL,
-  `pekerjaan` varchar(20) NOT NULL,
-  `tmt` date NOT NULL,
-  `keahlian_isyarat` varchar(10) NOT NULL,
-  `kewarganegaraan` varchar(10) NOT NULL,
-  `npwp` varchar(16) NOT NULL,
-  `foto` varchar(50) NOT NULL
+  `no_ktp` varchar(16) DEFAULT NULL,
+  `tempat_lahir` varchar(30) DEFAULT NULL,
+  `tgl_lahir` date DEFAULT NULL,
+  `jenis_kelamin` varchar(10) DEFAULT NULL,
+  `agama` varchar(10) DEFAULT NULL,
+  `no_hp` varchar(13) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `alamat_jalan` varchar(255) DEFAULT NULL,
+  `rt_rw` varchar(8) DEFAULT NULL,
+  `dusun` varchar(50) DEFAULT NULL,
+  `kelurahan` varchar(50) DEFAULT NULL,
+  `kecamatan` varchar(30) DEFAULT NULL,
+  `kode_pos` int(6) DEFAULT NULL,
+  `nuptk` varchar(20) DEFAULT NULL,
+  `bidang_studi` varchar(50) DEFAULT NULL,
+  `jenis_ptk` varchar(50) DEFAULT NULL,
+  `tgs_tambahan` varchar(50) DEFAULT NULL,
+  `status_pegawai` varchar(50) DEFAULT NULL,
+  `status_aktif` varchar(20) DEFAULT NULL,
+  `status_nikah` varchar(20) DEFAULT NULL,
+  `sumber_gaji` varchar(30) DEFAULT NULL,
+  `ahli_lab` varchar(10) DEFAULT NULL,
+  `nama_ibu` varchar(40) DEFAULT NULL,
+  `nama_suami` varchar(50) DEFAULT NULL,
+  `nik_suami` varchar(20) DEFAULT NULL,
+  `pekerjaan` varchar(20) DEFAULT NULL,
+  `tmt` date DEFAULT NULL,
+  `keahlian_isyarat` varchar(10) DEFAULT NULL,
+  `kewarganegaraan` varchar(10) DEFAULT NULL,
+  `npwp` varchar(16) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pengawas`
+-- Dumping data untuk tabel `pengawas`
 --
 
 INSERT INTO `pengawas` (`id_pengawas`, `nip`, `nama`, `jabatan`, `username`, `password`, `level`, `no_ktp`, `tempat_lahir`, `tgl_lahir`, `jenis_kelamin`, `agama`, `no_hp`, `email`, `alamat_jalan`, `rt_rw`, `dusun`, `kelurahan`, `kecamatan`, `kode_pos`, `nuptk`, `bidang_studi`, `jenis_ptk`, `tgs_tambahan`, `status_pegawai`, `status_aktif`, `status_nikah`, `sumber_gaji`, `ahli_lab`, `nama_ibu`, `nama_suami`, `nik_suami`, `pekerjaan`, `tmt`, `keahlian_isyarat`, `kewarganegaraan`, `npwp`, `foto`) VALUES
@@ -378,7 +389,7 @@ INSERT INTO `pengawas` (`id_pengawas`, `nip`, `nama`, `jabatan`, `username`, `pa
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengumuman`
+-- Struktur dari tabel `pengumuman`
 --
 
 CREATE TABLE `pengumuman` (
@@ -387,13 +398,20 @@ CREATE TABLE `pengumuman` (
   `judul` varchar(255) NOT NULL,
   `user` int(3) NOT NULL,
   `text` longtext NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `pengumuman`
+--
+
+INSERT INTO `pengumuman` (`id_pengumuman`, `type`, `judul`, `user`, `text`, `date`) VALUES
+(1, 'internal', 'aaaaa', 9, '<p>aaaaaaaaaaaaaaaaa</p>', '2019-10-22 02:49:22');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pk`
+-- Struktur dari tabel `pk`
 --
 
 CREATE TABLE `pk` (
@@ -403,7 +421,7 @@ CREATE TABLE `pk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pk`
+-- Dumping data untuk tabel `pk`
 --
 
 INSERT INTO `pk` (`id_pk`, `program_keahlian`, `kode`) VALUES
@@ -414,7 +432,7 @@ INSERT INTO `pk` (`id_pk`, `program_keahlian`, `kode`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ruang`
+-- Struktur dari tabel `ruang`
 --
 
 CREATE TABLE `ruang` (
@@ -423,7 +441,7 @@ CREATE TABLE `ruang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `ruang`
+-- Dumping data untuk tabel `ruang`
 --
 
 INSERT INTO `ruang` (`kode_ruang`, `keterangan`) VALUES
@@ -433,7 +451,7 @@ INSERT INTO `ruang` (`kode_ruang`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_options`
+-- Struktur dari tabel `savsoft_options`
 --
 
 CREATE TABLE `savsoft_options` (
@@ -441,13 +459,13 @@ CREATE TABLE `savsoft_options` (
   `qid` int(11) NOT NULL,
   `q_option` text NOT NULL,
   `q_option_match` varchar(1000) DEFAULT NULL,
-  `score` float NOT NULL DEFAULT '0'
+  `score` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_qbank`
+-- Struktur dari tabel `savsoft_qbank`
 --
 
 CREATE TABLE `savsoft_qbank` (
@@ -457,16 +475,16 @@ CREATE TABLE `savsoft_qbank` (
   `description` text NOT NULL,
   `cid` int(11) NOT NULL,
   `lid` int(11) NOT NULL,
-  `no_time_served` int(11) NOT NULL DEFAULT '0',
-  `no_time_corrected` int(11) NOT NULL DEFAULT '0',
-  `no_time_incorrected` int(11) NOT NULL DEFAULT '0',
-  `no_time_unattempted` int(11) NOT NULL DEFAULT '0'
+  `no_time_served` int(11) NOT NULL DEFAULT 0,
+  `no_time_corrected` int(11) NOT NULL DEFAULT 0,
+  `no_time_incorrected` int(11) NOT NULL DEFAULT 0,
+  `no_time_unattempted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `server`
+-- Struktur dari tabel `server`
 --
 
 CREATE TABLE `server` (
@@ -476,7 +494,7 @@ CREATE TABLE `server` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `server`
+-- Dumping data untuk tabel `server`
 --
 
 INSERT INTO `server` (`kode_server`, `nama_server`, `status`) VALUES
@@ -487,7 +505,7 @@ INSERT INTO `server` (`kode_server`, `nama_server`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sesi`
+-- Struktur dari tabel `sesi`
 --
 
 CREATE TABLE `sesi` (
@@ -496,7 +514,7 @@ CREATE TABLE `sesi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sesi`
+-- Dumping data untuk tabel `sesi`
 --
 
 INSERT INTO `sesi` (`kode_sesi`, `nama_sesi`) VALUES
@@ -507,7 +525,7 @@ INSERT INTO `sesi` (`kode_sesi`, `nama_sesi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `session`
+-- Struktur dari tabel `session`
 --
 
 CREATE TABLE `session` (
@@ -519,7 +537,7 @@ CREATE TABLE `session` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `setting`
+-- Struktur dari tabel `setting`
 --
 
 CREATE TABLE `setting` (
@@ -547,7 +565,7 @@ CREATE TABLE `setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `setting`
+-- Dumping data untuk tabel `setting`
 --
 
 INSERT INTO `setting` (`id_setting`, `aplikasi`, `kode_sekolah`, `sekolah`, `jenjang`, `kepsek`, `nip`, `alamat`, `kecamatan`, `kota`, `telp`, `fax`, `web`, `email`, `logo`, `header`, `header_kartu`, `nama_ujian`, `versi`, `ip_server`, `waktu`) VALUES
@@ -556,7 +574,7 @@ INSERT INTO `setting` (`id_setting`, `aplikasi`, `kode_sekolah`, `sekolah`, `jen
 -- --------------------------------------------------------
 
 --
--- Table structure for table `siswa`
+-- Struktur dari tabel `siswa`
 --
 
 CREATE TABLE `siswa` (
@@ -571,48 +589,48 @@ CREATE TABLE `siswa` (
   `sesi` int(2) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` text NOT NULL,
-  `foto` varchar(255) NOT NULL,
-  `jenis_kelamin` varchar(30) NOT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
-  `tanggal_lahir` date NOT NULL,
-  `agama` varchar(10) NOT NULL,
-  `kebutuhan_khusus` varchar(20) NOT NULL,
-  `alamat` text NOT NULL,
-  `rt` varchar(5) NOT NULL,
-  `rw` varchar(5) NOT NULL,
-  `dusun` varchar(100) NOT NULL,
-  `kelurahan` varchar(100) NOT NULL,
-  `kecamatan` varchar(100) NOT NULL,
-  `kode_pos` int(10) NOT NULL,
-  `jenis_tinggal` varchar(100) NOT NULL,
-  `alat_transportasi` varchar(100) NOT NULL,
-  `hp` varchar(15) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `skhun` int(11) NOT NULL,
-  `no_kps` varchar(50) NOT NULL,
-  `nama_ayah` varchar(150) NOT NULL,
-  `tahun_lahir_ayah` int(4) NOT NULL,
-  `pendidikan_ayah` varchar(50) NOT NULL,
-  `pekerjaan_ayah` varchar(100) NOT NULL,
-  `penghasilan_ayah` varchar(100) NOT NULL,
-  `nohp_ayah` varchar(15) NOT NULL,
-  `nama_ibu` varchar(150) NOT NULL,
-  `tahun_lahir_ibu` int(4) NOT NULL,
-  `pendidikan_ibu` varchar(50) NOT NULL,
-  `pekerjaan_ibu` varchar(100) NOT NULL,
-  `penghasilan_ibu` varchar(100) NOT NULL,
-  `nohp_ibu` int(15) NOT NULL,
-  `nama_wali` varchar(150) NOT NULL,
-  `tahun_lahir_wali` int(4) NOT NULL,
-  `pendidikan_wali` varchar(50) NOT NULL,
-  `pekerjaan_wali` varchar(100) NOT NULL,
-  `penghasilan_wali` varchar(50) NOT NULL,
-  `angkatan` int(5) NOT NULL,
-  `nisn` varchar(50) NOT NULL
+  `foto` varchar(255) DEFAULT NULL,
+  `jenis_kelamin` varchar(30) DEFAULT NULL,
+  `tempat_lahir` varchar(100) DEFAULT NULL,
+  `tanggal_lahir` date DEFAULT NULL,
+  `agama` varchar(10) DEFAULT NULL,
+  `kebutuhan_khusus` varchar(20) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `rt` varchar(5) DEFAULT NULL,
+  `rw` varchar(5) DEFAULT NULL,
+  `dusun` varchar(100) DEFAULT NULL,
+  `kelurahan` varchar(100) DEFAULT NULL,
+  `kecamatan` varchar(100) DEFAULT NULL,
+  `kode_pos` int(10) DEFAULT NULL,
+  `jenis_tinggal` varchar(100) DEFAULT NULL,
+  `alat_transportasi` varchar(100) DEFAULT NULL,
+  `hp` varchar(15) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `skhun` int(11) DEFAULT NULL,
+  `no_kps` varchar(50) DEFAULT NULL,
+  `nama_ayah` varchar(150) DEFAULT NULL,
+  `tahun_lahir_ayah` int(4) DEFAULT NULL,
+  `pendidikan_ayah` varchar(50) DEFAULT NULL,
+  `pekerjaan_ayah` varchar(100) DEFAULT NULL,
+  `penghasilan_ayah` varchar(100) DEFAULT NULL,
+  `nohp_ayah` varchar(15) DEFAULT NULL,
+  `nama_ibu` varchar(150) DEFAULT NULL,
+  `tahun_lahir_ibu` int(4) DEFAULT NULL,
+  `pendidikan_ibu` varchar(50) DEFAULT NULL,
+  `pekerjaan_ibu` varchar(100) DEFAULT NULL,
+  `penghasilan_ibu` varchar(100) DEFAULT NULL,
+  `nohp_ibu` int(15) DEFAULT NULL,
+  `nama_wali` varchar(150) DEFAULT NULL,
+  `tahun_lahir_wali` int(4) DEFAULT NULL,
+  `pendidikan_wali` varchar(50) DEFAULT NULL,
+  `pekerjaan_wali` varchar(100) DEFAULT NULL,
+  `penghasilan_wali` varchar(50) DEFAULT NULL,
+  `angkatan` int(5) DEFAULT NULL,
+  `nisn` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `siswa`
+-- Dumping data untuk tabel `siswa`
 --
 
 INSERT INTO `siswa` (`id_siswa`, `id_kelas`, `idpk`, `nis`, `no_peserta`, `nama`, `level`, `ruang`, `sesi`, `username`, `password`, `foto`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `agama`, `kebutuhan_khusus`, `alamat`, `rt`, `rw`, `dusun`, `kelurahan`, `kecamatan`, `kode_pos`, `jenis_tinggal`, `alat_transportasi`, `hp`, `email`, `skhun`, `no_kps`, `nama_ayah`, `tahun_lahir_ayah`, `pendidikan_ayah`, `pekerjaan_ayah`, `penghasilan_ayah`, `nohp_ayah`, `nama_ibu`, `tahun_lahir_ibu`, `pendidikan_ibu`, `pekerjaan_ibu`, `penghasilan_ibu`, `nohp_ibu`, `nama_wali`, `tahun_lahir_wali`, `pendidikan_wali`, `pekerjaan_wali`, `penghasilan_wali`, `angkatan`, `nisn`) VALUES
@@ -745,7 +763,7 @@ INSERT INTO `siswa` (`id_siswa`, `id_kelas`, `idpk`, `nis`, `no_peserta`, `nama`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `soal`
+-- Struktur dari tabel `soal`
 --
 
 CREATE TABLE `soal` (
@@ -760,21 +778,21 @@ CREATE TABLE `soal` (
   `pilD` longtext NOT NULL,
   `pilE` longtext NOT NULL,
   `jawaban` varchar(1) NOT NULL,
-  `file` text,
-  `file1` text,
-  `fileA` text,
-  `fileB` text,
-  `fileC` text,
-  `fileD` text,
-  `fileE` text
+  `file` text DEFAULT NULL,
+  `file1` text DEFAULT NULL,
+  `fileA` text DEFAULT NULL,
+  `fileB` text DEFAULT NULL,
+  `fileC` text DEFAULT NULL,
+  `fileD` text DEFAULT NULL,
+  `fileE` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `soal`
+-- Dumping data untuk tabel `soal`
 --
 
 INSERT INTO `soal` (`id_soal`, `id_mapel`, `nomor`, `soal`, `jenis`, `pilA`, `pilB`, `pilC`, `pilD`, `pilE`, `jawaban`, `file`, `file1`, `fileA`, `fileB`, `fileC`, `fileD`, `fileE`) VALUES
-(1, 5, 1, 'Narkotika adalah zat atau obat yang berasal dari tanaman atau bukan tanaman baik sintetis maupun semi sintetis yang dapat menyebabkan penurunan atau perubahan kesadaran, hilangnya rasa, mengurangi sampai menghilangkan rasa nyeri, dan dapat menimbulkan ketergantungan.<br />Golongan narkotika yang hanya dapat digunakan untuk kepentingan pengembangan ilmu pengetahuan dan dilarang digunakan untuk kepentingan lainnya adalah golongan&hellip;', 1, '1', '2', '3', '4', '5', 'A', '', '', '', '', '', '', ''),
+(1, 5, 1, '<p>Narkotika adalah zat atau obat yang berasal dari tanaman atau bukan tanaman baik sintetis maupun semi sintetis yang dapat menyebabkan penurunan atau perubahan kesadaran, hilangnya rasa, mengurangi sampai menghilangkan rasa nyeri, dan dapat menimbulkan ketergantungan.<br />Golongan narkotika yang hanya dapat digunakan untuk kepentingan pengembangan ilmu pengetahuan dan dilarang digunakan untuk kepentingan lainnya adalah golongan&hellip;</p>', 1, '<p>1</p>', '<p>2</p>', '<p>3</p>', '<p>4</p>', '<p>5</p>', 'A', '', '', '', '', '', '', ''),
 (2, 5, 2, 'Perhatikan pernyataan di bawah ini :<br />1. Sediaan yang mempunyai konsistensi seperti mentega, tidak mencair pada suhu biasa tetapi mudah dioleskan tanpa memakai tenaga<br />2. Sediaan yang banyak mengandung air, mudah diserap kulit. Suatu tipe yang dapat dicuci dengan air.<br />3. Sediaan yang mengandung lebih dari 50% zat padat (serbuk). Merupakan sediaan yang berfunsi penutup atau pelindung bagian kulit yang diberi.<br />4. Sediaan yang mengandung persentase tinggi lilin (waxes), sehingga konsistensinya lebih keras<br />5. Sediaan yang umumnya cair dan mengandung sedikit atau tanpa lilin digunakan terutama pada membran mukosa sebagai pelicin atau basis. Biasanya terdiri dari campuran sederhana minyak dan lemak dengan titik lebur yang rendah<br />Berdasarkan informasi di atas, sediaan pada nomor 3, adalah sediaan :', 1, 'Kream', 'Pasta', 'Unguentum', 'Gel', 'Cerata', 'B', '', '', '', '', '', '', ''),
 (3, 5, 3, 'Terdapat obat-obat dibawah ini :<br />&bull; Obat kontrasepsi : Linestrenol<br />&bull; Obat saluran cerna : Antasid dan Sedativ/Spasmodik<br />&bull; Obat mulut dan tenggorokan : Hexetidine<br />&bull; Bacitracin, Clindamicin, Flumetason, dll.<br />&bull; Ranitidin , Asam fusidat, Alupurinol, dll<br />Obat obat tersebut memiliki lingkaran berwana merah, walaupun demikian dapat di beli tanpa menggunakan resep dokter. Termasuk golongan apakah obat obat tersebut :', 1, 'Obat bebas terbatas', 'Obat generik', 'Obat wajib apotek', 'Obat tradisional', 'Obat paten', 'C', '', '', '', '', '', '', ''),
 (4, 5, 4, 'Dibawah ini adalah sediaan mengenai kapsul :<br />1. Bentuknya menarik dan praktis<br />2. Menutupi bau dan rasa yang tidak enak dari obat yang ada di dalamnya.<br />3. Dapat digunakan untuk zat yang mudah menguap<br />4. Mudah ditelan dibanding tablet<br />5. Dapat dibagi-bagi<br />Yang termasuk ke dalam keuntungan kapsul adalah :', 1, '1,2,3', '1,2,4', '2,3,4', '2,3,5', '3,4,5', 'B', '', '', '', '', '', '', ''),
@@ -818,27 +836,27 @@ INSERT INTO `soal` (`id_soal`, `id_mapel`, `nomor`, `soal`, `jenis`, `pilA`, `pi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `token`
+-- Struktur dari tabel `token`
 --
 
 CREATE TABLE `token` (
   `id_token` int(11) NOT NULL,
   `token` varchar(6) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `masa_berlaku` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `token`
+-- Dumping data untuk tabel `token`
 --
 
 INSERT INTO `token` (`id_token`, `token`, `time`, `masa_berlaku`) VALUES
-(1, 'LSQFLW', '2019-09-15 08:06:40', '00:15:00');
+(1, 'NMNWDY', '2019-10-21 06:17:50', '00:15:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ujian`
+-- Struktur dari tabel `ujian`
 --
 
 CREATE TABLE `ujian` (
@@ -858,8 +876,8 @@ CREATE TABLE `ujian` (
   `lama_ujian` int(5) NOT NULL,
   `tgl_ujian` datetime NOT NULL,
   `tgl_selesai` datetime NOT NULL,
-  `waktu_ujian` time NOT NULL,
-  `selesai_ujian` time NOT NULL,
+  `waktu_ujian` time DEFAULT NULL,
+  `selesai_ujian` time DEFAULT NULL,
   `level` varchar(5) NOT NULL,
   `kelas` varchar(255) NOT NULL,
   `sesi` varchar(1) NOT NULL,
@@ -867,294 +885,287 @@ CREATE TABLE `ujian` (
   `token` int(1) NOT NULL,
   `status` int(3) NOT NULL,
   `hasil` int(2) NOT NULL,
-  `kkm` varchar(128) NOT NULL,
-  `ulang` int(2) NOT NULL
+  `kkm` varchar(128) DEFAULT NULL,
+  `ulang` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ujian`
---
-
-INSERT INTO `ujian` (`id_ujian`, `id_pk`, `id_guru`, `id_mapel`, `kode_ujian`, `nama`, `jml_soal`, `jml_esai`, `bobot_pg`, `opsi`, `bobot_esai`, `tampil_pg`, `tampil_esai`, `lama_ujian`, `tgl_ujian`, `tgl_selesai`, `waktu_ujian`, `selesai_ujian`, `level`, `kelas`, `sesi`, `acak`, `token`, `status`, `hasil`, `kkm`, `ulang`) VALUES
-(12, 'semua', 41, 5, 'PAT', 'KIMIA', 30, 0, 100, 5, 0, 30, 0, 60, '2019-09-15 16:00:00', '2019-09-15 18:00:00', '16:00:00', '00:00:00', 'semua', 'a:1:{i:0;s:5:\"semua\";}', '1', 1, 0, 1, 1, '70', 3);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `berita`
+-- Indeks untuk tabel `berita`
 --
 ALTER TABLE `berita`
   ADD PRIMARY KEY (`id_berita`);
 
 --
--- Indexes for table `hasil_jawaban`
+-- Indeks untuk tabel `hasil_jawaban`
 --
 ALTER TABLE `hasil_jawaban`
   ADD PRIMARY KEY (`id_jawaban`);
 
 --
--- Indexes for table `jawaban`
+-- Indeks untuk tabel `jawaban`
 --
 ALTER TABLE `jawaban`
   ADD PRIMARY KEY (`id_jawaban`);
 
 --
--- Indexes for table `jenis`
+-- Indeks untuk tabel `jenis`
 --
 ALTER TABLE `jenis`
   ADD PRIMARY KEY (`id_jenis`);
 
 --
--- Indexes for table `kelas`
+-- Indeks untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
   ADD PRIMARY KEY (`id_kelas`);
 
 --
--- Indexes for table `level`
+-- Indeks untuk tabel `level`
 --
 ALTER TABLE `level`
   ADD PRIMARY KEY (`kode_level`);
 
 --
--- Indexes for table `log`
+-- Indeks untuk tabel `log`
 --
 ALTER TABLE `log`
   ADD PRIMARY KEY (`id_log`);
 
 --
--- Indexes for table `login`
+-- Indeks untuk tabel `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id_log`);
 
 --
--- Indexes for table `mapel`
+-- Indeks untuk tabel `mapel`
 --
 ALTER TABLE `mapel`
   ADD PRIMARY KEY (`id_mapel`);
 
 --
--- Indexes for table `mata_pelajaran`
+-- Indeks untuk tabel `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
   ADD PRIMARY KEY (`kode_mapel`);
 
 --
--- Indexes for table `nilai`
+-- Indeks untuk tabel `nilai`
 --
 ALTER TABLE `nilai`
   ADD PRIMARY KEY (`id_nilai`);
 
 --
--- Indexes for table `pengacak`
+-- Indeks untuk tabel `pengacak`
 --
 ALTER TABLE `pengacak`
   ADD PRIMARY KEY (`id_pengacak`);
 
 --
--- Indexes for table `pengacakopsi`
+-- Indeks untuk tabel `pengacakopsi`
 --
 ALTER TABLE `pengacakopsi`
   ADD PRIMARY KEY (`id_pengacak`);
 
 --
--- Indexes for table `pengawas`
+-- Indeks untuk tabel `pengawas`
 --
 ALTER TABLE `pengawas`
   ADD PRIMARY KEY (`id_pengawas`);
 
 --
--- Indexes for table `pengumuman`
+-- Indeks untuk tabel `pengumuman`
 --
 ALTER TABLE `pengumuman`
   ADD PRIMARY KEY (`id_pengumuman`);
 
 --
--- Indexes for table `pk`
+-- Indeks untuk tabel `pk`
 --
 ALTER TABLE `pk`
   ADD PRIMARY KEY (`id_pk`);
 
 --
--- Indexes for table `ruang`
+-- Indeks untuk tabel `ruang`
 --
 ALTER TABLE `ruang`
   ADD PRIMARY KEY (`kode_ruang`);
 
 --
--- Indexes for table `savsoft_options`
+-- Indeks untuk tabel `savsoft_options`
 --
 ALTER TABLE `savsoft_options`
   ADD PRIMARY KEY (`oid`);
 
 --
--- Indexes for table `savsoft_qbank`
+-- Indeks untuk tabel `savsoft_qbank`
 --
 ALTER TABLE `savsoft_qbank`
   ADD PRIMARY KEY (`qid`);
 
 --
--- Indexes for table `sesi`
+-- Indeks untuk tabel `sesi`
 --
 ALTER TABLE `sesi`
   ADD PRIMARY KEY (`kode_sesi`);
 
 --
--- Indexes for table `session`
+-- Indeks untuk tabel `session`
 --
 ALTER TABLE `session`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `setting`
+-- Indeks untuk tabel `setting`
 --
 ALTER TABLE `setting`
   ADD PRIMARY KEY (`id_setting`);
 
 --
--- Indexes for table `siswa`
+-- Indeks untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
   ADD PRIMARY KEY (`id_siswa`);
 
 --
--- Indexes for table `soal`
+-- Indeks untuk tabel `soal`
 --
 ALTER TABLE `soal`
   ADD PRIMARY KEY (`id_soal`);
 
 --
--- Indexes for table `token`
+-- Indeks untuk tabel `token`
 --
 ALTER TABLE `token`
   ADD PRIMARY KEY (`id_token`);
 
 --
--- Indexes for table `ujian`
+-- Indeks untuk tabel `ujian`
 --
 ALTER TABLE `ujian`
   ADD PRIMARY KEY (`id_ujian`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `berita`
+-- AUTO_INCREMENT untuk tabel `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id_berita` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_berita` int(10) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `hasil_jawaban`
+-- AUTO_INCREMENT untuk tabel `hasil_jawaban`
 --
 ALTER TABLE `hasil_jawaban`
   MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `jawaban`
+-- AUTO_INCREMENT untuk tabel `jawaban`
 --
 ALTER TABLE `jawaban`
   MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `log`
+-- AUTO_INCREMENT untuk tabel `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT for table `login`
+-- AUTO_INCREMENT untuk tabel `login`
 --
 ALTER TABLE `login`
   MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `mapel`
+-- AUTO_INCREMENT untuk tabel `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `id_mapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_mapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `nilai`
+-- AUTO_INCREMENT untuk tabel `nilai`
 --
 ALTER TABLE `nilai`
   MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pengacak`
+-- AUTO_INCREMENT untuk tabel `pengacak`
 --
 ALTER TABLE `pengacak`
   MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pengacakopsi`
+-- AUTO_INCREMENT untuk tabel `pengacakopsi`
 --
 ALTER TABLE `pengacakopsi`
   MODIFY `id_pengacak` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pengawas`
+-- AUTO_INCREMENT untuk tabel `pengawas`
 --
 ALTER TABLE `pengawas`
-  MODIFY `id_pengawas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_pengawas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
--- AUTO_INCREMENT for table `pengumuman`
+-- AUTO_INCREMENT untuk tabel `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id_pengumuman` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengumuman` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `savsoft_options`
+-- AUTO_INCREMENT untuk tabel `savsoft_options`
 --
 ALTER TABLE `savsoft_options`
   MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `savsoft_qbank`
+-- AUTO_INCREMENT untuk tabel `savsoft_qbank`
 --
 ALTER TABLE `savsoft_qbank`
   MODIFY `qid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `session`
+-- AUTO_INCREMENT untuk tabel `session`
 --
 ALTER TABLE `session`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `setting`
+-- AUTO_INCREMENT untuk tabel `setting`
 --
 ALTER TABLE `setting`
   MODIFY `id_setting` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `siswa`
+-- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
--- AUTO_INCREMENT for table `soal`
+-- AUTO_INCREMENT untuk tabel `soal`
 --
 ALTER TABLE `soal`
   MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT for table `token`
+-- AUTO_INCREMENT untuk tabel `token`
 --
 ALTER TABLE `token`
   MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `ujian`
+-- AUTO_INCREMENT untuk tabel `ujian`
 --
 ALTER TABLE `ujian`
-  MODIFY `id_ujian` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_ujian` int(5) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,10 +5,10 @@ if ($cekdb == false) {
 	header("Location: install.php");
 }
 
-if ($_SERVER["QUERY_STRING"] <> KEY) {
-	echo '<img src="dist/img/octo.gif" style="display: block; margin: auto;">';
-	exit;
-}
+// if ($_SERVER["QUERY_STRING"] <> KEY) {
+// 	echo '<img src="dist/img/octo.gif" style="display: block; margin: auto;">';
+// 	exit;
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

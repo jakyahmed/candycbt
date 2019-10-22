@@ -42,7 +42,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/font-awesome/css/font-awesome.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/select2/select2.min.css' />
-	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.min.css' />
+	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/jQueryUI/jquery-ui.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/iCheck/square/green.css' />
@@ -79,7 +79,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 		}
 
 		body {
-			font-family: 'tulisan_keren';
+			font-family: 'tulisan_keren', me_quran;
 			font-size: 13px;
 			line-height: 1.42857143;
 			color: #000;

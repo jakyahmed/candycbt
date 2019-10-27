@@ -44,14 +44,14 @@ if (isset($_POST['submit'])) {
 			} else {
 				$_SESSION['id_pengawas'] = $user['id_pengawas'];
 				$_SESSION['level'] = 'admin';
-				header("location:.");
+				echo "<script>location.href = '.';</script>";
 			}
 		} elseif ($user['level'] == 'guru') {
 
 			if ($password == $user['password']) {
 				$_SESSION['id_pengawas'] = $user['id_pengawas'];
 				$_SESSION['level'] = 'guru';
-				header('location:.');
+				echo "<script>location.href = '.';</script>";
 			} else {
 				$info = info("Password salah!", "NO");
 			}

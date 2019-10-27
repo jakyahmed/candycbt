@@ -9,9 +9,9 @@
 	$id_mapel = $_GET['m'];
 	$id_kelas = $_GET['k'];
 	$kode_ujian = $_GET['i'];
-	$pengawas = fetch('pengawas',array('id_pengawas'=>$id_pengawas));
-	$mapel = fetch('mapel',array('id_mapel'=>$id_mapel));
-	$kelas = fetch('kelas',array('id_kelas'=>$id_kelas));
+	$pengawas = fetch($koneksi, 'pengawas',array('id_pengawas'=>$id_pengawas));
+	$mapel = fetch($koneksi, 'mapel',array('id_mapel'=>$id_mapel));
+	$kelas = fetch($koneksi, 'kelas',array('id_kelas'=>$id_kelas));
 	if(date('m')>=7 AND date('m')<=12) {
 		$ajaran = date('Y')."/".(date('Y')+1);
 	}
@@ -44,7 +44,7 @@
 			</tr>
 			<tr>";
 				for($num=1;$num<=$mapel['jml_soal'];$num++) {
-					$soal = fetch('soal',array('id_mapel'=>$id_mapel,'nomor'=>$num));
+					$soal = fetch($koneksi, 'soal',array('id_mapel'=>$id_mapel,'nomor'=>$num));
 					echo "<td>$num. $soal[jawaban] </td>";
 				}
 				echo "
@@ -62,7 +62,7 @@
 				$no++;
 				$benar = $salah = 0;
 				$skor = $lama = '-';
-				$nilai = fetch('nilai',array('id_mapel'=>$id_mapel,'id_siswa'=>$siswa['id_siswa'],'kode_ujian'=>$kode_ujian));
+				$nilai = fetch($koneksi, 'nilai',array('id_mapel'=>$id_mapel,'id_siswa'=>$siswa['id_siswa'],'kode_ujian'=>$kode_ujian));
 				if($nilai['ujian_mulai']<>'' AND $nilai['ujian_selesai']<>'') {
 					$selisih = strtotime($nilai['ujian_selesai'])-strtotime($nilai['ujian_mulai']);
 					$jam = round((($selisih%604800)%86400)/3600);
@@ -82,8 +82,8 @@
 						
 						<td>$lama</td>";
 						for($num=1;$num<=$mapel['jml_soal'];$num++) {
-							$soal = fetch('soal',array('id_mapel'=>$id_mapel,'nomor'=>$num));
-							$jawaban = fetch('hasil_jawaban',array('id_siswa'=>$siswa['id_siswa'],'id_mapel'=>$id_mapel,'id_soal'=>$soal['id_soal']));
+							$soal = fetch($koneksi, 'soal',array('id_mapel'=>$id_mapel,'nomor'=>$num));
+							$jawaban = fetch($koneksi, 'hasil_jawaban',array('id_siswa'=>$siswa['id_siswa'],'id_mapel'=>$id_mapel,'id_soal'=>$soal['id_soal']));
 							if($jawaban) {
 								if($jawaban['jawaban']==$soal['jawaban']) {
 									echo "<td style='background:#00FF00;'>$jawaban[jawaban]</td>";

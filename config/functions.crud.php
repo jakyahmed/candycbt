@@ -1,7 +1,5 @@
 <?php    
-    function insert($table,$data=null) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function insert($koneksi, $table,$data=null) {
         $command = 'INSERT INTO '.$table;
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -15,9 +13,7 @@
         return $status;
     }
     
-    function update($table,$data=null,$where=null) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function update($koneksi, $table,$data=null,$where=null) {
         $command = 'UPDATE '.$table.' SET ';
         $field = $value = null;
         foreach($data as $f => $v) {
@@ -36,9 +32,7 @@
         return $status;
     }
     
-    function delete($table,$where=null) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function delete($koneksi, $table,$where=null) {
         $command = 'DELETE FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -53,10 +47,7 @@
         return $status;
     }
     
-    function fetch($table,$where=null) {
-        include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
-        
+    function fetch($koneksi, $table,$where=null) {
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -71,9 +62,7 @@
         return $exec;
     }
     
-    function select($table,$where=null,$order=null,$limit=null) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function select($koneksi, $table,$where=null,$order=null,$limit=null) {
         $command = 'SELECT * FROM '.$table;
         if($where!=null) {
             $value = null;
@@ -93,9 +82,7 @@
         return $result;
     }
     
-    function rowcount($table,$where=null) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function rowcount($koneksi, $table,$where=null) {
         $command = 'SELECT * FROM '.$table;
 		if($where!=null) {
 			$value = null;
@@ -109,33 +96,9 @@
         return $exec;
     }
     
-    function truncate($table) {
-		include "config.database.php";
-        $koneksi = mysqli_connect($host, $user, $pass, $debe);
+    function truncate($koneksi, $table) {
         $command = 'TRUNCATE '.$table;
         $exec = mysqli_query($koneksi, $command);
         ($exec) ? $status = 'OK' : $status = 'NO';
         return $status;
     }
-    
-    // $data = array(
-            // 'nis' => '10110072',
-            // 'nama' => 'Yunus',
-            // 'kelas' => 'XII TKJ 2'
-        // );
-    // $where  = array(
-            // 'nis' => '10110072'
-        // );
-    // echo insert('siswa',$data);
-    // echo update('siswa',$data,$where);
-    // echo delete('siswa',$where);
-    // $siswa = fetch('siswa',$where);
-    // echo $siswa['nama'];
-    // echo rowcount('siswa',$where);
-    // echo truncate('siswa');
-    // $sql = select('siswa',$where);
-    // foreach($sql as $field) {
-        // echo $field['id_siswa'].' - '.$field['nis'].' - '.$field['nama'].' - '.$field['kelas'].'<br/>';
-    // }
-	// echo "<pre>";
-	// print_r($sql);

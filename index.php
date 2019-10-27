@@ -12,10 +12,10 @@ $siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id
 $idsesi = $siswa['sesi'];
 $idpk = $siswa['idpk'];
 $level = $siswa['level'];
-$kelasx = $siswa['id_kelas'];
+// $kelasx = $siswa['id_kelas'];
+// $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
+$pk = fetch($koneksi, 'pk', array('id_pk' => $idpk));
 $tglsekarang = time();
-$kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
-$pk = fetch('pk', array('id_pk' => $idpk));
 
 ?>
 <!DOCTYPE html>
@@ -39,6 +39,13 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/radio/css/style.css'>
 
 	<style>
+		@font-face {
+			font-family: 'OCR A Extended';
+			font-style: normal;
+			font-weight: normal;
+			src: local('OCR A Extended'), url('OCRAEXT_2.woff') format('woff');
+		}
+
 		.soal img {
 			max-width: 100%;
 			height: auto;
@@ -78,11 +85,12 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 								<?php
 								if ($siswa['foto'] <> '') :
-									if (!file_exists("foto/fotosiswa/$siswa[foto]")) {
+									if (!file_exists("foto/fotosiswa/$siswa[foto]")) :
 										echo "<img src='$homeurl/dist/img/avatar_default.png' class='user-image'   alt='+'>";
-									} else {
+									else :
 										echo "<img src='$homeurl/foto/fotosiswa/$siswa[foto]' class='user-image'   alt='+'>";
-									} else :
+									endif;
+								else :
 									echo "<img src='$homeurl/dist/img/avatar_default.png' class='user-image'   alt='+'>";
 								endif;
 								?>
@@ -92,11 +100,12 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 								<li class='user-header'>
 									<?php
 									if ($siswa['foto'] <> '') :
-										if (!file_exists("foto/fotosiswa/$siswa[foto]")) {
+										if (!file_exists("foto/fotosiswa/$siswa[foto]")) :
 											echo "<img src='$homeurl/dist/img/avatar_default.png' class='img-circle' alt='User Image'>";
-										} else {
+										else :
 											echo "<img src='$homeurl/foto/fotosiswa/$siswa[foto]' class='img-circle' alt='User Image'>";
-										} else :
+										endif;
+									else :
 										echo "<img src='$homeurl/dist/img/avatar_default.png' class='img-circle' alt='User Image'>";
 									endif;
 									?>
@@ -121,11 +130,12 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 					<div class='pull-left image'>
 						<?php
 						if ($siswa['foto'] <> '') :
-							if (!file_exists("foto/fotosiswa/$siswa[foto]")) {
+							if (!file_exists("foto/fotosiswa/$siswa[foto]")) :
 								echo "<img src='$homeurl/dist/img/avatar_default.png' class='img'  style='max-width:60px' alt='+'>";
-							} else {
+							else :
 								echo "<img src='$homeurl/foto/fotosiswa/$siswa[foto]' class='img'  style='max-width:60px' alt='+'>";
-							} else :
+							endif;
+						else :
 							echo "<img src='$homeurl/dist/img/avatar_default.png' class='img'  style='max-width:60px' alt='+'>";
 						endif;
 						?>
@@ -139,7 +149,6 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 					<li class='header'>Main Menu Siswa</li>
 					<li><a href='<?= $homeurl ?>'><i class='fa fa-fw fa-dashboard'></i> <span>Dashboard</span></a></li>
 					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
-					<!--<li ><a href='?pg=banksoal'><i class='fa fa-fw fa-briefcase'></i> <span>Materi Ujian</span></a></li>-->
 					<li><a href='<?= $homeurl ?>/hasil'><i class='fa fa-fw fa-tags'></i> <span>Hasil Ujian</span></a></li>
 				</ul><!-- /.sidebar-menu -->
 			</section>
@@ -161,7 +170,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 								<div class='box-header with-border bg-blue'>
 									<h3 class='box-title'>Jadwal Ujian Hari ini</h3>
 									<div class='box-tools'>
-										<button class='btn btn-flat btn-primary'><span id='waktu'><?= $waktu ?> </span></button>
+										<button class='btn btn-flat btn-primary'><span id='waktu' style="font-family:'OCR A Extended'"><?= $waktu ?> </span></button>
 									</div>
 								</div><!-- /.box-header -->
 								<div class='box-body'>
@@ -192,30 +201,36 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 													<?php if (in_array($siswa['id_kelas'], $datakelas) or in_array('semua', $datakelas)) : ?>
 														<?php
 																		$no++;
-																		$pelajaran = explode(' ', $mapelx['nama']);
-																		$where = array('id_mapel' => $mapelx['id_mapel'], 'id_siswa' => $id_siswa, 'id_ujian' => $mapelx['id_ujian']);
-																		$nilai = fetch('nilai', $where);
-																		$ceknilai = rowcount('nilai', $where);
-																		if ($ceknilai == 0) :
-																			if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) {
+																		// $pelajaran = explode(' ', $mapelx['nama']);
+																		$where = array(
+																			'id_ujian' => $mapelx['id_ujian'],
+																			'id_mapel' => $mapelx['id_mapel'],
+																			'id_siswa' => $id_siswa,
+																			'kode_ujian' => $mapelx['kode_ujian']
+																		);
+																		$nilai = fetch($koneksi, 'nilai', $where);
+																		$ceknilai = rowcount($koneksi, 'nilai', $where);
+																		if ($ceknilai == '0') :
+																			if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
 																				$status = '<label class="label label-success">Tersedia </label>';
 																				$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-primary'><i class='fa fa-pencil'></i> MULAI</a>";
-																			} elseif (strtotime($mapelx['tgl_ujian']) >= time() and time() <= strtotime($mapelx['tgl_selesai'])) {
+																			elseif (strtotime($mapelx['tgl_ujian']) >= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
 																				$status = '<label class="label label-danger">Belum Waktunya</label>';
 																				$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> BELUM UJIAN</button>";
-																			} else {
+																			else :
 																				$status = '<label class="label label-danger">Telat Ujian</label>';
 																				$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> Telat Ujian</button>";
-																			} else :
-																			if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') {
+																			endif;
+																		else :
+																			if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
 																				$status = '<label class="label label-warning">Berlangsung</label>';
 																				$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</a>";
-																			} else {
+																			else :
 																				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] <> '') {
 																					$status = '<label class="label label-primary">Selesai</label>';
 																					$btntest = "<button class='btn btn-block btn-success btn-sm disabled'> Sudah Ujian</button>";
 																				}
-																			}
+																			endif;
 																		endif;
 																		?>
 														<tr>
@@ -457,10 +472,10 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							'jenis' => '2',
 						);
 
-						$mapel = fetch('ujian', array('id_mapel' => $idmapel, 'id_ujian' => $ac));
+						$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $idmapel, 'id_ujian' => $ac));
 						$r = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
 						$m = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
-						$soal = select('soal', $where, $order[$r]);
+						$soal = select($koneksi, 'soal', $where, $order[$r]);
 
 						$id_soal = '';
 						$id_esai = '';
@@ -492,7 +507,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							endif;
 						endforeach;
 						if ($mapel['jml_esai'] <> 0) {
-							$soalesai = select('soal', $where2, $ordera[$m]);
+							$soalesai = select($koneksi, 'soal', $where2, $ordera[$m]);
 							foreach ($soalesai as $m) :
 								$id_esai .= $m['id_soal'] . ',';
 							endforeach;
@@ -528,13 +543,13 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 							'hasil' => $query['hasil']
 						);
 						$ref = "";
-						insert('log', $logdata);
+						insert($koneksi, 'log', $logdata);
 						$query = mysqli_query($koneksi, "select * from nilai where id_mapel='$idmapel' and id_siswa='$id_siswa' and id_ujian='$ac'");
 						$ceknilai = mysqli_num_rows($query);
 						if (!$ceknilai <> 0) {
-							insert('nilai', $nilaidata);
-							insert('pengacak', $acakdata);
-							insert('pengacakopsi', $acakdataopsi);
+							insert($koneksi, 'nilai', $nilaidata);
+							insert($koneksi, 'pengacak', $acakdata);
+							insert($koneksi, 'pengacakopsi', $acakdataopsi);
 						}
 						jump("$homeurl/testongoing/$ac/$id_siswa/?$ref");
 						?>
@@ -685,20 +700,20 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 						);
 						$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
 						$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-						$pengacak = fetch('pengacak', $where);
-						$pengacakpil = fetch('pengacakopsi', $where);
-						$pengacakesai = fetch('pengacak', $where);
+						$pengacak = fetch($koneksi,'pengacak', $where);
+						$pengacakpil = fetch($koneksi,'pengacakopsi', $where);
+						$pengacakesai = fetch($koneksi,'pengacak', $where);
 						$pengacak = explode(',', $pengacak['id_soal']);
 						$pengacakpil = explode(',', $pengacakpil['id_soal']);
 						$pengacakesai = explode(',', $pengacakesai['id_esai']);
-						$mapel = fetch('ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-						$soal = fetch('soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal]));
-						$jawab = fetch('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
+						$mapel = fetch($koneksi,'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+						$soal = fetch($koneksi,'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal]));
+						$jawab = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
 
 						if (isset($_POST['done'])) :
 							$_SESSION['id_siswa'] = $id_siswa;
 							$benar = $salah = 0;
-							$ceksoal = select('soal', array('id_mapel' => $id_mapel, 'jenis' => '1'));
+							$ceksoal = select($koneksi, 'soal', array('id_mapel' => $id_mapel, 'jenis' => '1'));
 							foreach ($ceksoal as $getsoal) {
 								$jika = array(
 									'id_ujian' => $ac,
@@ -707,7 +722,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 									'id_soal' => $getsoal['id_soal'],
 									'jenis' => '1'
 								);
-								$getjwb = fetch('jawaban', $jika);
+								$getjwb = fetch($koneksi,'jawaban', $jika);
 								if ($getjwb) {
 									($getjwb['jawaban'] == $getsoal['jawaban']) ? $benar++ : $salah++;
 								}
@@ -726,14 +741,14 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 								'total' => $skor
 							);
 
-							delete('pengacak', $where);
-							delete('pengacakopsi', $where);
-							update('nilai', $data, $where2);
+							delete($koneksi, 'pengacak', $where);
+							delete($koneksi, 'pengacakopsi', $where);
+							update($koneksi, 'nilai', $data, $where2);
 							jump("$homeurl");
 						endif;
 
-						update('nilai', array('ujian_berlangsung' => $datetime), $where2);
-						$nilai = fetch('nilai', $where2);
+						update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
+						$nilai = fetch($koneksi,'nilai', $where2);
 						$habis = strtotime($nilai['ujian_berlangsung']) - strtotime($nilai['ujian_mulai']);
 						$detik = ($mapel['lama_ujian'] * 60) - $habis;
 						$dtk = $detik % 60;
@@ -756,7 +771,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 									</div>
 									<div class='box-title pull-right'>
 										<div class='btn-group'>
-											<span style='font-family:tulisan_keren;font-size:35px' id='countdown'><span id='htmljam'><?= $jam ?></span>:<span id='htmlmnt'><?= $mnt ?></span>:<span id='htmldtk'><?= $dtk ?></span></span>
+											<span style="font-family:'OCR A Extended';font-size:35px" id='countdown'><span id='htmljam'><?= $jam ?></span>:<span id='htmlmnt'><?= $mnt ?></span>:<span id='htmldtk'><?= $dtk ?></span></span>
 										</div>
 										<div class='btn-group'>
 											<form action='' method='post'>
@@ -841,7 +856,7 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 
 													$ragu = ($jawab['ragu'] == 1) ? 'checked' : '';
 													?>
-												<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') { ?>
+												<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') : ?>
 													<?php
 															$ax = ($jawab['jawaban'] == 'A') ? 'checked' : '';
 															$bx = ($jawab['jawaban'] == 'B') ? 'checked' : '';
@@ -881,24 +896,19 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 																<label class='button-label' for='B'>
 																	<h1>B</h1>
 																</label>
-
 															</td>
-
-													<?php if ($mapel['opsi'] <> 3) {
-																echo "
-																			<td>
-																				<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'D','D',1,$ac) $dx/>
-																				<label class='button-label' for='D'>
-																				  <h1>D</h1>
-																				</label>
-																				
-																			</td>";
-															}
-															echo "
-																		</tr>
-																	</table>
-																	";
-														} else {
+															<?php if ($mapel['opsi'] <> 3) { ?>
+																<td>
+																	<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick="jawabsoal(<?= $id_mapel ?>, <?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'D','D',1,<?= $ac ?>)" <?= $dx ?> />
+																	<label class='button-label' for='D'>
+																		<h1>D</h1>
+																	</label>
+																</td>
+															<?php } ?>
+														</tr>
+													</table>
+												<?php else : ?>
+													<?php
 															$a = ($jawab['jawaban'] == $pil1) ? 'checked' : '';
 															$b = ($jawab['jawaban'] == $pil2) ? 'checked' : '';
 															$c = ($jawab['jawaban'] == $pil3) ? 'checked' : '';
@@ -909,228 +919,212 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 																$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
 																$e = ($jawab['jawaban'] == $pil5) ? 'checked' : '';
 															}
-															echo "
-																	<table  width='100%' class='table table-striped table-hover'>
-																	<tr>
-																		<td width='60'>
-																		<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'$pil1','A',1,$ac) $a />
-																		<label class='button-label' for='A'>
-																		  <h1>A</h1>
-																		</label>
-							
-																		</td>
-																		<td style='vertical-align:middle;'>
-																			<span class='soal'>$soal[$pilAA]</span>";
-															if ($soal[$fileAA] <> '') {
+															?>
+													<table width='100%' class='table table-striped table-hover'>
+														<tr>
+															<td width='60'>
+																<input class='hidden radio-label' type='radio' name='jawab' id='A' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil1 ?>','A',1,<?= $ac ?>)" <?= $a ?> />
+																<label class='button-label' for='A'>
+																	<h1>A</h1>
+																</label>
+															</td>
+															<td style='vertical-align:middle;'>
+																<span class='soal'><?= $soal[$pilAA] ?></span>
+																<?php
+																		if ($soal[$fileAA] <> '') {
+																			$ext = explode(".", $soal[$fileAA]);
+																			$ext = end($ext);
+																			if (in_array($ext, $image)) {
+																				echo "<img src='$homeurl/files/$soal[$fileAA]' class='img-responsive' style='max-width:300px;'/>";
+																			} elseif (in_array($ext, $audio)) {
+																				echo "<audio controls='controls'><source src='$homeurl/files/$soal[$fileAA]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+																			} else {
+																				echo "File tidak didukung!";
+																			}
+																		}
+																		?>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil2 ?>','B',1,<?= $ac ?>)" <?= $b ?> />
+																<label class='button-label' for='B'>
+																	<h1>B</h1>
+																</label>
+															</td>
+															<td style='vertical-align:middle;'>
+																<span class='soal'><?= $soal[$pilBB] ?></span>
+																<?php
+																		if ($soal[$fileBB] <> '') {
+																			$ext = explode(".", $soal[$fileBB]);
+																			$ext = end($ext);
+																			if (in_array($ext, $image)) {
+																				echo "<img src='$homeurl/files/$soal[$fileBB]' class='img-responsive' style='max-width:300px;'/>";
+																			} elseif (in_array($ext, $audio)) {
+																				echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileBB]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+																			} else {
+																				echo "File tidak didukung!";
+																			}
+																		}
+																		?>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil3 ?>','C',1,<?= $ac ?>)" <?= $c ?> />
+																<label class='button-label' for='C'>
+																	<h1>C</h1>
+																</label>
 
-																$ext = explode(".", $soal[$fileAA]);
-																$ext = end($ext);
-																if (in_array($ext, $image)) {
-																	echo "<img src='$homeurl/files/$soal[$fileAA]' class='img-responsive' style='max-width:300px;'/>";
-																} elseif (in_array($ext, $audio)) {
-																	echo "<audio controls='controls'><source src='$homeurl/files/$soal[$fileAA]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-																} else {
-																	echo "File tidak didukung!";
-																}
-															}
-															echo "		
-																		</td>
-																	</tr>
-																	<tr>
-																		<td>
-																		<input class='hidden radio-label' type='radio' name='jawab' id='B' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'$pil2','B',1,$ac) $b />
-																		<label class='button-label' for='B'>
-																		  <h1>B</h1>
-																		</label>
-																			
-																		</td>
-																		<td style='vertical-align:middle;'>
-																			<span class='soal'>$soal[$pilBB]</span>";
-															if ($soal[$fileBB] <> '') {
-
-																$ext = explode(".", $soal[$fileBB]);
-																$ext = end($ext);
-																if (in_array($ext, $image)) {
-																	echo "<img src='$homeurl/files/$soal[$fileBB]' class='img-responsive' style='max-width:300px;'/>";
-																} elseif (in_array($ext, $audio)) {
-																	echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileBB]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-																} else {
-																	echo "File tidak didukung!";
-																}
-															}
-															echo "		
-																		</td>
-																	</tr>
-																	<tr>
-																		<td>
-																		<input class='hidden radio-label' type='radio' name='jawab' id='C' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'$pil3','C',1,$ac) $c/>
-																		<label class='button-label' for='C'>
-																		  <h1>C</h1>
-																		</label>
-																			
-																		</td>
-																		<td style='vertical-align:middle;'>
-																			<span class='soal'>$soal[$pilCC]</span>";
-															if ($soal[$fileCC] <> '') {
-
-																$ext = explode(".", $soal[$fileCC]);
-																$ext = end($ext);
-																if (in_array($ext, $image)) {
-																	echo "<img src='$homeurl/files/$soal[$fileCC]' class='img-responsive' style='max-width:300px;'/>";
-																} elseif (in_array($ext, $audio)) {
-																	echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileCC]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-																} else {
-																	echo "File tidak didukung!";
-																}
-															}
-															echo "		
-																		</td>
-																	</tr>
-																	";
-															if ($mapel['opsi'] <> 3) {
-																echo "
-																			
-																	<tr>
-																		<td>
-																		<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'$pil4','D',1,$ac) $d/>
-																		<label class='button-label' for='D'>
-																		  <h1>D</h1>
-																		</label>
-																			
-																		</td>
-																		<td style='vertical-align:middle;'>
-																			<span class='soal'>$soal[$pilDD]</span>";
-																if ($soal[$fileDD] <> '') {
-
-																	$ext = explode(".", $soal[$fileDD]);
-																	$ext = end($ext);
-																	if (in_array($ext, $image)) {
-																		echo "<img src='$homeurl/files/$soal[$fileDD]' class='img-responsive' style='max-width:300px;'/>";
-																	} elseif (in_array($ext, $audio)) {
-																		echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileDD]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-																	} else {
-																		echo "File tidak didukung!";
-																	}
-																}
-																echo "		
-																		</td>
-																	</tr>";
-															}
-															if ($mapel['opsi'] == 5) {
-																echo "
-																	<tr>
-																		<td>
-																		<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick=jawabsoal($id_mapel,$id_siswa,$soal[id_soal],'$pil5','E',1,$ac) $e/>
-																		<label class='button-label' for='E'>
-																		  <h1>E</h1>
-																		</label>
-																			
-																		</td>
-																		<td style='vertical-align:middle;'>
-																			<span class='soal'>$soal[$pilEE]</span>";
-																if ($soal[$fileEE] <> '') {
-
-																	$ext = explode(".", $soal[$fileEE]);
-																	$ext = end($ext);
-																	if (in_array($ext, $image)) {
-																		echo "<img src='$homeurl/files/$soal[$fileEE]' class='img-responsive' style='max-width:300px;'/>";
-																	} elseif (in_array($ext, $audio)) {
-																		echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileEE]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-																	} else {
-																		echo "File tidak didukung!";
-																	}
-																}
-																echo "
-																	</td>
-																	</tr>";
-															}
-															echo "
-																	</table>";
-														}
-														echo "	
-																</div>
-																
-															</div>
-														</div>
-														
-														
-														<div class='box-footer navbar-fixed-bottom'>
-															<table  width='100%'>
-															<tr><td>";
-														if ($no_soal == 0) {
-															echo "
-																
-																<div class='col-md-4 '>
-																	<button id='move-prev' class='btn  btn-default' onclick=loadsoal($id_mapel,$id_siswa,$no_prev,1)><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
-																	<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-																</div>";
-														} else {
-															echo "
-																<div class='col-md-4 '>
-																	<button id='move-prev' class='btn  btn-primary' onclick=loadsoal($id_mapel,$id_siswa,$no_prev,1)><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
-																	<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-																</div>";
-														}
-														echo "	
-																</td><td>
-																
-																<div class='col-md-4 '>
-																	<div id='load-ragu'>
-																		<a href='#' class='btn  btn-warning'><input type='checkbox' onclick=radaragu($id_mapel,$id_siswa,$soal[id_soal]) $ragu/> RAGU</a>
-																	</div>
-																</div>
-																
-																</td><td>
-																
-																<div class='col-md-4 '>
-																	<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
-																	<button id='move-next' class='btn  btn-primary' onclick=loadsoal($id_mapel,$id_siswa,$no_next,1)><span class='hidden-xs'>SELANJUTNYA</span> <i class='fa fa-chevron-right'></i></button>
-																</div>
-																
-																
+															</td>
+															<td style='vertical-align:middle;'>
+																<span class='soal'><?= $soal[$pilCC] ?></span>
+																<?php
+																		if ($soal[$fileCC] <> '') {
+																			$ext = explode(".", $soal[$fileCC]);
+																			$ext = end($ext);
+																			if (in_array($ext, $image)) {
+																				echo "<img src='$homeurl/files/$soal[$fileCC]' class='img-responsive' style='max-width:300px;'/>";
+																			} elseif (in_array($ext, $audio)) {
+																				echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileCC]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+																			} else {
+																				echo "File tidak didukung!";
+																			}
+																		}
+																		?>
+															</td>
+														</tr>
+														<?php if ($mapel['opsi'] <> 3) { ?>
+															<tr>
+																<td>
+																	<input class='hidden radio-label' type='radio' name='jawab' id='D' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil4 ?>','D',1,<?= $ac ?>)" <?= $d ?> />
+																	<label class='button-label' for='D'>
+																		<h1>D</h1>
+																	</label>
 																</td>
-																</tr>
-															</table>
-														</div>
-														
-														
-													</div>
-												</div>
-											</div>
-											
-														<div class='navs-slide' style='z-index: 1000;'>
-											  <div class='btn-slide'><i class='fa fa-pencil-square-o fa-lg'></i></div>
-											  <div class='navs-body'>
-												  <div class='head-slide'>DAFTAR SOAL</div>
-												  <div class='body-slide' >
-												  <div style='overflow-y:auto; max-height:250px'>
-													  <div class='col-md-12' >
-															<div class='row' id='nomorsoal' >";
-														$cekpg = mysqli_num_rows(mysqli_query($koneksi, "select * from soal where id_mapel='$id_mapel' and jenis='1'"));
-														$cekesai = mysqli_num_rows(mysqli_query($koneksi, "select * from soal where id_mapel='$id_mapel' and jenis='2'"));
-														$quero = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$id_mapel'"));
+																<td style='vertical-align:middle;'>
+																	<span class='soal'><?= $soal[$pilDD] ?></span>
+																	<?php
+																				if ($soal[$fileDD] <> '') {
+																					$ext = explode(".", $soal[$fileDD]);
+																					$ext = end($ext);
+																					if (in_array($ext, $image)) {
+																						echo "<img src='$homeurl/files/$soal[$fileDD]' class='img-responsive' style='max-width:300px;'/>";
+																					} elseif (in_array($ext, $audio)) {
+																						echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileDD]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+																					} else {
+																						echo "File tidak didukung!";
+																					}
+																				}
+																				?>
+																</td>
+															</tr>
+														<?php } ?>
+														<?php if ($mapel['opsi'] == 5) { ?>
+															<tr>
+																<td>
+																	<input class='hidden radio-label' type='radio' name='jawab' id='E' onclick="jawabsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>,'<?= $pil5 ?>','E',1,<?= $ac ?>)" <?= $e ?> />
+																	<label class='button-label' for='E'>
+																		<h1>E</h1>
+																	</label>
+																</td>
+																<td style='vertical-align:middle;'>
+																	<span class='soal'><?= $soal[$pilEE] ?></span>
+																	<?php
+																				if ($soal[$fileEE] <> '') {
 
-														if ($cekpg >= $quero['tampil_pg']) {
-															$soalpg = $quero['tampil_pg'];
-														} else {
-															$soalpg = $cekpg;
-														}
-														if ($cekesai >= $quero['tampil_esai']) {
-															$soalesai = $quero['tampil_esai'];
-														} else {
-															$soalpg = $cekesai;
-														}
-														echo "<div id='ketjawab'>";
-														$jumjawab = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_mapel='$id_mapel' and id_siswa='$id_siswa' and id_ujian='$ac'"));
+																					$ext = explode(".", $soal[$fileEE]);
+																					$ext = end($ext);
+																					if (in_array($ext, $image)) {
+																						echo "<img src='$homeurl/files/$soal[$fileEE]' class='img-responsive' style='max-width:300px;'/>";
+																					} elseif (in_array($ext, $audio)) {
+																						echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileEE]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+																					} else {
+																						echo "File tidak didukung!";
+																					}
+																				}
+																				?>
+																</td>
+															</tr>
+														<?php } ?>
+													</table>
+												<?php endif; ?>
+											</div>
+										</div>
+									</div>
+									<div class='box-footer navbar-fixed-bottom'>
+										<table width='100%'>
+											<tr>
+												<td>
+													<?php if ($no_soal == 0) { ?>
+														<div class='col-md-4 '>
+															<button id='move-prev' class='btn  btn-default' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_prev ?>,1)"><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
+															<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+														</div>
+													<?php } else { ?>
+														<div class='col-md-4 '>
+															<button id='move-prev' class='btn  btn-primary' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_prev ?>,1)"><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
+															<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+														</div>
+													<?php } ?>
+												</td>
+												<td>
+													<div class='col-md-4 '>
+														<div id='load-ragu'>
+															<a href='#' class='btn  btn-warning'><input type='checkbox' onclick="radaragu(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>)" <?= $ragu ?> /> RAGU</a>
+														</div>
+													</div>
+
+												</td>
+												<td>
+													<div class='col-md-4 '>
+														<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
+														<button id='move-next' class='btn  btn-primary' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_next ?>,1)"><span class='hidden-xs'>SELANJUTNYA</span> <i class='fa fa-chevron-right'></i></button>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='navs-slide' style='z-index: 1000;'>
+							<div class='btn-slide'><i class='fa fa-pencil-square-o fa-lg'></i></div>
+							<div class='navs-body'>
+								<div class='head-slide'>DAFTAR SOAL</div>
+								<div class='body-slide'>
+									<div style='overflow-y:auto; max-height:250px'>
+										<div class='col-md-12'>
+											<div class='row' id='nomorsoal'>
+												<?php
+													$cekpg = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND jenis='1'"));
+													$cekesai = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND jenis='2'"));
+													$quero = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+
+													if ($cekpg >= $quero['tampil_pg']) {
+														$soalpg = $quero['tampil_pg'];
+													} else {
+														$soalpg = $cekpg;
+													}
+													if ($cekesai >= $quero['tampil_esai']) {
+														$soalesai = $quero['tampil_esai'];
+													} else {
+														$soalpg = $cekesai;
+													}
+													?>
+												<div id='ketjawab'>
+													<?php
+														$jumjawab = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jawaban WHERE id_mapel='$id_mapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'"));
 														$jumsoal = $soalpg + $soalesai;
-														echo "
-															<input type='hidden' value='$jumsoal' id='jumsoal'/>
-															<input type='hidden' value='$jumjawab' id='jumjawab'/>";
-														echo "</div >";
-														for ($n = 0; $n < $soalpg; $n++) {
+														?>
+													<input type='hidden' value='<?= $jumsoal ?>' id='jumsoal' />
+													<input type='hidden' value='<?= $jumjawab ?>' id='jumjawab' />
+												</div>
+												<?php for ($n = 0; $n < $soalpg; $n++) : ?>
+													<?php
 															$id_soal = $pengacak[$n];
-															$cekjwb = rowcount('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
-															$ragu = fetch('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
+															$cekjwb = rowcount($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
+															$ragu = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
 															$cekj = $ragu['jawaban'];
 															if ($mapel['opsi'] == 2) {
 																$kali = 3;
@@ -1174,420 +1168,425 @@ $pk = fetch('pk', array('id_pk' => $idpk));
 															$color1 = ($cekjwb <> 0) ? 'green' : 'gray';
 															$color = ($ragu['ragu'] == 1) ? 'yellow' : $color1;
 															$nomor = $n + 1;
-															$nomor = ($nomor < 10) ? "0$nomor" : $nomor;
+															$nomor = ($nomor < 10) ? "0" . $nomor : $nomor;
 															if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') {
 																$jawabannya = $ragu['jawaban'];
 															} else {
 																$jawabannya = $jawabisi;
 															}
-															echo "
-																		<a style='min-width:40px;height:40px;border-radius:20px;font-family:tulisan_keren;border:solid black' class='btn btn-app bg-$color' id='badge$id_soal' onclick=loadsoal($id_mapel,$id_siswa,$n,1)> $nomor <span id='jawabtemp$id_soal' class='badge bg-red'>$jawabannya</span></a>
-																	";
-														}
-														echo "
-															</div>
-														</div>
-														<div class='col-md-12'>";
-														if ($quero['tampil_esai'] <> 0) {
-															echo "<span>-- SOAL ESSAI --</span>";
-															echo "
-															<div class='row' id='nomor'>";
-
-
-															for ($i = 0; $i < $soalesai; $i++) {
+															?>
+													<a style="min-width:40px;height:40px;border-radius:20px;font-family:'OCR A Extended';font-size:medium ;border:solid black" class='btn btn-app bg-<?= $color ?>' id='badge<?= $id_soal ?>' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $n ?>,1)"> <?= $nomor ?> <span id='jawabtemp<?= $id_soal ?>' class='badge bg-red'><?= $jawabannya ?></span></a>
+												<?php endfor; ?>
+											</div>
+										</div>
+										<div class='col-md-12'>
+											<?php if ($quero['tampil_esai'] <> 0) : ?>
+												<span>-- SOAL ESSAI --</span>
+												<div class='row' id='nomor'>
+													<?php for ($i = 0; $i < $soalesai; $i++) :
 																$id_esai = $pengacakesai[$i];
-																$cekjwb = rowcount('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
-																$ragu = fetch('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
-																$color = ($cekjwb <> 0) ? 'green' : 'gray';
+																$cekjwb = rowcount($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
+																$ragu = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
+																$color = ($cekjwb <> 0) ? 'bg-green' : 'bg-gray';
 
 																$nomor = $i + 1;
-																$nomor = ($nomor < 10) ? "0$nomor" : $nomor;
-																echo "
-																		<a style='min-width:40px;height:40px' class='btn btn-app  bg-$color' id='badgeesai$id_esai' onclick=loadsoalesai($id_mapel,$id_siswa,$i,2)>  $nomor </a> 
-																	";
-															}
-															echo "
-															</div>";
-														}
-														echo "
-														</div>
-														</div>
-												  </div>
-												   
-											  </div> 
-											</div>
-														
-															
-															
-														
+																$nomor = ($nomor < 10) ? "0" . $nomor : $nomor;
+																?>
+														<a style="min-width:40px;height:40px" class="btn btn-app <?= $color ?>" id="badgeesai<?= $id_esai ?>" onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $i ?>,2)"> <?= $nomor ?> </a>
+													<?php endfor; ?>
+												</div>
+											<?php endif; ?>
 										</div>
-									";
-													else :
-														jump($homeurl);
-													endif;
-													echo "
-							</section><!-- /.content -->
-						</div><!-- /.container -->
-					</div><!-- /.content-wrapper -->
-					<footer class='main-footer hidden-xs'>
-						<div class='container'>
-							<div class='pull-left hidden-xs'>
-								<strong>
-									<span id='end-sidebar'>
-										$setting[sekolah] support by $copyright
-									</span>
-								</strong>
+									</div>
+								</div>
 							</div>
-						
-					</footer>
-				</div><!-- ./wrapper -->
+						</div>
+					</div>
+				<?php else : ?>
+					<?php jump($homeurl); ?>
+				<?php endif; ?>
+			</section><!-- /.content -->
+		</div><!-- /.content-wrapper -->
+		<footer class='main-footer hidden-xs'>
+			<div class='container'>
+				<div class='pull-left hidden-xs'>
+					<strong>
+						<span id='end-sidebar'>
+							<?= $setting['sekolah'] ?> support by <?= $copyright ?>
+						</span>
+					</strong>
+				</div>
+		</footer>
+	</div><!-- ./wrapper -->
 
-				<script src='$homeurl/plugins/jQuery/jquery-3.1.1.min.js'></script>
-				<script src='$homeurl/plugins/zoom-master/jquery.zoom.js'></script>
-				<script src='$homeurl/dist/bootstrap/js/bootstrap.min.js'></script>
-				<script src='$homeurl/plugins/slimScroll/jquery.slimscroll.min.js'></script>
-				<script src='$homeurl/plugins/iCheck/icheck.min.js'></script>
-				<script src='$homeurl/dist/js/app.min.js'></script>
-				<script src='$homeurl/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
-				<script src='$homeurl/plugins/slidemenu/jquery-slide-menu.js'></script>
-				<script src='$homeurl/plugins/mousetrap/mousetrap.min.js'></script>
-				<script>
-				var url = window.location;
-			// for sidebar menu entirely but not cover treeview
-			$('ul.sidebar-menu a').filter(function () {
+	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/zoom-master/jquery.zoom.js'></script>
+	<script src='<?= $homeurl ?>/dist/bootstrap/js/bootstrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/slimScroll/jquery.slimscroll.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/iCheck/icheck.min.js'></script>
+	<script src='<?= $homeurl ?>/dist/js/app.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.js'></script>
+	<script src='<?= $homeurl ?>/plugins/mousetrap/mousetrap.min.js'></script>
+	<script>
+		var url = window.location;
+		$('ul.sidebar-menu a').filter(function() {
 			return this.href == url;
-			}).parent().addClass('active');
-			// for treeview
-			$('ul.treeview-menu a').filter(function () {
+		}).parent().addClass('active');
+		// for treeview
+		$('ul.treeview-menu a').filter(function() {
 			return this.href == url;
-			}).closest('.treeview').addClass('active');
-				var autoRefresh = setInterval(
-						function () {
-							$('#waktu').load('$homeurl/admin/_load.php?pg=waktu');
-							$('#pengumuman').load('$homeurl/admin/_load.php?pg=pengumumansiswa');
-							
-							
-						}, 1000
-					);
-				</script>
-				";
-													if ($pg == 'testongoing') {
+		}).closest('.treeview').addClass('active');
+		var autoRefresh = setInterval(
+			function() {
+				$('#waktu').load('<?= $homeurl ?>/admin/_load.php?pg=waktu');
+				$('#pengumuman').load('<?= $homeurl ?>/admin/_load.php?pg=pengumumansiswa');
+			}, 1000
+		);
+	</script>
+	<?php if ($pg == 'testongoing') : ?>
+		<script>
+			var homeurl;
+			homeurl = '<?= $homeurl ?>';
+			/* Font Adjusments */
+			let defaultFontSize = 14;
+			let fontSize = 0;
+			fontSize = localStorage.getItem('fontSize');
+			if (!fontSize) {
+				fontSize = defaultFontSize;
+				localStorage.setItem('fontSize', fontSize);
+			}
+			soalFont(fontSize);
 
-														echo "
-					<script>
-						var homeurl;
-						homeurl = '$homeurl';
-						/* Font Adjusments */
-						let defaultFontSize = 15;
-					    let fontSize = 0;
-					    	fontSize =localStorage.getItem('fontSize');
-					    if (!fontSize){
-					        fontSize = defaultFontSize;
-					        localStorage.setItem('fontSize',fontSize);
-					    }
-					    soalFont(fontSize);
-					    
-					    function soalFont(fontSize) {
-						    $( 'div.soal > p > span').css({fontSize: fontSize +'pt'});
-						    $( 'span.soal > p > span' ).css({fontSize: fontSize +'pt'});
-						    $('.soal').css({fontSize: fontSize +'pt'})
-							$('.callout soal').css({fontSize: fontSize +'pt'})
-					    }
-						$(document).ready(function() {
-							$('#smaller_font').on('click', function() {
-						        fontSize = localStorage.getItem('fontSize')
-						        fontSize--;
-						        localStorage.setItem('fontSize',fontSize)
-								soalFont(fontSize)
-							});
-						 
-						    $('#bigger_font').on('click', function() {
-						        fontSize = localStorage.getItem('fontSize')
-						        fontSize++;
-						        localStorage.setItem('fontSize',fontSize)
-								soalFont(fontSize)
-							});
-						    
-						    $('#reset_font').on('click', function() {
-						        fontSize = defaultFontSize
-						        localStorage.setItem('fontSize',fontSize)
-								soalFont(fontSize)
-							});
-							Mousetrap.bind('enter', function () {
-							  loadsoal($id_mapel,$id_siswa,$no_next,1);
-							});
+			function soalFont(fontSize) {
+				$('div.soal > p > span').css({
+					fontSize: fontSize + 'pt'
+				});
+				$('span.soal > p > span').css({
+					fontSize: fontSize + 'pt'
+				});
+				$('.soal').css({
+					fontSize: fontSize + 'pt'
+				})
+				$('.callout soal').css({
+					fontSize: fontSize + 'pt'
+				})
+			}
 
-							Mousetrap.bind('right', function () {
-							  loadsoal($id_mapel,$id_siswa,$no_next,1);
-							});
+			$(document).ready(function() {
+				$('#smaller_font').on('click', function() {
+					fontSize = localStorage.getItem('fontSize')
+					fontSize--;
+					localStorage.setItem('fontSize', fontSize)
+					soalFont(fontSize)
+				});
 
-							Mousetrap.bind('left', function () {
-							  loadsoal($id_mapel,$id_siswa,$no_prev,1);
-							});
+				$('#bigger_font').on('click', function() {
+					fontSize = localStorage.getItem('fontSize')
+					fontSize++;
+					localStorage.setItem('fontSize', fontSize)
+					soalFont(fontSize)
+				});
 
-							Mousetrap.bind('a', function () {
-							  $('#A').click()
-							});
+				$('#reset_font').on('click', function() {
+					fontSize = defaultFontSize
+					localStorage.setItem('fontSize', fontSize)
+					soalFont(fontSize)
+				});
+				Mousetrap.bind('enter', function() {
+					loadsoal(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $no_next ?>, 1);
+				});
 
-							Mousetrap.bind('b', function () {
-							  $('#B').click()
-							});
+				Mousetrap.bind('right', function() {
+					loadsoal(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $no_next ?>, 1);
+				});
 
-							Mousetrap.bind('c', function () {
-							  $('#C').click()
-							});
+				Mousetrap.bind('left', function() {
+					loadsoal(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $no_prev ?>, 1);
+				});
 
-							Mousetrap.bind('d', function () {
-							  $('#D').click()
-							});
+				Mousetrap.bind('a', function() {
+					$('#A').click()
+				});
 
-							Mousetrap.bind('e', function () {
-							  $('#E').click()
-							});
+				Mousetrap.bind('b', function() {
+					$('#B').click()
+				});
 
-							Mousetrap.bind('space', function () {
-							  $('input[type=checkbox]').click()
-							  radaragu($id_mapel,$id_siswa,$soal[id_soal])
-							});
-						
-							$(document).on('click','.done-btn',function(){
-								var jawab = $('#jumjawab').val();
-								var soal = $('#jumsoal').val();
-								var belum = soal-jawab;
-								var ragu = 	$('[id^=badge]').hasClass('bg-yellow');
-								if(jawab == soal){
-								    if(ragu){
-									   swal({
-										  type: 'warning',
-										  title: 'Oops...',
-										  html: 'Masih ada soal yang ragu !!',
-										})
-								    }
-								    else{
-								        swal({
-										title: 'Apa kamu yakin telah selesai?',
-										
-										html:
-											' Pastikan telah menyelesaikan semua dengan benar ! <br>' +
-											'Sudah Dijawab : <b>'+jawab + '</b> Belum dijawab : <b>'+belum+'</b>',
-										type: 'warning',
-										showCancelButton: true,
-										confirmButtonColor: '#3085d6',
-										cancelButtonColor: '#d33',
-										confirmButtonText: 'Iya'
-										}).then((result) => {
-											if (result.value)
-												{	window.onbeforeunload = null;
-													$('#done-submit').click();
-												}
-											})
-								    }
-								
-								}
-								else{
-								swal({
-									  type: 'warning',
-									  title: 'Oops...',
-									  html: 'Masih ada soal yang masih belum dikerjakan !! <br>'+
-									 'Sudah Dijawab : <b>'+jawab + '</b> Belum dijawab : <b>'+belum+'</b>',
-									})	
-									
-								}
-                                
-                            });
-							$('.navs-slide').SlideMenu({
-							  expand: false,
-							  collapse: true
-							});
-							var result='';
-							$('.jawabesai').change(function(){
-								result=$(this).val();
-							$('#result').html(result);
-							});
-							$('#zoom').zoom();
-							$('#zoom1').zoom();
-							
-							var jam = $('#htmljam').html();
-							var menit = $('#htmlmnt').html();
-							var detik = $('#htmldtk').html();
-							
-							
-							function hitung() {
-								setTimeout(hitung,1000);
-								
-								$('#countdown').html(jam + ':' + menit + ':' + detik);
-								
-								
-								detik --;
-								if(detik < 0) {
-									detik = 59;
-									menit --;
-									if(menit < 0) {
-										menit = 59;
-										jam --;
-										if(jam < 0) {
-											jam = 0;
-											menit = 0;
-											detik = 0;
-											waktuhabis()
-										}
-									}
-								}
-							}
-							hitung();
-							
-						});
-						
-							function cekwaktu(){
-								$( '#divujian' ).load(window.location.href + ' #divujian' );
-								var status = $('#htmlujianselesai').html();
-								if(status!=''){
-									location='$homeurl';
-								}
-							}
-                        function waktuhabis() {
-                           swal({
-								title: 'Oooo Oooww!',
-								text: 'Waktu Ujian Telah Habis',
-								timer: 1000,
-								onOpen: () => {
-									swal.showLoading()
-								}
-								}).then((result) => {
+				Mousetrap.bind('c', function() {
+					$('#C').click()
+				});
 
+				Mousetrap.bind('d', function() {
+					$('#D').click()
+				});
+
+				Mousetrap.bind('e', function() {
+					$('#E').click()
+				});
+
+				Mousetrap.bind('space', function() {
+					$('input[type=checkbox]').click()
+					radaragu(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $soal['id_soal'] ?>)
+				});
+
+				$(document).on('click', '.done-btn', function() {
+					var jawab = $('#jumjawab').val();
+					var soal = $('#jumsoal').val();
+					var belum = soal - jawab;
+					var ragu = $('[id^=badge]').hasClass('bg-yellow');
+					if (jawab == soal) {
+						if (ragu) {
+							swal({
+								type: 'warning',
+								title: 'Oops...',
+								html: 'Masih ada soal yang ragu !!',
+							})
+						} else {
+							swal({
+								title: 'Apa kamu yakin telah selesai?',
+								html: 'Pastikan telah menyelesaikan semua dengan benar! <br>' +
+									'Sudah Dijawab : <b>' + jawab + '</b> Belum dijawab : <b>' + belum + '</b>',
+								type: 'warning',
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#d33',
+								confirmButtonText: 'Iya'
+							}).then((result) => {
+								if (result.value) {
+									window.onbeforeunload = null;
 									$('#done-submit').click();
-									
-								});
-                        }
-						
-						function loadsoal(idmapel,idsiswa,nosoal,jenis) {
-							cekwaktu();
-							if(nosoal>=0 && nosoal<$soalpg) {
-								curnum = $('#displaynum').html();
-								if(nosoal==curnum) {
-									$('#spin-next').show();
 								}
-								if(nosoal>curnum) {
-									$('#spin-next').show();
-								}
-								if(nosoal<curnum) {
-									$('#spin-prev').show();
-								}
-								$.ajax({
-									type:'POST',
-									url:homeurl+'/soal.php',
-									data:{pg:'soal',id_mapel:idmapel,id_siswa:idsiswa,no_soal:nosoal,jenis:jenis,idu:$ac},
-									success:function(response) {
-										num = nosoal+1;
-										$('#displaynum').html(num);
-										$('#loadsoal').html(response);
-										$('.fa-spin').hide();
-										soalFont(fontSize);
-										//iCheckform();
-									}
-								});
+							})
+						}
+
+					} else {
+						swal({
+							type: 'warning',
+							title: 'Oops...',
+							html: 'Masih ada soal yang masih belum dikerjakan !! <br>' +
+								'Sudah Dijawab : <b>' + jawab + '</b> Belum dijawab : <b>' + belum + '</b>',
+						})
+					}
+				});
+				$('.navs-slide').SlideMenu({
+					expand: false,
+					collapse: true
+				});
+				var result = '';
+				$('.jawabesai').change(function() {
+					result = $(this).val();
+					$('#result').html(result);
+				});
+				$('#zoom').zoom();
+				$('#zoom1').zoom();
+
+				var jam = $('#htmljam').html();
+				var menit = $('#htmlmnt').html();
+				var detik = $('#htmldtk').html();
+
+				function hitung() {
+					setTimeout(hitung, 1000);
+					$('#countdown').html(jam + ':' + menit + ':' + detik);
+					detik--;
+					if (detik < 0) {
+						detik = 59;
+						menit--;
+						if (menit < 0) {
+							menit = 59;
+							jam--;
+							if (jam < 0) {
+								jam = 0;
+								menit = 0;
+								detik = 0;
+								waktuhabis()
 							}
 						}
-						function loadsoalesai(idmapel,idsiswa,nosoal,jenis) {
-							cekwaktu();
-							if(nosoal>=0 && nosoal<$soalesai) {
-								curnum = $('#displaynum').html();
-								if(nosoal==curnum) {
-									$('#spin-next').show();
+					}
+				}
+				hitung();
+			});
+
+			function cekwaktu() {
+				$('#divujian').load(window.location.href + ' #divujian');
+				var status = $('#htmlujianselesai').html();
+				if (status != '') {
+					location = homeurl;
+				}
+			}
+
+			function waktuhabis() {
+				swal({
+					title: 'Oooo Oooww!',
+					text: 'Waktu Ujian Telah Habis',
+					timer: 1000,
+					onOpen: () => {
+						swal.showLoading()
+					}
+				}).then((result) => {
+					$('#done-submit').click();
+				});
+			}
+
+			function loadsoal(idmapel, idsiswa, nosoal, jenis) {
+				cekwaktu();
+				if (nosoal >= 0 && nosoal < <?= $soalpg ?>) {
+					curnum = $('#displaynum').html();
+					if (nosoal == curnum) {
+						$('#spin-next').show();
+					}
+					if (nosoal > curnum) {
+						$('#spin-next').show();
+					}
+					if (nosoal < curnum) {
+						$('#spin-prev').show();
+					}
+					$.ajax({
+						type: 'POST',
+						url: homeurl + '/soal.php',
+						data: {
+							pg: 'soal',
+							id_mapel: idmapel,
+							id_siswa: idsiswa,
+							no_soal: nosoal,
+							jenis: jenis,
+							idu: <?= $ac ?>
+						},
+						success: function(response) {
+							num = nosoal + 1;
+							$('#displaynum').html(num);
+							$('#loadsoal').html(response);
+							$('.fa-spin').hide();
+							soalFont(fontSize);
+							//iCheckform();
+						}
+					});
+				}
+			}
+
+			function loadsoalesai(idmapel, idsiswa, nosoal, jenis) {
+				cekwaktu();
+				if (nosoal >= 0 && nosoal < $soalesai) {
+					curnum = $('#displaynum').html();
+					if (nosoal == curnum) {
+						$('#spin-next').show();
+					}
+					if (nosoal > curnum) {
+						$('#spin-next').show();
+					}
+					if (nosoal < curnum) {
+						$('#spin-prev').show();
+					}
+					$.ajax({
+						type: 'POST',
+						url: homeurl + '/soal.php',
+						data: {
+							pg: 'soalesai',
+							id_mapel: idmapel,
+							id_siswa: idsiswa,
+							no_soal: nosoal,
+							jenis: jenis,
+							idu: <?= $ac ?>
+						},
+						success: function(response) {
+							num = nosoal + 1;
+							$('#displaynum').html(num);
+							$('#loadsoal').html(response);
+							$('.fa-spin').hide();
+							soalFont(fontSize);
+							//iCheckform();
+						}
+					});
+				}
+			}
+
+			function jawabsoal(idmapel, idsiswa, idsoal, jawab, jawabQ, jenis, idu) {
+				cekwaktu();
+				// console.log(idmapel + '-' + idsiswa + '-' + idsoal + '-' + jawab + '-' + jawabQ + '-' + jenis + '-' + idu)
+				$.ajax({
+					type: 'POST',
+					url: homeurl + '/soal.php',
+					data: {
+						pg: 'jawab',
+						id_mapel: idmapel,
+						id_siswa: idsiswa,
+						id_soal: idsoal,
+						jawaban: jawab,
+						jenis: jenis,
+						id_ujian: idu
+					},
+					success: function(response) {
+						if (response == 'OK') {
+							$('#nomorsoal #badge' + idsoal).removeClass('bg-gray');
+							$('#nomorsoal #badge' + idsoal).removeClass('bg-yellow');
+							$('#nomorsoal #badge' + idsoal).addClass('bg-green');
+							$('#nomorsoal #jawabtemp' + idsoal).html(jawabQ);
+							$('#ketjawab').load(window.location.href + ' #ketjawab');
+						}
+					}
+				});
+			}
+
+			function jawabesai(idmapel, idsiswa, idsoal, jenis) {
+				var jawab = $('#jawabesai').val();
+				$.ajax({
+					type: 'POST',
+					url: homeurl + '/soal.php',
+					data: {
+						pg: 'jawabesai',
+						id_mapel: idmapel,
+						id_siswa: idsiswa,
+						id_soal: idsoal,
+						jawaban: jawab,
+						jenis: jenis,
+						idu: <?= $ac ?>
+					},
+					success: function(response) {
+						if (response == 'OK') {
+							$('#badgeesai' + idsoal).removeClass('bg-gray');
+							$('#badgeesai' + idsoal).removeClass('bg-yellow');
+							$('#badgeesai' + idsoal).addClass('bg-green');
+							$('#ketjawab').load(window.location.href + ' #ketjawab');
+						}
+					}
+				});
+			}
+
+			function radaragu(idmapel, idsiswa, idsoal) {
+				cekclass = $('#nomorsoal #badge' + idsoal).attr('class');
+				if (cekclass != 'btn btn-app bg-gray') {
+					$.ajax({
+						type: 'POST',
+						url: homeurl + '/soal.php',
+						data: {
+							pg: 'ragu',
+							id_mapel: idmapel,
+							id_siswa: idsiswa,
+							id_soal: idsoal
+						},
+						success: function(response) {
+							if (response == 'OK') {
+								if (cekclass == 'btn btn-app bg-green') {
+									$('#nomorsoal #badge' + idsoal).removeClass('bg-gray');
+									$('#nomorsoal #badge' + idsoal).removeClass('bg-green');
+									$('#nomorsoal #badge' + idsoal).addClass('bg-yellow');
+									console.log('kuning');
 								}
-								if(nosoal>curnum) {
-									$('#spin-next').show();
+								if (cekclass == 'btn btn-app bg-yellow') {
+									$('#nomorsoal #badge' + idsoal).removeClass('bg-gray');
+									$('#nomorsoal #badge' + idsoal).removeClass('bg-yellow');
+									$('#nomorsoal #badge' + idsoal).addClass('bg-green');
+									console.log('hijau');
 								}
-								if(nosoal<curnum) {
-									$('#spin-prev').show();
-								}
-								$.ajax({
-									type:'POST',
-									url:homeurl+'/soal.php',
-									data:{pg:'soalesai',id_mapel:idmapel,id_siswa:idsiswa,no_soal:nosoal,jenis:jenis,idu:$ac},
-									success:function(response) {
-										num = nosoal+1;
-										$('#displaynum').html(num);
-										$('#loadsoal').html(response);
-										$('.fa-spin').hide();
-										soalFont(fontSize);
-										//iCheckform();
-									}
-								});
 							}
 						}
-						
-						function jawabsoal(idmapel,idsiswa,idsoal,jawab,jawabQ,jenis,idu) {
-							cekwaktu();
-							console.log(idmapel+'-'+idsiswa+'-'+idsoal+'-'+jawab+'-'+jawabQ+'-'+jenis+'-'+idu)
-							$.ajax({
-								type:'POST',
-								url:homeurl+'/soal.php',
-								data:{pg:'jawab',id_mapel:idmapel,id_siswa:idsiswa,id_soal:idsoal,jawaban:jawab,jenis:jenis,id_ujian:idu},
-								success:function(response) {
-									if(response=='OK') {
-										$('#nomorsoal #badge'+idsoal).removeClass('bg-gray');
-										$('#nomorsoal #badge'+idsoal).removeClass('bg-yellow');
-										$('#nomorsoal #badge'+idsoal).addClass('bg-green');
-										$('#nomorsoal #jawabtemp'+idsoal).html(jawabQ);
-										$( '#ketjawab' ).load(window.location.href + ' #ketjawab' );
-									}
-								}
-							});
-						}
-						function jawabesai(idmapel,idsiswa,idsoal,jenis) {
-							
-							var jawab =$('#jawabesai').val();
-							
-							$.ajax({
-								type:'POST',
-								url:homeurl+'/soal.php',
-								data:{pg:'jawabesai',id_mapel:idmapel,id_siswa:idsiswa,id_soal:idsoal,jawaban:jawab,jenis:jenis,idu:$ac},
-								success:function(response) {
-									if(response=='OK') {
-										
-										$('#badgeesai'+idsoal).removeClass('bg-gray');
-										$('#badgeesai'+idsoal).removeClass('bg-yellow');
-										$('#badgeesai'+idsoal).addClass('bg-green');
-										$( '#ketjawab' ).load(window.location.href + ' #ketjawab' );
-									}
-								}
-							});
-						}
-						
-						function radaragu(idmapel,idsiswa,idsoal) {
-							cekclass = $('#nomorsoal #badge'+idsoal).attr('class');
-							if(cekclass!='btn btn-app bg-gray') {
-								$.ajax({
-									type:'POST',
-									url:homeurl+'/soal.php',
-									data:{pg:'ragu',id_mapel:idmapel,id_siswa:idsiswa,id_soal:idsoal},
-									success:function(response) {
-										if(response=='OK') {
-											if(cekclass=='btn btn-app bg-green') {
-												$('#nomorsoal #badge'+idsoal).removeClass('bg-gray');
-												$('#nomorsoal #badge'+idsoal).removeClass('bg-green');
-												$('#nomorsoal #badge'+idsoal).addClass('bg-yellow');
-												console.log('kuning');
-											}
-											if(cekclass=='btn btn-app bg-yellow') {
-												$('#nomorsoal #badge'+idsoal).removeClass('bg-gray');
-												$('#nomorsoal #badge'+idsoal).removeClass('bg-yellow');
-												$('#nomorsoal #badge'+idsoal).addClass('bg-green');
-												console.log('hijau');
-											}
-										}
-									}
-								});
-							} else {
-								$('#load-ragu input').removeAttr('checked');
-							}
-						}
-					</script>	
-					";
-													}
-													echo "
-				
-			</body>
-		</html>
-	";
+					});
+				} else {
+					$('#load-ragu input').removeAttr('checked');
+				}
+			}
+		</script>
+	<?php endif; ?>
+</body>
+
+</html>

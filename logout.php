@@ -5,4 +5,4 @@ require("config/dis.php");
 ($id_siswa <> 0) ? mysqli_query($koneksi, "INSERT INTO log (id_siswa,type,text,date) VALUES ('$id_siswa','logout','keluar','$tanggal $waktu')") : null;
 ($id_siswa <> 0) ? mysqli_query($koneksi, "DELETE FROM login where id_siswa='$id_siswa'") : null;
 session_destroy();
-header('location:' . $homeurl);
+echo "<script>location.href = '.';</script>";

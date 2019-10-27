@@ -4,7 +4,7 @@ require("config/config.function.php");
 require("config/functions.crud.php");
 
 $id_siswa = (isset($_SESSION['id_siswa'])) ? $_SESSION['id_siswa'] : 0;
-$siswa = fetch('siswa', array('id_siswa' => $id_siswa));
+$siswa = fetch($koneksi, 'siswa', array('id_siswa' => $id_siswa));
 
 $pg = @$_POST['pg'];
 $ac = @$_POST['idu'];
@@ -29,17 +29,17 @@ if ($pg == 'soal') {
 		'id_ujian' => $ac
 	);
 
-	$pengacak = fetch('pengacak', $where);
-	$pengacakesai = fetch('pengacak', $where);
-	$pengacakpil = fetch('pengacakopsi', $where);
+	$pengacak = fetch($koneksi, 'pengacak', $where);
+	$pengacakesai = fetch($koneksi, 'pengacak', $where);
+	$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
 	$pengacak = explode(',', $pengacak['id_soal']);
 	$pengacakesai = explode(',', $pengacakesai['id_esai']);
 	$pengacakpil = explode(',', $pengacakpil['id_soal']);
 
-	$mapel = fetch('ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-	update('nilai', array('ujian_berlangsung' => $datetime), $where);
-	$soal = fetch('soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
-	$jawab = fetch('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
+	$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+	update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
+	$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
+	$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
 	?>
 	<div class='box-body'>
 		<div class='row'>
@@ -444,20 +444,20 @@ if ($pg == 'soal') {
 
 					);
 
-					$pengacak = fetch('pengacak', $where);
-					$pengacakpil = fetch('pengacak', $where);
-					$pengacakesai = fetch('pengacak', $where);
+					$pengacak = fetch($koneksi, 'pengacak', $where);
+					$pengacakpil = fetch($koneksi, 'pengacak', $where);
+					$pengacakesai = fetch($koneksi, 'pengacak', $where);
 					$pengacak = explode(',', $pengacak['id_soal']);
 					$pengacakpil = explode(';', $pengacakpil['id_soal']);
 					$pengacakesai = explode(',', $pengacakesai['id_esai']);
-					$mapel = fetch('ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+					$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 
 
-					update('nilai', array('ujian_berlangsung' => $datetime), $where2);
+					update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
 
 
-					$soalesai = fetch('soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
-					$jawabesai = fetch('jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
+					$soalesai = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
+					$jawabesai = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
 					echo "
 			<div class='box-body'>
 				<div class='col-md-12'>";
@@ -613,11 +613,11 @@ if ($pg == 'soal') {
 						'jenis' => $_POST['jenis'],
 						'id_soal' => $_POST['id_soal']
 					);
-					$cekjawaban = rowcount('jawaban', $where);
+					$cekjawaban = rowcount($koneksi, 'jawaban', $where);
 					if ($cekjawaban == 0) {
-						$exec = insert('jawaban', $data);
+						$exec = insert($koneksi, 'jawaban', $data);
 					} else {
-						$exec = update('jawaban', $data, $where);
+						$exec = update($koneksi, 'jawaban', $data, $where);
 					}
 					echo $exec;
 				} elseif ($pg == 'jawabesai') {
@@ -637,11 +637,11 @@ if ($pg == 'soal') {
 						'jenis' => $_POST['jenis'],
 						'id_soal' => $_POST['id_soal']
 					);
-					$cekjawaban = rowcount('jawaban', $where);
+					$cekjawaban = rowcount($koneksi, 'jawaban', $where);
 					if ($cekjawaban == 0) {
-						$exec = insert('jawaban', $data);
+						$exec = insert($koneksi, 'jawaban', $data);
 					} else {
-						$exec = update('jawaban', $data, $where);
+						$exec = update($koneksi, 'jawaban', $data, $where);
 					}
 					echo $exec;
 				} elseif ($pg == 'ragu') {
@@ -652,11 +652,11 @@ if ($pg == 'soal') {
 						'jenis' => 1,
 						'id_soal' => $_POST['id_soal']
 					);
-					$cekragu = fetch('jawaban', $where);
+					$cekragu = fetch($koneksi, 'jawaban', $where);
 					if ($cekragu['ragu'] == 0) {
-						$exec = update('jawaban', array('ragu' => 1), $where);
+						$exec = update($koneksi, 'jawaban', array('ragu' => 1), $where);
 					} else {
-						$exec = update('jawaban', array('ragu' => 0), $where);
+						$exec = update($koneksi, 'jawaban', array('ragu' => 0), $where);
 					}
 					echo $exec;
 				}

@@ -107,12 +107,12 @@
 	<div class='row'>
 		<div class='col-md-12'>
 			<div class='box box-solid'>
-				<div class='box-header with-border bg-blue'>
+				<div class='box-header with-border'>
 					<h3 class='box-title'><img src='../dist/img/svg/daftar_nilai.svg' width='30'> NILAI <?= $mapel['nama'] ?> <?= $id_kelas ?></h3>
-					<div class='box-tools pull-right btn-group'>
+					<div class='box-tools pull-right btn-grou'>
 						<button class='btn btn-sm btn-primary' onclick="frames['frameresult'].print()"><i class='fa fa-print'></i> Print</button>
-						<a class='btn btn-sm btn-primary' href='report_excel.php?m=<?= $id_mapel ?>&k=<?= $id_kelas ?>&i=<?= $kode_ujian ?>'><i class='fa fa-file-excel-o'></i> Excel</a>
-						<a class='btn btn-sm btn-primary' href='?pg=nilai'><i class='fa fa-times'></i> Keluar</a>
+						<a class='btn btn-sm btn-success' href='report_excel.php?m=<?= $id_mapel ?>&k=<?= $id_kelas ?>&i=<?= $kode_ujian ?>'><i class='fa fa-file-excel-o'></i> Excel</a>
+						<a class='btn btn-sm btn-danger' href='?pg=nilai'><i class='fa fa-times'></i> Keluar</a>
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'>

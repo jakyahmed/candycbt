@@ -8,15 +8,15 @@
 	($id_pengawas==0) ? header('location:login.php'):null;
 	$id_mapel = $_GET['id'];
 	
-	$pengawas = fetch('pengawas',array('id_pengawas'=>$id_pengawas));
+	$pengawas = fetch($koneksi, 'pengawas',array('id_pengawas'=>$id_pengawas));
 	$mapel=mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel where id_mapel='$id_mapel'"));
 	if($mapel['idpk']=='0'){
 		$jurusan='Semua Jurusan';
 	}else{
 		$jurusan=$mapel['idpk'];
 	}
-	$guru = fetch('pengawas',array('id_pengawas'=>$mapel['idguru']));
-	$namasekolah=fetch('setting');
+	$guru = fetch($koneksi, 'pengawas',array('id_pengawas'=>$mapel['idguru']));
+	$namasekolah=fetch($koneksi, 'setting');
 	if(date('m')>=7 AND date('m')<=12) {
 		$ajaran = date('Y')."/".(date('Y')+1);
 	}

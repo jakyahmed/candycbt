@@ -7,9 +7,9 @@ require("../config/dis.php");
 ($id_pengawas == 0) ? header('location:login.php') : null;
 echo "<style> .str{ mso-number-format:\@; } </style>";
 $id_kelas = $_GET['k'];
-$pengawas = fetch('pengawas', array('id_pengawas' => $id_pengawas));
-$mapel = fetch('mapel', array('id_mapel' => null));
-$kelas = fetch('kelas', array('id_kelas' => $id_kelas));
+$pengawas = fetch($koneksi, 'pengawas', array('id_pengawas' => $id_pengawas));
+$mapel = fetch($koneksi, 'mapel', array('id_mapel' => null));
+$kelas = fetch($koneksi, 'kelas', array('id_kelas' => $id_kelas));
 
 if (date('m') >= 7 and date('m') <= 12) :
 	$ajaran = date('Y') . "/" . (date('Y') + 1);

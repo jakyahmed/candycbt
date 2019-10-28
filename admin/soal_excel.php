@@ -6,7 +6,7 @@
 	(isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
 	($id_pengawas==0) ? header('location:login.php'):null;
 	$id_mapel = $_GET['m'];
-	$mapel = fetch('mapel',array('id_mapel'=>$id_mapel));
+	$mapel = fetch($koneksi, 'mapel',array('id_mapel'=>$id_mapel));
 	if(date('m')>=7 AND date('m')<=12) {
 		$ajaran = date('Y')."/".(date('Y')+1);
 	}
@@ -45,7 +45,7 @@
 				
 			</tr>";
 				
-			$soal = select('soal',array('id_mapel'=>$id_mapel));
+			$soal = select($koneksi, 'soal',array('id_mapel'=>$id_mapel));
 			foreach($soal as $soal) {
 				$no++;
 				$soaltanya=strip_tags($soal['soal']);

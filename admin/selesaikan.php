@@ -3,7 +3,7 @@ require("../config/config.default.php");
 require("../config/config.function.php");
 require("../config/functions.crud.php");
 	$idnilai=$_POST['id'];
-	$nilai = fetch('nilai',array('id_nilai'=>$idnilai));
+	$nilai = fetch($koneksi, 'nilai',array('id_nilai'=>$idnilai));
 								$idm = $nilai['id_mapel'];
 								$ids = $nilai['id_siswa'];
 								$idk = $nilai['id_kelas'];
@@ -20,18 +20,18 @@ require("../config/functions.crud.php");
 									'id_ujian' => $iduj
 								);
 								$benar = $salah = 0;
-								$mapel = fetch('mapel',array('id_mapel'=>$idm));
-								$siswa = fetch('siswa',array('id_siswa'=>$ids));
-								$ceksoal = select('soal',array('id_mapel'=>$idm));
+								$mapel = fetch($koneksi, 'mapel',array('id_mapel'=>$idm));
+								$siswa = fetch($koneksi, 'siswa',array('id_siswa'=>$ids));
+								$ceksoal = select($koneksi, 'soal',array('id_mapel'=>$idm));
 								foreach($ceksoal as $getsoal) {
 									$w = array(
 										'id_siswa' => $ids,
 										'id_mapel' => $idm,
 										'id_soal' => $getsoal['id_soal']
 									);
-									$cekjwb = rowcount('jawaban',$w);
+									$cekjwb = rowcount($koneksi, 'jawaban',$w);
 									if($cekjwb<>0) {
-										$getjwb = fetch('jawaban',$w);
+										$getjwb = fetch($koneksi, 'jawaban',$w);
 										($getjwb['jawaban']==$getsoal['jawaban']) ? $benar++ : $salah++;
 									} else {
 										$salah++;
@@ -45,6 +45,6 @@ require("../config/functions.crud.php");
 									'jml_salah' => $salah,
 									'skor' => $skor
 								);
-								update('nilai',$data,$where);
-								delete('pengacak',$where2);
-								delete('pengacakopsi',$where2);
+								update($koneksi, 'nilai',$data,$where);
+								delete($koneksi,'pengacak',$where2);
+								delete($koneksi,'pengacakopsi',$where2);

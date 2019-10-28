@@ -9,7 +9,7 @@ $id_mapel = $_GET['m'];	//==> kode mapel di bank soal
 $id_kelas = $_GET['k'];
 $kode_ujian = $_GET['i'];	//==> kode kode_ujian
 
-// $pengawas = fetch('pengawas', array('id_pengawas' => $id_pengawas));
+// $pengawas = fetch($koneksi, pengawas', array('id_pengawas' => $id_pengawas));
 
 echo "
 	<link rel='stylesheet' href='$homeurl/dist/bootstrap/css/bootstrap.min.css'/>

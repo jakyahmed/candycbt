@@ -1354,7 +1354,6 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<?php
 										if ($pengawas['level'] == 'admin') {
 											$exec = mysqli_query($koneksi, "INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian,tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$idguru','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian')");
-											
 										} else {
 											$exec = mysqli_query($koneksi, "INSERT INTO ujian (id_pk, id_mapel, nama,jml_soal,jml_esai,lama_ujian, tgl_ujian, tgl_selesai, waktu_ujian, level, sesi, acak, token,status,bobot_pg,bobot_esai,id_guru,tampil_pg,tampil_esai,hasil,kelas,opsi,kode_ujian) VALUES ('$id_pk','$idmapel','$nama_mapel','$jmlsoal','$jml_esai','$lama_ujian','$tgl_ujian','$tgl_selesai','$wkt_ujian','$level','$sesi','$acak','$token','1','$bobot_pg','$bobot_esai','$id_pengawas','$tampil_pg','$tampil_esai','$hasil','$kelas','$opsi','$kode_ujian')");
 										}
@@ -3169,8 +3168,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Pengaturan Umum</a></li>
 											<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Hapus Data</a></li>
 											<li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Backup & Restore</a></li>
-
-
+											<li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Backup Master Soal</a></li>
 										</ul>
 										<div class="tab-content">
 											<div class="tab-pane active" id="tab_1">
@@ -3368,16 +3366,36 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													</div><!-- /.box -->
 												</div>
 											</div>
-											<!-- /.tab-pane -->
+											<div class="tab-pane" id="tab_4">
+												<div class="row">
+													<div class='col-md-12 notif_mapel'></div>
+													<div class='col-md-12'>
+														<div class="panel panel-default">
+															<div class="panel-body">
+																<label for="mapel" class="col-sm-2">Mapel yang Tersedia</label>
+																<div class="col-sm-10">
+																	<select name="mapel_id" id="mapel_id" class="form-control select2" style="width: 100%;" required>
+																		<?php $mapelbackup = mysqli_query($koneksi, "SELECT a.id_mapel, b.kode_mapel, b.nama_mapel FROM mapel a INNER JOIN mata_pelajaran b ON a.nama = b.kode_mapel INNER JOIN soal c ON a.id_mapel = c.id_mapel GROUP BY c.id_mapel ASC"); ?>
+																		<?php while ($mapelb = mysqli_fetch_array($mapelbackup)) : ?>
+																			<option value="<?= $mapelb['id_mapel'] . ";" . $mapelb['kode_mapel'] ?>"><?= $mapelb['id_mapel'] . " - " . $mapelb['nama_mapel'] ?></option>
+																		<?php endwhile ?>
+																	</select>
+																</div>
+															</div>
+															<div class="panel-footer clearfix">
+																<div class="pull-right">
+																	<button id='mastersoal' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Proses</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<!-- /.tab-content -->
 									</div>
 								</div>
 							</div>
 						</div>
-
-
-
 					</div>
 					<?php
 						if (isset($_POST['restore'])) {
@@ -3569,6 +3587,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 			iCheckform()
 			$('#btnbackup').click(function() {
 				$('.notif').load('backup.php');
+				console.log('sukses');
+			});
+			$('#mastersoal').click(function() {
+				var mapel_id = $('#mapel_id').val();
+				$('.notif_mapel').load('backup_excel.php?mapel_id=' + mapel_id);
 				console.log('sukses');
 			});
 		});

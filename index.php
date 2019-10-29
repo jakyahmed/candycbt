@@ -1228,6 +1228,8 @@ $tglsekarang = time();
 	<script src='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.js'></script>
 	<script src='<?= $homeurl ?>/plugins/mousetrap/mousetrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/MathJax-2.7.3/MathJax.js?config=TeX-AMS_HTML-full'></script>
+
 	<script>
 		var url = window.location;
 		$('ul.sidebar-menu a').filter(function() {

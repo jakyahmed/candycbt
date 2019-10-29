@@ -3453,6 +3453,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 	<script src='<?= $homeurl ?>/plugins/notify/js/notify.js'></script>
 	<script src='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/MathJax-2.7.3/MathJax.js?config=TeX-AMS_HTML-full'></script>
 
 	<script>
 		$('.loader').fadeOut('slow');

@@ -11,36 +11,38 @@ $ac = @$_POST['idu'];
 $id = @$_POST['id'];
 $audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
 $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-if ($pg == 'soal') {
-	$no_soal = $_POST['no_soal'];
-	$no_prev = $no_soal - 1;
-	$no_next = $no_soal + 1;
-	$id_mapel = $_POST['id_mapel'];
-	$id_siswa = $_POST['id_siswa'];
-	$jenis = $_POST['jenis'];
+?>
+<?php if ($pg == 'soal') { ?>
+	<?php
+		$no_soal = $_POST['no_soal'];
+		$no_prev = $no_soal - 1;
+		$no_next = $no_soal + 1;
+		$id_mapel = $_POST['id_mapel'];
+		$id_siswa = $_POST['id_siswa'];
+		$jenis = $_POST['jenis'];
 
-	$where = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel
-	);
-	$where2 = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel,
-		'id_ujian' => $ac
-	);
+		$where = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel
+		);
+		$where2 = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel,
+			'id_ujian' => $ac
+		);
 
-	$pengacak = fetch($koneksi, 'pengacak', $where);
-	$pengacakesai = fetch($koneksi, 'pengacak', $where);
-	$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
-	$pengacak = explode(',', $pengacak['id_soal']);
-	$pengacakesai = explode(',', $pengacakesai['id_esai']);
-	$pengacakpil = explode(',', $pengacakpil['id_soal']);
+		$pengacak = fetch($koneksi, 'pengacak', $where);
+		$pengacakesai = fetch($koneksi, 'pengacak', $where);
+		$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
+		$pengacak = explode(',', $pengacak['id_soal']);
+		$pengacakesai = explode(',', $pengacakesai['id_esai']);
+		$pengacakpil = explode(',', $pengacakpil['id_soal']);
 
-	$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-	update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
-	$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
-	$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
-	?>
+		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
+		$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
+		$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
+		?>
 	<div class='box-body'>
 		<div class='row'>
 			<div class='col-md-7'>
@@ -122,15 +124,17 @@ if ($pg == 'soal') {
 					endif;
 
 					$ragu = ($jawab['ragu'] == 1) ? 'checked' : '';
-					if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') {
-						$ax = ($jawab['jawaban'] == 'A') ? 'checked' : '';
-						$bx = ($jawab['jawaban'] == 'B') ? 'checked' : '';
-						$cx = ($jawab['jawaban'] == 'C') ? 'checked' : '';
-						$dx = ($jawab['jawaban'] == 'D') ? 'checked' : '';
-						if ($mapel['opsi'] == 5) {
-							$ex = ($jawab['jawaban'] == 'E') ? 'checked' : '';
-						}
-						?>
+					?>
+				<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') { ?>
+					<?php
+							$ax = ($jawab['jawaban'] == 'A') ? 'checked' : '';
+							$bx = ($jawab['jawaban'] == 'B') ? 'checked' : '';
+							$cx = ($jawab['jawaban'] == 'C') ? 'checked' : '';
+							$dx = ($jawab['jawaban'] == 'D') ? 'checked' : '';
+							if ($mapel['opsi'] == 5) :
+								$ex = ($jawab['jawaban'] == 'E') ? 'checked' : '';
+							endif;
+							?>
 					<table class='table'>
 						<tr>
 							<td>
@@ -301,367 +305,305 @@ if ($pg == 'soal') {
 								</td>
 							</tr>
 						<?php endif; ?>
-					<?php
-							echo "
-																	</table>";
-						}
-						echo "
-					</div>
-					
-				</div>
+					</table>
+				<?php } ?>
 			</div>
-			<div class='box-footer navbar-fixed-bottom'>
-				<table width='100%'><tr><td>";
-
-						if ($no_soal == 0) {
-							echo "
-					<div class='col-md-4 text-left'>
-						<button id='move-prev' class='btn  btn-default' onclick=loadsoal($id_mapel,$id_siswa,$no_prev,1)><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
-						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-					</div>";
-						} else {
-							echo "
-					<div class='col-md-4 text-left'>
-						<button id='move-prev' class='btn  btn-primary' onclick=loadsoal($id_mapel,$id_siswa,$no_prev,1)><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
-						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-					</div>";
-						}
-						echo "	
-					
-					</td><td>
+		</div>
+	</div>
+	<div class='box-footer navbar-fixed-bottom'>
+		<table width='100%'>
+			<tr>
+				<td>
+					<?php if ($no_soal == 0) { ?>
+						<div class='col-md-4 text-left'>
+							<button id='move-prev' class='btn btn-default' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_prev ?>,1)"><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
+							<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+						</div>
+					<?php } else { ?>
+						<div class='col-md-4 text-left'>
+							<button id='move-prev' class='btn  btn-primary' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_prev ?>,1)"><i class='fa fa-chevron-left'></i> <span class='hidden-xs'>SEBELUMNYA</span></button>
+							<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+						</div>
+					<?php } ?>
+				</td>
+				<td>
 					<div class='col-md-4 text-center'>
 						<div id='load-ragu'>
-							<a href='#' class='btn  btn-warning'><input type='checkbox' onclick=radaragu($id_mapel,$id_siswa,$soal[id_soal]) $ragu/> RAGU</a>
+							<a href='#' class='btn btn-warning'><input type='checkbox' onclick="radaragu(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>, <?= $ac ?>)" <?= $ragu ?> /> RAGU</a>
 						</div>
-					</div></td><td>";
+					</div>
+				</td>
+				<td>
+					<?php
 						$jumsoalpg = $mapel['tampil_pg'];
 						$jumsoalesai = $mapel['tampil_esai'];
 						$cekno_soal = $no_soal + 1;
-						if (($no_soal >= 0) && ($cekno_soal < $jumsoalpg)) {
-							echo "	
-					<div class='col-md-4 text-right'>
-						<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
-						<button id='move-next' class='btn  btn-primary' onclick=loadsoal($id_mapel,$id_siswa,$no_next,1)><span class='hidden-xs'>SELANJUTNYA </span><i class='fa fa-chevron-right'></i></button>
-					</div>";
-						} elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai == 0)) {
-							echo "	
-					<div class='col-md-4 text-right'>
-					
-						<input type='submit' name='done' id='done-submit' style='display:none;'/>
-						<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span>SELESAI</button>
-						
-					</div>";
-						} elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai > 0)) {
-							echo "	
-					<div class='col-md-4 text-right'>
-						<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
-						<button id='badgeesai' class='btn  btn-success' onclick=loadsoalesai($id_mapel,$id_siswa,0,2)><span class='hidden-xs'>SOAL ESAI </span><i class='fa fa-chevron-right'></i></button>
-					</div>";
-						}
+						?>
+					<?php if (($no_soal >= 0) && ($cekno_soal < $jumsoalpg)) { ?>
+						<div class='col-md-4 text-right'>
+							<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
+							<button id='move-next' class='btn  btn-primary' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_next ?>,1)"><span class='hidden-xs'>SELANJUTNYA </span><i class='fa fa-chevron-right'></i></button>
+						</div>
+					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai == 0)) { ?>
+						<div class='col-md-4 text-right'>
+							<input type='submit' name='done' id='done-submit' style='display:none;' />
+							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span>SELESAI</button>
+						</div>
+					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai > 0)) { ?>
+						<div class='col-md-4 text-right'>
+							<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
+							<button id='badgeesai' class='btn  btn-success' onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,0,2)"><span class='hidden-xs'>SOAL ESAI </span><i class='fa fa-chevron-right'></i></button>
+						</div>
+					<?php } ?>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#zoom').zoom();
+			$('#zoom1').zoom();
+			$('.lup').zoom();
+			$('.soal img')
+				.wrap('<span style="display:inline-block"></span>')
+				.css('display', 'block')
+				.parent()
+				.zoom();
+		});
+	</script>
+	<script>
+		$(document).ready(function() {
+			Mousetrap.bind('enter', function() {
+				loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_next . ",1" ?>);
+			});
 
-						echo "	
-					
-					</td></tr>
-				</table>
-			</div>"; ?>
-					<script>
-						$(document).ready(function() {
-							$('#zoom').zoom();
-							$('#zoom1').zoom();
-							$('.lup').zoom();
-							$('.soal img')
-								.wrap('<span style="display:inline-block"></span>')
-								.css('display', 'block')
-								.parent()
-								.zoom();
+			Mousetrap.bind('right', function() {
+				loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_next . ",1" ?>);
+			});
 
+			Mousetrap.bind('left', function() {
+				loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_prev . ",1" ?>);
+			});
 
-						});
-					</script>
-					<script>
-						$(document).ready(function() {
-							Mousetrap.bind('enter', function() {
-								loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_next . ",1" ?>);
-							});
+			Mousetrap.bind('a', function() {
+				$('#A').click()
+			});
 
-							Mousetrap.bind('right', function() {
-								loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_next . ",1" ?>);
-							});
+			Mousetrap.bind('b', function() {
+				$('#B').click()
+			});
 
-							Mousetrap.bind('left', function() {
-								loadsoal(<?= $id_mapel . "," . $id_siswa . "," . $no_prev . ",1" ?>);
-							});
+			Mousetrap.bind('c', function() {
+				$('#C').click()
+			});
 
-							Mousetrap.bind('a', function() {
-								$('#A').click()
-							});
+			Mousetrap.bind('d', function() {
+				$('#D').click()
+			});
 
-							Mousetrap.bind('b', function() {
-								$('#B').click()
-							});
+			Mousetrap.bind('e', function() {
+				$('#E').click()
+			});
 
-							Mousetrap.bind('c', function() {
-								$('#C').click()
-							});
+			Mousetrap.bind('space', function() {
+				$('input[type=checkbox]').click()
+				radaragu(<?= $id_mapel . "," . $id_siswa . "," . $soal['id_soal'] ?>, <?= $ac ?>)
+			});
 
-							Mousetrap.bind('d', function() {
-								$('#D').click()
-							});
+		});
+	</script>
+	<script>
+		MathJax.Hub.Typeset()
+	</script>
+<?php } ?>
+<?php if ($pg == 'soalesai') { ?>
+	<?php
+		$no_soal = $_POST['no_soal'];
+		$no_prev = $no_soal - 1;
+		$no_next = $no_soal + 1;
+		$id_mapel = $_POST['id_mapel'];
+		$id_siswa = $_POST['id_siswa'];
+		$jenis = $_POST['jenis'];
 
-							Mousetrap.bind('e', function() {
-								$('#E').click()
-							});
+		$where = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel
+		);
+		$where2 = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel,
+			'id_ujian' => $ac
+		);
 
-							Mousetrap.bind('space', function() {
-								$('input[type=checkbox]').click()
-								radaragu(<?= $id_mapel . "," . $id_siswa . "," . $soal['id_soal'] ?>)
-							});
+		$pengacak = fetch($koneksi, 'pengacak', $where);
+		$pengacakpil = fetch($koneksi, 'pengacak', $where);
+		$pengacakesai = fetch($koneksi, 'pengacak', $where);
+		$pengacak = explode(',', $pengacak['id_soal']);
+		$pengacakpil = explode(';', $pengacakpil['id_soal']);
+		$pengacakesai = explode(',', $pengacakesai['id_esai']);
+		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 
-						});
-					</script>
+		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
 
-
-				<?php
-
+		$soalesai = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
+		$jawabesai = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
+		?>
+	<div class='box-body'>
+		<div class='col-md-12'>
+			<?php
+				if ($soalesai['file'] <> '') {
+					$ext = explode(".", $soalesai['file']);
+					$ext = end($ext);
+					if (in_array($ext, $image)) {
+						echo "<div class='col-md-5'><span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file]' class='img-responsive'/></span></div>";
+					} elseif (in_array($ext, $audio)) {
+						echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+					} else {
+						echo "File tidak didukung!";
+					}
 				}
-				if ($pg == 'soalesai') {
-					$no_soal = $_POST['no_soal'];
-					$no_prev = $no_soal - 1;
-					$no_next = $no_soal + 1;
-					$id_mapel = $_POST['id_mapel'];
-					$id_siswa = $_POST['id_siswa'];
-					$jenis = $_POST['jenis'];
-
-					$where = array(
-						'id_siswa' => $id_siswa,
-						'id_mapel' => $id_mapel
-
-					);
-					$where2 = array(
-						'id_siswa' => $id_siswa,
-						'id_mapel' => $id_mapel,
-						'id_ujian' => $ac
-
-					);
-
-					$pengacak = fetch($koneksi, 'pengacak', $where);
-					$pengacakpil = fetch($koneksi, 'pengacak', $where);
-					$pengacakesai = fetch($koneksi, 'pengacak', $where);
-					$pengacak = explode(',', $pengacak['id_soal']);
-					$pengacakpil = explode(';', $pengacakpil['id_soal']);
-					$pengacakesai = explode(',', $pengacakesai['id_esai']);
-					$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-
-
-					update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
-
-
-					$soalesai = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
-					$jawabesai = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
-					echo "
-			<div class='box-body'>
-				<div class='col-md-12'>";
-					if ($soalesai['file'] <> '') {
-						$ext = explode(".", $soalesai['file']);
-						$ext = end($ext);
-						if (in_array($ext, $image)) {
-							echo "<div class='col-md-5'><span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file]' class='img-responsive'/></span></div>";
-						} elseif (in_array($ext, $audio)) {
-							echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-						} else {
-							echo "File tidak didukung!";
-						}
+				if ($soalesai['file1'] <> '') {
+					$ext = explode(".", $soalesai['file1']);
+					$ext = end($ext);
+					if (in_array($ext, $image)) {
+						echo "<div class='col-md-5'><span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file1]' class='img-responsive'/></span></div>";
+					} elseif (in_array($ext, $audio)) {
+						echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+					} else {
+						echo "File tidak didukung!";
 					}
-					if ($soalesai['file1'] <> '') {
-						$ext = explode(".", $soalesai['file1']);
-						$ext = end($ext);
-						if (in_array($ext, $image)) {
-							echo "<div class='col-md-5'><span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file1]' class='img-responsive'/></span></div>";
-						} elseif (in_array($ext, $audio)) {
-							echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-						} else {
-							echo "File tidak didukung!";
-						}
-					}
-
-					echo "
-					</div>
-				
-				<div id='result'></div>
-				<div class='row'>
-					<div class='col-md-7'>
-					<div class='callout soal'><div class='soaltanya'>$soalesai[soal]</div></div>
-					<textarea id='jawabesai' name='textjawab' style='height:200px' class='form-control' onchange=jawabesai($id_mapel,$id_siswa,$soalesai[id_soal],2)>$jawabesai[esai]</textarea>
-					<br><br>
-					</div>	
-						
+				}
+				?>
+		</div>
+		<div id='result'></div>
+		<div class='row'>
+			<div class='col-md-7'>
+				<div class='callout soal'>
+					<div class='soaltanya'><?= $soalesai['soal'] ?></div>
 				</div>
+				<textarea id='jawabesai' name='textjawab' style='height:200px' class='form-control' onchange="jawabesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soalesai['id_soal'] ?>,2)"><?= $jawabesai['esai'] ?></textarea>
+				<br><br>
 			</div>
-			<div class='box-footer navbar-fixed-bottom'>
-				<table width='100%'><tr><td>";
-					$jumsoalpg = $mapel['tampil_pg'];
-					$jumsoalesai = $mapel['tampil_esai'];
-					$cekno_soal = $no_soal + 1;
-					$pg_max = $jumsoalpg - 1;
-					if (($no_soal > 0)) {
-						echo "	
-					<div class='col-md-4 text-left'>
-						<button id='move-prev' class='btn btn-flat btn-default' onclick=loadsoalesai($id_mapel,$id_siswa,$no_prev,2)><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL SEBELUMNYA</span></button>
-						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-					</div></td><td>";
-					} elseif (($no_soal == 0) && ($cekno_soal < $jumsoalesai)) {
-						echo "	
-					<div class='col-md-4 text-left'>
-						<button id='badge' class='btn btn-flat btn-warning' onclick=loadsoal($id_mapel,$id_siswa,$pg_max,1)><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL PG</span></button>
-						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
-					</div></td><td>";
-					}
-
-					if (($no_soal >= 0) && ($cekno_soal < $jumsoalesai)) {
-						echo "	
-					</td><td>
-					<div class='col-md-4 text-right'>
-						<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
-						<button id='move-next' class='btn btn-flat btn-primary' onclick=loadsoalesai($id_mapel,$id_siswa,$no_next,2)><span class='hidden-xs'>SOAL SELANJUTNYA</span> <i class='fa fa-chevron-right'></i></button>
-					</div></td></tr>";
-					} elseif (($no_soal > 0) && ($cekno_soal = $jumsoalesai)) {
-						echo "	
-					</td><td>
-					<div class='col-md-4 text-right'>
-					
-						<input type='submit' name='done' id='done-submit' style='display:none;'/>
-						<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
-					
-					</div></td></tr>";
-					}
-					echo "	
-					
-				</table>
-				
-				
-			</div>
-			<div class='modal fade' id='myModal45' role='dialog'>
-    <div class='modal-dialog'>
-		<div class='panel panel-default'>
-			<div class='panel-heading'>
-                    <h1 class='panel-title page-label'>Peringatan Peserta</h1>
-			</div>
-			<div class='panel-body'>
-				<div class='inner-content'>
-					<div class='row' style='background-color:#fff'>
-						<div class='col-xs-3'>
-                                <span><img src='images/alert.png' width='150px'></span>
-						</div>
-						<div class='col-xs-9'>
-							<div class='wysiwyg-content'>
-								<p>
-                                        Silahkan Periksa Kembali Hasil Peserjaan Anda!<br>
-                                        Waktu Anda Masih Tersisa Sangat Banyak<br>
-										Manfaatkan Waktu dengan Sebaik-baiknya!!
-										
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class='panel-footer' style='margin-left:80%'>
-				<div class='row' style='background-color:#fff'>
-					<div class='col-xs-6'> 
-						<button type='submit' class='btn btn-success' data-dismiss='modal'>OK</button>
-					</div>
-				</div>
-			</div>			
 		</div>
 	</div>
-</div>
-			
-			
-			"; ?>
-					<script>
-						$(document).ready(function() {
-
-							$('#zoom').zoom();
-							$('#zoom1').zoom();
-							$('.lup').zoom();
-							$('.soal img')
-								.wrap('<span style="display:inline-block"></span>')
-								.css('display', 'block')
-								.parent()
-								.zoom();
-
-
-						});
-					</script>
-
-				<?php
-
-				} elseif ($pg == 'jawab') {
-					$jenis = $_POST['jenis'];
-					$data = array(
-						'id_ujian' => $_POST['id_ujian'],
-						'id_mapel' => $_POST['id_mapel'],
-						'id_siswa' => $_POST['id_siswa'],
-						'id_soal' => $_POST['id_soal'],
-						'jenis' => $_POST['jenis'],
-						'jawaban' => $_POST['jawaban']
-					);
-					$where = array(
-						'id_ujian' => $_POST['id_ujian'],
-						'id_mapel' => $_POST['id_mapel'],
-						'id_siswa' => $_POST['id_siswa'],
-						'jenis' => $_POST['jenis'],
-						'id_soal' => $_POST['id_soal']
-					);
-					$cekjawaban = rowcount($koneksi, 'jawaban', $where);
-					if ($cekjawaban == 0) {
-						$exec = insert($koneksi, 'jawaban', $data);
-					} else {
-						$exec = update($koneksi, 'jawaban', $data, $where);
-					}
-					echo $exec;
-				} elseif ($pg == 'jawabesai') {
-					$jenis = $_POST['jenis'];
-					$data = array(
-						'id_ujian' => $_POST['idu'],
-						'id_mapel' => $_POST['id_mapel'],
-						'id_siswa' => $_POST['id_siswa'],
-						'id_soal' => $_POST['id_soal'],
-						'jenis' => $_POST['jenis'],
-						'esai' => $_POST['jawaban']
-					);
-					$where = array(
-						'id_ujian' => $_POST['idu'],
-						'id_mapel' => $_POST['id_mapel'],
-						'id_siswa' => $_POST['id_siswa'],
-						'jenis' => $_POST['jenis'],
-						'id_soal' => $_POST['id_soal']
-					);
-					$cekjawaban = rowcount($koneksi, 'jawaban', $where);
-					if ($cekjawaban == 0) {
-						$exec = insert($koneksi, 'jawaban', $data);
-					} else {
-						$exec = update($koneksi, 'jawaban', $data, $where);
-					}
-					echo $exec;
-				} elseif ($pg == 'ragu') {
-					$where = array(
-						'id_ujian' => $_POST['id_ujian'],
-						'id_mapel' => $_POST['id_mapel'],
-						'id_siswa' => $_POST['id_siswa'],
-						'jenis' => 1,
-						'id_soal' => $_POST['id_soal']
-					);
-					$cekragu = fetch($koneksi, 'jawaban', $where);
-					if ($cekragu['ragu'] == 0) {
-						$exec = update($koneksi, 'jawaban', array('ragu' => 1), $where);
-					} else {
-						$exec = update($koneksi, 'jawaban', array('ragu' => 0), $where);
-					}
-					echo $exec;
-				}
-
-
-
-
-				?>
+	<div class='box-footer navbar-fixed-bottom'>
+		<table width='100%'>
+			<tr>
+				<td>
+					<?php
+						$jumsoalpg = $mapel['tampil_pg'];
+						$jumsoalesai = $mapel['tampil_esai'];
+						$cekno_soal = $no_soal + 1;
+						$pg_max = $jumsoalpg - 1;
+						?>
+					<?php if (($no_soal > 0)) : ?>
+				<td>
+					<div class='col-md-4 text-left'>
+						<button id='move-prev' class='btn btn-flat btn-default' onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_prev ?>,2)"><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL SEBELUMNYA</span></button>
+						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+					</div>
+				</td>
+			<?php elseif (($no_soal == 0) && ($cekno_soal < $jumsoalesai)) : ?>
+				<td>
+					<div class='col-md-4 text-left'>
+						<button id='badge' class='btn btn-flat btn-warning' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $pg_max ?>,1)"><i class='fa fa-chevron-left'></i><span class='hidden-xs'> SOAL PG</span></button>
+						<i class='fa fa-spin fa-spinner' id='spin-prev' style='display:none;'></i>
+					</div>
+				</td>
+			<?php endif; ?>
+			<?php if (($no_soal >= 0) && ($cekno_soal < $jumsoalesai)) { ?>
+				<td>
+					<div class='col-md-4 text-right'>
+						<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
+						<button id='move-next' class='btn btn-flat btn-primary' onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_next ?>,2)"><span class='hidden-xs'>SOAL SELANJUTNYA</span> <i class='fa fa-chevron-right'></i></button>
+					</div>
+				</td>
+			<?php } elseif (($no_soal > 0) && ($cekno_soal = $jumsoalesai)) { ?>
+				</td>
+				<td>
+					<div class='col-md-4 text-right'>
+						<input type='submit' name='done' id='done-submit' style='display:none;' />
+						<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
+					</div>
+				</td>
+			<?php } ?>
+			</tr>
+		</table>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#zoom').zoom();
+			$('#zoom1').zoom();
+			$('.lup').zoom();
+			$('.soal img')
+				.wrap('<span style="display:inline-block"></span>')
+				.css('display', 'block')
+				.parent()
+				.zoom();
+		});
+	</script>
+<?php } elseif ($pg == 'jawab') {
+	$jenis = $_POST['jenis'];
+	$data = array(
+		'id_ujian' => $_POST['id_ujian'],
+		'id_mapel' => $_POST['id_mapel'],
+		'id_siswa' => $_POST['id_siswa'],
+		'id_soal' => $_POST['id_soal'],
+		'jenis' => $_POST['jenis'],
+		'jawaban' => $_POST['jawaban']
+	);
+	$where = array(
+		'id_ujian' => $_POST['id_ujian'],
+		'id_mapel' => $_POST['id_mapel'],
+		'id_siswa' => $_POST['id_siswa'],
+		'jenis' => $_POST['jenis'],
+		'id_soal' => $_POST['id_soal']
+	);
+	$cekjawaban = rowcount($koneksi, 'jawaban', $where);
+	if ($cekjawaban == 0) {
+		$exec = insert($koneksi, 'jawaban', $data);
+	} else {
+		$exec = update($koneksi, 'jawaban', $data, $where);
+	}
+	echo $exec;
+} elseif ($pg == 'jawabesai') {
+	$jenis = $_POST['jenis'];
+	$data = array(
+		'id_ujian' => $_POST['idu'],
+		'id_mapel' => $_POST['id_mapel'],
+		'id_siswa' => $_POST['id_siswa'],
+		'id_soal' => $_POST['id_soal'],
+		'jenis' => $_POST['jenis'],
+		'esai' => $_POST['jawaban']
+	);
+	$where = array(
+		'id_ujian' => $_POST['idu'],
+		'id_mapel' => $_POST['id_mapel'],
+		'id_siswa' => $_POST['id_siswa'],
+		'jenis' => $_POST['jenis'],
+		'id_soal' => $_POST['id_soal']
+	);
+	$cekjawaban = rowcount($koneksi, 'jawaban', $where);
+	if ($cekjawaban == 0) {
+		$exec = insert($koneksi, 'jawaban', $data);
+	} else {
+		$exec = update($koneksi, 'jawaban', $data, $where);
+	}
+	echo $exec;
+} elseif ($pg == 'ragu') {
+	$where = array(
+		'id_mapel' => $_POST['id_mapel'],
+		'id_siswa' => $_POST['id_siswa'],
+		'id_soal' => $_POST['id_soal'],
+		'id_ujian' => $_POST['id_ujian'],
+		'jenis' => 1
+	);
+	$cekragu = fetch($koneksi, 'jawaban', $where);
+	if ($cekragu['ragu'] == 0) {
+		$exec = update($koneksi, 'jawaban', array('ragu' => 1), $where);
+	} else {
+		$exec = update($koneksi, 'jawaban', array('ragu' => 0), $where);
+	}
+	echo $exec;
+}
+?>

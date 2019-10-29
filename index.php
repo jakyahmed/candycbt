@@ -12,8 +12,6 @@ $siswa = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE id
 $idsesi = $siswa['sesi'];
 $idpk = $siswa['idpk'];
 $level = $siswa['level'];
-// $kelasx = $siswa['id_kelas'];
-// $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kelasx'"));
 $pk = fetch($koneksi, 'pk', array('id_pk' => $idpk));
 $tglsekarang = time();
 
@@ -141,12 +139,19 @@ $tglsekarang = time();
 						?>
 					</div>
 					<div class='pull-left info' style='left:65px'>
-						<p><?= $siswa['nama'] ?></p>
+						<?php
+						if (strlen($siswa['nama']) > 15) {
+							$nama = substr($siswa['nama'], 0, 15) . "...";
+						} else {
+							$nama = $siswa['nama'];
+						}
+						?>
+						<p title="<?= $siswa['nama'] ?>"><?= $nama ?></p>
 						<a href='#'><i class='fa fa-circle text-green'></i> online</a>
 					</div>
 				</div>
 				<ul class='sidebar-menu tree' data-widget='tree'>
-					<li class='header'>Main Menu Siswa</li>
+					<li class='header'>Main Menu Peserta Ujian</li>
 					<li><a href='<?= $homeurl ?>'><i class='fa fa-fw fa-dashboard'></i> <span>Dashboard</span></a></li>
 					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
 					<li><a href='<?= $homeurl ?>/hasil'><i class='fa fa-fw fa-tags'></i> <span>Hasil Ujian</span></a></li>
@@ -700,15 +705,15 @@ $tglsekarang = time();
 						);
 						$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
 						$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-						$pengacak = fetch($koneksi,'pengacak', $where);
-						$pengacakpil = fetch($koneksi,'pengacakopsi', $where);
-						$pengacakesai = fetch($koneksi,'pengacak', $where);
+						$pengacak = fetch($koneksi, 'pengacak', $where);
+						$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
+						$pengacakesai = fetch($koneksi, 'pengacak', $where);
 						$pengacak = explode(',', $pengacak['id_soal']);
 						$pengacakpil = explode(',', $pengacakpil['id_soal']);
 						$pengacakesai = explode(',', $pengacakesai['id_esai']);
-						$mapel = fetch($koneksi,'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-						$soal = fetch($koneksi,'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal]));
-						$jawab = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
+						$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+						$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal]));
+						$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
 
 						if (isset($_POST['done'])) :
 							$_SESSION['id_siswa'] = $id_siswa;
@@ -722,7 +727,7 @@ $tglsekarang = time();
 									'id_soal' => $getsoal['id_soal'],
 									'jenis' => '1'
 								);
-								$getjwb = fetch($koneksi,'jawaban', $jika);
+								$getjwb = fetch($koneksi, 'jawaban', $jika);
 								if ($getjwb) {
 									($getjwb['jawaban'] == $getsoal['jawaban']) ? $benar++ : $salah++;
 								}
@@ -748,7 +753,7 @@ $tglsekarang = time();
 						endif;
 
 						update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
-						$nilai = fetch($koneksi,'nilai', $where2);
+						$nilai = fetch($koneksi, 'nilai', $where2);
 						$habis = strtotime($nilai['ujian_berlangsung']) - strtotime($nilai['ujian_mulai']);
 						$detik = ($mapel['lama_ujian'] * 60) - $habis;
 						$dtk = $detik % 60;
@@ -1071,7 +1076,7 @@ $tglsekarang = time();
 												<td>
 													<div class='col-md-4 '>
 														<div id='load-ragu'>
-															<a href='#' class='btn  btn-warning'><input type='checkbox' onclick="radaragu(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>)" <?= $ragu ?> /> RAGU</a>
+															<a href='#' class='btn  btn-warning'><input type='checkbox' onclick="radaragu(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $soal['id_soal'] ?>, <?= $ac ?>)" <?= $ragu ?> /> RAGU</a>
 														</div>
 													</div>
 
@@ -1124,7 +1129,7 @@ $tglsekarang = time();
 													<?php
 															$id_soal = $pengacak[$n];
 															$cekjwb = rowcount($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
-															$ragu = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
+															$ragu = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
 															$cekj = $ragu['jawaban'];
 															if ($mapel['opsi'] == 2) {
 																$kali = 3;
@@ -1186,7 +1191,7 @@ $tglsekarang = time();
 													<?php for ($i = 0; $i < $soalesai; $i++) :
 																$id_esai = $pengacakesai[$i];
 																$cekjwb = rowcount($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
-																$ragu = fetch($koneksi,'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
+																$ragu = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_esai, 'jenis' => '2', 'id_ujian' => $ac));
 																$color = ($cekjwb <> 0) ? 'bg-green' : 'bg-gray';
 
 																$nomor = $i + 1;
@@ -1212,7 +1217,7 @@ $tglsekarang = time();
 				<div class='pull-left hidden-xs'>
 					<strong>
 						<span id='end-sidebar'>
-							<?= $setting['sekolah'] ?> support by <?= $copyright ?>
+							&copy; 2019 <?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?>
 						</span>
 					</strong>
 				</div>
@@ -1329,7 +1334,7 @@ $tglsekarang = time();
 
 				Mousetrap.bind('space', function() {
 					$('input[type=checkbox]').click()
-					radaragu(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $soal['id_soal'] ?>)
+					radaragu(<?= $id_mapel ?>, <?= $id_siswa ?>, <?= $soal['id_soal'] ?>, <?= $ac ?>)
 				});
 
 				$(document).on('click', '.done-btn', function() {
@@ -1468,7 +1473,7 @@ $tglsekarang = time();
 
 			function loadsoalesai(idmapel, idsiswa, nosoal, jenis) {
 				cekwaktu();
-				if (nosoal >= 0 && nosoal < $soalesai) {
+				if (nosoal >= 0 && nosoal < <?= $soalesai ?>) {
 					curnum = $('#displaynum').html();
 					if (nosoal == curnum) {
 						$('#spin-next').show();
@@ -1504,7 +1509,7 @@ $tglsekarang = time();
 
 			function jawabsoal(idmapel, idsiswa, idsoal, jawab, jawabQ, jenis, idu) {
 				cekwaktu();
-				// console.log(idmapel + '-' + idsiswa + '-' + idsoal + '-' + jawab + '-' + jawabQ + '-' + jenis + '-' + idu)
+				console.log(idmapel + '-' + idsiswa + '-' + idsoal + '-' + jawab + '-' + jawabQ + '-' + jenis + '-' + idu)
 				$.ajax({
 					type: 'POST',
 					url: homeurl + '/soal.php',
@@ -1518,6 +1523,7 @@ $tglsekarang = time();
 						id_ujian: idu
 					},
 					success: function(response) {
+						console.log(response);
 						if (response == 'OK') {
 							$('#nomorsoal #badge' + idsoal).removeClass('bg-gray');
 							$('#nomorsoal #badge' + idsoal).removeClass('bg-yellow');
@@ -1554,7 +1560,7 @@ $tglsekarang = time();
 				});
 			}
 
-			function radaragu(idmapel, idsiswa, idsoal) {
+			function radaragu(idmapel, idsiswa, idsoal, idu) {
 				cekclass = $('#nomorsoal #badge' + idsoal).attr('class');
 				if (cekclass != 'btn btn-app bg-gray') {
 					$.ajax({
@@ -1564,9 +1570,11 @@ $tglsekarang = time();
 							pg: 'ragu',
 							id_mapel: idmapel,
 							id_siswa: idsiswa,
-							id_soal: idsoal
+							id_soal: idsoal,
+							id_ujian: idu
 						},
 						success: function(response) {
+							console.log(response);
 							if (response == 'OK') {
 								if (cekclass == 'btn btn-app bg-green') {
 									$('#nomorsoal #badge' + idsoal).removeClass('bg-gray');

@@ -15,25 +15,18 @@ if (isset($_POST['buat'])) {
 	header('location:admin/login.php');
 }
 if (isset($_POST['buat2'])) {
-
-	$filename = 'config/cbtcandy.sql';
-
+	$filename = 'config/cbtcandy25.sql';
 	$templine = '';
-
 	$lines = file($filename);
-
 	foreach ($lines as $line) {
-
 		if (substr($line, 0, 2) == '--' || $line == '')
 			continue;
 		$templine .= $line;
-
 		if (substr(trim($line), -1, 1) == ';') {
 			mysqli_query($koneksi, $templine);
 			$templine = '';
 		}
 	}
-
 	header('location:admin/login.php');
 }
 
@@ -73,10 +66,7 @@ if (isset($_POST['buat2'])) {
 				<div class="container">
 					<div class="navbar-header">
 						<a href="?" class="animated bounce navbar-brand" style="padding:5px 15px;"><b>CANDY</b> INSTALLER</a>
-
 					</div>
-
-
 				</div>
 			</nav>
 		</header>

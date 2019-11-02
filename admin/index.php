@@ -4017,13 +4017,14 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				});
 			});
 
-			$("#absenkelas").change(function() {
-				var id_kelas = $(this).val();
-				console.log(id_kelas);
+			$("#absenruang").change(function() {
+				var id_kelas = $("#absenkelas").val();
+				var ruang = $(this).val();
+				console.log(id_kelas + ruang);
 				$.ajax({
 					type: "POST", // Method pengiriman data bisa dengan GET atau POST
 					url: "dataabsen_sesi.php", // Isi dengan url/path file php yang dituju
-					data: "id_kelas=" + id_kelas, // data yang akan dikirim ke file yang dituju
+					data: "id_kelas=" + id_kelas + "&ruang=" + ruang, // data yang akan dikirim ke file yang dituju
 					success: function(response) { // Ketika proses pengiriman berhasil
 						$("#absensesi").html(response);
 						console.log(response);

@@ -2216,11 +2216,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<?php elseif ($pg == 'importmaster') : ?>
 					<?php
 						cek_session_admin();
-						if ($setting['jenjang'] == 'SMK') :
-							$format = 'importdatamaster.xls';
-						else :
-							$format = 'importdatamaster2.xls';
-						endif;
+
+						$format = 'importdatamaster.xlsx';
+
 						?>
 					<div class='row'>
 						<div class='col-md-12'>
@@ -3854,7 +3852,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 			e.preventDefault();
 			$.ajax({
 				type: 'post',
-				url: 'importsiswa.php',
+				url: 'import_siswa.php',
 				data: new FormData(this),
 				processData: false,
 				contentType: false,

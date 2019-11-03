@@ -53,6 +53,14 @@ $tglsekarang = time();
 			border-left: 0px;
 		}
 
+		.btn {
+			border-radius: 20em;
+		}
+
+		.btn.btn-flat {
+			border-radius: 20em;
+		}
+
 		.skin-red-light .sidebar-menu>li:hover>a,
 		.skin-red-light .sidebar-menu>li.active>a {
 			color: #fff;

@@ -35,10 +35,11 @@
 			<div class='box box-solid'>
 				<div class='box-header with-border '>
 					<h3 class='box-title'><img src='../dist/img/svg/peserta_ujian.svg' width='20'> Peserta Ujian</h3>
-					<div class='box-tools btn-group'>
+					<div class='box-tools'>
 						<?php if ($pengawas['level'] == 'admin') : ?>
 							<a data-toggle='modal' data-backdrop="static" data-target='#tambahsiswa' class='btn btn-sm btn-primary'><i class='fa fa-check'></i> Tambah</a>
-							<a href='?pg=uplfotosiswa' class='btn btn-sm btn-primary'><i class='fa fa-image'></i> Upload Foto</a>
+							<a href='?pg=uplfotosiswa' class='btn btn-sm btn-danger'><i class='fa fa-image'></i> Upload Foto</a>
+							<a href='ekspor_siswa.php' class='btn btn-sm btn-success'><i class='fa fa-download'></i> Download Data</a>
 						<?php endif ?>
 					</div>
 				</div><!-- /.box-header -->

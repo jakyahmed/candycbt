@@ -161,8 +161,8 @@ $tglsekarang = time();
 				<ul class='sidebar-menu tree' data-widget='tree'>
 					<li class='header'>Main Menu Peserta Ujian</li>
 					<li><a href='<?= $homeurl ?>'><i class='fa fa-fw fa-dashboard'></i> <span>Dashboard</span></a></li>
-					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
 					<li><a href='<?= $homeurl ?>/hasil'><i class='fa fa-fw fa-tags'></i> <span>Hasil Ujian</span></a></li>
+					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
 				</ul><!-- /.sidebar-menu -->
 			</section>
 		</aside>
@@ -341,44 +341,87 @@ $tglsekarang = time();
 											</tr>
 										</table>
 										<br>
-										<div class='table-responsive'>
-											<table id='example1' class='table table-bordered table-striped'>
-												<thead>
-													<tr>
-														<th width='5px'>#</th>
-														<th>Soal PG</th>
-														<!--<th style='text-align:center'>Jawab</th>
-																<th style='text-align:center'>Jawab</th>
-																<th style='text-align:center'>Kunci</th>-->
-														<th style='text-align:center'>Hasil</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM jawaban WHERE id_siswa='$id_siswa' and id_ujian='$ac' and jenis='1' "); ?>
-													<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
-														<?php
-																	$no++;
-																	$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
-																	$jawabQ = $jawaban['jawaban'];
-																	$kunci = $soal['jawaban'];
-																	if ($jawaban['jawaban'] == $soal['jawaban']) :
-																		$status = "<span class='text-green'><i class='fa fa-check'></i></span>";
-																	else :
-																		$status = "<span class='text-red'><i class='fa fa-times'></i></span>";
-																	endif;
-																	?>
-														<tr>
-															<td><?= $no ?></td>
-															<td><?= $soal['soal'] ?></td>
-															<!--<td style='text-align:center'>$jawaban[jawaban]</td>	
-																<td style='text-align:center'>$jawabQ</td>
-																<td style='text-align:center'>$kunci</td>-->
-															<td style='text-align:center'><?= $status ?></td>
-														</tr>
-													<?php endwhile; ?>
-												</tbody>
-											</table>
+										<div class="nav-tabs-custom">
+											<ul class="nav nav-tabs">
+												<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Detail Jawaban</a></li>
+												<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Peringkat</a></li>
+
+											</ul>
+											<div class="tab-content">
+												<div class="tab-pane active" id="tab_1">
+													<div class='table-responsive'>
+														<table id='example1' class='table table-bordered table-striped'>
+															<thead>
+																<tr>
+																	<th width='5px'>#</th>
+																	<th>Soal PG</th>
+
+																	<th style='text-align:center'>Hasil</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM jawaban WHERE id_siswa='$id_siswa' and id_ujian='$ac' and jenis='1' "); ?>
+																<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
+																	<?php
+																				$no++;
+																				$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
+																				$jawabQ = $jawaban['jawaban'];
+																				$kunci = $soal['jawaban'];
+																				if ($jawaban['jawaban'] == $soal['jawaban']) :
+																					$status = "<span class='text-green'><i class='fa fa-check'></i></span>";
+																				else :
+																					$status = "<span class='text-red'><i class='fa fa-times'></i></span>";
+																				endif;
+																				?>
+																	<tr>
+																		<td><?= $no ?></td>
+																		<td><?= $soal['soal'] ?></td>
+
+																		<td style='text-align:center'><?= $status ?></td>
+																	</tr>
+																<?php endwhile; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<table class="tab-pane active" id="tab_2">
+													<table class='table-responsive'>
+														<table id='example1' class='table table-striped'>
+															<thead>
+																<tr>
+																	<th style='text-align:center' width='5px'>Peringkat</th>
+																	<th>Nama Siswa</th>
+																	<th style='text-align:center'>Hasil</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM nilai WHERE  id_ujian='$ac' order by skor DESC "); ?>
+																<?php $no=0; ?>
+																<?php while ($peringkat = mysqli_fetch_array($nilaix)) : ?>
+																	<?php
+																				$no++;
+																				$siswa=mysqli_fetch_array(mysqli_query($koneksi,"select * from siswa where id_siswa='$peringkat[id_siswa]'"));
+																				if($peringkat['id_siswa']==$_SESSION['id_siswa']){
+																					$style="background:yellow;font-size:20px;";
+																				}else{
+																					$style="";
+																				}
+																				?>
+																	<tr style="<?= $style ?>">
+																		<td style='text-align:center'><?= $no ?></td>
+																		<td><?= $siswa['nama'] ?></td>
+																		
+																		<td style='text-align:center'><?= $peringkat['skor'] ?></td>
+																	</tr>
+																<?php endwhile; ?>
+															</tbody>
+														</table>
+													</table>
+
+												</div>
+											</div>
 										</div>
+
 									</div>
 								</div>
 							</div>
@@ -401,6 +444,7 @@ $tglsekarang = time();
 							</div>
 						</div>
 					<?php endif ?>
+
 				<?php elseif ($pg == 'hasil') : ?>
 					<div class='row'>
 						<div class='col-md-12'>
@@ -443,6 +487,7 @@ $tglsekarang = time();
 							</div>
 						</div>
 					</div>
+
 				<?php elseif ($pg == 'rules') : ?>
 					<?php
 						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));

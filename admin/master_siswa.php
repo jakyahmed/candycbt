@@ -1,3 +1,6 @@
+<?php
+defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
+?>
 <?php if ($ac == '') : ?>
 	<?php
 		if (isset($_POST['tambahsiswa'])) {

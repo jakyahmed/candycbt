@@ -1,4 +1,6 @@
 <?php
+defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
+
 $pesan = '';
 $value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id'"));
 $tgl_ujian = explode(' ', $value['tgl_ujian']);

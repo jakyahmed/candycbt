@@ -10,9 +10,9 @@ if (!$pilihdb) {
 	$ket2 = 'disabled';
 }
 if (isset($_POST['buat'])) {
-	$nama_db = "cbtcandy25";
+	$nama_db = NAMA_DATABASE;
 
-	mysqli_query($koneksi, "CREATE DATABASE $nama_db;");
+	mysqli_query($koneksi, "CREATE DATABASE $nama_db CHARACTER SET utf8 COLLATE utf8_general_ci;");
 	header('location:admin/login.php');
 }
 if (isset($_POST['buat2'])) {

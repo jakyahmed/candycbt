@@ -1,4 +1,5 @@
 <?php
+defined('APLIKASI') or exit('No direct script access allowed');
 ?>
 <style type="text/css">
     table {

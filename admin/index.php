@@ -3428,7 +3428,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<div class='pull-left hidden-xs'>
 					<strong>
 						<span id='end-sidebar'>
-							&copy; 2019 <?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?>
+							&copy; 2019 <?= APLIKASI . " v" . VERSI . " r" . REVISI ?>
 						</span>
 					</strong>
 				</div>

@@ -1,5 +1,6 @@
 <?php
 require("config/config.default.php");
+require("config/config.candy.php");
 $cekdb = mysqli_query($koneksi, "SELECT 1 FROM pengawas LIMIT 1");
 if ($cekdb == false) {
 	header("Location: install.php");
@@ -43,7 +44,7 @@ if ($cekdb == false) {
 					</span>
 					<span class="login100-form-title p-b-26">
 						<?php echo $setting['sekolah']; ?>
-						<p><small>Support By Candy CBT V 2.5</small></p>
+						<p><small>Support By <?= APLIKASI . " v" . VERSI . " r" . REVISI ?></small></p>
 					</span>
 					<div class="wrap-input100 validate-input" data-validate = "Enter Username" required>
 						<input class="input100" type="text" name="username">

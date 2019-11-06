@@ -3,6 +3,7 @@
 require("config/config.default.php");
 require("config/config.function.php");
 require("config/functions.crud.php");
+require("config/config.candy.php");
 
 (isset($_SESSION['id_siswa'])) ? $id_siswa = $_SESSION['id_siswa'] : $id_siswa = 0;
 ($id_siswa == 0) ?  header("Location:$homeurl/login.php") : null;

@@ -1,5 +1,6 @@
 <?php
 require("../config/config.default.php");
+require("../config/config.candy.php");
 require("../config/config.function.php");
 require("../config/functions.crud.php");
 require("../config/excel_reader2.php");
@@ -180,6 +181,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				</a>
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
+						<li><a href='?pg=informasi'><img src='../template/tema1/icon/informasi.svg' width='20'></a></li>
 						<li class='dropdown user user-menu'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 								<img src='<?= $homeurl ?>/dist/img/avatar-6.png' class='user-image' alt='+'>
@@ -219,6 +221,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</li>
 							</ul>
 						</li>
+
 					</ul>
 				</div>
 			</nav>
@@ -525,6 +528,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php endif ?>
 				<?php elseif ($pg == 'dataserver') : ?>
 					<?php include 'serverlokal.php'; ?>
+				<?php elseif ($pg == 'informasi') : ?>
+					<?php include 'informasi.php'; ?>
 				<?php elseif ($pg == 'dataujian') : ?>
 					<?php include 'dataujian.php'; ?>
 				<?php elseif ($pg == 'filemanager') : ?>

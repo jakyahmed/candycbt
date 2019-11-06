@@ -32,7 +32,7 @@ $sheet->getStyle('A1:L1')->applyFromArray(
         )
     )
 );
-$query = mysqli_query($koneksi, "select * from siswa");
+$query = mysqli_query($koneksi, "SELECT * FROM siswa");
 $i = 2;
 $no = 1;
 while ($row = mysqli_fetch_array($query)) {

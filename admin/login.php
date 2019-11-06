@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
-	<title>Login Admin | <?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?></title>
+	<title>Login Admin | <?= APLIKASI . " v" . VERSI . " r" . REVISI ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="../favicon.ico" />
@@ -112,7 +112,7 @@ if (isset($_POST['submit'])) {
 	<div class="limiter">
 		<div class="container-login100">
 			<div class='judul'>&copy; <a href="http://candycbt.id" class="txt2 hov1">
-					<b><?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?></b>
+					<b><?= APLIKASI . " v" . VERSI . " r" . REVISI ?></b>
 				</a>
 			</div>
 			<div class='logo hidden-xs'>

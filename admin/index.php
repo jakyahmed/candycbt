@@ -2695,10 +2695,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						</div>
 					</div>
 				<?php elseif ($pg == 'ruang') : ?>
-					<?php
-						cek_session_admin();
-						include 'master_ruang.php';
-						?>
+					<?php include 'master_ruang.php'; ?>
 				<?php elseif ($pg == 'level') : ?>
 					<?php
 						cek_session_admin();

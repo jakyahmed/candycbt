@@ -1,3 +1,6 @@
+<?php
+defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
+?>
 <div class='row'>
     <div class='col-md-12'>
 

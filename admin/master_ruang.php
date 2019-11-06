@@ -1,22 +1,23 @@
-<?php 
-											if(isset($_POST['submit'])) {
-												$ruang = str_replace(' ', '',$_POST['ruang']);
-												$ket = $_POST['keterangan'];
-											
-												$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
-												if($cek>0) {
-													$info = info("ruang atau tingkat $ruang sudah ada!","NO");
-												} else {
-													$exec = mysqli_query($koneksi, "INSERT INTO ruang (kode_ruang,keterangan) VALUES ('$ruang','$ket')");
-													if(!$exec) {
-														$info = info("Gagal menyimpan!","NO");
-													} else {
-														jump("?pg=$pg");
-													}
-												}
-											}
+<?php
+defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
+if (isset($_POST['submit'])) {
+	$ruang = str_replace(' ', '', $_POST['ruang']);
+	$ket = $_POST['keterangan'];
 
-							echo "
+	$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
+	if ($cek > 0) {
+		$info = info("ruang atau tingkat $ruang sudah ada!", "NO");
+	} else {
+		$exec = mysqli_query($koneksi, "INSERT INTO ruang (kode_ruang,keterangan) VALUES ('$ruang','$ket')");
+		if (!$exec) {
+			$info = info("Gagal menyimpan!", "NO");
+		} else {
+			jump("?pg=$pg");
+		}
+	}
+}
+
+echo "
 								<div class='row'>
 									<div class='col-md-12'>
 										<div class='box box-primary'>
@@ -38,11 +39,11 @@
 														</tr>
 													</thead>
 													<tbody>";
-													$ruanginQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
-													while($ruang = mysqli_fetch_array($ruanginQ)) {
-														$no++;
-														
-														echo "
+$ruanginQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
+while ($ruang = mysqli_fetch_array($ruanginQ)) {
+	$no++;
+
+	echo "
 															<tr>
 																<td>$no</td>
 																
@@ -51,8 +52,8 @@
 																
 															</tr>
 														";
-													}
-													echo "
+}
+echo "
 													</tbody>
 												</table>
 											</div><!-- /.box-body -->
@@ -89,4 +90,3 @@
 									
 								</div>
 							";
-?>

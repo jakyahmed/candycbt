@@ -2,7 +2,7 @@
 
 require "../config/config.default.php";
 require "../vendor/autoload.php";
-$file_mimes = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+$file_mimes = array('application/vnd.ms-excel', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
 if (isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mimes)) {
 
@@ -70,4 +70,6 @@ if (isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mi
         }
     }
     echo "Berhasil: $sukses | Gagal: $gagal ";
+} else {
+    echo "Pilih file yang bertipe xlsx or xls";
 }

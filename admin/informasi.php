@@ -1,5 +1,5 @@
 <?php
-defined('APLIKASI') or exit('No direct script access allowed');
+defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
 ?>
 <style type="text/css">
     table {

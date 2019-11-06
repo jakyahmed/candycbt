@@ -1,6 +1,7 @@
 <?php
 require("config/config.default.php");
 require("config/config.function.php");
+require("config/config.candy.php");
 if (!$pilihdb) {
 	$ket = 'disabled';
 	$ket2 = '';
@@ -38,7 +39,7 @@ if (isset($_POST['buat2'])) {
 <head>
 	<meta charset='utf-8' />
 	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
-	<title>Installasi Candy CBC</title>
+	<title>Installasi <?= APLIKASI . " v" . VERSI . " r" . REVISI ?></title>
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
 	<link rel='stylesheet' href='dist/bootstrap/css/bootstrap.min.css' />
 
@@ -88,7 +89,7 @@ if (isset($_POST['buat2'])) {
 				<section class="content">
 					<div class='row'>
 						<div class="animated tada delay-1s login-logo" style='font-size:50px;margin-top:12%;'>
-							<a href="">WELCOME TO <b>CANDY </b>CBT</a>
+							<a href="">WELCOME TO <?= APLIKASI ?></a>
 						</div>
 						<div class="animated flipInX login-box " style='margin-top:1%;'>
 
@@ -124,7 +125,7 @@ if (isset($_POST['buat2'])) {
 					<b>Candy Installer @ 2019</b>
 				</div>
 				<div class="pull-right ">
-					<b>Version</b> 2.5.0
+					<b><?= "versi " . VERSI . " revisi " . REVISI ?></b>
 				</div>
 				<strong></strong>
 			</div>

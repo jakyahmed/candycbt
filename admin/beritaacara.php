@@ -72,6 +72,9 @@
 </style>
 
 <?php
+if(!isset($_GET['id'])){
+	exit('Anda tidak dizinkan mengakses langsung script ini!');
+}
 $idujian = @$_GET['id'];
 $sqlx = mysqli_query($koneksi, "SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idujian'");
 $ujian = mysqli_fetch_array($sqlx);

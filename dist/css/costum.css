@@ -98,3 +98,7 @@ thead:hover {
     font-size: 30px;
     color: #fff;
 }
+.main-header .logo .logo-lg {
+    display: block;
+    color: black;
+}

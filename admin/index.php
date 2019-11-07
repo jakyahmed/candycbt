@@ -87,7 +87,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				</a>
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
-						<li><a href='?pg=informasi'><img src='../template/tema1/icon/informasi.svg' width='20'></a></li>
+						<li><a href='?pg=informasi'><i class='fa  fa-commenting-o'></i></a></li>
 						<li class='dropdown user user-menu'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 								<img src='<?= $homeurl ?>/dist/img/avatar-6.png' class='user-image' alt='+'>
@@ -135,7 +135,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 		<aside class='main-sidebar'>
 			<section class='sidebar'>
-				<div class='user-panel'>
+				<!-- <div class='user-panel'>
 					<div class='pull-left image'>
 						<?php
 						if ($pengawas['level'] == 'admin') :
@@ -154,6 +154,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<a href='#'><i class='fa fa-circle text-green'></i> <?= $pengawas['level']; ?></a>
 					</div>
 
+				</div> -->
+				<hr style="margin:0px">
+				<div class="user-panel" style="text-align:center">
+					<span>APLIKASI UJIAN</span><br>
+					<span>BERBASIS KOMPUTER</span>
 				</div>
 				<hr style="margin:0px">
 				<ul class=' sidebar-menu tree data-widget=' tree>
@@ -224,6 +229,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</ul>
 						</li>
 						<li class='treeview'><a href='?pg=pengaturan'><img src='../dist/img/svg/services.svg' width='30'> <span>Pengaturan</span></a></li>
+
 					<?php endif ?>
 					<?php if ($pengawas['level'] == 'guru') : ?>
 						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/manager.svg' width='30'> <span>Peserta Ujian</span></a></li>
@@ -238,7 +244,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</ul>
 						</li>
 						<li><a href='?pg=nilai'><img src='../dist/img/svg/like.svg' width='30'> <span>Hasil Nilai</span></a></li>
+
 					<?php endif ?>
+					<hr style="margin:0px">
 					<?php
 					if ($setting['jenjang'] == 'SMK') {
 						$jenjang = 'SMK/SMA/MA';
@@ -316,7 +324,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class="icon">
 										<i class="fa fa-file-text-o"></i>
 									</div>
-									<a href="?pg=soal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="?pg=banksoal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-3">

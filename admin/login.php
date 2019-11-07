@@ -147,11 +147,14 @@ if (isset($_POST['submit'])) {
 
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50" style="background-image: url('../dist/img/b.jpg');">
 				<form action='' method='post' class="validate-form">
-					<span class="animated flipInX login100-form-title p-b-59">
+					<span class="animated flipInX login100-form-title">
 						<?php echo	$namaaplikasi; ?>
 					</span>
+					<small class="animated flipInX p-b-50">
+						<?php echo	"$ceks[kecamatan] - $ceks[kota] - $ceks[web]"; ?>
+					</small>
 
-					<div class="wrap-input100 validate-input" data-validate="Username is required">
+					<div class="wrap-input100 validate-input p-t-50" data-validate="Username is required">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" placeholder="Username...">
 						<span class="focus-input100"></span>

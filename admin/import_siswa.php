@@ -1,5 +1,4 @@
 <?php
-
 require "../config/config.default.php";
 require "../vendor/autoload.php";
 $file_mimes = array('application/vnd.ms-excel', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

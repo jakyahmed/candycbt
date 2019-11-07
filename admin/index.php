@@ -172,7 +172,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
 				<span class='animated bounce logo-lg'>
-					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px"> <?= $setting['sekolah'] ?>
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' role='navigation'>

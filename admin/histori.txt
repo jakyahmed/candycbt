@@ -9,5 +9,6 @@
 * Penambahan fitur Backup Master Soal
 * Penambahan menu Informasi yang terdiri atas: [Info Sistem], [Histori]
 * Perbaikan script supaya tidak bisa diakses langsung
-* Revisi import siswa       
+* Revisi import siswa
+* Revisi logo aplikasi dan logo candy di halaman login admin
 * ...

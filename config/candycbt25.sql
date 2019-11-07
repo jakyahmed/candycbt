@@ -11,11 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Dumping database structure for cbtcandy25
-CREATE DATABASE IF NOT EXISTS `cbtcandy25` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `cbtcandy25`;
-
 -- Dumping structure for table cbtcandy25.berita
 CREATE TABLE IF NOT EXISTS `berita` (
   `id_berita` int(10) NOT NULL AUTO_INCREMENT,
@@ -49,12 +44,15 @@ CREATE TABLE IF NOT EXISTS `hasil_jawaban` (
   `id_mapel` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
   `id_ujian` int(11) NOT NULL,
-  `jawaban` char(1) NOT NULL,
+  `jawaban` char(1) DEFAULT NULL,
   `jenis` int(1) NOT NULL,
-  `esai` text NOT NULL,
+  `esai` text DEFAULT NULL,
   `nilai_esai` int(5) NOT NULL,
   `ragu` int(1) NOT NULL,
-  PRIMARY KEY (`id_jawaban`)
+  PRIMARY KEY (`id_jawaban`),
+  KEY `id_siswa` (`id_siswa`),
+  KEY `id_mapel` (`id_mapel`),
+  KEY `id_soal` (`id_soal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.hasil_jawaban: ~0 rows (approximately)
@@ -69,12 +67,15 @@ CREATE TABLE IF NOT EXISTS `jawaban` (
   `id_mapel` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
   `id_ujian` int(11) NOT NULL,
-  `jawaban` char(1) NOT NULL,
+  `jawaban` char(1) DEFAULT NULL,
   `jenis` int(1) NOT NULL,
-  `esai` text NOT NULL,
+  `esai` text DEFAULT NULL,
   `nilai_esai` int(5) NOT NULL,
   `ragu` int(1) NOT NULL,
-  PRIMARY KEY (`id_jawaban`)
+  PRIMARY KEY (`id_jawaban`),
+  KEY `id_siswa` (`id_siswa`),
+  KEY `id_mapel` (`id_mapel`),
+  KEY `id_soal` (`id_soal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.jawaban: ~0 rows (approximately)
@@ -95,7 +96,7 @@ DELETE FROM `jenis`;
 /*!40000 ALTER TABLE `jenis` DISABLE KEYS */;
 INSERT INTO `jenis` (`id_jenis`, `nama`, `status`) VALUES
 	('PAT', 'Penilaian Akhir Tahun', 'tidak'),
-	('PH', 'Penilaian Harian', 'aktif'),
+	('PH', 'Penilaian Harian', 'tidak'),
 	('PTS', 'Penilaian Tengah Semester', 'tidak'),
 	('USBN', 'Ujian Nasionan Berstandar Nasional', 'tidak');
 /*!40000 ALTER TABLE `jenis` ENABLE KEYS */;
@@ -172,7 +173,9 @@ CREATE TABLE IF NOT EXISTS `mapel` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` varchar(2) NOT NULL,
   `statusujian` int(11) NOT NULL,
-  PRIMARY KEY (`id_mapel`)
+  PRIMARY KEY (`id_mapel`),
+  KEY `idpk` (`idpk`),
+  KEY `idguru` (`idguru`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.mapel: ~0 rows (approximately)
@@ -210,7 +213,10 @@ CREATE TABLE IF NOT EXISTS `nilai` (
   `status` int(1) NOT NULL,
   `ipaddress` varchar(20) NOT NULL,
   `hasil` int(2) NOT NULL,
-  PRIMARY KEY (`id_nilai`)
+  PRIMARY KEY (`id_nilai`),
+  KEY `id_ujian` (`id_ujian`),
+  KEY `id_mapel` (`id_mapel`),
+  KEY `id_siswa` (`id_siswa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.nilai: ~0 rows (approximately)
@@ -226,7 +232,10 @@ CREATE TABLE IF NOT EXISTS `pengacak` (
   `id_mapel` int(11) NOT NULL,
   `id_soal` longtext NOT NULL,
   `id_esai` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_pengacak`)
+  PRIMARY KEY (`id_pengacak`),
+  KEY `id_ujian` (`id_ujian`),
+  KEY `id_siswa` (`id_siswa`),
+  KEY `id_mapel` (`id_mapel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.pengacak: ~0 rows (approximately)
@@ -242,7 +251,10 @@ CREATE TABLE IF NOT EXISTS `pengacakopsi` (
   `id_mapel` int(11) NOT NULL,
   `id_soal` longtext NOT NULL,
   `id_esai` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_pengacak`)
+  PRIMARY KEY (`id_pengacak`),
+  KEY `id_ujian` (`id_ujian`),
+  KEY `id_siswa` (`id_siswa`),
+  KEY `id_mapel` (`id_mapel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.pengacakopsi: ~0 rows (approximately)
@@ -253,43 +265,43 @@ DELETE FROM `pengacakopsi`;
 -- Dumping structure for table cbtcandy25.pengawas
 CREATE TABLE IF NOT EXISTS `pengawas` (
   `id_pengawas` int(11) NOT NULL AUTO_INCREMENT,
-  `nip` varchar(50) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `jabatan` varchar(50) NOT NULL,
+  `nip` varchar(50) DEFAULT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `jabatan` varchar(50) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
   `password` text NOT NULL,
   `level` varchar(10) NOT NULL,
-  `no_ktp` varchar(16) NOT NULL,
-  `tempat_lahir` varchar(30) NOT NULL,
+  `no_ktp` varchar(16) DEFAULT NULL,
+  `tempat_lahir` varchar(30) DEFAULT NULL,
   `tgl_lahir` date NOT NULL,
-  `jenis_kelamin` varchar(10) NOT NULL,
-  `agama` varchar(10) NOT NULL,
-  `no_hp` varchar(13) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat_jalan` varchar(255) NOT NULL,
-  `rt_rw` varchar(8) NOT NULL,
-  `dusun` varchar(50) NOT NULL,
-  `kelurahan` varchar(50) NOT NULL,
-  `kecamatan` varchar(30) NOT NULL,
+  `jenis_kelamin` varchar(10) DEFAULT NULL,
+  `agama` varchar(10) DEFAULT NULL,
+  `no_hp` varchar(13) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `alamat_jalan` varchar(255) DEFAULT NULL,
+  `rt_rw` varchar(8) DEFAULT NULL,
+  `dusun` varchar(50) DEFAULT NULL,
+  `kelurahan` varchar(50) DEFAULT NULL,
+  `kecamatan` varchar(30) DEFAULT NULL,
   `kode_pos` int(6) NOT NULL,
-  `nuptk` varchar(20) NOT NULL,
-  `bidang_studi` varchar(50) NOT NULL,
-  `jenis_ptk` varchar(50) NOT NULL,
-  `tgs_tambahan` varchar(50) NOT NULL,
-  `status_pegawai` varchar(50) NOT NULL,
-  `status_aktif` varchar(20) NOT NULL,
-  `status_nikah` varchar(20) NOT NULL,
-  `sumber_gaji` varchar(30) NOT NULL,
-  `ahli_lab` varchar(10) NOT NULL,
-  `nama_ibu` varchar(40) NOT NULL,
-  `nama_suami` varchar(50) NOT NULL,
-  `nik_suami` varchar(20) NOT NULL,
-  `pekerjaan` varchar(20) NOT NULL,
+  `nuptk` varchar(20) DEFAULT NULL,
+  `bidang_studi` varchar(50) DEFAULT NULL,
+  `jenis_ptk` varchar(50) DEFAULT NULL,
+  `tgs_tambahan` varchar(50) DEFAULT NULL,
+  `status_pegawai` varchar(50) DEFAULT NULL,
+  `status_aktif` varchar(20) DEFAULT NULL,
+  `status_nikah` varchar(20) DEFAULT NULL,
+  `sumber_gaji` varchar(30) DEFAULT NULL,
+  `ahli_lab` varchar(10) DEFAULT NULL,
+  `nama_ibu` varchar(40) DEFAULT NULL,
+  `nama_suami` varchar(50) DEFAULT NULL,
+  `nik_suami` varchar(20) DEFAULT NULL,
+  `pekerjaan` varchar(20) DEFAULT NULL,
   `tmt` date NOT NULL,
-  `keahlian_isyarat` varchar(10) NOT NULL,
-  `kewarganegaraan` varchar(10) NOT NULL,
-  `npwp` varchar(16) NOT NULL,
-  `foto` varchar(50) NOT NULL,
+  `keahlian_isyarat` varchar(10) DEFAULT NULL,
+  `kewarganegaraan` varchar(10) DEFAULT NULL,
+  `npwp` varchar(16) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_pengawas`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -320,7 +332,7 @@ DELETE FROM `pengumuman`;
 CREATE TABLE IF NOT EXISTS `pk` (
   `id_pk` varchar(10) NOT NULL,
   `program_keahlian` varchar(50) NOT NULL,
-  `kode` varchar(10) NOT NULL,
+  `kode` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id_pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -432,18 +444,18 @@ CREATE TABLE IF NOT EXISTS `setting` (
   `logo` text NOT NULL,
   `header` text NOT NULL,
   `header_kartu` text NOT NULL,
-  `nama_ujian` text NOT NULL,
+  `nama_ujian` text DEFAULT NULL,
   `versi` varchar(10) NOT NULL,
   `ip_server` varchar(100) NOT NULL,
   `waktu` varchar(50) NOT NULL,
   PRIMARY KEY (`id_setting`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table cbtcandy25.setting: ~0 rows (approximately)
+-- Dumping data for table cbtcandy25.setting: ~1 rows (approximately)
 DELETE FROM `setting`;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
 INSERT INTO `setting` (`id_setting`, `aplikasi`, `kode_sekolah`, `sekolah`, `jenjang`, `kepsek`, `nip`, `alamat`, `kecamatan`, `kota`, `telp`, `fax`, `web`, `email`, `logo`, `header`, `header_kartu`, `nama_ujian`, `versi`, `ip_server`, `waktu`) VALUES
-	(1, 'SMK HS AGUNG', 'K123', 'SMK HS AGUNG', 'SMK', 'Dedi Baidillah, S.Pd, M.Pd', '-', 'IO : 503.15/015/IV/SK-SMK/BPMPPT/2013; NPSN: 69787351 ; NSS : 402022210005<br />\r\nJL.Buyut Kaipah .Pulo Bambu Karang Bahagia Kec.Karang Bahagia Kab. Bekasi <br />\r\n', 'Karang Bahagia ', 'Bekasi', '021 123 123 123', '', 'smkhsagung.sch.id', 'smkhsagung@gmail.com', 'dist/img/logo6.png', 'YAYASAN SOFIA MUJAHIDA UTAMA', 'KARTU PESERTA\nUJIAN SEKOLAH BERBASIS KOMPUTER', 'Penilaian Harian', '2.5', 'http://192.168.0.200/candycbt', 'Asia/Makassar');
+	(1, 'SMK HS AGUNG', 'K123', 'SMK HS AGUNG', 'SMK', 'Dedi Baidillah, S.Pd, M.Pd', '-', 'IO : 503.15/015/IV/SK-SMK/BPMPPT/2013; NPSN: 69787351 ; NSS : 402022210005<br />\r\nJL.Buyut Kaipah .Pulo Bambu Karang Bahagia Kec.Karang Bahagia Kab. Bekasi <br />\r\n', 'Karang Bahagia    ', 'Bekasi', '021 123 123 123', '', 'smkhsagung.sch.id', 'smkhsagung@gmail.com', 'dist/img/logo6.png', 'YAYASAN SOFIA MUJAHIDA UTAMA', 'KARTU PESERTA\nUJIAN SEKOLAH BERBASIS KOMPUTER', '', '2.5', 'http://192.168.0.200/candycbt', 'Asia/Makassar');
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 
 -- Dumping structure for table cbtcandy25.siswa
@@ -459,45 +471,47 @@ CREATE TABLE IF NOT EXISTS `siswa` (
   `sesi` int(2) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` text NOT NULL,
-  `foto` varchar(255) NOT NULL,
-  `jenis_kelamin` varchar(30) NOT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `jenis_kelamin` varchar(30) DEFAULT NULL,
+  `tempat_lahir` varchar(100) DEFAULT NULL,
   `tanggal_lahir` date NOT NULL,
-  `agama` varchar(10) NOT NULL,
-  `kebutuhan_khusus` varchar(20) NOT NULL,
-  `alamat` text NOT NULL,
-  `rt` varchar(5) NOT NULL,
-  `rw` varchar(5) NOT NULL,
-  `dusun` varchar(100) NOT NULL,
-  `kelurahan` varchar(100) NOT NULL,
-  `kecamatan` varchar(100) NOT NULL,
+  `agama` varchar(10) DEFAULT NULL,
+  `kebutuhan_khusus` varchar(20) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `rt` varchar(5) DEFAULT NULL,
+  `rw` varchar(5) DEFAULT NULL,
+  `dusun` varchar(100) DEFAULT NULL,
+  `kelurahan` varchar(100) DEFAULT NULL,
+  `kecamatan` varchar(100) DEFAULT NULL,
   `kode_pos` int(10) NOT NULL,
-  `jenis_tinggal` varchar(100) NOT NULL,
-  `alat_transportasi` varchar(100) NOT NULL,
-  `hp` varchar(15) NOT NULL,
-  `email` varchar(150) NOT NULL,
+  `jenis_tinggal` varchar(100) DEFAULT NULL,
+  `alat_transportasi` varchar(100) DEFAULT NULL,
+  `hp` varchar(15) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `skhun` int(11) NOT NULL,
-  `no_kps` varchar(50) NOT NULL,
-  `nama_ayah` varchar(150) NOT NULL,
+  `no_kps` varchar(50) DEFAULT NULL,
+  `nama_ayah` varchar(150) DEFAULT NULL,
   `tahun_lahir_ayah` int(4) NOT NULL,
-  `pendidikan_ayah` varchar(50) NOT NULL,
-  `pekerjaan_ayah` varchar(100) NOT NULL,
-  `penghasilan_ayah` varchar(100) NOT NULL,
-  `nohp_ayah` varchar(15) NOT NULL,
-  `nama_ibu` varchar(150) NOT NULL,
+  `pendidikan_ayah` varchar(50) DEFAULT NULL,
+  `pekerjaan_ayah` varchar(100) DEFAULT NULL,
+  `penghasilan_ayah` varchar(100) DEFAULT NULL,
+  `nohp_ayah` varchar(15) DEFAULT NULL,
+  `nama_ibu` varchar(150) DEFAULT NULL,
   `tahun_lahir_ibu` int(4) NOT NULL,
-  `pendidikan_ibu` varchar(50) NOT NULL,
-  `pekerjaan_ibu` varchar(100) NOT NULL,
-  `penghasilan_ibu` varchar(100) NOT NULL,
+  `pendidikan_ibu` varchar(50) DEFAULT NULL,
+  `pekerjaan_ibu` varchar(100) DEFAULT NULL,
+  `penghasilan_ibu` varchar(100) DEFAULT NULL,
   `nohp_ibu` int(15) NOT NULL,
-  `nama_wali` varchar(150) NOT NULL,
+  `nama_wali` varchar(150) DEFAULT NULL,
   `tahun_lahir_wali` int(4) NOT NULL,
-  `pendidikan_wali` varchar(50) NOT NULL,
-  `pekerjaan_wali` varchar(100) NOT NULL,
-  `penghasilan_wali` varchar(50) NOT NULL,
+  `pendidikan_wali` varchar(50) DEFAULT NULL,
+  `pekerjaan_wali` varchar(100) DEFAULT NULL,
+  `penghasilan_wali` varchar(50) DEFAULT NULL,
   `angkatan` int(5) NOT NULL,
-  `nisn` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_siswa`)
+  `nisn` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_siswa`),
+  KEY `id_kelas` (`id_kelas`),
+  KEY `idpk` (`idpk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.siswa: ~0 rows (approximately)
@@ -510,13 +524,13 @@ CREATE TABLE IF NOT EXISTS `soal` (
   `id_soal` int(11) NOT NULL AUTO_INCREMENT,
   `id_mapel` int(11) NOT NULL,
   `nomor` int(5) NOT NULL,
-  `soal` longtext NOT NULL,
+  `soal` longtext DEFAULT NULL,
   `jenis` int(1) NOT NULL,
-  `pilA` longtext NOT NULL,
-  `pilB` longtext NOT NULL,
-  `pilC` longtext NOT NULL,
-  `pilD` longtext NOT NULL,
-  `pilE` longtext NOT NULL,
+  `pilA` longtext DEFAULT NULL,
+  `pilB` longtext DEFAULT NULL,
+  `pilC` longtext DEFAULT NULL,
+  `pilD` longtext DEFAULT NULL,
+  `pilE` longtext DEFAULT NULL,
   `jawaban` varchar(1) NOT NULL,
   `file` text DEFAULT NULL,
   `file1` text DEFAULT NULL,
@@ -525,7 +539,8 @@ CREATE TABLE IF NOT EXISTS `soal` (
   `fileC` text DEFAULT NULL,
   `fileD` text DEFAULT NULL,
   `fileE` text DEFAULT NULL,
-  PRIMARY KEY (`id_soal`)
+  PRIMARY KEY (`id_soal`),
+  KEY `id_mapel` (`id_mapel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.soal: ~0 rows (approximately)
@@ -574,9 +589,12 @@ CREATE TABLE IF NOT EXISTS `ujian` (
   `token` int(1) NOT NULL,
   `status` int(3) NOT NULL,
   `hasil` int(2) NOT NULL,
-  `kkm` varchar(128) NOT NULL,
+  `kkm` varchar(128) DEFAULT NULL,
   `ulang` int(2) NOT NULL,
-  PRIMARY KEY (`id_ujian`)
+  PRIMARY KEY (`id_ujian`),
+  KEY `id_pk` (`id_pk`),
+  KEY `id_guru` (`id_guru`),
+  KEY `id_mapel` (`id_mapel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table cbtcandy25.ujian: ~0 rows (approximately)

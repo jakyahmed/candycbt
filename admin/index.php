@@ -44,7 +44,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/font-awesome/css/font-awesome.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/select2/select2.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.css' />
-	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green.min.css' />
+	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green-light.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/jQueryUI/jquery-ui.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/iCheck/square/green.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'>
@@ -55,104 +55,10 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/datetimepicker/jquery.datetimepicker.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/notify/css/notify-flat.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.css'>
+	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/costum.css' />
 	<script src='<?= $homeurl ?>/plugins/tinymce/tinymce.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
 
-	<style>
-		@font-face {
-			font-family: 'tulisan_keren';
-			src: url('../dist/fonts/poppins/Poppins-Light.ttf');
-		}
-
-		.btn {
-			border-radius: 20em;
-		}
-
-		.btn.btn-flat {
-			border-radius: 20em;
-		}
-
-		@font-face {
-			font-family: 'OCR A Extended';
-			font-style: normal;
-			font-weight: normal;
-			src: local('OCR A Extended'), url('OCRAEXT_2.woff') format('woff');
-		}
-
-		body {
-			font-family: 'tulisan_keren', me_quran;
-			font-size: 13px;
-			line-height: 1.42857143;
-			color: #000;
-		}
-
-		.sidebar-menu>li>a {
-			padding: 5px 5px 5px 10px;
-			display: block;
-		}
-
-		.skin-green .main-header .navbar {
-			background-color: #02948d;
-		}
-
-		.bg-green {
-			background-color: #02948d;
-		}
-
-		.loader {
-			position: fixed;
-			left: 0px;
-			top: 0px;
-			width: 100%;
-			height: 100%;
-			z-index: 9999;
-			background: url('../dist/img/octo.gif') 50% 50% no-repeat rgb(249, 249, 249);
-			opacity: .8;
-		}
-
-		.skin-red .sidebar a {
-			color: #b1c9f5;
-		}
-
-		.form-control {
-			border-radius: 0;
-			box-shadow: none;
-			border-color: #afc2e8;
-		}
-
-		.box-header {
-
-			background: #a8dbff;
-		}
-
-		.box-header .box-title {
-			color: #3d6baf;
-		}
-
-		.box-header {
-			color: #fff;
-		}
-
-		thead {
-			background-color: #4cf5a7;
-
-		}
-
-		thead:hover {
-			background-color: #92fbca;
-		}
-
-		.table-striped>tbody>tr:nth-of-type(odd) {
-			background-color: #ddfdeb;
-		}
-
-		.info-box-number {
-			display: block;
-			font-weight: bold;
-			font-size: 30px;
-			color: #fff;
-		}
-	</style>
 	<!-- <style type='text/css' media='print'>
 		.page {
 			-webkit-transform: rotate(-90deg);
@@ -162,12 +68,12 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 	</style> -->
 </head>
 
-<body class='hold-transition skin-green sidebar-mini fixed <?= $sidebar ?>'>
+<body class='hold-transition skin-green-light sidebar-mini fixed <?= $sidebar ?>'>
 	<div id='pesan'></div>
 	<div class='loader'></div>
 	<div class='wrapper'>
 		<header class='main-header'>
-			<a href='?' class='logo' style='background-color:#02948d'>
+			<a href='?' class='logo' style='background-color:#f9fafc'>
 				<span class='animated bounce logo-mini'>
 					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
@@ -175,7 +81,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px">
 				</span>
 			</a>
-			<nav class='navbar navbar-static-top' role='navigation'>
+			<nav class='navbar navbar-static-top' style='background-color:#00a896;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.1)' role='navigation'>
 				<a href='#' class='sidebar-toggle' data-toggle='offcanvas' role='button'>
 					<span class='sr-only'>Toggle navigation</span>
 				</a>
@@ -247,8 +153,12 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<p><?= $pengawas['nama']; ?></p>
 						<a href='#'><i class='fa fa-circle text-green'></i> <?= $pengawas['level']; ?></a>
 					</div>
+
 				</div>
+				<hr style="margin:0px">
 				<ul class=' sidebar-menu tree data-widget=' tree>
+
+					<li class="header">MENU UTAMA</li>
 					<li><a href='?'><img src='../dist/img/svg/home.svg' width='30'> <span>Dashboard</span></a></li>
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<li class=' treeview'>
@@ -338,14 +248,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						$jenjang = 'SD/MI';
 					}
 					?>
-					<li><a class='btn btn-block' style='background-color:#02948d' href='logout.php'><b><img src='../dist/img/svg/cancel.svg' width='30'> Keluar</b></a></li>
 				</ul><!-- /.sidebar-menu -->
 			</section>
 		</aside>
 
 		<div class='content-wrapper' style='background-image: url(backgroun.jpg);background-size: cover;'>
-			<section class='content-header'>
-				<h1 style='text-shadow: 2px 2px 4px #827e7e;'>
+			<section class='content-header' style="height:102px;z-index:0;background:#00a896">
+				<h1 style='text-shadow: 2px 2px 4px #827e7e;color:#fff'>
 					&nbsp;<span class='hidden-xs'><?= $setting['aplikasi'] . '-' . $jenjang ?></span>
 				</h1>
 				<div style='float:right; margin-top:-37px'>
@@ -354,7 +263,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				</div>
 				<div class='breadcrumb'></div>
 			</section>
-			<section class='content'>
+			<section class='content' style="margin-top:-65px">
 				<?php if ($pg == '') : ?>
 					<?php
 						$testongoing = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai=''"));
@@ -372,95 +281,77 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						}
 						?>
 					<?php if ($pengawas['level'] == 'admin') : ?>
-						<div class=' row'>
-							<div class='  col-md-8'>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=nilai'>
-										<div class='info-box bg-yellow'>
-											<span class='info-box-icon bg-yellow'><img src='../dist/img/svg/inspection.svg'></span>
-											<div class='info-box-content'>
-												<span class='info-box-text'>NILAI</span>
-												<span class='info-box-number'><?= $nilai ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=banksoal'>
-										<div class='info-box bg-aqua'>
-											<span class='info-box-icon bg-aqua'><img src='../dist/img/svg/briefcase.svg'></span>
-											<div class='info-box-content '>
-												<span class='info-box-text'>SOAL</span>
-												<span class='info-box-number'><?= $soal ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=siswa'>
-										<div class='info-box bg-green'>
-											<span class='info-box-icon bg-green'><img src='../dist/img/svg/siswa_ujian.svg' width="80%"></span>
-											<div class='info-box-content'>
-												<span class='info-box-text'>SISWA</span>
-												<span class='info-box-number'><?= $siswa ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=kelas'>
-										<div class='info-box bg-navy'>
-											<span class='info-box-icon bg-navy'><img src='../dist/img/svg/organization.svg'></span>
-											<div class='info-box-content'>
-												<span class='info-box-text'>KELAS</span>
-												<span class='info-box-number'><?= $kelas ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=matapelajaran'>
-										<div class='info-box bg-purple'>
-											<span class='info-box-icon bg-purple'><img src='../dist/img/svg/graduation_cap.svg'></span>
-											<div class='info-box-content'>
-												<span class='info-box-text'>MATA PELAJARAN</span>
-												<span class='info-box-number'><?= $mapel ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated swing col-md-4'>
-									<a href='?pg=ruang'>
-										<div class='info-box bg-maroon'>
-											<span class='info-box-icon bg-maroon'><img src='../dist/img/svg/library.svg'></span>
-											<div class='info-box-content'>
-												<span class='info-box-text'>RUANGAN</span>
-												<span class='info-box-number'><?= $ruang ?></span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a><!-- /.info-box -->
-								</div>
-								<div class='animated flipInX col-md-12'>
-									<div class='box box-solid direct-chat direct-chat-warning'>
-										<div class='box-header with-border'>
-											<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
-												Pengumuman
-											</h3>
-											<div class='box-tools pull-right'>
+						<div class='row'>
 
-												<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
-											</div>
-										</div><!-- /.box-header -->
-										<div class='box-body'>
-											<div id='pengumuman'>
-												<p class='text-center'>
-													<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
-												</p>
-											</div>
-										</div><!-- /.box-body -->
-									</div><!-- /.box -->
+							<div class="col-lg-3">
+								<div class="small-box bg-blue">
+									<div class="inner">
+										<h3><?= $siswa ?></h3>
+										<p>Jumlah Siswa</p>
+									</div>
+									<div class="icon">
+										<i class="fa fa-users"></i>
+									</div>
+									<a href="?pg=siswa" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
+							<div class="col-lg-3 ">
+								<div class="small-box bg-yellow">
+									<div class="inner">
+										<h3><?= $nilai ?></h3>
+										<p>Jumlah Nilai</p>
+									</div>
+									<div class="icon">
+										<i class="fa fa-pencil-square-o"></i>
+									</div>
+									<a href="?pg=nilai" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="small-box bg-red">
+									<div class="inner">
+										<h3><?= $soal ?></h3>
+										<p>Jumlah Soal</p>
+									</div>
+									<div class="icon">
+										<i class="fa fa-file-text-o"></i>
+									</div>
+									<a href="?pg=soal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="small-box bg-green">
+									<div class="inner">
+										<h3><?= $kelas ?></h3>
+										<p>Jumlah Kelas</p>
+									</div>
+									<div class="icon">
+										<i class="fa fa-university"></i>
+									</div>
+									<a href="?pg=kelas" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+								</div>
+							</div>
+							<div class='animated flipInX col-md-8'>
+								<div class='box box-solid direct-chat direct-chat-warning'>
+									<div class='box-header with-border'>
+										<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
+											Pengumuman
+										</h3>
+										<div class='box-tools pull-right'>
+
+											<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+										</div>
+									</div><!-- /.box-header -->
+									<div class='box-body'>
+										<div id='pengumuman'>
+											<p class='text-center'>
+												<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
+											</p>
+										</div>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
+							</div>
+
 							<div class='animated flipInX col-md-4'>
 								<div class='box box-solid direct-chat direct-chat-warning'>
 									<div class='box-header with-border'>
@@ -478,6 +369,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
 							</div>
+
 						</div>
 					<?php endif ?>
 					<?php

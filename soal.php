@@ -348,7 +348,7 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 						<?php
 								$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
 								$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
-								$aturan = $lamaujian['lama_ujian'] * 25 / 100;
+								$aturan = $lamaujian['lama_ujian'] / 4;
 								$awal  = date_create($waktu_awal['ujian_mulai']);
 								$akhir = date_create();
 								$diff  = date_diff($awal, $akhir);
@@ -532,7 +532,7 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 				<?php
 						$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
 						$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
-						$aturan = $lamaujian['lama_ujian'] * 25 / 100;
+						$aturan = $lamaujian['lama_ujian'] / 4;
 						$awal  = date_create($waktu_awal['ujian_mulai']);
 						$akhir = date_create();
 						$diff  = date_diff($awal, $akhir);

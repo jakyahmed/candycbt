@@ -63,6 +63,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 									<th>ruang</th>
 									<th>Username</th>
 									<th>Password</th>
+									<th>Server</th>
 									<?php if ($pengawas['level'] == 'admin') : ?>
 										<th width='70px'></th>
 									<?php endif ?>
@@ -370,3 +371,69 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 		}
 		?>
 <?php endif ?>
+
+<script>
+	$(document).ready(function() {
+		var t = $('#tabelsiswa').DataTable({
+			'ajax': 'datasiswa.php',
+			'order': [
+				[1, 'asc']
+			],
+			'columns': [{
+					'data': null,
+					'width': '10px',
+					'sClass': 'text-center'
+				},
+				{
+					'data': 'no_peserta'
+				},
+				{
+					'data': 'nama'
+				},
+				{
+					'data': 'level'
+				},
+				{
+					'data': 'id_kelas'
+				},
+				<?php if ($setting['jenjang'] == 'SMK') : ?> {
+						'data': 'idpk'
+					},
+				<?php endif; ?> {
+					'data': 'sesi'
+				},
+				{
+					'data': 'ruang'
+				},
+				{
+					'data': 'username'
+				},
+				{
+					'data': 'password'
+				},
+				{
+					'data': 'server'
+				},
+				<?php if ($pengawas['level'] == 'admin') { ?> {
+						'data': 'id_siswa',
+						'width': '100px',
+						'sClass': 'text-center',
+						'orderable': false,
+						'mRender': function(data) {
+							return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
+                                <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
+						}
+					}
+				<?php } ?>
+			]
+		});
+		t.on('order.dt search.dt', function() {
+			t.column(0, {
+				search: 'applied',
+				order: 'applied'
+			}).nodes().each(function(cell, i) {
+				cell.innerHTML = i + 1;
+			});
+		}).draw();
+	});
+</script>

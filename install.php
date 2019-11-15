@@ -10,13 +10,13 @@ if (!$pilihdb) {
 	$ket2 = 'disabled';
 }
 if (isset($_POST['buat'])) {
-	$nama_db = NAMA_DATABASE;
+	$nama_db = 'cbtcandy26';
 
 	mysqli_query($koneksi, "CREATE DATABASE $nama_db CHARACTER SET utf8 COLLATE utf8_general_ci;");
 	header('location:admin/login.php');
 }
 if (isset($_POST['buat2'])) {
-	$filename = 'config/candycbt25.sql';
+	$filename = 'config/cbtcandy26.sql';
 	$templine = '';
 	$lines = file($filename);
 	foreach ($lines as $line) {

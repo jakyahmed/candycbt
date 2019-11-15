@@ -341,6 +341,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 						</tr>
 					</table>
 					<br>
+					<div class='table-responsive'>
 					<table class='table table-bordered table-striped'>
 						<thead>
 							<tr>
@@ -398,8 +399,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 							<?php endwhile; ?>
 						</tbody>
 					</table>
+							</div>
 				</div>
 			</div>
 		</div>
 	</div>
-<?php endif ?>
+	<?php endif; ?>

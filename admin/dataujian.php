@@ -11,8 +11,21 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                 </div>
             </div><!-- /.box-header -->
             <div class='box-body'>
+                <?php if ($setting['server'] == 'lokal') : ?>
+                    <div class='box box-solid '>
+                        <div class='box-header with-border'>
+                            <h3 class='box-title'><i class='fa fa-desktop'></i> Status Server</h3>
 
-
+                        </div><!-- /.box-header -->
+                        <div class='box-body'>
+                            <center><img id='loading-image' src='../dist/img/ajax-loader.gif' style='display:none; width:50px;' />
+                                <center>
+                                    <div id='statusserver'>
+                                    </div>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                <?php endif; ?>
+                <div id="hasilkirim"></div>
                 <div class=''>
 
                     <div id='tabledataujian' class='table-responsive'>
@@ -20,10 +33,14 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                             <thead>
                                 <tr>
                                     <th width='5px'>#</th>
+                                    <?php if ($setting['server'] == 'lokal') : ?>
+                                        <th>Kirim Hasil</th>
+                                        <th>Terkirim</th>
+                                    <?php endif; ?>
                                     <th>Jenis Ujian</th>
                                     <th>Kode Ujian</th>
                                     <th>Nilai</th>
-                                    <th>Temp_Jawaban</th>
+                                    <th>Temp</th>
                                     <th>Jawaban</th>
                                     <th>Aksi</th>
 
@@ -38,13 +55,18 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                                     $ujianQ = mysqli_query($koneksi, "SELECT * FROM nilai a join mapel b ON a.id_mapel=b.id_mapel  group by id_ujian");
                                 }
                                 while ($ujian = mysqli_fetch_array($ujianQ)) {
-                                    $cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai='' and id_siswa<>''"));
+                                    $terkirim = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and status='1'"));
+                                    $terkirim2 = mysqli_num_rows(mysqli_query($koneksi, "select * from hasil_jawaban where id_ujian='$ujian[id_ujian]' and status='1'"));
+                                    $cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai is null"));
                                     $cek2 = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_ujian='$ujian[id_ujian]'"));
-                                    if ($cek <> 0 or $cek2 == 0) {
+                                    if ($cek <> 0) {
                                         $dis = 'disabled';
-                                        $dis2 = '';
                                     } else {
                                         $dis = '';
+                                    }
+                                    if ($cek2 == 0) {
+                                        $dis2 = '';
+                                    } else {
                                         $dis2 = 'disabled';
                                     }
                                     $no++;
@@ -54,16 +76,22 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                                     echo "
                                 <tr>
 
-                                    <td>$no</td>
+                                    <td>$no</td>";
+                                    if ($setting['server'] == 'lokal') :
+                                        echo "
+                                    <td><button class='kirimhasil btn btn-primary btn-sm' data-id='$ujian[id_ujian]' $dis2><i class='fa fa-upload'></i> Kirim</button></td>
+                                    <td>$terkirim / $terkirim2</td>";
+                                    endif;
+                                    echo "
                                     <td>$ujian[kode_ujian]</td>
                                     <td>$ujian[nama]</td>
                                     <td>$datanilai</td>
                                     <td>$tempjawaban</td>
                                     <td>$datajawaban</td>
                                     <td>
-                                    <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-xs btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
-                                    <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-xs btn-danger' $dis2><i class='fa fa-trash'></i> Nilai</button>
-                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-xs btn-danger' $dis2><i class='fa fa-trash'></i> Jawaban</button>
+                                    <button data-id='$ujian[id_ujian]' class='pindahjwbn btn btn-sm btn-primary' $dis><i class='fa fa-refresh'></i> pindah Jawaban</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusnilai btn btn-sm btn-danger' $dis2><i class='fa fa-trash'></i> Nilai</button>
+                                    <button data-id='$ujian[id_ujian]' class='hapusjwbn btn btn-sm btn-danger' $dis2><i class='fa fa-trash'></i> Jawaban</button>
                                     
                                     </td>
                                 </tr>
@@ -80,6 +108,53 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
         </div>
         <script>
             $(document).ready(function() {
+                $(document).on('click', '.kirimhasil', function() {
+
+                    var idujian = $(this).data('id');
+                    console.log(idujian);
+                    swal({
+                        title: 'Are you sure?',
+                        text: 'Fungsi ini akan mengirim data ke server pusat',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, Kirim!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'kirimhasil.php',
+                                data: 'id=' + idujian,
+                                beforeSend: function() {
+                                    $('.loader').css('display', 'block');
+
+                                },
+                                success: function(response) {
+
+                                    $('.loader').css('display', 'none');
+                                    $('#hasilkirim').html(response);
+                                    $("#tabledataujian").load(window.location + " #tabledataujian");
+
+                                }
+                            });
+
+                        }
+                    })
+
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'statusserver.php',
+                    beforeSend: function() {
+                        $('#loading-image').show();
+                    },
+                    success: function(response) {
+                        $('#statusserver').html(response);
+                        $('#loading-image').hide();
+
+                    }
+                });
                 $(document).on('click', '.hapusnilai', function() {
                     var id = $(this).data('id');
                     console.log(id);
@@ -161,7 +236,12 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                                 url: 'ambiljawaban.php',
                                 method: "POST",
                                 data: 'id=' + id,
+                                beforeSend: function() {
+                                    $('.loader').css('display', 'block');
+
+                                },
                                 success: function(data) {
+                                    $('.loader').css('display', 'none');
                                     swal({
                                         position: 'top-end',
                                         type: 'success',

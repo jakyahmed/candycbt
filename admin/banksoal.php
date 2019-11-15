@@ -470,6 +470,13 @@ if ($ac == '') :
 <?php elseif ($ac == 'hapusbank') : ?>
 	<?php
 		$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_mapel='$_GET[id]'");
+		$gambar = mysqli_query($koneksi, "select * file_pendukung where id_mapel='$_GET[id]'");
+		while ($file = mysqli_fetch_array($gambar)) {
+			$path = $homeurl . "/files/" . $file['nama_file'];
+			chown($path, 666);
+			unlink($path);
+		}
+		$exec = mysqli_query($koneksi, "DELETE FROM file_pendukung WHERE id_mapel='$_GET[id]'");
 		jump(" ?pg=$pg&ac=lihat&id=$_GET[id]");
 		?>
 <?php elseif ($ac == 'lihat') : ?>
@@ -643,6 +650,7 @@ if ($ac == '') :
 							<tbody>
 								<?php $soalq = mysqli_query($koneksi, "SELECT * FROM soal where id_mapel='$id_mapel' and jenis='1' order by nomor "); ?>
 								<?php while ($soal = mysqli_fetch_array($soalq)) : ?>
+
 									<tr>
 										<td style='width:30px'>
 											<?= $soal['nomor'] ?>
@@ -685,7 +693,10 @@ if ($ac == '') :
 													<td style="padding: 3px;width: 31%; vertical-align: text-top;">
 														<?php
 																if ($soal['pilA'] <> '') {
-																	echo "$soal[pilA]<br>";
+																	echo "$soal[pilA] ";
+																	if ($soal['jawaban'] == 'A') {
+																		echo "<i class='fa fa-check fa-2x text-green'></i>";
+																	}
 																}
 																if ($soal['fileA'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -706,7 +717,10 @@ if ($ac == '') :
 													<td style="padding: 3px;width: 31%; vertical-align: text-top;">
 														<?php
 																if (!$soal['pilC'] == "") {
-																	echo "$soal[pilC]<br>";
+																	echo "$soal[pilC] ";
+																	if ($soal['jawaban'] == 'C') {
+																		echo "<i class='fa fa-check fa-2x text-green'></i>";
+																	}
 																}
 																if ($soal['fileC'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -728,7 +742,10 @@ if ($ac == '') :
 														<td style="padding: 3px; vertical-align: text-top;">
 															<?php
 																		if (!$soal['pilE'] == "") {
-																			echo "$soal[pilE]<br>";
+																			echo "$soal[pilE] ";
+																			if ($soal['jawaban'] == 'E') {
+																				echo "<i class='fa fa-check fa-2x text-green'></i>";
+																			}
 																		}
 																		if ($soal['fileE'] <> '') {
 																			$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -752,7 +769,10 @@ if ($ac == '') :
 													<td style="padding: 3px;width: 31%; vertical-align: text-top;">
 														<?php
 																if (!$soal['pilB'] == "") {
-																	echo "$soal[pilB]<br>";
+																	echo "$soal[pilB] ";
+																	if ($soal['jawaban'] == 'B') {
+																		echo "<i class='fa fa-check fa-2x text-green'></i>";
+																	}
 																}
 																if ($soal['fileB'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -774,7 +794,10 @@ if ($ac == '') :
 														<td style="padding: 3px;width: 31%; vertical-align: text-top;">
 															<?php
 																		if (!$soal['pilD'] == "") {
-																			echo "$soal[pilD]<br>";
+																			echo "$soal[pilD] ";
+																			if ($soal['jawaban'] == 'D') {
+																				echo "<i class='fa fa-check fa-2x text-green'></i>";
+																			}
 																		}
 																		if ($soal['fileD'] <> '') {
 																			$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -793,11 +816,7 @@ if ($ac == '') :
 														</td>
 													<?php endif; ?>
 												</tr>
-												<tr>
-													<td colspan='2' style="padding: 3px;vertical-align: text-top;">
-														Kunci : <?= $soal['jawaban']; ?>
-													</td>
-												</tr>
+
 											</table>
 										</td>
 										<td style='width:30px'>
@@ -934,236 +953,6 @@ if ($ac == '') :
 		jump("?pg=$pg&ac=input&paket=$soal[paket]&id=$soal[id_mapel]&no=$soal[nomor]&jenis=$jenis");
 		?>
 <?php elseif ($ac == 'importsoal') : ?>
-	<?php
-		$id_mapel = $_GET['id'];
-		$mapelQ = mysqli_query($koneksi, "SELECT * FROM mapel where id_mapel='$id_mapel'");
-		$mapel = mysqli_fetch_array($mapelQ);
-		$cekmapel = mysqli_num_rows($mapelQ);
-		if (isset($_POST['submit'])) :
-			$file = $_FILES['file']['name'];
-			$temp = $_FILES['file']['tmp_name'];
-			$ext = explode('.', $file);
-			$ext = end($ext);
-			if ($ext <> 'xls') {
-				$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-			} else {
-				$data = new Spreadsheet_Excel_Reader($temp);
-				$hasildata = $data->rowcount($sheet_index = 0);
-				$sukses = $gagal = 0;
-				$exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_mapel='$id_mapel' ");
-				for ($i = 2; $i <= $hasildata; $i++) :
-					$no = $data->val($i, 1);
-					$soal = addslashes($data->val($i, 2));
-					$pilA = addslashes($data->val($i, 3));
-					$pilB = addslashes($data->val($i, 4));
-					$pilC = addslashes($data->val($i, 5));
-					$pilD = addslashes($data->val($i, 6));
-					$pilE = addslashes($data->val($i, 7));
-					$jawaban = $data->val($i, 8);
-					$jenis = $data->val($i, 9);
-					$file1 = $data->val($i, 10);
-					$file2 = $data->val($i, 11);
-					$fileA = $data->val($i, 12);
-					$fileB = $data->val($i, 13);
-					$fileC = $data->val($i, 14);
-					$fileD = $data->val($i, 15);
-					$fileE = $data->val($i, 16);
-					$id_mapel = $_POST['id_mapel'];
+	<?php include "import_soal.php"; ?>
 
-					if ($soal <> '' and $jenis <> '') {
-						$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
-						($exec) ? $sukses++ : $gagal++;
-					} else {
-						$gagal++;
-					}
-				endfor;
-				$total = $hasildata - 1;
-				$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
-			}
-		endif;
-
-		if (isset($_POST['importbee'])) :
-			$file = $_FILES['file']['name'];
-			$temp = $_FILES['file']['tmp_name'];
-			$ext = explode('.', $file);
-			$ext = end($ext);
-			if ($ext <> 'xls') {
-				$infobee = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-			} else {
-
-				$data = new Spreadsheet_Excel_Reader($temp);
-				$hasildata = $data->rowcount($sheet_index = 0);
-				$sukses = $gagal = 0;
-				$exec = mysqli_query($koneksi, "delete from soal where id_mapel='$id_mapel' ");
-				for ($i = 3; $i <= $hasildata; $i++) :
-					$no = $data->val($i, 1);
-					$soal = addslashes($data->val($i, 5));
-					$pilA = addslashes($data->val($i, 6));
-					$pilB = addslashes($data->val($i, 8));
-					$pilC = addslashes($data->val($i, 10));
-					$pilD = addslashes($data->val($i, 12));
-					$pilE = addslashes($data->val($i, 14));
-					$jawab = $data->val($i, 19);
-					if ($jawab == '1') {
-						$jawaban = 'A';
-					} elseif ($jawab == '2') {
-						$jawaban = 'B';
-					} elseif ($jawab == '3') {
-						$jawaban = 'C';
-					} elseif ($jawab == '4') {
-						$jawaban = 'D';
-					} elseif ($jawab == '5') {
-						$jawaban = 'E';
-					}
-					$jenis = $data->val($i, 2);
-					$file1 = $data->val($i, 18);
-					$file2 = $data->val($i, 17);
-					$fileA = $data->val($i, 7);
-					$fileB = $data->val($i, 9);
-					$fileC = $data->val($i, 11);
-					$fileD = $data->val($i, 13);
-					$fileE = $data->val($i, 15);
-					$id_mapel = $_POST['id_mapel'];
-
-					if ($jenis <> '') {
-						$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
-						($exec) ? $sukses++ : $gagal++;
-					} else {
-						$gagal++;
-					}
-				endfor;
-				$total = $hasildata - 1;
-				$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
-			}
-		endif;
-		?>
-	<div class='row'>
-		<div class='col-md-6'>
-			<form action='' method='post' enctype='multipart/form-data'>
-				<div class='box box-solid'>
-					<div class='box-header  bg-green with-border'>
-						<h3 class='box-title'>Import Soal Excel</h3>
-						<div class='box-tools pull-right '>
-							<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
-							<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
-						</div>
-					</div><!-- /.box-header -->
-					<div class='box-body'>
-						<?= $info ?>
-						<div class='form-group'>
-							<label>Mata Pelajaran</label>
-							<input type='hidden' name='id_mapel' class='form-control' value="<?= $mapel['id_mapel'] ?>" />
-							<input type='text' name='mapel' class='form-control' value="<?= $mapel['nama'] ?>" disabled />
-						</div>
-						<div class='form-group'>
-							<label>Pilih File</label>
-							<input type='file' name='file' class='form-control' required='true' />
-						</div>
-						<p>
-							Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan. <br />
-						</p>
-					</div><!-- /.box-body -->
-					<div class='box-footer'>
-						<a href='importdatasoal.xls'><i class='fa fa-file-excel-o'></i> Download Format</a>
-					</div>
-				</div><!-- /.box -->
-			</form>
-		</div>
-		<div class='col-md-6'>
-			<form action='<?= $homeurl ?>/admin/pages/word_import/import/index.php/word_import' method='post' enctype='multipart/form-data'>
-				<div class='box box-solid'>
-					<div class='box-header with-border'>
-						<h3 class='box-title'>Import Soal Ms Word</h3>
-						<div class='box-tools pull-right '>
-							<button type='submit' name='submit' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
-							<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
-						</div>
-					</div><!-- /.box-header -->
-					<div class='box-body'>
-						<div class='form-group'>
-							<label>Mata Pelajaran</label>
-							<input type='hidden' name='id_mapel' class='form-control' value="<?= $mapel['id_mapel'] ?>" />
-							<input type='text' name='mapel' class='form-control' value="<?= $mapel['nama'] ?>" disabled />
-						</div>
-						<tr>
-							<td>
-								<input type='hidden' name='id_bank_soal' value=<?= $_REQUEST['id'] ?>>
-							</td>
-						</tr>
-						<tr>
-							<td> <input type='hidden' name='id_lokal' value='<?= $homeurl ?>'></td>
-						</tr>
-						<tr>
-							<td> <input type='hidden' name='cid' value='1'></td>
-						</tr>
-						<tr>
-							<td> <input type='hidden' name='lid' value='2'></td>
-						</tr>
-						<tr>
-							<td> <input type='hidden' name='question_split' value='/Q:[0-9]+\)/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='description_split' value='/FileQ:/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='question_gambar' value='/Gambar:/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='question_video' value='/Video:/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='question_audio' value='/Audio:/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='option_split' value='/[A-Z]:\)/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='option_file' value='/FileO:/'></td>
-						</tr>
-						<tr>
-							<td><input type='hidden' name='correct_split' value='/Kunci:/'></td>
-						</tr>
-						<div class='form-group'>
-							<label>Pilih File</label>
-							<input type='file' name='word_file' class='form-control' required='true' />
-						</div>
-						<p>
-							Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Word (.docx) dan format penulisan harus sesuai dengan yang telah ditentukan. <br />
-						</p>
-					</div><!-- /.box-body -->
-					<div class='box-footer'>
-						<a href='<?= $homeurl ?>/admin/pages/word_import/import/sample/sample.docx'><i class='fa fa-file-word-o'></i> Download Format</a>
-					</div>
-				</div><!-- /.box -->
-			</form>
-		</div>
-		<div class='col-md-6'>
-			<form action='' method='post' enctype='multipart/form-data'>
-				<div class='box box-solid'>
-					<div class='box-header  bg-yellow with-border'>
-						<h3 class='box-title'>Import Soal Excel (Bee)</h3>
-						<div class='box-tools pull-right '>
-							<button type='submit' name='importbee' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Import</button>
-							<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon' title='Batal'><i class='fa fa-times'></i></a>
-						</div>
-					</div><!-- /.box-header -->
-					<div class='box-body'>
-						<div class='form-group'>
-							<label>Mata Pelajaran</label>
-							<input type='hidden' name='id_mapel' class='form-control' value="<?= $mapel['id_mapel'] ?>" />
-							<input type='text' name='mapel' class='form-control' value="<?= $mapel['nama'] ?>" disabled />
-						</div>
-						<div class='form-group'>
-							<label>Pilih File</label>
-							<input type='file' name='file' class='form-control' required='true' />
-						</div>
-						<p>
-							Sebelum meng-import pastikan file yang akan anda import sudah dalam bentuk Ms. Excel 97-2003 Workbook (.xls) dan format penulisan harus sesuai dengan yang telah ditentukan. <br />
-						</p>
-					</div><!-- /.box-body -->
-				</div><!-- /.box -->
-			</form>
-		</div>
-		<?php include 'filesoal.php'; ?>
-	</div>
 <?php endif; ?>

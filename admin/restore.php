@@ -46,4 +46,3 @@ function restore($file) {
 	}
 	
 }
-?>

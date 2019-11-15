@@ -35,7 +35,7 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 				$jawaban = "<small class='label bg-green'>$nilai[jml_benar] <i class='fa fa-check'></i></small>  <small class='label bg-red'>$nilai[jml_salah] <i class='fa fa-times'></i></small>";
 				$skor = "<small class='label bg-green'>" . number_format($nilai['skor'], 2, '.', '') . "</small>";
 				$ket = "<label class='label label-success'>Tes Selesai</label>";
-				$btn = "<i class='fa fa-check text-green'></i> <button data-id='$nilai[id_nilai]' class='ulang btn btn-xs btn-danger'>ulang</button>";
+				$btn = "<button data-id='$nilai[id_nilai]' class='ulang btn btn-xs btn-danger'>ulang</button>";
 			} elseif ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] == '') {
 				$selisih = strtotime($nilai['ujian_berlangsung']) - strtotime($nilai['ujian_mulai']);
 				$jam = round((($selisih % 604800) % 86400) / 3600);
@@ -66,4 +66,56 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 																</tr>
 															";
 	}
-}
+} ?>
+<script>
+	$(document).on('click', '.hapus', function() {
+		var id = $(this).data('id');
+		console.log(id);
+		$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
+		swal({
+			title: 'Apa anda yakin?',
+			text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					url: 'selesaikan.php',
+					method: "POST",
+					data: 'id=' + id,
+					success: function(data) {
+						$('#htmlujianselesai').html('1');
+						toastr.success("berhasil diselesaikan");
+					}
+				});
+			}
+		})
+	});
+
+	$(document).on('click', '.ulang', function() {
+		var id = $(this).data('id');
+		console.log(id);
+		swal({
+			title: 'Apa anda yakin?',
+			text: "Akan Mengulang Ujian Ini ??",
+
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					url: 'ulangujian.php',
+					method: "POST",
+					data: 'id=' + id,
+					success: function(data) {
+						toastr.success("berhasil diulang");
+					}
+				});
+			}
+		})
+	});
+</script>

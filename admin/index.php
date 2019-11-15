@@ -3299,68 +3299,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				});
 			});
 
-			$(document).on('click', '.hapus', function() {
-				var id = $(this).data('id');
-				console.log(id);
-				$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
-				swal({
-					title: 'Apa anda yakin?',
-					text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes!'
-				}).then((result) => {
-					if (result.value) {
-						$.ajax({
-							url: 'selesaikan.php',
-							method: "POST",
-							data: 'id=' + id,
-							success: function(data) {
-								$('#htmlujianselesai').html('1');
-								swal({
-									position: 'top-end',
-									type: 'success',
-									title: 'Data berhasil disimpan',
-									showConfirmButton: false,
-									timer: 1500
-								});
-							}
-						});
-					}
-				})
-			});
 
-			$(document).on('click', '.ulang', function() {
-				var id = $(this).data('id');
-				console.log(id);
-				swal({
-					title: 'Apa anda yakin?',
-					text: "Akan Mengulang Ujian Ini ??",
-
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes!'
-				}).then((result) => {
-					if (result.value) {
-						$.ajax({
-							url: 'ulangujian.php',
-							method: "POST",
-							data: 'id=' + id,
-							success: function(data) {
-								swal({
-									position: 'top-end',
-									type: 'success',
-									title: 'Data berhasil disimpan',
-									showConfirmButton: false,
-									timer: 1500
-								});
-							}
-						});
-					}
-				})
-			});
 
 			$(document).on('click', '.ambiljawaban', function() {
 				var idmapel = $(this).data('id');

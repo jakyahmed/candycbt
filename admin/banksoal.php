@@ -617,6 +617,24 @@ if ($ac == '') :
 				// $jwb12 = str_replace("&amp;gt;", ">", $jwb122);
 				$soal_tanya = str_replace("&amp;gt;", ">", $soal_tanya2);
 				$exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file1,fileA,fileB,fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal_tanya','$opj1','$opj2','$opj3','$opj4','$opj5','$kunci','$jns','$g_soal','$fileA','$fileB','$fileC','$fileD','$fileE')");
+				if ($g_soal <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$g_soal','$id_mapel')");
+				}
+				if ($fileA <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$fileA','$id_mapel')");
+				}
+				if ($fileB <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$fileB','$id_mapel')");
+				}
+				if ($fileC <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$fileC','$id_mapel')");
+				}
+				if ($fileD <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$fileD','$id_mapel')");
+				}
+				if ($fileE <> "") {
+					$file = mysqli_query($koneksi, "INSERT INTO file_pendukung (nama_file,id_mapel) values ('$fileE','$id_mapel')");
+				}
 				$no++;
 			}
 			$hasil2 = mysqli_query($koneksi, "TRUNCATE TABLE savsoft_qbank");

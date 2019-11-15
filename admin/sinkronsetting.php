@@ -1,100 +1,43 @@
-<?php
-$info1 = '';
-if (isset($_POST['simpanserver'])) :
-    $exec = mysqli_query($koneksi, "UPDATE setting SET id_server='$_POST[id_server]', db_folder='$_POST[db_folder]', db_host='$_POST[db_host]',db_name='$_POST[db_name]',db_user='$_POST[db_user]',db_pass='$_POST[db_pass]' WHERE id_setting='1'");
-    if ($exec) {
-        $info1 = info('Berhasil menyimpan pengaturan!', 'OK');
-    }
-endif; ?>
-<div class='row'>
-    <div class='col-md-12'>
-        <div class='box box-solid'>
-            <div class='box-header with-border'>
-                <h3 class='box-title'><i class='fa fa-gear'></i> Setting Sinkronisasi</h3>
-            </div><!-- /.box-header -->
-            <div class='box-body'>
-                <div class='box box-solid '>
-                    <div class='box-header with-border'>
-                        <h3 class='box-title'><i class='fa fa-desktop'></i> Status Server</h3>
-
-                    </div><!-- /.box-header -->
-                    <div class='box-body'>
-                        <center><img id='loading-image' src='../dist/img/ajax-loader.gif' style='display:none; width:50px;' />
-                            <center>
-                                <div id='statusserver'>
-                                </div>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-                <form action='' method='post' enctype='multipart/form-data'>
-
-                    <div class='box-body'>
-
-                        <?= $info1 ?>
-                        <div class='form-group'>
-                            <div class='row'>
-                                <div class='col-md-3'>
-                                    <label>ID SERVER</label>
-                                    <input type='text' name='id_server' value="<?= $setting['id_server'] ?>" class='form-control' required='true' />
-                                </div>
-                                <div class='col-md-3'>
-                                    <label>Folder Candy</label>
-                                    <input type='text' name='db_folder' value="<?= $setting['db_folder'] ?>" class='form-control' />
-                                </div>
-                            </div>
-                        </div>
-                        <div class='form-group'>
-                            <div class='row'>
-                                <div class='col-md-6'>
-                                    <label>db_host/ip</label>
-                                    <input type='text' name='db_host' value="<?= $setting['db_host'] ?>" class='form-control' required='true' />
-                                </div>
-                            </div>
-                        </div>
-                        <div class='form-group'>
-                            <div class='row'>
-                                <div class='col-md-6'>
-                                    <label>db_user</label>
-                                    <input type='text' name='db_user' value="<?= $setting['db_user'] ?>" class='form-control' required='true' />
-                                </div>
-                            </div>
-                        </div>
-                        <div class='form-group'>
-                            <div class='row'>
-                                <div class='col-md-6'>
-                                    <label>db_password</label>
-                                    <input type='text' name='db_pass' value="<?= $setting['db_pass'] ?>" class='form-control' />
-                                </div>
-                            </div>
-                        </div>
-                        <div class='form-group'>
-                            <div class='row'>
-                                <div class='col-md-6'>
-                                    <label>db_name</label>
-                                    <input type='text' name='db_name' value="<?= $setting['db_name'] ?>" class='form-control' />
-                                </div>
-                            </div>
-                        </div>
-                        <div class='col-md-6'>
-                            <button type='submit' name='simpanserver' class='btn btn-flat pull-right btn-success' style='margin-bottom:5px'><i class='fa fa-check'></i> Simpan</button>
-                        </div>
-                    </div><!-- /.box-body -->
-
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $.ajax({
-        type: 'POST',
-        url: 'statusserver.php',
-        beforeSend: function() {
-            $('#loading-image').show();
-        },
-        success: function(response) {
-            $('#statusserver').html(response);
-            $('#loading-image').hide();
-
-        }
-    });
-</script>
+<?php //004fb
+if(!extension_loaded('ionCube Loader')){$__oc=strtolower(substr(php_uname(),0,3));$__ln='ioncube_loader_'.$__oc.'_'.substr(phpversion(),0,3).(($__oc=='win')?'.dll':'.so');if(function_exists('dl')){@dl($__ln);}if(function_exists('_il_exec')){return _il_exec();}$__ln='/ioncube/'.$__ln;$__oid=$__id=realpath(ini_get('extension_dir'));$__here=dirname(__FILE__);if(strlen($__id)>1&&$__id[1]==':'){$__id=str_replace('\\','/',substr($__id,2));$__here=str_replace('\\','/',substr($__here,2));}$__rd=str_repeat('/..',substr_count($__id,'/')).$__here.'/';$__i=strlen($__rd);while($__i--){if($__rd[$__i]=='/'){$__lp=substr($__rd,0,$__i).$__ln;if(file_exists($__oid.$__lp)){$__ln=$__lp;break;}}}if(function_exists('dl')){@dl($__ln);}}else{die('The file '.__FILE__." is corrupted.\n");}if(function_exists('_il_exec')){return _il_exec();}echo("Site error: the ".(php_sapi_name()=='cli'?'ionCube':'<a href="http://www.ioncube.com">ionCube</a>')." PHP Loader needs to be installed. This is a widely used PHP extension for running ionCube protected PHP code, website security and malware blocking.\n\nPlease visit ".(php_sapi_name()=='cli'?'get-loader.ioncube.com':'<a href="http://get-loader.ioncube.com">get-loader.ioncube.com</a>')." for install assistance.\n\n");exit(199);
+?>
+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
+mxdqt4GO

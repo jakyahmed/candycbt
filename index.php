@@ -848,11 +848,11 @@ $tglsekarang = time();
 						<div class='btn-group'>
 							<span style="font-family:'OCR A Extended';font-size:35px" id='countdown'><span id='htmljam'><?= $jam ?></span>:<span id='htmlmnt'><?= $mnt ?></span>:<span id='htmldtk'><?= $dtk ?></span></span>
 						</div>
-						<!-- <div class='btn-group'>
-											<form action='' method='post'>
-												<input type='submit' name='done' id='done-submit' style='display:none;' />
-											</form>
-										</div> -->
+						<div class='btn-group'>
+							<form action='' method='post'>
+								<input type='submit' name='done' id='done-submit' style='display:none;' />
+							</form>
+						</div>
 					</div>
 				</div><!-- /.box-header -->
 				<div id='loadsoal'>

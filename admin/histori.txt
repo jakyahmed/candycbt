@@ -12,4 +12,6 @@
 * Revisi import siswa
 * Revisi logo aplikasi dan logo candy di halaman login admin
 * Optimasi script sql database
+* Perbaikan pada Detail Jawaban
+* Penambahan fitur "Tombol Selesai" muncul apabila siswa sudah mengerjakan 1/4 dari waktu ujian
 * ...

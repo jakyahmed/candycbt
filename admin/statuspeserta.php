@@ -87,13 +87,7 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 					data: 'id=' + id,
 					success: function(data) {
 						$('#htmlujianselesai').html('1');
-						swal({
-							position: 'top-end',
-							type: 'success',
-							title: 'Data berhasil disimpan',
-							showConfirmButton: false,
-							timer: 1500
-						});
+						toastr.success("berhasil diselesaikan");
 					}
 				});
 			}
@@ -118,13 +112,7 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 					method: "POST",
 					data: 'id=' + id,
 					success: function(data) {
-						swal({
-							position: 'top-end',
-							type: 'success',
-							title: 'Data berhasil disimpan',
-							showConfirmButton: false,
-							timer: 1500
-						});
+						toastr.success("berhasil diulang");
 					}
 				});
 			}

@@ -29,12 +29,12 @@ $tglsekarang = time();
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/bootstrap/css/bootstrap.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/font-awesome/css/font-awesome.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.min.css' />
-	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-red-light.min.css' />
+	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green-light.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/iCheck/square/green.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/animate/animate.min.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/sweetalert2/dist/sweetalert2.min.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.css'>
-
+	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/toastr/toastr.min.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/radio/css/style.css'>
 
 	<style>
@@ -70,24 +70,25 @@ $tglsekarang = time();
 	</style>
 </head>
 
-<body class='hold-transition skin-red-light  fixed <?= $sidebar ?>'>
+<body class='hold-transition skin-green-light  fixed <?= $sidebar ?>'>
 	<span id='livetime'></span>
 	<div class='wrapper'>
 		<header class='main-header'>
-			<a href='?' class='logo bg-maroon'>
+			<a href='?' class='logo' style='background-color:#f9fafc'>
 				<span class='animated flipInX logo-mini'>
 					<img src="<?= $homeurl . "/" . $setting['logo'] ?>" height="30px">
 				</span>
-				<span class='animated flipInX logo-lg'>
-					<img src="<?= $homeurl . "/" . $setting['logo'] ?>" height="40px">
+				<span class='animated flipInX logo-lg' style="margin:-3px;color:#000">
+					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px"> <?= $setting['sekolah'] ?>
 				</span>
 			</a>
-			<nav class='navbar navbar-static-top bg-maroon' role='navigation'>
+			<nav class='navbar navbar-static-top' style='background-color:#00a896;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.1)' role='navigation'>
 				<a href='#' class='sidebar-toggle' data-toggle='<?= $disa ?>' role='button'>
 					<span class='sr-only'>Toggle navigation</span>
 				</a>
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
+						<li class="visible-xs"><a><?= $siswa['nama'] ?></a></li>
 						<li class='dropdown user user-menu'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 								<?php
@@ -133,6 +134,7 @@ $tglsekarang = time();
 		</header>
 		<aside class='main-sidebar'>
 			<section class='sidebar'>
+				<hr style="margin:0px">
 				<div class='user-panel'>
 					<div class='pull-left image'>
 						<?php
@@ -159,16 +161,24 @@ $tglsekarang = time();
 						<a href='#'><i class='fa fa-circle text-green'></i> online</a>
 					</div>
 				</div>
+				<hr style="margin:0px">
 				<ul class='sidebar-menu tree' data-widget='tree'>
 					<li class='header'>Main Menu Peserta Ujian</li>
 					<li><a href='<?= $homeurl ?>'><i class='fa fa-fw fa-dashboard'></i> <span>Dashboard</span></a></li>
+					<hr style="margin:0px">
 					<li><a href='<?= $homeurl ?>/hasil'><i class='fa fa-fw fa-tags'></i> <span>Hasil Ujian</span></a></li>
+					<hr style="margin:0px">
 					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
+					<hr style="margin:0px">
+					<li><a href='brocandycbt.apk'><i class='fa fa-fw fa-star'></i> <span>Exambro</span></a></li>
 				</ul><!-- /.sidebar-menu -->
 			</section>
 		</aside>
 		<div class='content-wrapper' style='background-image: url(admin/backgroun.jpg);background-size: cover;'>
-			<section class='content'>
+			<section class='content-header' style="height:102px;z-index:0;background:#00a896">
+
+			</section>
+			<section class='content' style="margin-top:-95px">
 				<?php if ($pg == '') : ?>
 					<div class='row'>
 						<div class='col-md-12'>
@@ -345,7 +355,7 @@ $tglsekarang = time();
 										<div class="nav-tabs-custom">
 											<ul class="nav nav-tabs">
 												<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Detail Jawaban</a></li>
-												<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Peringkat</a></li>
+												<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Peringkat</a></li>
 
 											</ul>
 											<div class="tab-content">
@@ -385,7 +395,7 @@ $tglsekarang = time();
 														</table>
 													</div>
 												</div>
-												<table class="tab-pane active" id="tab_2">
+												<div class="tab-pane" id="tab_2">
 													<table class='table-responsive'>
 														<table id='example1' class='table table-striped'>
 															<thead>
@@ -396,22 +406,22 @@ $tglsekarang = time();
 																</tr>
 															</thead>
 															<tbody>
-																<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM nilai WHERE  id_ujian='$ac' order by skor DESC "); ?>
-																<?php $no=0; ?>
+																<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM nilai WHERE  id_ujian='$ac' order by cast(skor as decimal) DESC "); ?>
+																<?php $no = 0; ?>
 																<?php while ($peringkat = mysqli_fetch_array($nilaix)) : ?>
 																	<?php
 																				$no++;
-																				$siswa=mysqli_fetch_array(mysqli_query($koneksi,"select * from siswa where id_siswa='$peringkat[id_siswa]'"));
-																				if($peringkat['id_siswa']==$_SESSION['id_siswa']){
-																					$style="background:yellow;font-size:20px;";
-																				}else{
-																					$style="";
+																				$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$peringkat[id_siswa]'"));
+																				if ($peringkat['id_siswa'] == $_SESSION['id_siswa']) {
+																					$style = "background:yellow;font-size:20px;";
+																				} else {
+																					$style = "";
 																				}
 																				?>
 																	<tr style="<?= $style ?>">
 																		<td style='text-align:center'><?= $no ?></td>
 																		<td><?= $siswa['nama'] ?></td>
-																		
+
 																		<td style='text-align:center'><?= $peringkat['skor'] ?></td>
 																	</tr>
 																<?php endwhile; ?>
@@ -1288,7 +1298,7 @@ $tglsekarang = time();
 	<script src='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.js'></script>
 	<script src='<?= $homeurl ?>/plugins/mousetrap/mousetrap.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/MathJax-2.7.3/MathJax.js?config=TeX-AMS_HTML-full'></script>
-
+	<script src='<?= $homeurl ?>/plugins/toastr/toastr.min.js'></script>
 	<script>
 		var url = window.location;
 		$('ul.sidebar-menu a').filter(function() {
@@ -1574,7 +1584,8 @@ $tglsekarang = time();
 						id_soal: idsoal,
 						jawaban: jawab,
 						jenis: jenis,
-						id_ujian: idu
+						id_ujian: idu,
+						jawabx: jawabQ
 					},
 					success: function(response) {
 						console.log(response);
@@ -1605,6 +1616,7 @@ $tglsekarang = time();
 					},
 					success: function(response) {
 						if (response == 'OK') {
+							toastr.success("jawaban berhasil disimpan");
 							$('#badgeesai' + idsoal).removeClass('bg-gray');
 							$('#badgeesai' + idsoal).removeClass('bg-yellow');
 							$('#badgeesai' + idsoal).addClass('bg-green');

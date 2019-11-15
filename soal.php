@@ -550,7 +550,8 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 		'id_siswa' => $_POST['id_siswa'],
 		'id_soal' => $_POST['id_soal'],
 		'jenis' => $_POST['jenis'],
-		'jawaban' => $_POST['jawaban']
+		'jawaban' => $_POST['jawaban'],
+		'jawabx' => $_POST['jawabx']
 	);
 	$where = array(
 		'id_ujian' => $_POST['id_ujian'],

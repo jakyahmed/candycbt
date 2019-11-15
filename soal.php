@@ -345,10 +345,20 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 							<button id='move-next' class='btn  btn-primary' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $no_next ?>,1)"><span class='hidden-xs'>SELANJUTNYA </span><i class='fa fa-chevron-right'></i></button>
 						</div>
 					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai == 0)) { ?>
-						<div class='col-md-4 text-right'>
-							<input type='submit' name='done' id='done-submit' style='display:none;' />
-							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span>SELESAI</button>
-						</div>
+						<?php
+								$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
+								$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
+								$aturan = $lamaujian['lama_ujian'] * 25 / 100;
+								$awal  = date_create($waktu_awal['ujian_mulai']);
+								$akhir = date_create();
+								$diff  = date_diff($awal, $akhir);
+								?>
+						<?php if ($diff->i >= $aturan) : ?>
+							<div class='col-md-4 text-right'>
+								<input type='submit' name='done' id='done-submit' style='display:none;' />
+								<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span>SELESAI</button>
+							</div>
+						<?php endif; ?>
 					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai > 0)) { ?>
 						<div class='col-md-4 text-right'>
 							<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
@@ -519,13 +529,22 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 					</div>
 				</td>
 			<?php } elseif (($no_soal > 0) && ($cekno_soal = $jumsoalesai)) { ?>
-				</td>
-				<td>
-					<div class='col-md-4 text-right'>
-						<input type='submit' name='done' id='done-submit' style='display:none;' />
-						<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
-					</div>
-				</td>
+				<?php
+						$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
+						$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
+						$aturan = $lamaujian['lama_ujian'] * 25 / 100;
+						$awal  = date_create($waktu_awal['ujian_mulai']);
+						$akhir = date_create();
+						$diff  = date_diff($awal, $akhir);
+						?>
+				<?php if ($diff->i >= $aturan) : ?>
+					<td>
+						<div class='col-md-4 text-right'>
+							<input type='submit' name='done' id='done-submit' style='display:none;' />
+							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
+						</div>
+					</td>
+				<?php endif; ?>
 			<?php } ?>
 			</tr>
 		</table>

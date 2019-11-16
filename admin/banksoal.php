@@ -473,7 +473,6 @@ if ($ac == '') :
 		$gambar = mysqli_query($koneksi, "select * file_pendukung where id_mapel='$_GET[id]'");
 		while ($file = mysqli_fetch_array($gambar)) {
 			$path = $homeurl . "/files/" . $file['nama_file'];
-			chown($path, 666);
 			unlink($path);
 		}
 		$exec = mysqli_query($koneksi, "DELETE FROM file_pendukung WHERE id_mapel='$_GET[id]'");

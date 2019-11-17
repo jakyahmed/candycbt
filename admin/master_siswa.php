@@ -40,7 +40,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 					<h3 class='box-title'><img src='../dist/img/svg/peserta_ujian.svg' width='20'> Peserta Ujian</h3>
 					<div class='box-tools'>
 						<?php if ($pengawas['level'] == 'admin') : ?>
-							<a data-toggle='modal' data-backdrop="static" data-target='#tambahsiswa' class='btn btn-sm btn-primary'><i class='fa fa-check'></i> Tambah</a>
+							<?php if ($setting['server'] == 'pusat') : ?>
+								<a data-toggle='modal' data-backdrop="static" data-target='#tambahsiswa' class='btn btn-sm btn-primary'><i class='fa fa-check'></i> Tambah</a>
+							<?php endif; ?>
 							<a href='?pg=uplfotosiswa' class='btn btn-sm btn-danger'><i class='fa fa-image'></i> Upload Foto</a>
 							<a href='ekspor_siswa.php' class='btn btn-sm btn-success'><i class='fa fa-download'></i> Download Data</a>
 						<?php endif ?>
@@ -65,7 +67,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 									<th>Password</th>
 									<th>Server</th>
 									<?php if ($pengawas['level'] == 'admin') : ?>
-										<th width='70px'></th>
+										<?php if ($setting['server'] == 'pusat') : ?>
+											<th width='70px'></th>
+										<?php endif ?>
 									<?php endif ?>
 								</tr>
 							</thead>
@@ -414,16 +418,18 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 				{
 					'data': 'server'
 				},
-				<?php if ($pengawas['level'] == 'admin') { ?> {
-						'data': 'id_siswa',
-						'width': '100px',
-						'sClass': 'text-center',
-						'orderable': false,
-						'mRender': function(data) {
-							return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
+				<?php if ($pengawas['level'] == 'admin') { ?>
+					<?php if ($setting['server'] == 'pusat') { ?> {
+							'data': 'id_siswa',
+							'width': '100px',
+							'sClass': 'text-center',
+							'orderable': false,
+							'mRender': function(data) {
+								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
                                 <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
+							}
 						}
-					}
+					<?php } ?>
 				<?php } ?>
 			]
 		});

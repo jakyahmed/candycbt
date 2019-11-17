@@ -374,6 +374,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<a href="?pg=banksoal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
+
 							<div class="col-lg-3">
 								<div class="small-box bg-green">
 									<div class="inner">
@@ -386,25 +387,60 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<a href="?pg=kelas" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class='animated flipInX col-md-8'>
-								<div class='box box-solid direct-chat direct-chat-warning'>
-									<div class='box-header with-border'>
-										<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
-											Pengumuman
-										</h3>
-										<div class='box-tools pull-right'>
 
-											<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+							<div class='animated flipInX col-md-8'>
+								<div class="row">
+									<?php if ($setting['server'] == 'lokal') : ?>
+										<div class="col-lg-12">
+											<div class="small-box ">
+												<div class="inner">
+													<img id='loading-image' src='../dist/img/ajax-loader.gif' style='display:none; width:50px;' />
+													<p id='statusserver'></p>
+													<p>Status Server</p>
+												</div>
+												<div class="icon">
+													<i class="fa fa-desktop"></i>
+												</div>
+												<a href="?pg=sinkronset" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+											</div>
 										</div>
-									</div><!-- /.box-header -->
-									<div class='box-body'>
-										<div id='pengumuman'>
-											<p class='text-center'>
-												<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
-											</p>
-										</div>
-									</div><!-- /.box-body -->
-								</div><!-- /.box -->
+										<script>
+											$.ajax({
+												type: 'POST',
+												url: 'statusserver.php',
+												beforeSend: function() {
+													$('#loading-image').show();
+												},
+												success: function(response) {
+													$('#statusserver').html(response);
+													$('#loading-image').hide();
+
+												}
+											});
+										</script>
+									<?php endif; ?>
+									<div class="col-md-12">
+										<div class='box box-solid direct-chat direct-chat-warning'>
+											<div class='box-header with-border'>
+												<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
+													Pengumuman
+												</h3>
+												<div class='box-tools pull-right'>
+
+													<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+												</div>
+											</div><!-- /.box-header -->
+											<div class='box-body'>
+												<div id='pengumuman'>
+													<p class='text-center'>
+														<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
+													</p>
+												</div>
+											</div><!-- /.box-body -->
+										</div><!-- /.box -->
+									</div>
+
+								</div>
 							</div>
 
 							<div class='animated flipInX col-md-4'>

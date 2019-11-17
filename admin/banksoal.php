@@ -90,8 +90,10 @@ if ($ac == '') :
 				<div class='box-header with-border '>
 					<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
 					<div class='box-tools pull-right '>
-						<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Hapus</button>
-						<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
+						<?php if ($setting['server'] == 'pusat') : ?>
+							<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Hapus</button>
+							<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
+						<?php endif ?>
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'>
@@ -107,7 +109,9 @@ if ($ac == '') :
 									<th>Kelas</th>
 									<th>Guru</th>
 									<th>Status</th>
-									<th></th>
+									<?php if ($setting['server'] == 'pusat') : ?>
+										<th></th>
+									<?php endif ?>
 								</tr>
 							</thead>
 							<tbody>
@@ -173,13 +177,15 @@ if ($ac == '') :
 										<td style="text-align:center">
 											<?= $status ?>
 										</td>
-										<td style="text-align:center">
-											<div class=''>
-												<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
-												<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
-												<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
-											</div>
-										</td>
+										<?php if ($setting['server'] == 'pusat') : ?>
+											<td style="text-align:center">
+												<div class=''>
+													<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
+													<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
+													<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
+												</div>
+											</td>
+										<?php endif ?>
 									</tr>
 									<div class='modal fade' id='editbanksoal<?= $mapel['id_mapel'] ?>' style='display: none;'>
 										<div class='modal-dialog'>

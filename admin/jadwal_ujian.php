@@ -6,25 +6,25 @@
 									<h4 class='modal-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Tambah Jadwal Ujian</h4>
 								</div>
 								<div class='modal-body'>
-									<form id="formtambahujian"  method='post'>
+									<form id="formtambahujian" method='post'>
 										<div class='form-group'>
 											<label>Nama Bank Soal</label>
 											<select name='idmapel' class='form-control' required='true'>
 												<?php
-													if ($pengawas['level'] == 'admin') {
-														$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' order by nama ASC");
-													} else {
-														$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' and idguru='$id_pengawas' order by nama ASC");
+												if ($pengawas['level'] == 'admin') {
+													$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' order by nama ASC");
+												} else {
+													$namamapelx = mysqli_query($koneksi, "SELECT * FROM mapel where status='1' and idguru='$id_pengawas' order by nama ASC");
+												}
+												while ($namamapel = mysqli_fetch_array($namamapelx)) {
+													$dataArray = unserialize($namamapel['kelas']);
+													echo "<option value='$namamapel[id_mapel]'>$namamapel[nama] - $namamapel[level] - ";
+													foreach ($dataArray as $key => $value) {
+														echo "$value ";
 													}
-													while ($namamapel = mysqli_fetch_array($namamapelx)) {
-														$dataArray = unserialize($namamapel['kelas']);
-														echo "<option value='$namamapel[id_mapel]'>$namamapel[nama] - $namamapel[level] - ";
-														foreach ($dataArray as $key => $value) {
-															echo "$value ";
-														}
-														echo "</option>";
-													}
-													?>
+													echo "</option>";
+												}
+												?>
 											</select>
 										</div>
 										<div class='form-group'>
@@ -32,11 +32,11 @@
 											<select name='kode_ujian' class='form-control' required='true'>
 												<option value=''>Pilih Jenis Ujian </option>
 												<?php
-													$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
-													while ($ujian = mysqli_fetch_array($namaujianx)) {
-														echo "<option value='$ujian[id_jenis]'>$ujian[id_jenis] - $ujian[nama] </option>";
-													}
-													?>
+												$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
+												while ($ujian = mysqli_fetch_array($namaujianx)) {
+													echo "<option value='$ujian[id_jenis]'>$ujian[id_jenis] - $ujian[nama] </option>";
+												}
+												?>
 											</select>
 										</div>
 										<div class='form-group'>
@@ -55,11 +55,11 @@
 											<label>Sesi</label>
 											<select name='sesi' class='form-control' required='true'>
 												<?php
-													$sesix = mysqli_query($koneksi, "SELECT * from sesi");
-													while ($sesi = mysqli_fetch_array($sesix)) {
-														echo "<option value='$sesi[kode_sesi]'>$sesi[kode_sesi]</option>";
-													}
-													?>
+												$sesix = mysqli_query($koneksi, "SELECT * from sesi");
+												while ($sesi = mysqli_fetch_array($sesix)) {
+													echo "<option value='$sesi[kode_sesi]'>$sesi[kode_sesi]</option>";
+												}
+												?>
 											</select>
 										</div>
 										<div class='form-group'>
@@ -106,10 +106,12 @@
 								<div class='box-header with-border '>
 									<h3 class='box-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Jadwal Ujian</h3>
 									<div class='box-tools pull-right '>
-										<?php if ($pengawas['level'] == 'admin') : ?>
-											<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
+										<?php if ($setting['server'] == 'pusat') : ?>
+											<?php if ($pengawas['level'] == 'admin') : ?>
+												<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
+											<?php endif ?>
+											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-backdrop='static' data-target='#tambahjadwal'><i class='glyphicon glyphicon-plus'></i> Tambah Jadwal</button>
 										<?php endif ?>
-										<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-backdrop='static' data-target='#tambahjadwal'><i class='glyphicon glyphicon-plus'></i> Tambah Jadwal</button>
 									</div>
 								</div><!-- /.box-header -->
 								<div class='box-body' id="bodyreset">
@@ -132,42 +134,42 @@
 												</thead>
 												<tbody>
 													<?php
-														
-														if ($pengawas['level'] == 'admin') {
-															$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian ORDER BY tgl_ujian ASC, waktu_ujian ASC");
-														} else {
-															$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian where id_guru='$id_pengawas' ORDER BY tgl_ujian ASC, waktu_ujian ASC");
-														}
-														?>
+
+													if ($pengawas['level'] == 'admin') {
+														$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian ORDER BY tgl_ujian ASC, waktu_ujian ASC");
+													} else {
+														$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian where id_guru='$id_pengawas' ORDER BY tgl_ujian ASC, waktu_ujian ASC");
+													}
+													?>
 													<?php while ($mapel = mysqli_fetch_array($mapelQ)) : ?>
 														<?php
-																$tgl = explode(" ", $mapel['tgl_ujian']);
-																$tgl = $tgl[0];
-																$no++;
-                                                                ?>
-                                                                
+															$tgl = explode(" ", $mapel['tgl_ujian']);
+															$tgl = $tgl[0];
+															$no++;
+															?>
+
 														<tr>
 															<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-<?= $no ?>' value="<?= $mapel['id_ujian'] ?>"></td>
 															<td><?= $no ?></td>
 															<td>
 																<?php
-																		if ($mapel['id_pk'] == '0') {
-																			$jur = 'Semua';
-																		} else {
-																			$jur = $mapel['id_pk'];
-																		}
-																		?>
+																	if ($mapel['id_pk'] == '0') {
+																		$jur = 'Semua';
+																	} else {
+																		$jur = $mapel['id_pk'];
+																	}
+																	?>
 																<b><small class='label bg-red'><?= $mapel['kode_ujian'] ?></small> <small class='label bg-purple'><?= $mapel['nama'] ?></small></b>
 															</td>
 															<td>
 																<small class='label label-primary'><?= $mapel['level'] ?></small>
 																<small class='label label-primary'><?= $jur ?></small>
 																<?php
-																		$dataArray = unserialize($mapel['kelas']);
-																		foreach ($dataArray as $key => $value) {
-																			echo "<small class='label label-success'>$value </small>&nbsp;";
-																		}
-																		?>
+																	$dataArray = unserialize($mapel['kelas']);
+																	foreach ($dataArray as $key => $value) {
+																		echo "<small class='label label-success'>$value </small>&nbsp;";
+																	}
+																	?>
 															</td>
 															<td><small class='label label-warning'>
 																	<?= $mapel['tampil_pg'] ?> Soal / <?= $mapel['lama_ujian'] ?> m / <?= $mapel['opsi'] ?> opsi</small>
@@ -180,35 +182,35 @@
 															</td>
 															<td>
 																<?php
-																		if ($mapel['acak'] == 1) {
-																			echo "<label class='label label-success'>Ya</label> ";
-																		} elseif ($mapel['acak'] == 0) {
-																			echo "<label class='label label-danger'>Tidak</label> ";
-																		}
-																		if ($mapel['token'] == 1) {
-																			echo "<label class='label label-success'>Ya</label> ";
-																		} elseif ($mapel['token'] == 0) {
-																			echo "<label class='label label-danger'>Tidak</label> ";
-																		}
-																		if ($mapel['hasil'] == 1) {
-																			echo "<label class='label label-success'>Ya</label> ";
-																		} elseif ($mapel['hasil'] == 0) {
-																			echo "<label class='label label-danger'>Tidak</label> ";
-																		}
-																		?>
+																	if ($mapel['acak'] == 1) {
+																		echo "<label class='label label-success'>Ya</label> ";
+																	} elseif ($mapel['acak'] == 0) {
+																		echo "<label class='label label-danger'>Tidak</label> ";
+																	}
+																	if ($mapel['token'] == 1) {
+																		echo "<label class='label label-success'>Ya</label> ";
+																	} elseif ($mapel['token'] == 0) {
+																		echo "<label class='label label-danger'>Tidak</label> ";
+																	}
+																	if ($mapel['hasil'] == 1) {
+																		echo "<label class='label label-success'>Ya</label> ";
+																	} elseif ($mapel['hasil'] == 0) {
+																		echo "<label class='label label-danger'>Tidak</label> ";
+																	}
+																	?>
 															</td>
 															<td style="text-align:center">
 																<?php
-																		if ($mapel['status'] == 1) {
-																			echo "<label class='label label-success'>Aktif</label>";
-																		} elseif ($mapel['status'] == 0) {
-																			echo "<label class='label label-danger'>Tidak Aktif</label>";
-																		}
-																		?>
+																	if ($mapel['status'] == 1) {
+																		echo "<label class='label label-success'>Aktif</label>";
+																	} elseif ($mapel['status'] == 0) {
+																		echo "<label class='label label-danger'>Tidak Aktif</label>";
+																	}
+																	?>
 															</td>
 															<td style="text-align:center">
 																<div class='btn-grou'>
-																	<a class='btn btn-warning btn-flat btn-xs' data-id="<?=$mapel['id_ujian'] ?>" data-toggle='modal' data-backdrop="static" data-target="#edit<?= $mapel['id_ujian'] ?>"><i class='fa fa-pencil-square-o'></i></a>
+																	<a class='btn btn-warning btn-flat btn-xs' data-id="<?= $mapel['id_ujian'] ?>" data-toggle='modal' data-backdrop="static" data-target="#edit<?= $mapel['id_ujian'] ?>"><i class='fa fa-pencil-square-o'></i></a>
 																</div>
 															</td>
 														</tr>
@@ -221,7 +223,7 @@
 																	</div>
 																	<div class='modal-body'>
 																		<form id="formeditujian<?= $mapel['id_ujian'] ?>" method='post'>
-                                                                       
+
 																			<div class='form-group'>
 																				<label>Nama Ujian</label>
 																				<input type='text' name='namamapel' value="<?= $mapel['nama'] ?>" class='form-control' readonly />
@@ -231,12 +233,12 @@
 																				<select name='kode_ujian' class='form-control' required='true'>
 																					<option value=''>Pilih Jenis Ujian </option>
 																					<?php
-																							$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
-																							while ($ujian = mysqli_fetch_array($namaujianx)) {
-																								($ujian['id_jenis'] == $mapel['kode_ujian']) ? $s = 'selected' : $s = '';
-																								echo "<option value='$ujian[id_jenis]' $s>$ujian[id_jenis] - $ujian[nama] </option>";
-																							}
-																							?>
+																						$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");
+																						while ($ujian = mysqli_fetch_array($namaujianx)) {
+																							($ujian['id_jenis'] == $mapel['kode_ujian']) ? $s = 'selected' : $s = '';
+																							echo "<option value='$ujian[id_jenis]' $s>$ujian[id_jenis] - $ujian[nama] </option>";
+																						}
+																						?>
 																				</select>
 																			</div>
 																			<div class='form-group'>
@@ -281,28 +283,28 @@
 																	</div>
 																</div>
 															</div>
-                                                        </div>
-                                                        <script>
-                                                            $("#formeditujian<?= $mapel['id_ujian'] ?>").submit(function(e) {
-                                                            e.preventDefault();
-                                                            $.ajax({
-                                                                type: 'POST',
-                                                                url: 'jadwal/edit_jadwal.php',
-                                                                data: $(this).serialize(),
-                                                                success: function(data) {
-                                                                    location.reload();
-                                                                    // if (data == "OK") {
-                                                                    //     toastr.success("jadwal berhasil diperbarui");
-                                                                    // }else{
-                                                                    //     toastr.error("jadwal gagal tersimpan");
-                                                                    // }
-                                                                    // $(".modal-backdrop").hide();
-                                                                    // $('#bodyreset').load(location.href + ' #bodyreset');
-                                                                }
-                                                            });
-                                                            return false;
-                                                        });
-                                                        </script>
+														</div>
+														<script>
+															$("#formeditujian<?= $mapel['id_ujian'] ?>").submit(function(e) {
+																e.preventDefault();
+																$.ajax({
+																	type: 'POST',
+																	url: 'jadwal/edit_jadwal.php',
+																	data: $(this).serialize(),
+																	success: function(data) {
+																		location.reload();
+																		// if (data == "OK") {
+																		//     toastr.success("jadwal berhasil diperbarui");
+																		// }else{
+																		//     toastr.error("jadwal gagal tersimpan");
+																		// }
+																		// $(".modal-backdrop").hide();
+																		// $('#bodyreset').load(location.href + ' #bodyreset');
+																	}
+																});
+																return false;
+															});
+														</script>
 													<?php endwhile ?>
 												</tbody>
 											</table>
@@ -311,34 +313,32 @@
 								</div><!-- /.box -->
 							</div>
 							<?php
-								if ($ac == 'kosongkan') {
-									mysqli_query($koneksi, "TRUNCATE ujian");
-									jump('?pg=jadwal');
-								}
-								?>
+							if ($ac == 'kosongkan') {
+								mysqli_query($koneksi, "TRUNCATE ujian");
+								jump('?pg=jadwal');
+							}
+							?>
 						</div>
-                    </div>
-                    
- <script>
-             
-            $('#formtambahujian').submit(function(e) {
-				e.preventDefault();
-				$.ajax({
-					type: 'POST',
-					url: 'jadwal/tambah_jadwal.php',
-					data: $(this).serialize(),
-					success: function(data) {
-                        console.log(data);
-						if (data == "OK") {
-							toastr.success("jadwal berhasil dibuat");
-						}else{
-							toastr.error("jadwal gagal tersimpan");
-						}
-                        $('#tambahjadwal').modal('hide');
-                        $('#tablereset').load(location.href + ' #tablereset');
-					}
-				});
-				return false;
-			});
+					</div>
 
-</script>
+					<script>
+						$('#formtambahujian').submit(function(e) {
+							e.preventDefault();
+							$.ajax({
+								type: 'POST',
+								url: 'jadwal/tambah_jadwal.php',
+								data: $(this).serialize(),
+								success: function(data) {
+									console.log(data);
+									if (data == "OK") {
+										toastr.success("jadwal berhasil dibuat");
+									} else {
+										toastr.error("jadwal gagal tersimpan");
+									}
+									$('#tambahjadwal').modal('hide');
+									$('#tablereset').load(location.href + ' #tablereset');
+								}
+							});
+							return false;
+						});
+					</script>

@@ -214,6 +214,15 @@
 																</div>
 															</td>
 														</tr>
+														<?php
+
+															if ($setting['server'] == 'pusat') {
+																$dis = '';
+															} else {
+																$dis = 'disabled';
+															}
+															?>
+
 														<div class='modal fade' id="edit<?= $mapel['id_ujian'] ?>" style='display: none;'>
 															<div class='modal-dialog'>
 																<div class='modal-content'>
@@ -230,7 +239,7 @@
 																			</div>
 																			<div class='form-group'>
 																				<label>Nama Jenis Ujian</label>
-																				<select name='kode_ujian' class='form-control' required='true'>
+																				<select name='kode_ujian' class='form-control' required='true' <?= $dis ?>>
 																					<option value=''>Pilih Jenis Ujian </option>
 																					<?php
 																						$namaujianx = mysqli_query($koneksi, "SELECT * FROM jenis where status='aktif' order by nama ASC");

@@ -36,7 +36,7 @@ if ($ac == '') :
 	if (isset($_POST['tambahsoal'])) :
 		$nama = $_POST['nama'];
 		$nama = str_replace("'", "&#39;", $nama);
-		if ($jenjang == "SMK") {
+		if ($setting['jenjang'] == "SMK") {
 			$id_pk = $_POST['id_pk'];
 		} else {
 			$id_pk = "semua";

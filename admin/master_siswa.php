@@ -38,13 +38,13 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 			<div class='box box-solid'>
 				<div class='box-header with-border '>
 					<h3 class='box-title'><img src='../dist/img/svg/peserta_ujian.svg' width='20'> Peserta Ujian</h3>
-					<div class='box-tools'>
+					<div class='box-tools pull-right'>
 						<?php if ($pengawas['level'] == 'admin') : ?>
 							<?php if ($setting['server'] == 'pusat') : ?>
-								<a data-toggle='modal' data-backdrop="static" data-target='#tambahsiswa' class='btn btn-sm btn-primary'><i class='fa fa-check'></i> Tambah</a>
+								<a data-toggle='modal' data-backdrop="static" data-target='#tambahsiswa' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-plus'></i> <span class='hidden-xs'>Tambah</span></a>
 							<?php endif; ?>
-							<a href='?pg=uplfotosiswa' class='btn btn-sm btn-danger'><i class='fa fa-image'></i> Upload Foto</a>
-							<a href='ekspor_siswa.php' class='btn btn-sm btn-success'><i class='fa fa-download'></i> Download Data</a>
+							<a href='?pg=uplfotosiswa' class='btn btn-sm btn-danger'><i class='fa fa-image'></i> <span class='hidden-xs'>Upload Foto</span></a>
+							<a href='ekspor_siswa.php' class='btn btn-sm btn-success'><i class='fa fa-download'></i> <span class='hidden-xs'>Download Data</span></a>
 						<?php endif ?>
 					</div>
 				</div><!-- /.box-header -->

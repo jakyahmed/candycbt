@@ -313,8 +313,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					&nbsp;<span class='hidden-xs'><?= $setting['aplikasi'] . '-' . $jenjang ?></span>
 				</h1>
 				<div style='float:right; margin-top:-37px'>
-					<button class='btn  btn-flat  bg-purple' style="font-family:'OCR A Extended';font-weight:normal;"><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y') ?></button>
-					<button class='btn  btn-flat  bg-maroon'><span id='waktu' style="font-family:'OCR A Extended';font-weight:normal;"><?= $waktu ?></span></button>
+					<button class='btn  btn-flat  bg-purple'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y') ?></button>
+					<button class='btn  btn-flat  bg-maroon'><span id='waktu'><?= $waktu ?></span></button>
 				</div>
 				<div class='breadcrumb'></div>
 			</section>

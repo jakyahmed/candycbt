@@ -108,9 +108,9 @@
 									<div class='box-tools pull-right '>
 										<?php if ($setting['server'] == 'pusat') : ?>
 											<?php if ($pengawas['level'] == 'admin') : ?>
-												<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> Kosongkan</a>
+												<a id='btnhapusjadwal' class='btn btn-sm btn-danger'><i class='glyphicon glyphicon-trash'></i> <span class='hidden-xs'>Kosongkan</span></a>
 											<?php endif ?>
-											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-backdrop='static' data-target='#tambahjadwal'><i class='glyphicon glyphicon-plus'></i> Tambah Jadwal</button>
+											<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-backdrop='static' data-target='#tambahjadwal'><i class='glyphicon glyphicon-plus'></i> <span class='hidden-xs'>Tambah Jadwal</span></button>
 										<?php endif ?>
 									</div>
 								</div><!-- /.box-header -->

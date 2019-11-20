@@ -45,7 +45,7 @@ if (isset($_FILES['file']['name'])) :
             $fileE = $data->val($i, 15);
             $id_mapel = $_POST['id_mapel'];
 
-            if ($jenis <> '') {
+            if ($jenis <> '' and $soal <> '') {
                 $exec = mysqli_query($koneksi, "INSERT INTO soal (id_mapel,nomor,soal,pilA,pilB,pilC,pilD,pilE,jawaban,jenis,file,file1,fileA,fileB, fileC,fileD,fileE) VALUES ('$id_mapel','$no','$soal','$pilA','$pilB','$pilC','$pilD','$pilE','$jawaban','$jenis','$file1','$file2','$fileA','$fileB','$fileC','$fileD','$fileE')");
                 ($exec) ? $sukses++ : $gagal++;
                 if ($file1 <> '') {

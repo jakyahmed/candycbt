@@ -20,7 +20,7 @@ $lebarusername = '10%';
 $lebarnopes = '17%';
 $namaruang = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ruang WHERE kode_ruang='$ruang'"));
 
-$querytanggal = mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_mapel='$mapel'");
+$querytanggal = mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_mapel='$mapel' and sesi='$sesi'");
 $cektanggal = mysqli_fetch_array($querytanggal);
 
 $mapelx = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$mapel'"));
@@ -108,7 +108,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 					<td style="text-align:center">
 						<strong class='f12'>
 							DAFTAR HADIR PESERTA <BR>
-							 <?= strtoupper($setting['nama_ujian']) ?><BR>
+							<?= strtoupper($setting['nama_ujian']) ?><BR>
 							TAHUN PELAJARAN <?= $ajaran ?>
 						</strong>
 					</td>

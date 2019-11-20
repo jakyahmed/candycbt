@@ -83,11 +83,11 @@
 											<label>
 												<input type='checkbox' class='icheckbox_square-green' name='acak' value='1' $acak /> Acak Soal
 											</label>
-											<?php if ($pengawas['level'] == 'admin') : ?>
-												<label>
-													<input type='checkbox' class='icheckbox_square-green' name='token' value='1' $token /> Token Soal
-												</label>
-											<?php endif ?>
+
+											<label>
+												<input type='checkbox' class='icheckbox_square-green' name='token' value='1' $token /> Token Soal
+											</label>
+
 											<label>
 												<input type='checkbox' class='icheckbox_square-green' name='hasil' value='1' $hasil /> Hasil Tampil
 											</label>

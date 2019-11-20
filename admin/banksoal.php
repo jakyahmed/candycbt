@@ -9,7 +9,7 @@ if ($ac == '') :
 		$id = $_POST['idm'];
 		$nama = $_POST['nama'];
 		$nama = str_replace("'", "&#39;", $nama);
-		if ($jenjang == "SMK") {
+		if ($setting['jenjang'] == "SMK") {
 			$idpk = $_POST['id_pk'];
 		} else {
 			$idpk = "semua";
@@ -91,8 +91,8 @@ if ($ac == '') :
 					<h3 class='box-title'><i class='fa fa-briefcase'></i> Data Bank Soal</h3>
 					<div class='box-tools pull-right '>
 						<?php if ($setting['server'] == 'pusat') : ?>
-							<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Hapus</button>
-							<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> Tambah Bank Soal</button>
+							<button id='btnhapusbank' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> <span class='hidden-xs'>Hapus</span></button>
+							<button class='btn btn-sm btn-flat btn-success' data-toggle='modal' data-target='#tambahbanksoal'><i class='glyphicon glyphicon-plus'></i> <span class='hidden-xs'>Tambah Bank Soal</span></button>
 						<?php endif ?>
 					</div>
 				</div><!-- /.box-header -->
@@ -231,8 +231,8 @@ if ($ac == '') :
 																		<option value='semua'>Semua Level</option>
 																		<?php
 																				$lev = mysqli_query($koneksi, "SELECT * FROM level");
-																				while ($level = mysqli_fetch_array($lev)) :
-																					echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
+																				while ($level = mysqli_fetch_array($lev)) : ($level['kode_level'] == $mapel['level']) ? $s = 'selected' : $s = '';
+																					echo "<option value='$level[kode_level]' $s>$level[kode_level]</option>";
 																				endwhile;
 																				?>
 																	</select>
@@ -717,9 +717,9 @@ if ($ac == '') :
 														<?php
 																if ($soal['pilA'] <> '') {
 																	echo "$soal[pilA] ";
-																	if ($soal['jawaban'] == 'A') {
-																		echo "<i class='fa fa-check fa-2x text-green'></i>";
-																	}
+																}
+																if ($soal['jawaban'] == 'A') {
+																	echo "<i class='fa fa-check fa-2x text-green'></i>";
 																}
 																if ($soal['fileA'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -741,9 +741,9 @@ if ($ac == '') :
 														<?php
 																if (!$soal['pilC'] == "") {
 																	echo "$soal[pilC] ";
-																	if ($soal['jawaban'] == 'C') {
-																		echo "<i class='fa fa-check fa-2x text-green'></i>";
-																	}
+																}
+																if ($soal['jawaban'] == 'C') {
+																	echo "<i class='fa fa-check fa-2x text-green'></i>";
 																}
 																if ($soal['fileC'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -766,9 +766,9 @@ if ($ac == '') :
 															<?php
 																		if (!$soal['pilE'] == "") {
 																			echo "$soal[pilE] ";
-																			if ($soal['jawaban'] == 'E') {
-																				echo "<i class='fa fa-check fa-2x text-green'></i>";
-																			}
+																		}
+																		if ($soal['jawaban'] == 'E') {
+																			echo "<i class='fa fa-check fa-2x text-green'></i>";
 																		}
 																		if ($soal['fileE'] <> '') {
 																			$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -793,9 +793,9 @@ if ($ac == '') :
 														<?php
 																if (!$soal['pilB'] == "") {
 																	echo "$soal[pilB] ";
-																	if ($soal['jawaban'] == 'B') {
-																		echo "<i class='fa fa-check fa-2x text-green'></i>";
-																	}
+																}
+																if ($soal['jawaban'] == 'B') {
+																	echo "<i class='fa fa-check fa-2x text-green'></i>";
 																}
 																if ($soal['fileB'] <> '') {
 																	$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
@@ -818,9 +818,9 @@ if ($ac == '') :
 															<?php
 																		if (!$soal['pilD'] == "") {
 																			echo "$soal[pilD] ";
-																			if ($soal['jawaban'] == 'D') {
-																				echo "<i class='fa fa-check fa-2x text-green'></i>";
-																			}
+																		}
+																		if ($soal['jawaban'] == 'D') {
+																			echo "<i class='fa fa-check fa-2x text-green'></i>";
 																		}
 																		if ($soal['fileD'] <> '') {
 																			$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');

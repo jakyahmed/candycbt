@@ -4,9 +4,9 @@ require("../config/config.default.php");
 require("../config/config.function.php");
 
 $exec = mysqli_query($koneksi, "TRUNCATE berita");
-$beritaQ = mysqli_query($koneksi, "SELECT * FROM ujian");
+$beritaQ = mysqli_query($koneksi, "SELECT * FROM ujian GROUP BY nama");
 while ($berita = mysqli_fetch_array($beritaQ)) {
-	$sesi = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa GROUP BY sesi"));
+	$sesi = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ujian GROUP BY sesi"));
 	$ruangq = mysqli_query($koneksi, "SELECT * FROM ruang");
 	while ($ruang = mysqli_fetch_array($ruangq)) {
 		for ($i = 1; $i <= $sesi; $i++) {

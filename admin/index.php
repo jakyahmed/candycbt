@@ -288,6 +288,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							<ul class='treeview-menu'>
 								<li><a href='?pg=status'><i class='fa  fa-circle-o text-teal'></i> <span> Status Peserta</span></a></li>
 								<li><a href='?pg=reset'><i class='fa  fa-circle-o text-teal'></i> <span> Reset Login</span></a></li>
+								<li><a href='?pg=token'><i class='fa  fa-circle-o text-teal'></i> <span> Token Ujian</span></a></li>
 							</ul>
 						</li>
 						<li><a href='?pg=nilai'><img src='../dist/img/svg/like.svg' width='30'> <span>Hasil Nilai</span></a></li>

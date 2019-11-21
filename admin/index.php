@@ -1717,10 +1717,10 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<div class='form-group'>
 												<label>Pilih Mapel</label>
 												<select id='absenmapel' class='select2 form-control' required='true' onchange=printabsen();>
-													<?php $sql_mapel = mysqli_query($koneksi, "SELECT * FROM ujian group by nama"); ?>
-													<option value=''>pilih mapel</option>
+													<?php $sql_mapel = mysqli_query($koneksi, "SELECT * FROM ujian"); ?>
+													<option value=''>Pilih Jadwal Ujian</option>
 													<?php while ($mapel = mysqli_fetch_array($sql_mapel)) : ?>
-														<option value="<?= $mapel['id_mapel'] ?>"><?= $mapel['nama'] ?></option>
+														<option value="<?= $mapel['id_mapel'] ?>"><?php echo "$mapel[nama] $mapel[level] $mapel[id_pk]" ?></option>
 													<?php endwhile ?>
 												</select>
 											</div>

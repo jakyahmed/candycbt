@@ -594,7 +594,7 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 		'id_siswa' => $_POST['id_siswa'],
 		'id_soal' => $_POST['id_soal'],
 		'jenis' => $_POST['jenis'],
-		'esai' => $_POST['jawaban']
+		'esai' => addslashes($_POST['jawaban'])
 	);
 	$where = array(
 		'id_ujian' => $_POST['idu'],

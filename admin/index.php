@@ -87,33 +87,35 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				</a>
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
-						<li class='dropdown notifications-menu'>
-							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-								<i class='fa  fa-desktop'>&nbsp;&nbsp;<span style='font-size:18px'><?= strtoupper($setting['server']) ?></span></i>
-							</a>
-							<ul class="dropdown-menu" style="height:80px">
-								<li class="header">Ganti Status Server</li>
-								<li>
-									<!-- inner menu: contains the actual data -->
-									<ul class="menu">
-										<?php if ($setting['server'] == 'lokal') { ?>
-											<li>
-												<a id="btnserver" href="#">
-													<i class="fa fa-users text-aqua"></i> Server Pusat
-												</a>
-											</li>
-										<?php } else { ?>
-											<li>
-												<a id="btnserver" href="#">
-													<i class="fa fa-users text-aqua"></i> Server Lokal
-												</a>
-											</li>
-										<?php } ?>
-									</ul>
-								</li>
+						<?php if ($pengawas['level'] == 'admin') : ?>
+							<li class='dropdown notifications-menu'>
+								<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+									<i class='fa  fa-desktop'>&nbsp;&nbsp;<span style='font-size:18px'><?= strtoupper($setting['server']) ?></span></i>
+								</a>
+								<ul class="dropdown-menu" style="height:80px">
+									<li class="header">Ganti Status Server</li>
+									<li>
+										<!-- inner menu: contains the actual data -->
+										<ul class="menu">
+											<?php if ($setting['server'] == 'lokal') { ?>
+												<li>
+													<a id="btnserver" href="#">
+														<i class="fa fa-users text-aqua"></i> Server Pusat
+													</a>
+												</li>
+											<?php } else { ?>
+												<li>
+													<a id="btnserver" href="#">
+														<i class="fa fa-users text-aqua"></i> Server Lokal
+													</a>
+												</li>
+											<?php } ?>
+										</ul>
+									</li>
 
-							</ul>
-						</li>
+								</ul>
+							</li>
+						<?php endif; ?>
 						<li><a href='?pg=informasi'><i class='fa  fa-commenting-o'></i></a></li>
 						<li class='dropdown user user-menu'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
@@ -1717,10 +1719,10 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<div class='form-group'>
 												<label>Pilih Mapel</label>
 												<select id='absenmapel' class='select2 form-control' required='true' onchange=printabsen();>
-													<?php $sql_mapel = mysqli_query($koneksi, "SELECT * FROM ujian group by nama"); ?>
-													<option value=''>pilih mapel</option>
+													<?php $sql_mapel = mysqli_query($koneksi, "SELECT * FROM ujian"); ?>
+													<option value=''>Pilih Jadwal Ujian</option>
 													<?php while ($mapel = mysqli_fetch_array($sql_mapel)) : ?>
-														<option value="<?= $mapel['id_mapel'] ?>"><?= $mapel['nama'] ?></option>
+														<option value="<?= $mapel['id_mapel'] ?>"><?php echo "$mapel[nama] $mapel[level] $mapel[id_pk]" ?></option>
 													<?php endwhile ?>
 												</select>
 											</div>

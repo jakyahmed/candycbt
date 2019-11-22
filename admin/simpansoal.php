@@ -15,7 +15,7 @@ if (isset($_POST['mapel'])) {
 		$soalQ = mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND  nomor='$nomor' AND jenis='2'");
 	}
 	$soal = mysqli_fetch_array($soalQ);
-	$isi_soal = $_POST['isi_soal'];
+	$isi_soal = addslashes($_POST['isi_soal']);
 	if ($jenis == '1') {
 		$pilA = addslashes($_POST['pilA']);
 		$pilB = addslashes($_POST['pilB']);

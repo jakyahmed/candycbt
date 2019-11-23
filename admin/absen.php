@@ -104,7 +104,7 @@ $date = date_create($cektanggal['tgl_ujian']);
 		<div class='page'>
 			<table width='100%'>
 				<tr>
-					<td width='100'><img src='../foto/tut.jpg' width='80'></td>
+					<td width='100'><img src='../foto/logo_tut.svg' width='80'></td>
 					<td style="text-align:center">
 						<strong class='f12'>
 							DAFTAR HADIR PESERTA <BR>

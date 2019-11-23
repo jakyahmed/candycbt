@@ -358,7 +358,14 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 								<input type='submit' name='done' id='done-submit' style='display:none;' />
 								<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span>SELESAI</button>
 							</div>
+						<?php else : ?>
+							<div class='col-md-4 text-right'>
+								<input type='submit' name='done' id='selesai-submit' style='display:none;' />
+								<button class='done-btn btn btn-danger' disabled><span class='hidden-xs'>TEST </span>SELESAI</button>
+							</div>
 						<?php endif; ?>
+
+
 					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai > 0)) { ?>
 						<div class='col-md-4 text-right'>
 							<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
@@ -542,6 +549,13 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 						<div class='col-md-4 text-right'>
 							<input type='submit' name='done' id='done-submit' style='display:none;' />
 							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
+						</div>
+					</td>
+				<?php else : ?>
+					<td>
+						<div class='col-md-4 text-right'>
+							<input type='submit' name='done' id='selesai-submit' style='display:none;' />
+							<button class='done-btn btn btn-danger' disabled><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
 						</div>
 					</td>
 				<?php endif; ?>

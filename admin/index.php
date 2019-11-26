@@ -2792,7 +2792,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 		);
 		var autoRefresh = setInterval(
 			function() {
-				$('#divstatus').load('<?= $homeurl ?>/admin/statuspeserta.php');
+				$('#divstatus').load("<?= $homeurl ?>/admin/statuspeserta.php?id=76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5");
 			}, 1000
 		);
 		var autoRefresh = setInterval(

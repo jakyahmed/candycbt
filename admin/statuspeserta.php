@@ -1,4 +1,11 @@
 <?php
+if (!isset($_GET['id'])) {
+	die("Anda tidak dizinkan mengakses langsung script ini!");
+}else{
+	if($_GET['id'] <> '76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5'){
+		die("Anda tidak dizinkan mengakses langsung script ini!");
+	}
+}
 include "../config/config.default.php";
 $pengawas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas  WHERE id_pengawas='$_SESSION[id_pengawas]'"));
 $tglsekarang = date('Y-m-d');
@@ -8,7 +15,6 @@ if ($pengawas['level'] == 'admin') {
 	$nilaiq = mysqli_query($koneksi, "SELECT *  FROM nilai  s LEFT JOIN ujian c ON s.id_ujian=c.id_ujian  where c.status='1' and s.id_siswa<>'' and c.id_guru='$_SESSION[id_pengawas]' GROUP by s.id_nilai DESC");
 }
 while ($nilai = mysqli_fetch_array($nilaiq)) {
-
 	$tglx = strtotime($nilai['ujian_mulai']);
 	$tgl = date('Y-m-d', $tglx);
 	if ($tgl == $tglsekarang) {
@@ -66,7 +72,8 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 																</tr>
 															";
 	}
-} ?>
+}
+?>
 <script>
 	$(document).on('click', '.hapus', function() {
 		var id = $(this).data('id');

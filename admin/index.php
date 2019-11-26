@@ -432,15 +432,15 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 													<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
 												</div>
-											</div><!-- /.box-header -->
+											</div>
 											<div class='box-body'>
 												<div id='pengumuman'>
 													<p class='text-center'>
 														<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
 													</p>
 												</div>
-											</div><!-- /.box-body -->
-										</div><!-- /.box -->
+											</div>
+										</div>
 									</div>
 
 								</div>
@@ -453,15 +453,15 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<div class='box-tools pull-right'>
 											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-default' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
 										</div>
-									</div><!-- /.box-header -->
+									</div>
 									<div class='box-body'>
 										<div id='log-list'>
 											<p class='text-center'>
 												<br /><i class='fa fa-spin fa-circle-o-notch'></i> Loading....
 											</p>
 										</div>
-									</div><!-- /.box-body -->
-								</div><!-- /.box -->
+									</div>
+								</div>
 							</div>
 
 						</div>

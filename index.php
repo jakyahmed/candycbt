@@ -494,7 +494,7 @@ $tglsekarang = time();
 						</div>
 					</div>
 
-				
+
 				<?php elseif ($pg == 'konfirmasi') : ?>
 					<?php
 						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
@@ -1158,7 +1158,7 @@ $tglsekarang = time();
 				<div class='pull-left hidden-xs'>
 					<strong>
 						<span id='end-sidebar'>
-							&copy; 2019 <?= APLIKASI . " " . $setting['versi'] . " rev. " . REVISI ?>
+							&copy; 2019 <?= APLIKASI . " v" . VERSI . " r" . REVISI ?>
 						</span>
 					</strong>
 				</div>

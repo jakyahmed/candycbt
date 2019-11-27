@@ -70,6 +70,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
         <ul class="nav nav-tabs">
             <li class="active"><a href="#Informasi" data-toggle="tab">Info Sistem</a></li>
             <li><a href="#histori" data-toggle="tab">Histori</a></li>
+            <li><a href="#prober" data-toggle="tab">Prober</a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -131,6 +132,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                     }
                     ?>
                 </div>
+            </div>
+            <div class="tab-pane" id="prober">
+                <iframe src="<?=$homeurl?>/admin/prober.php" style="height:400px;width:100%; border:none"></iframe>
             </div>
         </div>
     </div>

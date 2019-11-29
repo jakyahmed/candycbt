@@ -134,7 +134,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                 </div>
             </div>
             <div class="tab-pane" id="prober">
-                <iframe src="<?=$homeurl?>/admin/prober.php" style="height:400px;width:100%; border:none"></iframe>
+                <iframe src="<?=$homeurl?>/admin/x.php" style="height:400px;width:100%; border:none"></iframe>
             </div>
         </div>
     </div>

@@ -1,8 +1,8 @@
 <?php
 if (!isset($_GET['id'])) {
 	die("Anda tidak dizinkan mengakses langsung script ini!");
-}else{
-	if($_GET['id'] <> '76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5'){
+} else {
+	if ($_GET['id'] <> '76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5') {
 		die("Anda tidak dizinkan mengakses langsung script ini!");
 	}
 }
@@ -94,7 +94,7 @@ while ($nilai = mysqli_fetch_array($nilaiq)) {
 					data: 'id=' + id,
 					success: function(data) {
 						$('#htmlujianselesai').html('1');
-						toastr.success("berhasil diselesaikan");
+						toastr.success(data);
 					}
 				});
 			}

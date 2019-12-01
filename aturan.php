@@ -1,6 +1,6 @@
 <?php
 
-defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
+//defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
 
 $query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 $idmapel = $query['id_mapel'];
@@ -116,12 +116,12 @@ $nilaidata = array(
 $ref = "";
 // $ceklog = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM log WHERE date='$datetime' "));
 // if (!$ceklog <> 0) {
-    insert($koneksi, 'log', $logdata);
+insert($koneksi, 'log', $logdata);
 // }
 // $query = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
 // $ceknilai = mysqli_num_rows($query);
 // if (!$ceknilai <> 0) {
-    insert($koneksi, 'nilai', $nilaidata);
-    insert($koneksi, 'pengacak', $acakdata);
-    insert($koneksi, 'pengacakopsi', $acakdataopsi);
+insert($koneksi, 'nilai', $nilaidata);
+insert($koneksi, 'pengacak', $acakdata);
+insert($koneksi, 'pengacakopsi', $acakdataopsi);
 // }

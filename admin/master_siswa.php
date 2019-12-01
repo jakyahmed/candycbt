@@ -16,6 +16,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 			$level = $_POST['level'];
 			$pass1 = $_POST['pass1'];
 			$pass2 = $_POST['pass2'];
+			$server = $_POST['server'];
 			$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa WHERE username='$username'"));
 			if ($cekuser > 0) {
 				$info = info("Username $username sudah ada!", "NO");
@@ -24,9 +25,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 					$info = info("Password tidak cocok!", "NO");
 				} else {
 					if ($setting['jenjang'] == 'SMK') {
-						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,idpk,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$idpk','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
+						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,idpk,nis,no_peserta,nama,sesi,ruang,level,username,password,server) VALUES ('$id_kelas','$idpk','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1','$server')");
 					} else {
-						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,nis,no_peserta,nama,sesi,ruang,level,username,password) VALUES ('$id_kelas','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1')");
+						$exec = mysqli_query($koneksi, "INSERT INTO siswa (id_kelas,nis,no_peserta,nama,sesi,ruang,level,username,password,server) VALUES ('$id_kelas','$nis','$no_peserta','$nama','$sesi','$ruang','$level','$username','$pass1','$server')");
 					}
 					(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 				}
@@ -144,7 +145,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 										</div>
 										<div class='form-group'>
 											<div class='row'>
-												<div class='col-md-6'>
+												<div class='col-md-4'>
 													<label>Sesi</label>
 													<select name='idsesi' class='form-control' required='true'>
 														<option value=''></option>
@@ -157,7 +158,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 															?>
 													</select>
 												</div>
-												<div class='col-md-6'>
+												<div class='col-md-4'>
 													<label>Ruang</label>
 													<select name='ruang' class='form-control' required='true'>
 														<option value=''></option>
@@ -165,6 +166,18 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 															$pkQ = mysqli_query($koneksi, "SELECT * FROM ruang ");
 															while ($pk = mysqli_fetch_array($pkQ)) {
 																echo "<option value='$pk[kode_ruang]'>$pk[kode_ruang]</option>";
+															}
+															?>
+													</select>
+												</div>
+												<div class='col-md-4'>
+													<label>Server</label>
+													<select name='server' class='form-control' required='true'>
+														<option value=''></option>
+														<?php
+															$pkQ = mysqli_query($koneksi, "SELECT * FROM server ");
+															while ($sr = mysqli_fetch_array($pkQ)) {
+																echo "<option value='$sr[kode_server]'>$sr[kode_server]</option>";
 															}
 															?>
 													</select>
@@ -220,21 +233,22 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 			$pass1 = $_POST['pass1'];
 			$pass2 = $_POST['pass2'];
 			$level = $_POST['level'];
+			$server = $_POST['server'];
 			if ($pass1 <> '' && $pass2 <> '') {
 				if ($pass1 <> $pass2) {
 					$info = info("Password tidak cocok!", "NO");
 				} else {
 					if ($setting['jenjang'] == 'SMK') {
-						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
+						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level',server='$server' WHERE id_siswa='$id'");
 					} else {
-						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level' WHERE id_siswa='$id'");
+						$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',password='$pass1',level='$level',server='$server' WHERE id_siswa='$id'");
 					}
 				}
 			} else {
 				if ($setting['jenjang'] == 'SMK') {
-					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
+					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', idpk='$idpk',id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level',server='$server' WHERE id_siswa='$id'");
 				} else {
-					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level' WHERE id_siswa='$id'");
+					$exec = mysqli_query($koneksi, "UPDATE siswa SET nis='$nis',no_peserta='$nopes', id_kelas='$kelas',nama='$nama',sesi='$sesi',ruang='$ruang',username='$username',level='$level',server='$server' WHERE id_siswa='$id'");
 				}
 			}
 			jump("?pg=$pg");
@@ -317,7 +331,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 						</div>
 						<div class='form-group'>
 							<div class='row'>
-								<div class='col-md-6'>
+								<div class='col-md-4'>
 									<label>Sesi</label>
 									<select name='idsesi' class='form-control' required='true'>
 										<option value=''></option>
@@ -330,7 +344,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 											?>
 									</select>
 								</div>
-								<div class='col-md-6'>
+								<div class='col-md-4'>
 									<label>Ruang</label>
 									<select name='ruang' class='form-control' required='true'>
 										<option value=''></option>
@@ -339,6 +353,19 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 											while ($pk = mysqli_fetch_array($pkQ)) {
 												($pk['kode_ruang'] == $siswa['ruang']) ? $s = 'selected' : $s = '';
 												echo "<option value='$pk[kode_ruang]' $s>$pk[kode_ruang]</option>";
+											}
+											?>
+									</select>
+								</div>
+								<div class='col-md-4'>
+									<label>Server</label>
+									<select name='server' class='form-control' required='true'>
+										<option value=''></option>
+										<?php
+											$pkQ = mysqli_query($koneksi, "SELECT * FROM server ");
+											while ($sr = mysqli_fetch_array($pkQ)) {
+												($sr['kode_server'] == $siswa['server']) ? $s = 'selected' : $s = '';
+												echo "<option value='$sr[kode_server]' $s>$sr[kode_server]</option>";
 											}
 											?>
 									</select>

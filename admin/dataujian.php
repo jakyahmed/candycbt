@@ -57,7 +57,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
                                 while ($ujian = mysqli_fetch_array($ujianQ)) {
                                     $terkirim = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and status='1'"));
                                     $terkirim2 = mysqli_num_rows(mysqli_query($koneksi, "select * from hasil_jawaban where id_ujian='$ujian[id_ujian]' and status='1'"));
-                                    $cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai is null"));
+                                    $cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_ujian='$ujian[id_ujian]' and ujian_selesai is null and id_siswa<>'0'"));
                                     $cek2 = mysqli_num_rows(mysqli_query($koneksi, "select * from jawaban where id_ujian='$ujian[id_ujian]'"));
                                     if ($cek <> 0) {
                                         $dis = 'disabled';

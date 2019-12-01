@@ -36,6 +36,7 @@ $tglsekarang = time();
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/toastr/toastr.min.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/radio/css/style.css'>
+	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
 
 	<style>
 		@font-face {
@@ -188,8 +189,8 @@ $tglsekarang = time();
 								Refresh browser atau tekan F5 jika waktu ujian belum aktif
 							</div>
 						</div>
-						<div class='col-md-12'>
-							<div class='box box-solid'>
+						<div id="boxtampil" class='col-md-12'>
+							<div id='formjadwalujian' class='box box-solid'>
 								<div class='box-header with-border bg-blue'>
 									<h3 class='box-title'>Jadwal Ujian Hari ini</h3>
 									<div class='box-tools'>
@@ -197,99 +198,122 @@ $tglsekarang = time();
 									</div>
 								</div><!-- /.box-header -->
 								<div class='box-body'>
-									<table id='example1' class='table table-bordered table-striped'>
-										<thead>
-											<tr>
-												<th width='5px'>#</th>
-												<th>Nama Tes</th>
-												<th>Jenis Tes</th>
-												<th class='hidden-xs'>Status</th>
-												<th class='hidden-xs'>Soal</th>
-												<th class='hidden-xs'>Tanggal Waktu Tes</th>
-												<th class='hidden-xs'>Durasi</th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php
-												if ($idpk <> '') :
-													$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (id_pk='$idpk' or id_pk='semua') AND (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
-												else :
-													$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
-												endif;
-												?>
-											<?php while ($mapelx = mysqli_fetch_array($mapelQ)) : ?>
-												<?php if (date('Y-m-d', strtotime($mapelx['tgl_selesai'])) >= date('Y-m-d') and date('Y-m-d', strtotime($mapelx['tgl_ujian'])) <= date('Y-m-d')) : ?>
-													<?php $datakelas = unserialize($mapelx['kelas']); ?>
-													<?php if (in_array($siswa['id_kelas'], $datakelas) or in_array('semua', $datakelas)) : ?>
-														<?php
-																		$no++;
-																		// $pelajaran = explode(' ', $mapelx['nama']);
-																		$where = array(
-																			'id_ujian' => $mapelx['id_ujian'],
-																			'id_mapel' => $mapelx['id_mapel'],
-																			'id_siswa' => $id_siswa,
-																			'kode_ujian' => $mapelx['kode_ujian']
-																		);
-																		$nilai = fetch($koneksi, 'nilai', $where);
-																		$ceknilai = rowcount($koneksi, 'nilai', $where);
-																		if ($ceknilai == '0') :
-																			if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
-																				$status = '<label class="label label-success">Tersedia </label>';
-																				$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-primary'><i class='fa fa-pencil'></i> MULAI</a>";
-																			elseif (strtotime($mapelx['tgl_ujian']) >= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
-																				$status = '<label class="label label-danger">Belum Waktunya</label>';
-																				$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> BELUM UJIAN</button>";
+
+									<div class='table-responsive'>
+										<table id='example1' class='table table-bordered table-striped'>
+											<thead>
+												<tr>
+													<th width='5px'>#</th>
+													<th>Nama Tes</th>
+													<th>Jenis Tes</th>
+													<th class='hidden-xs'>Status</th>
+													<th class='hidden-xs'>Soal</th>
+													<th class='hidden-xs'>Tanggal Waktu Tes</th>
+													<th class='hidden-xs'>Durasi</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+													if ($idpk <> '') :
+														$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (id_pk='$idpk' or id_pk='semua') AND (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
+													else :
+														$mapelQ = mysqli_query($koneksi, "SELECT * FROM ujian WHERE (level='$level' or level='semua') AND sesi='$idsesi' AND status='1' ORDER BY tgl_ujian ");
+													endif;
+													?>
+												<?php while ($mapelx = mysqli_fetch_array($mapelQ)) : ?>
+													<?php if (date('Y-m-d', strtotime($mapelx['tgl_selesai'])) >= date('Y-m-d') and date('Y-m-d', strtotime($mapelx['tgl_ujian'])) <= date('Y-m-d')) : ?>
+														<?php $datakelas = unserialize($mapelx['kelas']); ?>
+														<?php if (in_array($siswa['id_kelas'], $datakelas) or in_array('semua', $datakelas)) : ?>
+															<?php
+																			$no++;
+																			// $pelajaran = explode(' ', $mapelx['nama']);
+																			$where = array(
+																				'id_ujian' => $mapelx['id_ujian'],
+																				'id_mapel' => $mapelx['id_mapel'],
+																				'id_siswa' => $id_siswa,
+																				'kode_ujian' => $mapelx['kode_ujian']
+																			);
+																			$nilai = fetch($koneksi, 'nilai', $where);
+																			$ceknilai = rowcount($koneksi, 'nilai', $where);
+																			if ($ceknilai == '0') :
+																				if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
+																					$status = '<label class="label label-success">Tersedia </label>';
+																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-primary'><i class='fa fa-pencil'></i> MULAI</button>";
+																				elseif (strtotime($mapelx['tgl_ujian']) >= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
+																					$status = '<label class="label label-danger">Belum Waktunya</label>';
+																					$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> BELUM UJIAN</button>";
+																				else :
+																					$status = '<label class="label label-danger">Telat Ujian</label>';
+																					$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> Telat Ujian</button>";
+																				endif;
 																			else :
-																				$status = '<label class="label label-danger">Telat Ujian</label>';
-																				$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> Telat Ujian</button>";
+																				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
+																					$status = '<label class="label label-warning">Berlangsung</label>';
+																					$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</a>";
+																				else :
+																					if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] <> '') {
+																						$status = '<label class="label label-primary">Selesai</label>';
+																						$btntest = "<button class='btn btn-block btn-success btn-sm disabled'> Sudah Ujian</button>";
+																					}
+																				endif;
 																			endif;
-																		else :
-																			if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
-																				$status = '<label class="label label-warning">Berlangsung</label>';
-																				$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</a>";
-																			else :
-																				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] <> '') {
-																					$status = '<label class="label label-primary">Selesai</label>';
-																					$btntest = "<button class='btn btn-block btn-success btn-sm disabled'> Sudah Ujian</button>";
-																				}
-																			endif;
-																		endif;
-																		?>
-														<tr>
-															<td>
-																<?= $no ?>
-															</td>
-															<td>
-																<small class='label bg-purple'><?= $mapelx['nama'] ?></small> <small class='label bg-blue'><?= $mapelx['level'] ?></small>
-															</td>
-															<td class='hidden-xs' style="text-align:center">
-																<small class='label bg-red'><?= $mapelx['kode_ujian'] ?></small>
-															</td>
-															<td class='hidden-xs'>
-																<span class='text-red'><?= $status ?></span>
-															</td>
-															<td class='hidden-xs'>
-																<small class='label bg-green'><i class='fa fa-pencil-square-o'></i> <?= $mapelx['tampil_pg'] ?> PG / <?= $mapelx['tampil_esai'] ?> Esai</small>
-															</td>
-															<td class='hidden-xs'>
-																<small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_ujian']) ?></small> <small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_selesai']) ?></small>
-															</td>
-															<td class='hidden-xs'>
-																<small class='label bg-red'><i class='fa fa-clock-o'></i> <?= $mapelx['lama_ujian'] ?> menit</small></td>
-															<td>
-																<?= $btntest ?>
-															</td>
-														</tr>
+																			?>
+															<tr>
+																<td>
+																	<?= $no ?>
+																</td>
+																<td>
+																	<small class='label bg-purple'><?= $mapelx['nama'] ?></small> <small class='label bg-blue'><?= $mapelx['level'] ?></small>
+																</td>
+																<td class='hidden-xs' style="text-align:center">
+																	<small class='label bg-red'><?= $mapelx['kode_ujian'] ?></small>
+																</td>
+																<td class='hidden-xs'>
+																	<span class='text-red'><?= $status ?></span>
+																</td>
+																<td class='hidden-xs'>
+																	<small class='label bg-green'><i class='fa fa-pencil-square-o'></i> <?= $mapelx['tampil_pg'] ?> PG / <?= $mapelx['tampil_esai'] ?> Esai</small>
+																</td>
+																<td class='hidden-xs'>
+																	<small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_ujian']) ?></small> <small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_selesai']) ?></small>
+																</td>
+																<td class='hidden-xs'>
+																	<small class='label bg-red'><i class='fa fa-clock-o'></i> <?= $mapelx['lama_ujian'] ?> menit</small></td>
+																<td>
+																	<?= $btntest ?>
+																</td>
+															</tr>
+														<?php endif; ?>
 													<?php endif; ?>
-												<?php endif; ?>
-											<?php endwhile; ?>
-										</tbody>
-									</table>
+												<?php endwhile; ?>
+											</tbody>
+										</table>
+									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
+					<script>
+						$(document).on('click', '.btnmulaitest', function() {
+							var idm = $(this).data('id');
+							var ids = $(this).data('ids');
+							console.log(idm + '-' + ids);
+
+							$.ajax({
+								type: 'POST',
+								url: 'konfirmasi.php',
+								data: 'idm=' + idm + '&ids=' + ids,
+								success: function(response) {
+									$('#formjadwalujian').hide();
+									$('#boxtampil').html(response).slideDown();
+
+								}
+							});
+
+						});
+					</script>
 				<?php elseif ($pg == 'pengumuman') : ?>
 					<div class='row'>
 						<div class='col-md-12'>
@@ -495,137 +519,9 @@ $tglsekarang = time();
 					</div>
 
 
-				<?php elseif ($pg == 'konfirmasi') : ?>
-					<?php
-						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
-						$idmapel = $query['id_mapel'];
-						$namamapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
-						$pesan = '';
-						if ($namamapel['token'] == 1) :
-							$pesan = "<div class='alert alert-info alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Masukan Kode Token</div></div>";
-						endif;
-
-						if (isset($_POST['mulai'])) :
-							$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
-							$idmapel = $query['id_mapel'];
-							if ($namamapel['token'] == 1) :
-								$token = $_POST['token'];
-								$tokencek = mysqli_fetch_array(mysqli_query($koneksi, "SELECT token FROM token"));
-								if ($token == $tokencek['token']) :
-									$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Berhasil</div></div>";
-									$query = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
-									$nilaix = mysqli_fetch_array($query);
-									$ceknilai = mysqli_num_rows($query);
-									if ($ceknilai <> 0) :
-										if ($nilaix['ujian_selesai'] == '') :
-											jump("$homeurl/testongoing/$ac/$id_siswa");
-										endif;
-									else :
-										include_once("aturan.php");
-										jump("$homeurl/testongoing/$ac/$id_siswa");
-									endif;
-								else :
-									$pesan = "<div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><i class='icon fa fa-info'></i>Kode Token Ujian Salah</div></div>";
-								endif;
-							else :
-								$query = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
-								$nilaix = mysqli_fetch_array($query);
-								$ceknilai = mysqli_num_rows($query);
-								if ($ceknilai <> 0) {
-									if ($nilaix['ujian_selesai'] == '') :
-										jump("$homeurl/testongoing/$ac/$id_siswa");
-									endif;
-								} else {
-									include_once("aturan.php");
-									jump("$homeurl/testongoing/$ac/$id_siswa");
-								}
-							endif;
-
-						endif;
-						?>
-					<div class='row'>
-						<div class='col-md-3'></div>
-						<div class='col-md-6'>
-							<div class='box box-solid'>
-								<div class='box-header'>
-									<h3 class='box-title'>Konfirmasi Tes</h3>
-									<div class='box-title pull-right'>
-										<a href='<?= $homeurl ?>'><span class='btn btn-sm btn-default'>Kembali</span></a>
-									</div>
-								</div>
-								<div class='box-body'>
-									<?= $pesan ?>
-									<div class='table-responsive'>
-										<form action='' method='post'>
-											<table class='table no-margin'>
-												<tbody>
-													<tr>
-														<td>
-															<b>Nama Tes</b><br />
-															<small class='label bg-red'><?= $namamapel['kode_ujian'] ?></small>
-															<small class='label bg-purple'><?= $namamapel['nama'] ?></small>
-															<small class='label bg-blue'><?= $namamapel['level'] ?></small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>
-															<b>Status Tes</b><br />
-															<small class='label bg-red'>Tersedia</small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>
-															<b>Jumlah Soal</b><br />
-															<small class='label bg-purple'><?= $namamapel['tampil_pg'] . 'PG /' . $namamapel['tampil_esai'] ?> Esai</small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>
-															<b>Tanggal Waktu Tes</b><br />
-															<small class='label bg-green'> <?= buat_tanggal('D, d M Y') ?></small>
-															<small class='label bg-red'><?= $namamapel['waktu_ujian'] ?></small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>
-															<b>Guru Pengampu</b>
-															<br>
-															<?php $guru = mysqli_fetch_array(mysqli_query($koneksi, "SELECT nama FROM pengawas WHERE id_pengawas='$namamapel[id_guru]'")); ?>
-															<small class='label bg-red'><?= $guru['nama'] ?></small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>
-															<b>Alokasi Waktu Tes</b><br />
-															<small class='label bg-blue'><?= $namamapel['lama_ujian'] ?> menit</small>
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<?php if ($namamapel['token'] == 1) : ?>
-															<td>
-																<input type='text' class='form-control' name='token' placeholder='masukan token' autofocus />
-															</td>
-														<?php endif ?>
-														<td>
-															<button type='submit' name='mulai' class='btn btn-success btn-flat'>Mulai Test</button>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				<?php elseif ($pg == 'testongoing') : ?>
 					<?php
+
 						$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 						$idmapel = $query['id_mapel'];
 						$no_soal = 0;
@@ -1165,7 +1061,7 @@ $tglsekarang = time();
 		</footer>
 	</div><!-- ./wrapper -->
 
-	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
+
 	<script src='<?= $homeurl ?>/plugins/zoom-master/jquery.zoom.js'></script>
 	<script src='<?= $homeurl ?>/dist/bootstrap/js/bootstrap.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/slimScroll/jquery.slimscroll.min.js'></script>

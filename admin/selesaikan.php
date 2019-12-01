@@ -6,7 +6,6 @@ $idnilai = $_POST['id'];
 $nilai = fetch($koneksi, 'nilai', array('id_nilai' => $idnilai));
 $idm = $nilai['id_mapel'];
 $ids = $nilai['id_siswa'];
-$idk = $nilai['id_kelas'];
 $idu = $nilai['kode_ujian'];
 $iduj = $nilai['id_ujian'];
 $where = array(
@@ -47,5 +46,6 @@ $data = array(
 	'total' => $skor
 );
 update($koneksi, 'nilai', $data, $where);
+echo mysqli_error($koneksi);
 delete($koneksi, 'pengacak', $where2);
 delete($koneksi, 'pengacakopsi', $where2);

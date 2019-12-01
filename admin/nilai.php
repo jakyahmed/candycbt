@@ -11,7 +11,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'><?= $info ?>
-					<?php $jq = mysqli_query($koneksi, "SELECT * FROM nilai group by kode_ujian"); ?>
+					<?php $jq = mysqli_query($koneksi, "SELECT * FROM jenis a join nilai b on a.id_jenis=b.kode_ujian group by kode_ujian"); ?>
 					<?php while ($jenis = mysqli_fetch_array($jq)) : ?>
 						<div class='col-md-4'>
 							<div class='box box-widget widget-user-2'>
@@ -342,66 +342,66 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 					</table>
 					<br>
 					<div class='table-responsive'>
-					<table class='table table-bordered table-striped'>
-						<thead>
-							<tr>
-								<th width='5px'>#</th>
-								<th>Soal PG</th>
-								<th style='text-align:center'>Jawab</th>
-								<th style='text-align:center'>Hasil</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and id_ujian='$nilai[id_ujian]' and jenis='1' "); ?>
-							<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
-								<?php
-										$no++;
-										$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
-										if ($jawaban['jawaban'] == $soal['jawaban']) :
-											$status = "<span class='text-green'><i class='fa fa-check'></i></span>";
-										else :
-											$status = "<span class='text-red'><i class='fa fa-times'></i></span>";
-										endif;
-										?>
+						<table class='table table-bordered table-striped'>
+							<thead>
 								<tr>
-									<td><?= $no ?></td>
-									<td><?= $soal['soal'] ?></td>
-									<td style='text-align:center'><?= $jawaban['jawaban'] ?></td>
-									<td style='text-align:center'><?= $status ?></td>
+									<th width='5px'>#</th>
+									<th>Soal PG</th>
+									<th style='text-align:center'>Jawab</th>
+									<th style='text-align:center'>Hasil</th>
 								</tr>
-							<?php endwhile; ?>
-						</tbody>
-					</table>
-					<br>
-					<table class='table table-bordered table-striped'>
-						<thead>
-							<tr>
-								<th width='5px'>#</th>
-								<th>Soal Esai</th>
-								<th style='text-align:center'>Hasil</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php $nilaiex = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and jenis='2' and id_ujian='$nilai[id_ujian]' ");
-								$nox = 0; ?>
-							<?php while ($jawabane = mysqli_fetch_array($nilaiex)) : ?>
-								<?php
-										$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawabane[id_soal]'"));
-										$nox++;
-										?>
+							</thead>
+							<tbody>
+								<?php $nilaix = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and id_ujian='$nilai[id_ujian]' and jenis='1' "); ?>
+								<?php while ($jawaban = mysqli_fetch_array($nilaix)) : ?>
+									<?php
+											$no++;
+											$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawaban[id_soal]'"));
+											if ($jawaban['jawaban'] == $soal['jawaban']) :
+												$status = "<span class='text-green'><i class='fa fa-check'></i></span>";
+											else :
+												$status = "<span class='text-red'><i class='fa fa-times'></i></span>";
+											endif;
+											?>
+									<tr>
+										<td><?= $no ?></td>
+										<td><?= $soal['soal'] ?></td>
+										<td style='text-align:center'><?= $jawaban['jawaban'] ?></td>
+										<td style='text-align:center'><?= $status ?></td>
+									</tr>
+								<?php endwhile; ?>
+							</tbody>
+						</table>
+						<br>
+						<table class='table table-bordered table-striped'>
+							<thead>
 								<tr>
-									<td><?= $nox ?></td>
-									<td><?= $soal['soal'] ?>
-										<p><b>jawab : </b><?= $jawabane['esai'] ?></p>
-									</td>
-									<td style='text-align:center'><?= $jawabane['nilai_esai'] ?></td>
+									<th width='5px'>#</th>
+									<th>Soal Esai</th>
+									<th style='text-align:center'>Hasil</th>
 								</tr>
-							<?php endwhile; ?>
-						</tbody>
-					</table>
-							</div>
+							</thead>
+							<tbody>
+								<?php $nilaiex = mysqli_query($koneksi, "SELECT * FROM hasil_jawaban WHERE id_siswa='$id_siswa' and id_mapel='$idmapel' and jenis='2' and id_ujian='$nilai[id_ujian]' ");
+									$nox = 0; ?>
+								<?php while ($jawabane = mysqli_fetch_array($nilaiex)) : ?>
+									<?php
+											$soal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_soal='$jawabane[id_soal]'"));
+											$nox++;
+											?>
+									<tr>
+										<td><?= $nox ?></td>
+										<td><?= $soal['soal'] ?>
+											<p><b>jawab : </b><?= $jawabane['esai'] ?></p>
+										</td>
+										<td style='text-align:center'><?= $jawabane['nilai_esai'] ?></td>
+									</tr>
+								<?php endwhile; ?>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
+<?php endif; ?>

@@ -22,7 +22,7 @@ $pesan = '';
                 </div>
             </div>
             <div class='box-body'>
-                <?= $id_siswa . $ac ?>
+
                 <div class='table-responsive'>
                     <form id="formmulaiujian" action='' method='post'>
                         <input type='hidden' value='<?= $id_siswa ?>' name='ids'>

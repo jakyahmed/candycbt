@@ -250,7 +250,7 @@ $tglsekarang = time();
 																			else :
 																				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
 																					$status = '<label class="label label-warning">Berlangsung</label>';
-																					$btntest = "<a href='$homeurl/konfirmasi/$mapelx[id_ujian]/$id_siswa' class='btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</a>";
+																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</button>";
 																				else :
 																					if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] <> '') {
 																						$status = '<label class="label label-primary">Selesai</label>';

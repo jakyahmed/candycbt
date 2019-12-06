@@ -3,7 +3,7 @@
 							<div class='modal-content'>
 								<div class='modal-header bg-maroon'>
 									<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-									<h4 class='modal-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Tambah Jadwal Ujian</h4>
+									<h4 class='modal-title'><i class="fas fa-business-time fa-fw"></i> Tambah Jadwal Ujian</h4>
 								</div>
 								<div class='modal-body'>
 									<form id="formtambahujian" method='post'>
@@ -104,7 +104,7 @@
 						<div class='col-md-12'>
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
-									<h3 class='box-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Jadwal Ujian</h3>
+									<h3 class='box-title'><i class="fas fa-business-time fa-fw"></i> Jadwal Ujian</h3>
 									<div class='box-tools pull-right '>
 										<?php if ($setting['server'] == 'pusat') : ?>
 											<?php if ($pengawas['level'] == 'admin') : ?>
@@ -210,7 +210,7 @@
 															</td>
 															<td style="text-align:center">
 																<div class='btn-grou'>
-																	<a class='btn btn-warning btn-flat btn-xs' data-id="<?= $mapel['id_ujian'] ?>" data-toggle='modal' data-backdrop="static" data-target="#edit<?= $mapel['id_ujian'] ?>"><i class='fa fa-pencil-square-o'></i></a>
+																	<a class='btn btn-warning btn-flat btn-xs' data-id="<?= $mapel['id_ujian'] ?>" data-toggle='modal' data-backdrop="static" data-target="#edit<?= $mapel['id_ujian'] ?>"><i class='fa fa-edit'></i></a>
 																</div>
 															</td>
 														</tr>
@@ -228,7 +228,7 @@
 																<div class='modal-content'>
 																	<div class='modal-header bg-olive'>
 																		<button class='close' data-dismiss='modal'><span aria-hidden='true'><i class='glyphicon glyphicon-remove'></i></span></button>
-																		<h4 class='modal-title'><img src='../dist/img/svg/jadwal_ujian.svg' width='20'> Edit Jadwal Ujian</h4>
+																		<h4 class='modal-title'><i class="fas fa-business-time fa-fw"></i> Edit Jadwal Ujian</h4>
 																	</div>
 																	<div class='modal-body'>
 																		<form id="formeditujian<?= $mapel['id_ujian'] ?>" method='post'>

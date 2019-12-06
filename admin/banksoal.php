@@ -182,7 +182,7 @@ if ($ac == '') :
 												<div class=''>
 													<a href='?pg=<?= $pg ?>&ac=lihat&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-flat btn-success btn-flat btn-xs'><i class='fa fa-search'></i></button></a>
 													<a href='?pg=<?= $pg ?>&ac=importsoal&id=<?= $mapel['id_mapel'] ?>'><button class='btn btn-info btn-flat btn-xs'><i class='fa fa-upload'></i></button></a>
-													<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-pencil-square-o'></i></button></a>
+													<a><button class='btn btn-warning btn-flat btn-xs' data-toggle='modal' data-target='#editbanksoal<?= $mapel['id_mapel'] ?>'><i class='fa fa-edit'></i></button></a>
 												</div>
 											</td>
 										<?php endif ?>
@@ -537,15 +537,11 @@ if ($ac == '') :
 				$opjs2 = $ropc['score'];
 				$fileB = $ropc['q_option_match'];
 				$fileB = str_replace(" ", "", $fileB);
-
-
 				$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
-
 				$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
 				while ($hmin = mysqli_fetch_array($smin)) {
 					$min_op = $hmin['mini'];
 				}
-
 				$sqlopc = mysqli_query($koneksi, " select * from savsoft_options where qid='$no' and oid='$min_op'");
 				$ropc = mysqli_fetch_array($sqlopc);
 				$opj3 = $ropc['q_option'];
@@ -553,10 +549,7 @@ if ($ac == '') :
 				$opjs3 = $ropc['score'];
 				$fileC = $ropc['q_option_match'];
 				$fileC = str_replace(" ", "", $fileC);
-
-
 				$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
-
 				$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
 				while ($hmin = mysqli_fetch_array($smin)) {
 					$min_op = $hmin['mini'];
@@ -569,9 +562,7 @@ if ($ac == '') :
 				$opjs4 = $ropc['score'];
 				$fileD = $ropc['q_option_match'];
 				$fileD = str_replace(" ", "", $fileD);
-
 				$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
-
 				$smin = mysqli_query($koneksi, " select min(oid) as mini from savsoft_options where qid='$no'");
 				while ($hmin = mysqli_fetch_array($smin)) {
 					$min_op = $hmin['mini'];
@@ -584,10 +575,7 @@ if ($ac == '') :
 				$opjs5 = $ropc['score'];
 				$fileE = $ropc['q_option_match'];
 				$fileE = str_replace(" ", "", $fileE);
-
-
 				$dele = mysqli_query($koneksi, " delete from savsoft_options where qid='$no' and oid='$min_op'");
-
 				if ($opjs1 == 1) {
 					$kunci = "A";
 				}
@@ -843,7 +831,7 @@ if ($ac == '') :
 											</table>
 										</td>
 										<td style='width:30px'>
-											<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['nomor'] ?>"><i class='fa fa-trash-o'></i></button></a>
+											<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['id_soal'] ?>"><i class='fa fa-trash'></i></button></a>
 										</td>
 									</tr>
 									<?php
@@ -853,7 +841,7 @@ if ($ac == '') :
 												(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
 											}
 											?>
-									<div class='modal fade' id="hapus<?= $soal['nomor'] ?>" style='display: none;'>
+									<div class='modal fade' id="hapus<?= $soal['id_soal'] ?>" style='display: none;'>
 										<div class='modal-dialog'>
 											<div class='modal-content'>
 												<div class='modal-header bg-maroon'>
@@ -923,7 +911,7 @@ if ($ac == '') :
 													?>
 										</td>
 										<td style='width:30px'>
-											<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['nomor'] ?>"><i class='fa fa-trash-o'></i></button></a>
+											<a><button class='btn bg-maroon btn-sm' data-toggle='modal' data-target="#hapus<?= $soal['id_soal'] ?>"><i class='fa fa-trash'></i></button></a>
 										</td>
 									</tr>
 									<?php
@@ -933,7 +921,7 @@ if ($ac == '') :
 												(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg&ac=$ac&id=$id_mapel");
 											}
 											?>
-									<div class='modal fade' id="hapus<?= $soal['nomor'] ?>" style='display: none;'>
+									<div class='modal fade' id="hapus<?= $soal['id_soal'] ?>" style='display: none;'>
 										<div class='modal-dialog'>
 											<div class='modal-content'>
 												<div class='modal-header bg-maroon'>

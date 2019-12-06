@@ -6,28 +6,27 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 		<div class='col-md-12'>
 			<div class='box box-solid'>
 				<div class='box-header with-border'>
-					<h3 class='box-title'><img src='../dist/img/svg/nilai.svg' width='30'> DATA UJIAN AKTIF</h3>
+					<h3 class='box-title'><i class="fas fa-file-signature fa-fw"></i> DATA UJIAN AKTIF</h3>
 					<div class='box-tools pull-right btn-group'>
 					</div>
 				</div><!-- /.box-header -->
 				<div class='box-body'><?= $info ?>
 					<?php $jq = mysqli_query($koneksi, "SELECT * FROM jenis a join nilai b on a.id_jenis=b.kode_ujian group by kode_ujian"); ?>
 					<?php while ($jenis = mysqli_fetch_array($jq)) : ?>
-						<div class='col-md-4'>
-							<div class='box box-widget widget-user-2'>
-								<div class='widget-user-header bg-blue'>
-									<div class='widget-user-image'>
-										<img class='img-thumbnail' src='../dist/img/svg/nilai.svg'>
-									</div>
-									<h3 class='widget-user-username'><?= $jenis['kode_ujian'] ?></h3>
+						<div class="col-lg-3 ">
+							<div class="small-box bg-blue">
+								<div class="inner">
+									<h3><?= $jenis['kode_ujian'] ?></h3>
 									<?php $nama = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$jenis[kode_ujian]'")); ?>
-									<h5 class='widget-user-desc'><?= $nama['nama'] ?></h5>
+									<p><?= $nama['nama'] ?></p>
 								</div>
-								<div class='box-footer'>
-									<a href="?pg=<?= $pg ?>&idu=<?= $jenis['kode_ujian'] ?>"> <button class='btn btn-flat btn-block bg-purple'>Lihat Nilai</button></a>
+								<div class="icon">
+									<i class="fa fa-edit"></i>
 								</div>
+								<a href="?pg=<?= $pg ?>&idu=<?= $jenis['kode_ujian'] ?>" class="small-box-footer">Lihat Nilai <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
+
 					<?php endwhile; ?>
 				</div>
 			</div>
@@ -38,7 +37,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 			<div class='col-md-12'>
 				<div class='box box-solid'>
 					<div class='box-header with-border'>
-						<h3 class='box-title'><img src='../dist/img/svg/daftar_nilai.svg' width='30'> DAFTAR NILAI UJIAN <?= $idu ?></h3>
+						<h3 class='box-title'><i class="fas fa-file-signature fa-fw"></i> DAFTAR NILAI UJIAN <?= $idu ?></h3>
 						<div class='box-tools pull-right btn-group'></div>
 					</div><!-- /.box-header -->
 					<div class='box-body'><?= $info ?>
@@ -198,7 +197,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 																$link2 = '#';
 															endif;
 															?>
-												<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-pencil-square-o'></i>input esai</a>
+												<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-edit'></i>input esai</a>
 												<a href='<?= $link2 ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-search'></i> lihat</a>
 											<?php endif; ?>
 										</td>

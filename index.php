@@ -27,7 +27,7 @@ $tglsekarang = time();
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
 	<link rel='shortcut icon' href='<?= $homeurl ?>/favicon.ico' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/bootstrap/css/bootstrap.min.css' />
-	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/font-awesome/css/font-awesome.min.css' />
+	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/fontawesome/css/all.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green-light.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/iCheck/square/green.css' />
@@ -36,16 +36,9 @@ $tglsekarang = time();
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/slidemenu/jquery-slide-menu.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/toastr/toastr.min.css'>
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/radio/css/style.css'>
-	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-2.2.3.min.js'></script>
 
 	<style>
-		@font-face {
-			font-family: 'OCR A Extended';
-			font-style: normal;
-			font-weight: normal;
-			src: local('OCR A Extended'), url('OCRAEXT_2.woff') format('woff');
-		}
-
 		.soal img {
 			max-width: 100%;
 			height: auto;
@@ -165,13 +158,13 @@ $tglsekarang = time();
 				<hr style="margin:0px">
 				<ul class='sidebar-menu tree' data-widget='tree'>
 					<li class='header'>Main Menu Peserta Ujian</li>
-					<li><a href='<?= $homeurl ?>'><i class='fa fa-fw fa-dashboard'></i> <span>Dashboard</span></a></li>
+					<li><a href='<?= $homeurl ?>'><i class='fas fa-tachometer-alt fa-fw fa-2x '></i> <span> Dashboard</span></a></li>
 					<hr style="margin:0px">
-					<li><a href='<?= $homeurl ?>/hasil'><i class='fa fa-fw fa-tags'></i> <span>Hasil Ujian</span></a></li>
+					<li><a href='<?= $homeurl ?>/hasil'><i class='fas fa-tags fa-fw fa-2x '></i> <span> Hasil Ujian</span></a></li>
 					<hr style="margin:0px">
-					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fa fa-fw fa-bullhorn'></i> <span>Pengumuman</span></a></li>
+					<li><a href='<?= $homeurl ?>/pengumuman'><i class='fas fa-fw fa-2x fa-bullhorn'></i> <span> Pengumuman</span></a></li>
 					<hr style="margin:0px">
-					<li><a href='brocandycbt.apk'><i class='fa fa-fw fa-star'></i> <span>Exambro</span></a></li>
+					<li><a href='brocandycbt.apk'><i class='fas fa-fw fa-2x fa-star'></i> <span>Exambro</span></a></li>
 				</ul><!-- /.sidebar-menu -->
 			</section>
 		</aside>
@@ -191,8 +184,8 @@ $tglsekarang = time();
 						</div>
 						<div id="boxtampil" class='col-md-12'>
 							<div id='formjadwalujian' class='box box-solid'>
-								<div class='box-header with-border bg-blue'>
-									<h3 class='box-title'>Jadwal Ujian Hari ini</h3>
+								<div class='box-header with-border'>
+									<h3 class='box-title'><i class="fas fa-calendar-alt    "></i> Jadwal Ujian Hari ini</h3>
 									<div class='box-tools'>
 										<button class='btn btn-flat btn-primary'><span id='waktu' style="font-family:'OCR A Extended'"><?= $waktu ?> </span></button>
 									</div>
@@ -239,7 +232,7 @@ $tglsekarang = time();
 																			if ($ceknilai == '0') :
 																				if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
 																					$status = '<label class="label label-success">Tersedia </label>';
-																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-primary'><i class='fa fa-pencil'></i> MULAI</button>";
+																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-primary'><i class='fa fa-edit'></i> MULAI</button>";
 																				elseif (strtotime($mapelx['tgl_ujian']) >= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
 																					$status = '<label class="label label-danger">Belum Waktunya</label>';
 																					$btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> BELUM UJIAN</button>";
@@ -250,11 +243,13 @@ $tglsekarang = time();
 																			else :
 																				if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
 																					$status = '<label class="label label-warning">Berlangsung</label>';
-																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-success'><i class='fa fa-pencil'></i> LANJUTKAN</button>";
+																					$btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-success'><i class='fas fa-edit'></i> LANJUTKAN</button>";
 																				else :
 																					if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] <> '') {
 																						$status = '<label class="label label-primary">Selesai</label>';
 																						$btntest = "<button class='btn btn-block btn-success btn-sm disabled'> Sudah Ujian</button>";
+																					} else {
+																						$btntest = "<button class='btn btn-block btn-danger btn-sm disabled'> Eloy</button>";
 																					}
 																				endif;
 																			endif;
@@ -273,7 +268,7 @@ $tglsekarang = time();
 																	<span class='text-red'><?= $status ?></span>
 																</td>
 																<td class='hidden-xs'>
-																	<small class='label bg-green'><i class='fa fa-pencil-square-o'></i> <?= $mapelx['tampil_pg'] ?> PG / <?= $mapelx['tampil_esai'] ?> Esai</small>
+																	<small class='label bg-green'><i class='fas fa-edit'></i> <?= $mapelx['tampil_pg'] ?> PG / <?= $mapelx['tampil_esai'] ?> Esai</small>
 																</td>
 																<td class='hidden-xs'>
 																	<small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_ujian']) ?></small> <small class='label bg-yellow'><i class='fa fa-calendar'></i> <?= buat_tanggal('D, d M Y H:i', $mapelx['tgl_selesai']) ?></small>
@@ -318,8 +313,8 @@ $tglsekarang = time();
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
-								<div class='box-header bg-blue'>
-									<h3 class='box-title'>Pengumuman</h3>
+								<div class='box-header with-border'>
+									<h3 class='box-title'><i class="fas fa-bullhorn    "></i> Pengumuman</h3>
 								</div><!-- /.box-header -->
 								<div class='box-body'>
 									<div id='pengumuman'>
@@ -341,8 +336,8 @@ $tglsekarang = time();
 						<div class='row'>
 							<div class='col-md-12'>
 								<div class='box box-solid'>
-									<div class='box-header with-border bg-blue'>
-										<h3 class='box-title'>Data Hasil Ujian</h3>
+									<div class='box-header with-border'>
+										<h3 class='box-title'><i class="fas fa-file-signature    "></i> Data Hasil Ujian</h3>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
 										<table class='table table-bordered table-striped'>
@@ -460,8 +455,8 @@ $tglsekarang = time();
 						<div class='row'>
 							<div class='col-md-12'>
 								<div class='box box-solid'>
-									<div class='box-header with-border bg-blue'>
-										<h3 class='box-title'>Data Hasil Ujian</h3>
+									<div class='box-header with-border'>
+										<h3 class='box-title'><i class="fas fa-file-signature    "></i> Data Hasil Ujian</h3>
 									</div>
 									<div class='box-body'>
 										<div class='alert alert-success alert-dismissible'>
@@ -479,8 +474,8 @@ $tglsekarang = time();
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
-								<div class='box-header with-border bg-blue'>
-									<h3 class='box-title'>Data Hasil Ujian</h3>
+								<div class='box-header with-border'>
+									<h3 class='box-title'><i class="fas fa-file-signature    "></i> Data Hasil Ujian</h3>
 								</div><!-- /.box-header -->
 								<div class='box-body'>
 									<table id='example1' class='table table-bordered table-striped'>
@@ -603,14 +598,14 @@ $tglsekarang = time();
 						<div class='row' style='margin-right:-25px;margin-left:-25px;'>
 							<div class='col-md-12'>
 								<div class='box box-solid'>
-									<div class='box-header bg-teal'>
+									<div class='box-header with-border'>
 										<div id='divujian'>
 											<span style='display:none' id='htmlujianselesai'><?= $ujianselesai ?></span>
 										</div>
 										<h3 class='box-title'><span class='btn hidden-xs bg-gray active'>SOAL NO </span> <span class='btn bg-green' id='displaynum'><b><?= $no_next ?></b></span></h3>
 										<div class='btn-group'>
 											<button type='button' id='smaller_font' class='btn bg-purple'> - </button>
-											<button type='button' id='reset_font' class='btn bg-purple'><i class='fa fa-refresh'></i></button>
+											<button type='button' id='reset_font' class='btn bg-purple'><i class='fa fa-sync-alt'></i></button>
 											<button type='button' id='bigger_font' class='btn bg-purple'> + </button>
 										</div>
 										<div class='box-title pull-right'>
@@ -933,12 +928,13 @@ $tglsekarang = time();
 								</div>
 							</div>
 							<div class='navs-slide' style='z-index: 1000;'>
-								<div class='btn-slide'><i class='fa fa-pencil-square-o fa-lg'></i></div>
+								<div class='btn-slide'><img class="fas fa-edit fa-fw fa-lg   "></i></div>
 								<div class='navs-body'>
-									<div class='head-slide'>DAFTAR SOAL</div>
+									<div class='head-slide'><i class="fas fa-edit fa-fw   "></i>DAFTAR SOAL</div>
 									<div class='body-slide'>
 										<div style='overflow-y:auto; max-height:250px'>
 											<div class='col-md-12'>
+												<span>-- SOAL PG --</span>
 												<div class='row' id='nomorsoal'>
 													<?php
 															$cekpg = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM soal WHERE id_mapel='$id_mapel' AND jenis='1'"));
@@ -1019,7 +1015,7 @@ $tglsekarang = time();
 																		$jawabannya = $jawabisi;
 																	}
 																	?>
-														<a style="min-width:40px;height:40px;border-radius:20px;font-family:'OCR A Extended';font-size:medium ;border:solid black" class='btn btn-app bg-<?= $color ?>' id='badge<?= $id_soal ?>' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $n ?>,1)"> <?= $nomor ?> <span id='jawabtemp<?= $id_soal ?>' class='badge bg-red'><?= $jawabannya ?></span></a>
+														<a style="min-width:50px;height:50px;border-radius:10px;border:solid black;font-size:medium" class='btn btn-app bg-<?= $color ?>' id='badge<?= $id_soal ?>' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $n ?>,1)"> <?= $nomor ?> <span id='jawabtemp<?= $id_soal ?>' class='badge bg-red' style="font-size:medium"><?= $jawabannya ?></span></a>
 													<?php endfor; ?>
 												</div>
 											</div>
@@ -1036,7 +1032,7 @@ $tglsekarang = time();
 																		$nomor = $i + 1;
 																		$nomor = ($nomor < 10) ? "0" . $nomor : $nomor;
 																		?>
-															<a style="min-width:40px;height:40px" class="btn btn-app <?= $color ?>" id="badgeesai<?= $id_esai ?>" onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $i ?>,2)"> <?= $nomor ?> </a>
+															<a style="min-width:50px;height:50px;border-radius:10px ;border:solid black;font-size:medium" class="btn btn-app <?= $color ?>" id="badgeesai<?= $id_esai ?>" onclick="loadsoalesai(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $i ?>,2)"> <?= $nomor ?> </a>
 														<?php endfor; ?>
 													</div>
 												<?php endif; ?>

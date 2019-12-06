@@ -2,7 +2,7 @@
   
   (function ($) {
       var OCMenu = function (element, speed, expand) {
-          element.html('<i class="fa fa-pencil-square-o fa-lg "></i>');
+          element.html('<i class="fa fa-edit fa-lg "></i>');
   
           if (typeof expand != 'undefined') {
               element.data('expand', expand);

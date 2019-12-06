@@ -38,7 +38,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 		<div class='col-md-12'>
 			<div class='box box-solid'>
 				<div class='box-header with-border '>
-					<h3 class='box-title'><img src='../dist/img/svg/peserta_ujian.svg' width='20'> Peserta Ujian</h3>
+					<h3 class='box-title'><i class="fas fa-user-friends fa-fw   "></i> Peserta Ujian</h3>
 					<div class='box-tools pull-right'>
 						<?php if ($pengawas['level'] == 'admin') : ?>
 							<?php if ($setting['server'] == 'pusat') : ?>
@@ -448,11 +448,11 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 				<?php if ($pengawas['level'] == 'admin') { ?>
 					<?php if ($setting['server'] == 'pusat') { ?> {
 							'data': 'id_siswa',
-							'width': '100px',
+							'width': '60px',
 							'sClass': 'text-center',
 							'orderable': false,
 							'mRender': function(data) {
-								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fa fa-pencil-square-o"></i></a> | \n\
+								return '<a class="btn btn-flat btn-xs bg-yellow" href="?pg=siswa&ac=edit&id=' + data + '"><i class="fas fa-edit"></i></a>\n\
                                 <a class="btn btn-flat btn-xs bg-maroon" href="?pg=siswa&ac=hapussiswa&id=' + data + '" onclick="javascript:return confirm(\'Anda yakin akan menghapus data ini?\');"><i class="fa fa-trash"></i></a>';
 							}
 						}

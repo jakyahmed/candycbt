@@ -548,14 +548,14 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 					<td>
 						<div class='col-md-4 text-right'>
 							<input type='submit' name='done' id='done-submit' style='display:none;' />
-							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
+							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span><i class='fa fa-check'></i> SELESAI</button>
 						</div>
 					</td>
 				<?php else : ?>
 					<td>
 						<div class='col-md-4 text-right'>
 							<input type='submit' name='done' id='selesai-submit' style='display:none;' />
-							<button class='done-btn btn btn-danger' disabled><span class='hidden-xs'>TEST SELESAI </span><i class='fa fa-chevron-right'></i></button>
+							<button class='done-btn btn btn-danger' disabled><span class='hidden-xs'>TEST </span><i class='fa fa-check'></i> SELESAI</button>
 						</div>
 					</td>
 				<?php endif; ?>

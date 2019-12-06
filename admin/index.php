@@ -40,7 +40,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 	<link rel='shortcut icon' href='<?= $homeurl ?>/favicon.ico' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/bootstrap/css/bootstrap.min.css' />
 
-	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/font-awesome/css/font-awesome.css' />
+	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/fontawesome/css/all.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/plugins/select2/select2.min.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/AdminLTE.css' />
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/skins/skin-green-light.min.css' />
@@ -82,15 +82,15 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' style='background-color:#00a896;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.1)' role='navigation'>
-				<a href='#' class='sidebar-toggle' data-toggle='offcanvas' role='button'>
-					<span class='sr-only'>Toggle navigation</span>
+				<a href='#' class='sidebar-baru' data-toggle='offcanvas' role='button'>
+					<i class="fa fa-bars fa-lg fa-fw"></i>
 				</a>
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
 						<?php if ($pengawas['level'] == 'admin') : ?>
 							<li class='dropdown notifications-menu'>
 								<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-									<i class='fa  fa-desktop'>&nbsp;&nbsp;<span style='font-size:18px'><?= strtoupper($setting['server']) ?></span></i>
+									<i class="fas fa-desktop fa-lg fa-fw"></i> <span style='font-size:18px'><?= strtoupper($setting['server']) ?></span>
 								</a>
 								<ul class="dropdown-menu" style="height:80px">
 									<li class="header">Ganti Status Server</li>
@@ -116,7 +116,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</ul>
 							</li>
 						<?php endif; ?>
-						<li><a href='?pg=informasi'><i class='fa  fa-commenting-o'></i></a></li>
+						<li><a href='?pg=informasi'><i class="fas fa-comment-dots fa-lg  "></i></a></li>
 						<li class='dropdown user user-menu'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 								<img src='<?= $homeurl ?>/dist/img/avatar-6.png' class='user-image' alt='+'>
@@ -193,20 +193,20 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<ul class=' sidebar-menu tree data-widget=' tree>
 
 					<li class="header">MENU UTAMA</li>
-					<li><a href='?'><img src='../dist/img/svg/home.svg' width='30'> <span>Beranda</span></a></li>
+					<li><a href='?'><i class="fas fa-home fa-2x fa-fw    "></i> <span>Beranda</span></a></li>
 					<?php if ($setting['server'] == 'lokal') : ?>
 						<li class=' treeview'>
 							<a href='#'>
-								<img src='../dist/img/svg/process.svg' width='30'>
+								<i class="fas fa-sync-alt fa-2x fa-fw    "></i>
 								<span>Sinkron Data</span>
 								<span class='pull-right-container'>
-									<i class='glyphicon glyphicon-plus pull-right'></i>
+									<i class='fa fa-angle-down pull-right'></i>
 								</span>
 							</a>
 							<ul class='treeview-menu'>
 								<!-- <li><a href='?pg=sinkrondapo'><i class='fa fa-upload'></i> <span>Sinkron Dapodik</span><span class='pull-right-container'><small class='label pull-right bg-green'>new</small></span></a></li> -->
-								<li><a href='?pg=sinkron'><i class='fa  fa-circle-o text-teal'></i> <span> Sinkron Pusat</span></a></li>
-								<li><a href='?pg=sinkronset'><i class='fa  fa-circle-o text-teal'></i> <span> Sinkron Setting</span></a></li>
+								<li><a href='?pg=sinkron'><i class='fas fa-dot-circle fa-fw'></i> <span> Sinkron Pusat</span></a></li>
+								<li><a href='?pg=sinkronset'><i class='fas fa-dot-circle fa-fw'></i> <span> Sinkron Setting</span></a></li>
 
 							</ul>
 						</li>
@@ -215,85 +215,85 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<?php if ($setting['server'] == 'pusat') : ?>
 							<li class=' treeview'>
 								<a href='#'>
-									<img src='../dist/img/svg/data_master.svg' width='30'>
+									<i class="fas fa-2x fa-fw fa-toolbox    "></i>
 									<span>Data Master</span>
 									<span class='pull-right-container'>
-										<i class='glyphicon glyphicon-plus pull-right'></i>
+										<i class='fa fa-angle-down pull-right'></i>
 									</span>
 								</a>
 								<ul class='treeview-menu'>
 									<li><a href='?pg=importmaster'><i class='fa fa-upload'></i> <span>Import Data Master</span><span class='pull-right-container'><small class='label pull-right bg-green'>new</small></span></a></li>
-									<li><a href='?pg=matapelajaran'><i class='fa  fa-circle-o text-teal'></i> <span> Data Mata Pelajaran</span></a></li>
-									<li><a href='?pg=jenisujian'><i class='fa  fa-circle-o text-teal'></i> <span> Data Jenis Ujian</span></a></li>
+									<li><a href='?pg=matapelajaran'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Mata Pelajaran</span></a></li>
+									<li><a href='?pg=jenisujian'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Jenis Ujian</span></a></li>
 
 									<?php if ($setting['jenjang'] == 'SMK') : ?>
-										<li><a href='?pg=pk'><i class='fa  fa-circle-o text-teal'></i> <span> Data Jurusan</span></a></li>
+										<li><a href='?pg=pk'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Jurusan</span></a></li>
 									<?php endif ?>
 
-									<li><a href='?pg=kelas'><i class='fa  fa-circle-o text-teal'></i> <span> Data Kelas</span></a></li>
-									<li><a href='?pg=ruang'><i class='fa  fa-circle-o text-teal'></i> <span> Data Ruangan</span></a></li>
-									<li><a href='?pg=level'><i class='fa  fa-circle-o text-teal'></i> <span> Data Level</span></a></li>
-									<li><a href='?pg=sesi'><i class='fa  fa-circle-o text-teal'></i> <span> Data Sesi</span></a></li>
-									<li><a href='?pg=dataserver'><i class='fa  fa-circle-o text-teal'></i> <span> Data Server</span></a></li>
+									<li><a href='?pg=kelas'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Kelas</span></a></li>
+									<li><a href='?pg=ruang'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Ruangan</span></a></li>
+									<li><a href='?pg=level'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Level</span></a></li>
+									<li><a href='?pg=sesi'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Sesi</span></a></li>
+									<li><a href='?pg=dataserver'><i class='fas fa-dot-circle fa-fw'></i> <span> Data Server</span></a></li>
 								</ul>
 							</li>
 						<?php endif ?>
-						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/siswa_ujian.svg' width='30'> <span>Peserta Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-2x fa-fw   "></i> <span>Peserta Ujian</span></a></li>
 
-						<li><a href='?pg=banksoal'><img src='../dist/img/svg/briefcase.svg' width='30'> <span> Bank Soal</span></a></li>
-						<li><a href='?pg=jadwal'><img src='../dist/img/svg/jadwal_ujian.svg' width='30'> <span> Jadwal Ujian</span></a></li>
+						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-2x fa-fw"></i> <span> Bank Soal</span></a></li>
+						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-2x fa-fw"></i> <span> Jadwal Ujian</span></a></li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/survey.svg' width='30'><span> UBK</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-desktop fa-2x fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=status'><i class='fa  fa-circle-o text-teal'></i> <span> Status Peserta</span></a></li>
-								<li><a href='?pg=reset'><i class='fa  fa-circle-o text-teal'></i> <span> Reset Login</span></a></li>
-								<li><a href='?pg=token'><i class='fa  fa-circle-o text-teal'></i> <span> Rilis Token</span></a></li>
-								<li><a href='?pg=susulan'><i class='fa  fa-circle-o text-teal'></i> <span> Belum Ujian</span></a></li>
-								<li><a href='?pg=filemanager'><i class='fa  fa-circle-o text-teal'></i> <span> File manager</span></a></li>
+								<li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li>
+								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
+								<li><a href='?pg=token'><i class='fas fa-dot-circle fa-fw'></i> <span> Rilis Token</span></a></li>
+								<li><a href='?pg=susulan'><i class='fas fa-dot-circle fa-fw'></i> <span> Belum Ujian</span></a></li>
+								<li><a href='?pg=filemanager'><i class='fas fa-dot-circle fa-fw'></i> <span> File manager</span></a></li>
 							</ul>
 						</li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/nilai.svg' width='30'><span> Nilai </span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-file-signature   fa-2x fa-fw"></i><span> Nilai </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=nilai'><i class='fa  fa-circle-o text-teal'></i> <span> Hasil Nilai</span></a></li>
-								<li><a href='?pg=semuanilai'><i class='fa  fa-circle-o text-teal'></i> <span>Semua Nilai</span></a></li>
-								<li><a href='?pg=dataujian'><i class='fa  fa-circle-o text-teal'></i> <span>Data Ujian</span></a></li>
+								<li><a href='?pg=nilai'><i class='fas fa-dot-circle fa-fw'></i> <span> Hasil Nilai</span></a></li>
+								<li><a href='?pg=semuanilai'><i class='fas fa-dot-circle fa-fw'></i> <span>Semua Nilai</span></a></li>
+								<li><a href='?pg=dataujian'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Ujian</span></a></li>
 							</ul>
 						</li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/print.svg' width='30'><span> Cetak </span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-print   fa-2x fa-fw"></i><span> Cetak </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=absen'><i class='fa  fa-circle-o text-teal'></i> <span> Daftar Hadir</span></a></li>
-								<li><a href='?pg=kartu'><i class='fa  fa-circle-o text-teal'></i> <span> Cetak Kartu</span></a></li>
-								<li><a href='?pg=berita'><i class='fa  fa-circle-o text-teal'></i> <span> Berita Acara</span></a></li>
+								<li><a href='?pg=absen'><i class='fas fa-dot-circle fa-fw'></i> <span> Daftar Hadir</span></a></li>
+								<li><a href='?pg=kartu'><i class='fas fa-dot-circle fa-fw'></i> <span> Cetak Kartu</span></a></li>
+								<li><a href='?pg=berita'><i class='fas fa-dot-circle fa-fw'></i> <span> Berita Acara</span></a></li>
 							</ul>
 						</li>
 
-						<li class='treeview'><a href='?pg=pengumuman'><img src='../dist/img/svg/advertising.svg' width='30'> <span> Pengumuman</span></a></li>
+						<li class='treeview'><a href='?pg=pengumuman'><i class="fas fa-bullhorn   fa-2x fa-fw"></i> <span> Pengumuman</span></a></li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/manajemen_user.svg' width='30'> <span>Manajemen User</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-users-cog   fa-2x fa-fw"></i> <span>Manajemen User</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=pengawas'><i class='fa  fa-circle-o text-teal'></i> <span>Data Administrator</span></a></li>
-								<li><a href='?pg=guru'><i class='fa  fa-circle-o text-teal'></i> <span>Data Guru</span></a></li>
+								<li><a href='?pg=pengawas'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Administrator</span></a></li>
+								<li><a href='?pg=guru'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Guru</span></a></li>
 							</ul>
 						</li>
-						<li class='treeview'><a href='?pg=pengaturan'><img src='../dist/img/svg/services.svg' width='30'> <span>Pengaturan</span></a></li>
+						<li class='treeview'><a href='?pg=pengaturan'><i class="fas fa-tools fa-2x fa-fw"></i> <span>Pengaturan</span></a></li>
 
 					<?php endif ?>
 					<?php if ($pengawas['level'] == 'guru') : ?>
-						<li class='treeview'><a href='?pg=siswa'><img src='../dist/img/svg/manager.svg' width='30'> <span>Peserta Ujian</span></a></li>
-						<li><a href='?pg=editguru'><img src='../dist/img/svg/businessman.svg' width='30'> <span>Profil Saya</span></a></li>
-						<li><a href='?pg=banksoal'><img src='../dist/img/svg/briefcase.svg' width='30'> <span>Bank Soal</span></a></li>
-						<li><a href='?pg=jadwal'><img src='../dist/img/svg/planner.svg' width='30'> <span> Jadwal Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-lg fa-2x fa-fw"></i> <span>Peserta Ujian</span></a></li>
+						<li><a href='?pg=editguru'><i class="fas fa-users-cog   fa-2x fa-fw"></i> <span>Profil Saya</span></a></li>
+						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-2x fa-fw"></i> <span>Bank Soal</span></a></li>
+						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-2x fa-fw"></i> <span> Jadwal Ujian</span></a></li>
 						<li class='treeview'>
-							<a href='#'><img src='../dist/img/svg/survey.svg' width='30'><span> UBK</span><span class='pull-right-container'> <i class='glyphicon glyphicon-plus pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-desktop fa-2x fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=status'><i class='fa  fa-circle-o text-teal'></i> <span> Status Peserta</span></a></li>
-								<li><a href='?pg=reset'><i class='fa  fa-circle-o text-teal'></i> <span> Reset Login</span></a></li>
-								<li><a href='?pg=token'><i class='fa  fa-circle-o text-teal'></i> <span> Token Ujian</span></a></li>
+								<li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li>
+								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
+								<li><a href='?pg=token'><i class='fas fa-dot-circle fa-fw'></i> <span> Token Ujian</span></a></li>
 							</ul>
 						</li>
-						<li><a href='?pg=nilai'><img src='../dist/img/svg/like.svg' width='30'> <span>Hasil Nilai</span></a></li>
+						<li><a href='?pg=nilai'><i class='fas fa-dot-circle fa-fw'></i> <span>Hasil Nilai</span></a></li>
 
 					<?php endif ?>
 					<hr style="margin:0px">
@@ -360,7 +360,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<p>Jumlah Nilai</p>
 									</div>
 									<div class="icon">
-										<i class="fa fa-pencil-square-o"></i>
+										<i class="fa fa-edit"></i>
 									</div>
 									<a href="?pg=nilai" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
@@ -372,7 +372,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<p>Jumlah Soal</p>
 									</div>
 									<div class="icon">
-										<i class="fa fa-file-text-o"></i>
+										<i class="fa fa-flask"></i>
 									</div>
 									<a href="?pg=banksoal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
@@ -385,7 +385,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<p>Jumlah Kelas</p>
 									</div>
 									<div class="icon">
-										<i class="fa fa-university"></i>
+										<i class="fa fa-school"></i>
 									</div>
 									<a href="?pg=kelas" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
@@ -425,12 +425,12 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class="col-md-12">
 										<div class='box box-solid direct-chat direct-chat-warning'>
 											<div class='box-header with-border'>
-												<h3 class='box-title'><img src='../dist/img/svg/advertising.svg' width='30'> </i>
+												<h3 class='box-title'><i class='fas fa-bullhorn fa-fw'></i>
 													Pengumuman
 												</h3>
 												<div class='box-tools pull-right'>
 
-													<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash-o'></i></a>
+													<a href='?pg=<?= $pg ?>&ac=clearpengumuman' class='btn btn-default' title='Bersihkan Pengumuman'><i class='fa fa-trash'></i></a>
 												</div>
 											</div>
 											<div class='box-body'>
@@ -451,7 +451,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box-header with-border'>
 										<h3 class='box-title'><i class='fa fa-history'></i> Log Aktifitas</h3>
 										<div class='box-tools pull-right'>
-											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-default' title='Bersihkan Log'><i class='fa fa-trash-o'></i></a>
+											<a href='?pg=<?= $pg ?>&ac=clearlog' class='btn btn-default' title='Bersihkan Log'><i class='fa fa-trash'></i></a>
 										</div>
 									</div>
 									<div class='box-body'>
@@ -781,7 +781,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									<div class='box-header with-border'>
 										<h3 class='box-title'> Tulis Pengumuman</h3>
 										<div class='box-tools pull-right'>
-											<button type='submit' name='simpanpengumuman' class='btn btn-sm btn-flat btn-success'><i class='fa fa-pencil-square-o'></i> Simpan</button>
+											<button type='submit' name='simpanpengumuman' class='btn btn-sm btn-flat btn-success'><i class='fa fa-edit'></i> Simpan</button>
 											<a href='?pg=<?= $pg ?>' class='btn btn-sm bg-maroon'><i class='fa fa-times'></i></a>
 										</div>
 									</div><!-- /.box-header -->
@@ -840,7 +840,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														</td>
 														<td align='center'>
 															<div class=''>
-																<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash-o'></i></button></a>
+																<a><button class='btn bg-maroon btn-flat btn-xs' data-toggle='modal' data-target="#hapus<?= $pengumuman['id_pengumuman'] ?>"><i class='fa fa-trash'></i></button></a>
 															</div>
 														</td>
 													</tr>
@@ -866,7 +866,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																		</div>
 																		<div class='modal-footer'>
 																			<div class='box-tools pull-right '>
-																				<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+																				<button type='submit' name='hapus' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
 																				<button type='button' class='btn btn-default btn-sm pull-left' data-dismiss='modal'>Close</button>
 																			</div>
 																		</div>
@@ -944,8 +944,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
 															<div class=''>
-																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
-																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
+																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-edit'></i></button></a>
+																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash'></i></button></a>
 															</div>
 														</td>
 													</tr>
@@ -1096,7 +1096,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
 											<div class='box-tools pull-right '>
-												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
 										</div><!-- /.box-header -->
@@ -1984,8 +1984,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td><?= $pengawas['level'] ?></td>
 														<td style="text-align:center">
 															<div class=''>
-																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-pencil-square-o'></i></button></a>
-																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash-o'></i></button></a>
+																<a href="?pg=<?= $pg ?>&ac=edit&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs btn-warning'><i class='fa fa-edit'></i></button></a>
+																<a href="?pg=<?= $pg ?>&ac=hapus&id=<?= $pengawas['id_pengawas'] ?>"> <button class='btn btn-flat btn-xs bg-maroon'><i class='fa fa-trash'></i></button></a>
 															</div>
 														</td>
 													</tr>
@@ -2135,7 +2135,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 										<div class='box-header with-border'>
 											<h3 class='box-title'>Hapus</h3>
 											<div class='box-tools pull-right '>
-												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash-o'></i> Hapus</button>
+												<button type='submit' name='submit' class='btn btn-sm bg-maroon'><i class='fa fa-trash'></i> Hapus</button>
 												<a href='?pg=<?= $pg ?>' class='btn btn-sm btn-default' title='Batal'><i class='fa fa-times'></i></a>
 											</div>
 										</div><!-- /.box-header -->
@@ -2865,21 +2865,10 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					contentType: false,
 					processData: false,
 					beforeSend: function() {
-						swal({
-							text: 'Proses menyimpan data',
-							timer: 2000,
-							onOpen: () => {
-								swal.showLoading()
-							}
-						});
+
 					},
 					success: function(data) {
-						swal({
-							position: 'top-end',
-							type: 'success',
-							title: 'Data Berhasil disimpan',
-							showConfirmButton: true
-						});
+						toastr.success('soal berhasil disimpan');
 					}
 				})
 				return false;

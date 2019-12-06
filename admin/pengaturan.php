@@ -8,17 +8,12 @@ $setting['header'] = str_replace('<br />', '', $setting['header']);
 ?>
 <div class='row'>
 	<div class='col-md-12'>
-		<div class="box box-widget widget-user-2">
+		<div class="box box-solid">
 			<!-- Add the bg color to the header using any of the bg-* classes -->
-			<div class="widget-user-header bg-blue">
-				<div class="widget-user-image">
-					<img class="img-circle" src="../dist/img/svg/services.svg" alt="User Avatar">
-				</div>
-				<!-- /.widget-user-image -->
-				<h3 class="widget-user-username">Pengaturan</h3>
-				<h5 class="widget-user-desc">Pengaturan Aplikasi</h5>
+			<div class="box-header with-border">
+				<h3 class="box-title"><i class="fas fa-tools fa-2x fa-fw"></i> Pengaturan</h3>
 			</div>
-			<div class="box-footer no-padding ">
+			<div class="box-body no-padding ">
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Pengaturan Umum</a></li>

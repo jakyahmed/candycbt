@@ -124,4 +124,13 @@ insert($koneksi, 'log', $logdata);
 insert($koneksi, 'nilai', $nilaidata);
 insert($koneksi, 'pengacak', $acakdata);
 insert($koneksi, 'pengacakopsi', $acakdataopsi);
+// $soal = mysqli_query($koneksi, "select * from soal where id_mapel='$idmapel'");
+// $data = [];
+// while ($soalx = mysqli_fetch_array($soal)) {
+//     $data[] = $soalx;
+// }
+// $jsonfile = json_encode($data, JSON_PRETTY_PRINT);
+// file_put_contents('test.json', $jsonfile);
+
+
 // }

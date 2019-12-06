@@ -1,3 +1,9 @@
+.main-header .sidebar-baru {
+    float: left;
+    color:white;
+    padding: 15px 15px;
+    cursor:pointer;
+}
 .small-box {
     border-radius: 5px;
     position: relative;
@@ -65,19 +71,14 @@ body {
     box-shadow: none;
     border-color: #afc2e8;
 }
-
 .box-header {
-
-    background: #a8dbff;
+    color: rgba(224, 219, 219, 0.877);
 }
-
 .box-header .box-title {
     color: #3d6baf;
 }
 
-.box-header {
-    color: #fff;
-}
+
 
 thead {
     background-color: #4cf5a7;

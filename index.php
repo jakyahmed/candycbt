@@ -431,12 +431,12 @@ $tglsekarang = time();
 																				$no++;
 																				$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$peringkat[id_siswa]'"));
 																				if ($peringkat['id_siswa'] == $id_siswa) {
-																					$style = "background:yellow;font-size:20px;";
+																					$style = "style='background:yellow;font-size:20px;'";
 																				} else {
 																					$style = "";
 																				}
 																				?>
-																	<tr style="<?= $style ?>">
+																	<tr <?= $style ?>>
 																		<td style='text-align:center'><?= $no ?></td>
 																		<td><?= $siswa['nama'] ?></td>
 																		<td style='text-align:center'><?= $peringkat['skor'] ?></td>
@@ -539,12 +539,11 @@ $tglsekarang = time();
 							);
 							$audio = array('mp3', 'wav', 'ogg', 'MP3', 'WAV', 'OGG');
 							$image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP');
-							$pengacak = fetch($koneksi, 'pengacak', $where);
-							$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
-							$pengacakesai = fetch($koneksi, 'pengacak', $where);
-							$pengacak = explode(',', $pengacak['id_soal']);
-							$pengacakpil = explode(',', $pengacakpil['id_soal']);
-							$pengacakesai = explode(',', $pengacakesai['id_esai']);
+							$pengacakq = fetch($koneksi, 'pengacak', $where);
+
+							$pengacak = explode(',', $pengacakq['id_soal']);
+							$pengacakpil = explode(',', $pengacakq['id_opsi']);
+							$pengacakesai = explode(',', $pengacakq['id_esai']);
 							$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 							$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal]));
 							$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
@@ -581,7 +580,7 @@ $tglsekarang = time();
 								);
 
 								delete($koneksi, 'pengacak', $where);
-								delete($koneksi, 'pengacakopsi', $where);
+								//delete($koneksi, 'pengacakopsi', $where);
 								update($koneksi, 'nilai', $data, $where2);
 								jump("$homeurl");
 							endif;
@@ -697,10 +696,10 @@ $tglsekarang = time();
 															?>
 													<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') : ?>
 														<?php
-																	$ax = ($jawab['jawaban'] == 'A') ? 'checked' : '';
-																	$bx = ($jawab['jawaban'] == 'B') ? 'checked' : '';
-																	$cx = ($jawab['jawaban'] == 'C') ? 'checked' : '';
-																	$dx = ($jawab['jawaban'] == 'D') ? 'checked' : '';
+																	$ax = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+																	$bx = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+																	$cx = ($jawab['jawabx'] == 'C') ? 'checked' : '';
+																	$dx = ($jawab['jawabx'] == 'D') ? 'checked' : '';
 																	if ($mapel['opsi'] == 5) :
 																		$ex = ($jawab['jawaban'] == 'E') ? 'checked' : '';
 																	endif;
@@ -748,15 +747,15 @@ $tglsekarang = time();
 														</table>
 													<?php else : ?>
 														<?php
-																	$a = ($jawab['jawaban'] == $pil1) ? 'checked' : '';
-																	$b = ($jawab['jawaban'] == $pil2) ? 'checked' : '';
-																	$c = ($jawab['jawaban'] == $pil3) ? 'checked' : '';
+																	$a = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+																	$b = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+																	$c = ($jawab['jawabx'] == 'C') ? 'checked' : '';
 																	if ($mapel['opsi'] == 4) {
-																		$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
+																		$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
 																	}
 																	if ($mapel['opsi'] == 5) {
-																		$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
-																		$e = ($jawab['jawaban'] == $pil5) ? 'checked' : '';
+																		$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
+																		$e = ($jawab['jawabx'] == 'E') ? 'checked' : '';
 																	}
 																	?>
 														<table width='100%' class='table table-striped table-hover'>
@@ -965,46 +964,7 @@ $tglsekarang = time();
 																	$id_soal = $pengacak[$n];
 																	$cekjwb = rowcount($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
 																	$ragu = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $id_soal, 'jenis' => '1', 'id_ujian' => $ac));
-																	$cekj = $ragu['jawaban'];
-																	if ($mapel['opsi'] == 2) {
-																		$kali = 3;
-																	} elseif ($mapel['opsi'] == 4) {
-																		$kali = 4;
-																		$nop4 = $n * $kali + 3;
-																		$pil4 = $pengacakpil[$nop4];
-																	} elseif ($mapel['opsi'] == 5) {
-																		$kali = 5;
-																		$nop4 = $n * $kali + 3;
-																		$pil4 = $pengacakpil[$nop4];
-																		$nop5 = $n * $kali + 4;
-																		$pil5 = $pengacakpil[$nop5];
-																	}
-																	$nop1 = $n * $kali;
-																	$nop2 = $n * $kali + 1;
-																	$nop3 = $n * $kali + 2;
-																	$pil1 = $pengacakpil[$nop1];
-																	$pil2 = $pengacakpil[$nop2];
-																	$pil3 = $pengacakpil[$nop3];
-																	if ($cekj == $pil1) {
-																		$jawabl = "A";
-																	}
-																	if ($cekj == $pil2) {
-																		$jawabl = "B";
-																	}
-																	if ($cekj == $pil3) {
-																		$jawabl = "C";
-																	}
-																	if ($mapel['opsi'] == 4) {
-																		if ($cekj == $pil4) {
-																			$jawabl = "D";
-																		}
-																	}
-																	if ($mapel['opsi'] == 5) {
-																		if ($cekj == $pil5) {
-																			$jawabl = "E";
-																		}
-																	}
-																	$jawabisi = ($cekjwb <> 0) ? $jawabl : '';
+
 																	$color1 = ($cekjwb <> 0) ? 'green' : 'gray';
 																	$color = ($ragu['ragu'] == 1) ? 'yellow' : $color1;
 																	$nomor = $n + 1;
@@ -1012,7 +972,7 @@ $tglsekarang = time();
 																	if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') {
 																		$jawabannya = $ragu['jawaban'];
 																	} else {
-																		$jawabannya = $jawabisi;
+																		$jawabannya = $ragu['jawabx'];
 																	}
 																	?>
 														<a style="min-width:50px;height:50px;border-radius:10px;border:solid black;font-size:medium" class='btn btn-app bg-<?= $color ?>' id='badge<?= $id_soal ?>' onclick="loadsoal(<?= $id_mapel ?>,<?= $id_siswa ?>,<?= $n ?>,1)"> <?= $nomor ?> <span id='jawabtemp<?= $id_soal ?>' class='badge bg-red' style="font-size:medium"><?= $jawabannya ?></span></a>

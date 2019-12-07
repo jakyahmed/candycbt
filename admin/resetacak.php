@@ -1,10 +1,14 @@
 <?php
 
-//defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!');
-
+require("../config/config.default.php");
+require("../config/config.function.php");
+require("../config/functions.crud.php");
+$idpengacak = $_POST['id'];
+$ac = $_POST['idu'];
+echo $ac . "=" . $idpengacak;
 $query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
 $idmapel = $query['id_mapel'];
-
+$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $idmapel, 'id_ujian' => $ac));
 $order = array(
     "nomor ASC",
     "nomor DESC",
@@ -41,12 +45,9 @@ $where2 = array(
     'id_mapel' => $idmapel,
     'jenis' => '2',
 );
-
-$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $idmapel, 'id_ujian' => $ac));
 $r = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
 $m = ($mapel['acak'] == 1) ? mt_rand(0, 17) : 0;
 $soal = select($koneksi, 'soal', $where, $order[$r]);
-
 $id_soal = '';
 $id_esai = '';
 $id_opsi = "";
@@ -82,56 +83,8 @@ if ($mapel['jml_esai'] <> 0) {
         $id_esai .= $m['id_soal'] . ',';
     endforeach;
 }
-
-$acakdata = array(
-    'id_ujian' => $ac,
-    'id_siswa' => $id_siswa,
-    'id_mapel' => $idmapel,
-    'id_soal' => $id_soal,
-    'id_opsi' => $id_opsi,
-    'id_esai' => $id_esai
-);
-
-$acakdataopsi = array(
-    'id_ujian' => $ac,
-    'id_siswa' => $id_siswa,
-    'id_mapel' => $idmapel,
-    'id_soal' => $id_opsi,
-    'id_esai' => $id_esai
-);
-$logdata = array(
-    'id_siswa' => $id_siswa,
-    'type' => 'testongoing',
-    'text' => 'sedang ujian',
-    'date' => $datetime
-);
-$nilaidata = array(
-    'id_mapel' => $idmapel,
-    'id_ujian' => $ac,
-    'id_siswa' => $id_siswa,
-    'kode_ujian' => $mapel['kode_ujian'],
-    'ujian_mulai' => $datetime,
-    'ipaddress' => $_SERVER['REMOTE_ADDR'],
-    'hasil' => $query['hasil']
-);
-$ref = "";
-// $ceklog = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM log WHERE date='$datetime' "));
-// if (!$ceklog <> 0) {
-insert($koneksi, 'log', $logdata);
-// }
-// $query = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
-// $ceknilai = mysqli_num_rows($query);
-// if (!$ceknilai <> 0) {
-insert($koneksi, 'nilai', $nilaidata);
-insert($koneksi, 'pengacak', $acakdata);
-//insert($koneksi, 'pengacakopsi', $acakdataopsi);
-// $soal = mysqli_query($koneksi, "select * from soal where id_mapel='$idmapel'");
-// $data = [];
-// while ($soalx = mysqli_fetch_array($soal)) {
-//     $data[] = $soalx;
-// }
-// $jsonfile = json_encode($data, JSON_PRETTY_PRINT);
-// file_put_contents('test.json', $jsonfile);
-
-
-// }
+$query = mysqli_query($koneksi, "UPDATE pengacak set id_soal='$id_soal',id_opsi='$id_opsi' where id_pengacak='$idpengacak'");
+if ($query) {
+    echo '1';
+} else { }
+echo mysqli_error($koneksi);

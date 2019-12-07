@@ -31,12 +31,10 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 			'id_ujian' => $ac
 		);
 
-		$pengacak = fetch($koneksi, 'pengacak', $where);
-		$pengacakesai = fetch($koneksi, 'pengacak', $where);
-		$pengacakpil = fetch($koneksi, 'pengacakopsi', $where);
-		$pengacak = explode(',', $pengacak['id_soal']);
-		$pengacakesai = explode(',', $pengacakesai['id_esai']);
-		$pengacakpil = explode(',', $pengacakpil['id_soal']);
+		$pengacakq = fetch($koneksi, 'pengacak', $where);
+		$pengacak = explode(',', $pengacakq['id_soal']);
+		$pengacakesai = explode(',', $pengacakq['id_esai']);
+		$pengacakpil = explode(',', $pengacakq['id_opsi']);
 
 		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
@@ -112,27 +110,27 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 					$fileCC = "file" . $pil3;
 
 
-					$a = ($jawab['jawaban'] == $pil1) ? 'checked' : '';
-					$b = ($jawab['jawaban'] == $pil2) ? 'checked' : '';
-					$c = ($jawab['jawaban'] == $pil3) ? 'checked' : '';
+					$a = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+					$b = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+					$c = ($jawab['jawabx'] == 'C') ? 'checked' : '';
 
 					if ($mapel['opsi'] == 4) :
-						$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
+						$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
 					elseif ($mapel['opsi'] == 5) :
-						$d = ($jawab['jawaban'] == $pil4) ? 'checked' : '';
-						$e = ($jawab['jawaban'] == $pil5) ? 'checked' : '';
+						$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
+						$e = ($jawab['jawabx'] == 'E') ? 'checked' : '';
 					endif;
 
 					$ragu = ($jawab['ragu'] == 1) ? 'checked' : '';
 					?>
 				<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') { ?>
 					<?php
-							$ax = ($jawab['jawaban'] == 'A') ? 'checked' : '';
-							$bx = ($jawab['jawaban'] == 'B') ? 'checked' : '';
-							$cx = ($jawab['jawaban'] == 'C') ? 'checked' : '';
-							$dx = ($jawab['jawaban'] == 'D') ? 'checked' : '';
+							$ax = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+							$bx = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+							$cx = ($jawab['jawabx'] == 'C') ? 'checked' : '';
+							$dx = ($jawab['jawabx'] == 'D') ? 'checked' : '';
 							if ($mapel['opsi'] == 5) :
-								$ex = ($jawab['jawaban'] == 'E') ? 'checked' : '';
+								$ex = ($jawab['jawabx'] == 'E') ? 'checked' : '';
 							endif;
 							?>
 					<table class='table'>
@@ -452,12 +450,10 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 			'id_ujian' => $ac
 		);
 
-		$pengacak = fetch($koneksi, 'pengacak', $where);
-		$pengacakpil = fetch($koneksi, 'pengacak', $where);
-		$pengacakesai = fetch($koneksi, 'pengacak', $where);
-		$pengacak = explode(',', $pengacak['id_soal']);
-		$pengacakpil = explode(';', $pengacakpil['id_soal']);
-		$pengacakesai = explode(',', $pengacakesai['id_esai']);
+		$pengacakq = fetch($koneksi, 'pengacak', $where);
+		$pengacak = explode(',', $pengacakq['id_soal']);
+		$pengacakpil = explode(';', $pengacakq['id_opsi']);
+		$pengacakesai = explode(',', $pengacakq['id_esai']);
 		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 
 		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
@@ -548,14 +544,14 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 					<td>
 						<div class='col-md-4 text-right'>
 							<input type='submit' name='done' id='done-submit' style='display:none;' />
-							<button class='done-btn btn btn-danger'><span class='hidden-xs'>TEST </span><i class='fa fa-check'></i> SELESAI</button>
+							<button class='done-btn btn btn-danger'><i class='fa fa-check'></i><span class='hidden-xs'>TEST </span> SELESAI</button>
 						</div>
 					</td>
 				<?php else : ?>
 					<td>
 						<div class='col-md-4 text-right'>
 							<input type='submit' name='done' id='selesai-submit' style='display:none;' />
-							<button class='done-btn btn btn-danger' disabled><span class='hidden-xs'>TEST </span><i class='fa fa-check'></i> SELESAI</button>
+							<button class='done-btn btn btn-danger' disabled><i class='fa fa-check'></i><span class='hidden-xs'>TEST </span> SELESAI</button>
 						</div>
 					</td>
 				<?php endif; ?>

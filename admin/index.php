@@ -248,6 +248,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								<li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li>
 								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
 								<li><a href='?pg=token'><i class='fas fa-dot-circle fa-fw'></i> <span> Rilis Token</span></a></li>
+								<li><a href='?pg=pengacak'><i class='fas fa-dot-circle fa-fw'></i> <span> Pengacak Soal</span></a></li>
 								<li><a href='?pg=susulan'><i class='fas fa-dot-circle fa-fw'></i> <span> Belum Ujian</span></a></li>
 								<li><a href='?pg=filemanager'><i class='fas fa-dot-circle fa-fw'></i> <span> File manager</span></a></li>
 							</ul>
@@ -2725,6 +2726,55 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</div><!-- /.box -->
 						</div>
 					</div>
+				<?php elseif ($pg == 'pengacak') : ?>
+					<?php $info = ''; ?>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class='box box-solid'>
+								<div class='box-header with-border'>
+									<h3 class='box-title'>Status Soal Peserta</h3>
+									<div class='box-tools pull-right '>
+										<!-- <button id='btnresetacak' class='btn btn-sm btn-flat btn-success'><i class='fa fa-check'></i> Reset Login</button> -->
+									</div>
+								</div><!-- /.box-header -->
+								<div class='box-body'>
+									<?= $info ?>
+									<div id='tableresetacak' class='table-responsive'>
+										<table id='example1' class='table table-bordered table-striped'>
+											<thead>
+												<tr>
+													<th width='5px'>#</th>
+													<th width='5px'></th>
+													<th>No Peserta</th>
+													<th>Nama Peserta</th>
+													<th>Nomor Soal</th>
+													<th>Acak Opsi</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php $nilaiq = mysqli_query($koneksi, "SELECT *  FROM pengacak"); ?>
+												<?php while ($pengacak = mysqli_fetch_array($nilaiq)) : ?>
+													<?php
+															$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$pengacak[id_siswa]'"));
+															$no++;
+															?>
+													<tr>
+														<td><?= $no ?></td>
+														<td><button data-idu="<?= $pengacak['id_ujian'] ?>" data-id="<?= $pengacak['id_pengacak'] ?>" class="btnresetacak btn btn-sm btn-danger">Acak Lagi</button></td>
+														<td><?= $siswa['no_peserta'] ?></td>
+														<td><?= $siswa['nama'] ?></td>
+														<td><?= $pengacak['id_soal'] ?></td>
+														<td><?= $pengacak['id_opsi'] ?></td>
+													</tr>
+												<?php endwhile; ?>
+											</tbody>
+										</table>
+									</div>
+								</div><!-- /.box-body -->
+							</div><!-- /.box -->
+						</div>
+					</div>
+
 				<?php elseif ($pg == 'pengaturan') : ?>
 					<?php include "pengaturan.php"; ?>
 				<?php else : ?>
@@ -3326,9 +3376,6 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					}
 				});
 			});
-
-
-
 			$(document).on('click', '.ambiljawaban', function() {
 				var idmapel = $(this).data('id');
 				console.log(idmapel);
@@ -3364,6 +3411,41 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 									showConfirmButton: false,
 									timer: 1500
 								});
+							}
+						});
+					}
+				})
+			});
+			$(document).on('click', '.btnresetacak', function() {
+				var idacak = $(this).data('id');
+				var idu = $(this).data('idu');
+				console.log(idacak);
+				swal({
+					title: 'Are you sure?',
+					text: 'Fungsi ini akan mengacak kembali soal dan opsi soal',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya, Ambil!'
+				}).then((result) => {
+					if (result.value) {
+						$.ajax({
+							type: 'POST',
+							url: 'resetacak.php',
+							data: 'id=' + idacak + '&idu=' + idu,
+							beforeSend: function() {
+								swal({
+									text: 'Proses memindahkan',
+									timer: 1000,
+									onOpen: () => {
+										swal.showLoading()
+									}
+								});
+							},
+							success: function(response) {
+								location.reload();
+
 							}
 						});
 					}

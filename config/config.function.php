@@ -313,48 +313,7 @@ function create_zip($files = array(), $destination = '', $overwrite = false)
 	}
 }
 
-function restore($file)
-{
-	require("../config/config.default.php");
-	global $rest_dir;
-	$nama_file	= $file['name'];
-	$ukrn_file	= $file['size'];
-	$tmp_file	= $file['tmp_name'];
 
-	if ($nama_file == "") {
-		echo "Fatal Error";
-	} else {
-		$alamatfile	= $rest_dir . $nama_file;
-		$templine	= array();
-
-		if (move_uploaded_file($tmp_file, $alamatfile)) {
-
-			$templine	= '';
-			$lines		= file($alamatfile);
-
-			foreach ($lines as $line) {
-				if (substr($line, 0, 2) == '--' || $line == '')
-					continue;
-
-				$templine .= $line;
-
-				if (substr(trim($line), -1, 1) == ';') {
-					mysqli_query($koneksi, $templine);
-					$templine = '';
-				}
-			}
-			echo "
-											<div class='alert alert-success alert-dismissible'>
-															<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
-															<h4><i class='icon fa fa-check'></i> Info</h4>
-															berhasil upload restore data
-															</div>
-											";
-		} else {
-			echo "Proses upload gagal, kode error = " . $file['error'];
-		}
-	}
-}
 function genPass($panjang)
 {
 	$karakter = 'abcdefghijklmnopqrstuvwxyz123456789';

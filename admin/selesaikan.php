@@ -21,12 +21,13 @@ $where2 = array(
 $benar = $salah = 0;
 $mapel = fetch($koneksi, 'mapel', array('id_mapel' => $idm));
 $siswa = fetch($koneksi, 'siswa', array('id_siswa' => $ids));
-$ceksoal = select($koneksi, 'soal', array('id_mapel' => $idm));
+$ceksoal = select($koneksi, 'soal', array('id_mapel' => $idm, 'jenis' => 1));
 foreach ($ceksoal as $getsoal) {
 	$w = array(
 		'id_siswa' => $ids,
 		'id_mapel' => $idm,
-		'id_soal' => $getsoal['id_soal']
+		'id_soal' => $getsoal['id_soal'],
+		'jenis' => 1
 	);
 	$cekjwb = rowcount($koneksi, 'jawaban', $w);
 	if ($cekjwb <> 0) {
@@ -48,4 +49,4 @@ $data = array(
 update($koneksi, 'nilai', $data, $where);
 echo mysqli_error($koneksi);
 delete($koneksi, 'pengacak', $where2);
-delete($koneksi, 'pengacakopsi', $where2);
+//delete($koneksi, 'pengacakopsi', $where2);

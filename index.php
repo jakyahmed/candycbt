@@ -44,6 +44,13 @@ $tglsekarang = time();
 			height: auto;
 		}
 
+		.main-header .sidebar-baru {
+			float: left;
+			color: white;
+			padding: 15px 15px;
+			cursor: pointer;
+		}
+
 		.callout {
 			border-left: 0px;
 		}
@@ -77,9 +84,10 @@ $tglsekarang = time();
 				</span>
 			</a>
 			<nav class='navbar navbar-static-top' style='background-color:#00a896;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.1)' role='navigation'>
-				<a href='#' class='sidebar-toggle' data-toggle='<?= $disa ?>' role='button'>
-					<span class='sr-only'>Toggle navigation</span>
+				<a href='#' class='sidebar-baru' data-toggle='<?= $disa ?>' role='button'>
+					<i class="fa fa-bars fa-lg fa-fw"></i>
 				</a>
+
 				<div class='navbar-custom-menu'>
 					<ul class='nav navbar-nav'>
 						<li class="visible-xs"><a><?= $siswa['nama'] ?></a></li>

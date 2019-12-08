@@ -119,7 +119,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 				</div><!-- /.box-header -->
 				<div class='box-body'>
 					<div class='table-responsive'>
-						<table class='table table-bordered table-striped'>
+						<table id='tablenilai' class='table table-bordered table-striped'>
 							<thead>
 								<tr>
 									<th width='5px'>#</th>
@@ -145,8 +145,10 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 											$nilaiQ = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$id_mapel' AND id_siswa='$siswa[id_siswa]' and kode_ujian='$kode_ujian'");
 											$nilaiC = mysqli_num_rows($nilaiQ);
 											$nilai = mysqli_fetch_array($nilaiQ);
+											$btn = "";
 											if ($nilaiC <> 0) :
 												$lama = '';
+
 												if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] <> '') :
 													$selisih = strtotime($nilai['ujian_selesai']) - strtotime($nilai['ujian_mulai']);
 													$jam = round((($selisih % 604800) % 86400) / 3600);
@@ -159,6 +161,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 													$jawaban = "<small class='label bg-green'>$nilai[jml_benar] <i class='fa fa-check'></i></small>  <small class='label bg-red'>$nilai[jml_salah] <i class='fa fa-times'></i></small>";
 													$skor = number_format($nilai['skor'], 2, '.', '');
 													$total = "<small class='label bg-blue'>" . number_format($nilai['total'], 2, '.', '') . "</small>";
+													$btn = "";
 													$ket = "";
 												elseif ($nilai['ujian_mulai'] <> '' and $nilai['ujian_selesai'] == '') :
 													$selisih = strtotime($nilai['ujian_berlangsung']) - strtotime($nilai['ujian_mulai']);
@@ -169,6 +172,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 													($mnt <> 0) ? $lama .= "$mnt menit " : null;
 													($dtk <> 0) ? $lama .= "$dtk detik " : null;
 													$ket = "<i class='fa fa-spin fa-spinner' title='Sedang ujian'></i>";
+													$btn = "<button data-id='$nilai[id_nilai]' class='selesai btn btn-xs btn-danger'>selesai</button>";
 													$skor = $total = '--';
 												endif;
 											endif;
@@ -197,8 +201,11 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 																$link2 = '#';
 															endif;
 															?>
-												<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-edit'></i>input esai</a>
-												<a href='<?= $link2 ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-search'></i> lihat</a>
+												<button data-id=" <?= $nilai['id_nilai'] ?>"" class='ulangnilai btn btn-xs btn-danger'>ulang</button>
+											<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-edit'></i>input esai</a>
+											<a href='<?= $link2 ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-search'></i> lihat</a>
+											<?php else : ?>
+												<?= $btn ?>
 											<?php endif; ?>
 										</td>
 									</tr>
@@ -211,6 +218,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 			</div><!-- /.box -->
 		</div>
 	</div>
+
 <?php elseif ($ac == 'esai') :
 	$id_mapel = $_GET['idm'];
 	$id_kelas = $_GET['idk'];
@@ -280,15 +288,15 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 										<tr><input type='hidden' value='<?= $jawaban['id_soal'] ?>' name='idsoal[<?= $no ?>]'>
 											<td><?= $no ?></td>
 											<td><?= $gambar ?> <?= $gambar2 ?> <?= $soal['soal'] ?><p><b>Jawaban :</b> <?= $jawaban['esai'] ?></td>
-											<td><input type='text' class='form-control' value="<?= $jawaban['nilai_esai'] ?>" name='nilaiesai[<?= $no ?>]'></td>
-										</tr>
-									<?php endwhile; ?>
-								</tbody>
-							</table>
-							<iframe name='frameresult' src='report.php?m=<?= $id_mapel ?>&k=<?= $id_kelas ?>' style='border:none;width:1px;height:1px;'></iframe>
-						</div>
-					</div><!-- /.box-body -->
-				</div><!-- /.box -->
+											<td><input type='text' class='form-control' value=" <?= $jawaban['nilai_esai'] ?>" name='nilaiesai[<?= $no ?>]'></td>
+									</tr>
+								<?php endwhile; ?>
+							</tbody>
+						</table>
+						<iframe name='frameresult' src='report.php?m=<?= $id_mapel ?>&k=<?= $id_kelas ?>' style='border:none;width:1px;height:1px;'></iframe>
+					</div>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
 			</form>
 		</div>
 	</div>
@@ -404,3 +412,55 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 		</div>
 	</div>
 <?php endif; ?>
+<script>
+	$(document).on('click', '.selesai', function() {
+		var id = $(this).data('id');
+		console.log(id);
+		$('#htmlujianselesai').html('bbbbbbbbbbbbbbbbbbbbbbbbb');
+		swal({
+			title: 'Apa anda yakin?',
+			text: "aksi ini akan menyelesaikan secara paksa ujian yang sedang berlangsung!",
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					url: 'selesaikan.php',
+					method: "POST",
+					data: 'id=' + id,
+					success: function(data) {
+						$('#htmlujianselesai').html('1');
+						toastr.success(data);
+						$('#tablenilai').load(location.href + ' #tablenilai');
+					}
+				});
+			}
+		})
+	});
+	$(document).on('click', '.ulangnilai', function() {
+		var id = $(this).data('id');
+		console.log(id);
+		swal({
+			title: 'Apa anda yakin?',
+			text: " Akan Mengulang Ujian Ini ??",
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes!'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					url: 'ulangujian.php',
+					method: "POST",
+					data: 'id=' + id,
+					success: function(data) {
+						toastr.success("berhasil diulang");
+						$('#tablenilai').load(location.href + ' #tablenilai');
+					}
+				});
+			}
+		})
+	});
+</script>

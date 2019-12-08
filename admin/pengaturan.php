@@ -160,7 +160,6 @@ $setting['header'] = str_replace('<br />', '', $setting['header']);
 													<label><input type='checkbox' name='data[]' value='ujian' /> Data Jadwal Ujian</label><br />
 													<label><input type='checkbox' name='data[]' value='berita' /> Data Berita Acara</label><br />
 													<label><input type='checkbox' name='data[]' value='pengacak' /> Data Pengacak Soal</label><br />
-													<label><input type='checkbox' name='data[]' value='pengacakopsi' /> Data Pengacak Opsi</label><br />
 
 													<small class='label label-danger'>Pilih Data Master</small><br />
 													<label><input type='checkbox' name='data[]' value='siswa' /> Data Siswa</label><br />
@@ -207,10 +206,10 @@ $setting['header'] = str_replace('<br />', '', $setting['header']);
 										<h3 class='box-title'>Restore Data</h3>
 									</div><!-- /.box-header -->
 									<div class='box-body'>
-										<form method='post' action='' name='postform' enctype='multipart/form-data'>
+										<form id='formrestore'>
 											<p>Klik Tombol dibawah ini untuk merestore database </p>
 											<div class='col-md-8'>
-												<input class='form-control' name='datafile' type='file' />
+												<input class='form-control' name='datafile' type='file' required />
 											</div>
 											<button name='restore' class='btn btn-flat btn-success'><i class='fa fa-database'></i> Restore Data</button>
 										</form>
@@ -250,14 +249,31 @@ $setting['header'] = str_replace('<br />', '', $setting['header']);
 		</div>
 	</div>
 </div>
-<?php
-if (isset($_POST['restore'])) {
-	restore($_FILES['datafile']);
-} else {
-	unset($_POST['restore']);
-}
-?>
+
 <script>
+	$('#formrestore').submit(function(e) {
+		e.preventDefault();
+		var data = new FormData(this);
+		//console.log(data);
+		$.ajax({
+			type: 'POST',
+			url: 'restore.php',
+			enctype: 'multipart/form-data',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: function() {
+				$('.loader').show();
+			},
+			success: function(data) {
+				$('.loader').hide();
+				toastr.success(data);
+
+			}
+		});
+		return false;
+	});
 	$('#formpengaturan').submit(function(e) {
 		e.preventDefault();
 		var data = new FormData(this);

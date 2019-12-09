@@ -1727,11 +1727,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													<?php endwhile ?>
 												</select>
 											</div>
-											<div class='form-group'>
-												<label>Pilih Kelas</label>
-												<select id='absenkelas' class='form-control select2' onchange=printabsen();>
-												</select>
-											</div>
+
 											<div class='form-group'>
 												<label>Pilih Ruang</label>
 												<select id='absenruang' class='form-control select2' onchange=printabsen();>";
@@ -1743,7 +1739,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<select id='absensesi' class='form-control select2' onchange=printabsen();>
 												</select>
 											</div>
-
+											<div class='form-group'>
+												<label>Pilih Kelas</label>
+												<select id='absenkelas' class='form-control select2' onchange=printabsen();>
+												</select>
+											</div>
 										</div>
 									</div><!-- /.box-body -->
 								</div><!-- /.box -->
@@ -3317,25 +3317,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				console.log(mapel_id);
 				$.ajax({
 					type: "POST", // Method pengiriman data bisa dengan GET atau POST
-					url: "dataabsen_kelas.php", // Isi dengan url/path file php yang dituju
-					data: "mapel_id=" + mapel_id, // data yang akan dikirim ke file yang dituju
-					success: function(response) { // Ketika proses pengiriman berhasil
-						$("#absenkelas").html(response);
-						console.log(response);
-					},
-					error: function(xhr, status, error) {
-						console.log(error);
-					}
-				});
-			});
-
-			$("#absenkelas").change(function() {
-				var id_kelas = $(this).val();
-				console.log(id_kelas);
-				$.ajax({
-					type: "POST", // Method pengiriman data bisa dengan GET atau POST
 					url: "dataabsen_ruang.php", // Isi dengan url/path file php yang dituju
-					data: "id_kelas=" + id_kelas, // data yang akan dikirim ke file yang dituju
+					data: "mapel_id=" + mapel_id, // data yang akan dikirim ke file yang dituju
 					success: function(response) { // Ketika proses pengiriman berhasil
 						$("#absenruang").html(response);
 						console.log(response);
@@ -3346,14 +3329,32 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				});
 			});
 
+			$("#absensesi").change(function() {
+				var sesi = $(this).val();
+				var mapel_id = $("#absenmapel").val();
+				var ruang = $("#absenruang").val();
+				$.ajax({
+					type: "POST", // Method pengiriman data bisa dengan GET atau POST
+					url: "dataabsen_kelas.php", // Isi dengan url/path file php yang dituju
+					data: "mapel_id=" + mapel_id + '&sesi=' + sesi + '&ruang=' + ruang, // data yang akan dikirim ke file yang dituju
+					success: function(response) { // Ketika proses pengiriman berhasil
+						$("#absenkelas").html(response);
+						console.log(response);
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+					}
+				});
+			});
+
 			$("#absenruang").change(function() {
-				var id_kelas = $("#absenkelas").val();
+
 				var ruang = $(this).val();
-				console.log(id_kelas + ruang);
+				console.log(ruang);
 				$.ajax({
 					type: "POST", // Method pengiriman data bisa dengan GET atau POST
 					url: "dataabsen_sesi.php", // Isi dengan url/path file php yang dituju
-					data: "id_kelas=" + id_kelas + "&ruang=" + ruang, // data yang akan dikirim ke file yang dituju
+					data: "ruang=" + ruang, // data yang akan dikirim ke file yang dituju
 					success: function(response) { // Ketika proses pengiriman berhasil
 						$("#absensesi").html(response);
 						console.log(response);

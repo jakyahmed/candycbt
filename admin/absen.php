@@ -11,7 +11,11 @@ echo "<link rel='stylesheet' href='$homeurl/dist/css/cetak.min.css'>";
 $sesi = @$_GET['id_sesi'];
 $mapel = @$_GET['id_mapel'];
 $ruang = @$_GET['id_ruang'];
-$kelas = @$_GET['id_kelas'];
+if (!$_GET['id_kelas'] == U_UNDEFINED_VARIABLE) {
+	$kelas = @$_GET['id_kelas'];
+} else {
+	$kelas = '';
+}
 
 if ($sesi == '' and $ruang == '' and $mapel == '') {
 	die('Tidak ada data yang dicetak. Anda harus memilih semua variabel: mapel, sesi dan ruang');

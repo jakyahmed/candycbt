@@ -201,7 +201,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 																$link2 = '#';
 															endif;
 															?>
-												<button data-id=" <?= $nilai['id_nilai'] ?>"" class='ulangnilai btn btn-xs btn-danger'>ulang</button>
+												<button data-id=" <?= $nilai['id_nilai'] ?>" class='ulangnilai btn btn-xs btn-danger'>ulang</button>
 											<a href='<?= $link ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-edit'></i>input esai</a>
 											<a href='<?= $link2 ?>' class='btn btn-xs btn-success' <?= $ket ?>><i class='fa fa-search'></i> lihat</a>
 											<?php else : ?>

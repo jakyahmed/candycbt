@@ -112,23 +112,18 @@ $nilaidata = array(
     'kode_ujian' => $mapel['kode_ujian'],
     'ujian_mulai' => $datetime,
     'ipaddress' => $_SERVER['REMOTE_ADDR'],
-    'hasil' => $query['hasil'],
-    'online' => 1
+    'hasil' => $query['hasil']
 );
 $ref = "";
 // $ceklog = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM log WHERE date='$datetime' "));
 // if (!$ceklog <> 0) {
-
+insert($koneksi, 'log', $logdata);
 // }
 // $query = mysqli_query($koneksi, "SELECT * FROM nilai WHERE id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
 // $ceknilai = mysqli_num_rows($query);
 // if (!$ceknilai <> 0) {
-$insertnilai = insert($koneksi, 'nilai', $nilaidata);
-if ($insertnilai) {
-    insert($koneksi, 'log', $logdata);
-    insert($koneksi, 'pengacak', $acakdata);
-}
-
+insert($koneksi, 'nilai', $nilaidata);
+insert($koneksi, 'pengacak', $acakdata);
 //insert($koneksi, 'pengacakopsi', $acakdataopsi);
 // $soal = mysqli_query($koneksi, "select * from soal where id_mapel='$idmapel'");
 // $data = [];

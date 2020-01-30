@@ -14,33 +14,33 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 ?>
 <?php if ($pg == 'soal') { ?>
 	<?php
-	$no_soal = $_POST['no_soal'];
-	$no_prev = $no_soal - 1;
-	$no_next = $no_soal + 1;
-	$id_mapel = $_POST['id_mapel'];
-	$id_siswa = $_POST['id_siswa'];
-	$jenis = $_POST['jenis'];
+		$no_soal = $_POST['no_soal'];
+		$no_prev = $no_soal - 1;
+		$no_next = $no_soal + 1;
+		$id_mapel = $_POST['id_mapel'];
+		$id_siswa = $_POST['id_siswa'];
+		$jenis = $_POST['jenis'];
 
-	$where = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel
-	);
-	$where2 = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel,
-		'id_ujian' => $ac
-	);
+		$where = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel
+		);
+		$where2 = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel,
+			'id_ujian' => $ac
+		);
 
-	$pengacakq = fetch($koneksi, 'pengacak', $where);
-	$pengacak = explode(',', $pengacakq['id_soal']);
-	$pengacakesai = explode(',', $pengacakq['id_esai']);
-	$pengacakpil = explode(',', $pengacakq['id_opsi']);
+		$pengacakq = fetch($koneksi, 'pengacak', $where);
+		$pengacak = explode(',', $pengacakq['id_soal']);
+		$pengacakesai = explode(',', $pengacakq['id_esai']);
+		$pengacakpil = explode(',', $pengacakq['id_opsi']);
 
-	$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-	update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
-	$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
-	$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
-	?>
+		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where);
+		$soal = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacak[$no_soal], 'jenis' => $jenis));
+		$jawab = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soal['id_soal'], 'id_ujian' => $ac));
+		?>
 	<div class='box-body'>
 		<div class='row'>
 			<div class='col-md-7'>
@@ -49,90 +49,90 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 				</div>
 				<div class='col-md-12'>
 					<?php
-					if ($soal['file'] <> '') {
-						$ext = explode(".", $soal['file']);
-						$ext = end($ext);
-						if (in_array($ext, $image)) {
-							echo "<span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soal[file]' class='img-responsive'/></span>";
-						} elseif (in_array($ext, $audio)) {
-							echo "<audio controls='controls' ><source src='$homeurl/files/$soal[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-						} else {
-							echo "File tidak didukung!";
+						if ($soal['file'] <> '') {
+							$ext = explode(".", $soal['file']);
+							$ext = end($ext);
+							if (in_array($ext, $image)) {
+								echo "<span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soal[file]' class='img-responsive'/></span>";
+							} elseif (in_array($ext, $audio)) {
+								echo "<audio controls='controls' ><source src='$homeurl/files/$soal[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+							} else {
+								echo "File tidak didukung!";
+							}
 						}
-					}
-					if ($soal['file1'] <> '') {
-						$ext = explode(".", $soal['file1']);
-						$ext = end($ext);
-						if (in_array($ext, $image)) {
-							echo "<span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soal[file1]' class='img-responsive'/></span>";
-						} elseif (in_array($ext, $audio)) {
-							echo "<audio controls='controls' ><source src='$homeurl/files/$soal[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-						} else {
-							echo "File tidak didukung!";
+						if ($soal['file1'] <> '') {
+							$ext = explode(".", $soal['file1']);
+							$ext = end($ext);
+							if (in_array($ext, $image)) {
+								echo "<span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soal[file1]' class='img-responsive'/></span>";
+							} elseif (in_array($ext, $audio)) {
+								echo "<audio controls='controls' ><source src='$homeurl/files/$soal[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+							} else {
+								echo "File tidak didukung!";
+							}
 						}
-					}
-					?>
+						?>
 				</div>
 			</div>
 			<div class='col-md-7'>
 				<?php
-				if ($mapel['opsi'] == 3) {
-					$kali = 3;
-				} elseif ($mapel['opsi'] == 4) {
-					$kali = 4;
-					$nop4 = $no_soal * $kali + 3;
-					$pil4 = $pengacakpil[$nop4];
-					$pilDD = "pil" . $pil4;
-					$fileDD = "file" . $pil4;
-				} elseif ($mapel['opsi'] == 5) {
-					$kali = 5;
-					$nop4 = $no_soal * $kali + 3;
-					$pil4 = $pengacakpil[$nop4];
-					$pilDD = "pil" . $pil4;
-					$fileDD = "file" . $pil4;
-					$nop5 = $no_soal * $kali + 4;
-					$pil5 = $pengacakpil[$nop5];
-					$pilEE = "pil" . $pil5;
-					$fileEE = "file" . $pil5;
-				}
+					if ($mapel['opsi'] == 3) {
+						$kali = 3;
+					} elseif ($mapel['opsi'] == 4) {
+						$kali = 4;
+						$nop4 = $no_soal * $kali + 3;
+						$pil4 = $pengacakpil[$nop4];
+						$pilDD = "pil" . $pil4;
+						$fileDD = "file" . $pil4;
+					} elseif ($mapel['opsi'] == 5) {
+						$kali = 5;
+						$nop4 = $no_soal * $kali + 3;
+						$pil4 = $pengacakpil[$nop4];
+						$pilDD = "pil" . $pil4;
+						$fileDD = "file" . $pil4;
+						$nop5 = $no_soal * $kali + 4;
+						$pil5 = $pengacakpil[$nop5];
+						$pilEE = "pil" . $pil5;
+						$fileEE = "file" . $pil5;
+					}
 
-				$nop1 = $no_soal * $kali;
-				$nop2 = $no_soal * $kali + 1;
-				$nop3 = $no_soal * $kali + 2;
-				$pil1 = $pengacakpil[$nop1];
-				$pilAA = "pil" . $pil1;
-				$fileAA = "file" . $pil1;
-				$pil2 = $pengacakpil[$nop2];
-				$pilBB = "pil" . $pil2;
-				$fileBB = "file" . $pil2;
-				$pil3 = $pengacakpil[$nop3];
-				$pilCC = "pil" . $pil3;
-				$fileCC = "file" . $pil3;
+					$nop1 = $no_soal * $kali;
+					$nop2 = $no_soal * $kali + 1;
+					$nop3 = $no_soal * $kali + 2;
+					$pil1 = $pengacakpil[$nop1];
+					$pilAA = "pil" . $pil1;
+					$fileAA = "file" . $pil1;
+					$pil2 = $pengacakpil[$nop2];
+					$pilBB = "pil" . $pil2;
+					$fileBB = "file" . $pil2;
+					$pil3 = $pengacakpil[$nop3];
+					$pilCC = "pil" . $pil3;
+					$fileCC = "file" . $pil3;
 
 
-				$a = ($jawab['jawabx'] == 'A') ? 'checked' : '';
-				$b = ($jawab['jawabx'] == 'B') ? 'checked' : '';
-				$c = ($jawab['jawabx'] == 'C') ? 'checked' : '';
+					$a = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+					$b = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+					$c = ($jawab['jawabx'] == 'C') ? 'checked' : '';
 
-				if ($mapel['opsi'] == 4) :
-					$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
-				elseif ($mapel['opsi'] == 5) :
-					$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
-					$e = ($jawab['jawabx'] == 'E') ? 'checked' : '';
-				endif;
+					if ($mapel['opsi'] == 4) :
+						$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
+					elseif ($mapel['opsi'] == 5) :
+						$d = ($jawab['jawabx'] == 'D') ? 'checked' : '';
+						$e = ($jawab['jawabx'] == 'E') ? 'checked' : '';
+					endif;
 
-				$ragu = ($jawab['ragu'] == 1) ? 'checked' : '';
-				?>
+					$ragu = ($jawab['ragu'] == 1) ? 'checked' : '';
+					?>
 				<?php if ($soal['pilA'] == '' and $soal['fileA'] == '' and $soal['pilB'] == '' and $soal['fileB'] == '' and $soal['pilC'] == '' and $soal['fileC'] == '' and $soal['pilD'] == '' and $soal['fileD'] == '') { ?>
 					<?php
-					$ax = ($jawab['jawabx'] == 'A') ? 'checked' : '';
-					$bx = ($jawab['jawabx'] == 'B') ? 'checked' : '';
-					$cx = ($jawab['jawabx'] == 'C') ? 'checked' : '';
-					$dx = ($jawab['jawabx'] == 'D') ? 'checked' : '';
-					if ($mapel['opsi'] == 5) :
-						$ex = ($jawab['jawabx'] == 'E') ? 'checked' : '';
-					endif;
-					?>
+							$ax = ($jawab['jawabx'] == 'A') ? 'checked' : '';
+							$bx = ($jawab['jawabx'] == 'B') ? 'checked' : '';
+							$cx = ($jawab['jawabx'] == 'C') ? 'checked' : '';
+							$dx = ($jawab['jawabx'] == 'D') ? 'checked' : '';
+							if ($mapel['opsi'] == 5) :
+								$ex = ($jawab['jawabx'] == 'E') ? 'checked' : '';
+							endif;
+							?>
 					<table class='table'>
 						<tr>
 							<td>
@@ -189,16 +189,16 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 								<span class='soal'><?= $soal[$pilAA] ?></span>
 								<?php if ($soal[$fileAA] <> '') : ?>
 									<?php
-									$ext = explode(".", $soal[$fileAA]);
-									$ext = end($ext);
-									if (in_array($ext, $image)) :
-										echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileAA]' class='img-responsive' style='width:250px;'/></span>";
-									elseif (in_array($ext, $audio)) :
-										echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileAA]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-									else :
-										echo "File tidak didukung!";
-									endif;
-									?>
+												$ext = explode(".", $soal[$fileAA]);
+												$ext = end($ext);
+												if (in_array($ext, $image)) :
+													echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileAA]' class='img-responsive' style='width:250px;'/></span>";
+												elseif (in_array($ext, $audio)) :
+													echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileAA]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+												else :
+													echo "File tidak didukung!";
+												endif;
+												?>
 								<?php endif; ?>
 							</td>
 						</tr>
@@ -213,18 +213,18 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 							<td style='vertical-align:middle;'>
 								<span class='soal'><?= $soal[$pilBB] ?></span>
 								<?php
-								if ($soal[$fileBB] <> '') {
-									$ext = explode(".", $soal[$fileBB]);
-									$ext = end($ext);
-									if (in_array($ext, $image)) :
-										echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileBB]' class='img-responsive' style='width:250px;'/></span>";
-									elseif (in_array($ext, $audio)) :
-										echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileBB]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-									else :
-										echo "File tidak didukung!";
-									endif;
-								}
-								?>
+										if ($soal[$fileBB] <> '') {
+											$ext = explode(".", $soal[$fileBB]);
+											$ext = end($ext);
+											if (in_array($ext, $image)) :
+												echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileBB]' class='img-responsive' style='width:250px;'/></span>";
+											elseif (in_array($ext, $audio)) :
+												echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileBB]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+											else :
+												echo "File tidak didukung!";
+											endif;
+										}
+										?>
 							</td>
 						</tr>
 						<tr>
@@ -238,18 +238,18 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 							<td style='vertical-align:middle;'>
 								<span class='soal'><?= $soal[$pilCC] ?></span>
 								<?php
-								if ($soal[$fileCC] <> '') {
-									$ext = explode(".", $soal[$fileCC]);
-									$ext = end($ext);
-									if (in_array($ext, $image)) {
-										echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileCC]' class='img-responsive' style='width:250px;'/></span>";
-									} elseif (in_array($ext, $audio)) {
-										echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileCC]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-									} else {
-										echo "File tidak didukung!";
-									}
-								}
-								?>
+										if ($soal[$fileCC] <> '') {
+											$ext = explode(".", $soal[$fileCC]);
+											$ext = end($ext);
+											if (in_array($ext, $image)) {
+												echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileCC]' class='img-responsive' style='width:250px;'/></span>";
+											} elseif (in_array($ext, $audio)) {
+												echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileCC]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+											} else {
+												echo "File tidak didukung!";
+											}
+										}
+										?>
 							</td>
 						</tr>
 						<?php if ($mapel['opsi'] <> 3) : ?>
@@ -263,18 +263,18 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 								<td style='vertical-align:middle;'>
 									<span class='soal'><?= $soal[$pilDD] ?></span>
 									<?php
-									if ($soal[$fileDD] <> '') {
-										$ext = explode(".", $soal[$fileDD]);
-										$ext = end($ext);
-										if (in_array($ext, $image)) {
-											echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileDD]' class='img-responsive' style='width:250px;'/></span>";
-										} elseif (in_array($ext, $audio)) {
-											echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileDD]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-										} else {
-											echo "File tidak didukung!";
-										}
-									}
-									?>
+												if ($soal[$fileDD] <> '') {
+													$ext = explode(".", $soal[$fileDD]);
+													$ext = end($ext);
+													if (in_array($ext, $image)) {
+														echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileDD]' class='img-responsive' style='width:250px;'/></span>";
+													} elseif (in_array($ext, $audio)) {
+														echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileDD]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+													} else {
+														echo "File tidak didukung!";
+													}
+												}
+												?>
 								</td>
 							</tr>
 						<?php endif; ?>
@@ -289,17 +289,17 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 								<td style='vertical-align:middle;'>
 									<span class='soal'><?= $soal[$pilEE] ?></span>
 									<?php
-									if ($soal[$fileEE] <> '') {
-										$ext = explode(".", $soal[$fileEE]);
-										$ext = end($ext);
-										if (in_array($ext, $image)) {
-											echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileEE]' class='img-responsive' style='width:250px;'/></span>";
-										} elseif (in_array($ext, $audio)) {
-											echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileEE]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-										} else {
-											echo "File tidak didukung!";
-										}
-									} ?>
+												if ($soal[$fileEE] <> '') {
+													$ext = explode(".", $soal[$fileEE]);
+													$ext = end($ext);
+													if (in_array($ext, $image)) {
+														echo "<span  class='lup' style='display:inline-block'><img src='$homeurl/files/$soal[$fileEE]' class='img-responsive' style='width:250px;'/></span>";
+													} elseif (in_array($ext, $audio)) {
+														echo "<audio controls='controls' ><source src='$homeurl/files/$soal[$fileEE]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+													} else {
+														echo "File tidak didukung!";
+													}
+												} ?>
 								</td>
 							</tr>
 						<?php endif; ?>
@@ -333,10 +333,10 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 				</td>
 				<td>
 					<?php
-					$jumsoalpg = $mapel['tampil_pg'];
-					$jumsoalesai = $mapel['tampil_esai'];
-					$cekno_soal = $no_soal + 1;
-					?>
+						$jumsoalpg = $mapel['tampil_pg'];
+						$jumsoalesai = $mapel['tampil_esai'];
+						$cekno_soal = $no_soal + 1;
+						?>
 					<?php if (($no_soal >= 0) && ($cekno_soal < $jumsoalpg)) { ?>
 						<div class='col-md-4 text-right'>
 							<i class='fa fa-spin fa-spinner' id='spin-next' style='display:none;'></i>
@@ -344,13 +344,13 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 						</div>
 					<?php } elseif (($no_soal >= 0) && ($cekno_soal = $jumsoalpg) && ($jumsoalesai == 0)) { ?>
 						<?php
-						$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
-						$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
-						$aturan = $lamaujian['lama_ujian'] / 100;
-						$awal  = date_create($waktu_awal['ujian_mulai']);
-						$akhir = date_create();
-						$diff  = date_diff($awal, $akhir);
-						?>
+								$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
+								$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
+								$aturan = $lamaujian['lama_ujian'] / 4;
+								$awal  = date_create($waktu_awal['ujian_mulai']);
+								$akhir = date_create();
+								$diff  = date_diff($awal, $akhir);
+								?>
 						<?php if ($diff->i >= $aturan) : ?>
 							<div class='col-md-4 text-right'>
 								<input type='submit' name='done' id='done-submit' style='display:none;' />
@@ -433,60 +433,60 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 <?php } ?>
 <?php if ($pg == 'soalesai') { ?>
 	<?php
-	$no_soal = $_POST['no_soal'];
-	$no_prev = $no_soal - 1;
-	$no_next = $no_soal + 1;
-	$id_mapel = $_POST['id_mapel'];
-	$id_siswa = $_POST['id_siswa'];
-	$jenis = $_POST['jenis'];
+		$no_soal = $_POST['no_soal'];
+		$no_prev = $no_soal - 1;
+		$no_next = $no_soal + 1;
+		$id_mapel = $_POST['id_mapel'];
+		$id_siswa = $_POST['id_siswa'];
+		$jenis = $_POST['jenis'];
 
-	$where = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel
-	);
-	$where2 = array(
-		'id_siswa' => $id_siswa,
-		'id_mapel' => $id_mapel,
-		'id_ujian' => $ac
-	);
+		$where = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel
+		);
+		$where2 = array(
+			'id_siswa' => $id_siswa,
+			'id_mapel' => $id_mapel,
+			'id_ujian' => $ac
+		);
 
-	$pengacakq = fetch($koneksi, 'pengacak', $where);
-	$pengacak = explode(',', $pengacakq['id_soal']);
-	$pengacakpil = explode(';', $pengacakq['id_opsi']);
-	$pengacakesai = explode(',', $pengacakq['id_esai']);
-	$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
+		$pengacakq = fetch($koneksi, 'pengacak', $where);
+		$pengacak = explode(',', $pengacakq['id_soal']);
+		$pengacakpil = explode(';', $pengacakq['id_opsi']);
+		$pengacakesai = explode(',', $pengacakq['id_esai']);
+		$mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
 
-	update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
+		update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
 
-	$soalesai = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
-	$jawabesai = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
-	?>
+		$soalesai = fetch($koneksi, 'soal', array('id_mapel' => $id_mapel, 'id_soal' => $pengacakesai[$no_soal], 'jenis' => $jenis));
+		$jawabesai = fetch($koneksi, 'jawaban', array('id_siswa' => $id_siswa, 'id_mapel' => $id_mapel, 'id_soal' => $soalesai['id_soal'], 'id_ujian' => $ac));
+		?>
 	<div class='box-body'>
 		<div class='col-md-12'>
 			<?php
-			if ($soalesai['file'] <> '') {
-				$ext = explode(".", $soalesai['file']);
-				$ext = end($ext);
-				if (in_array($ext, $image)) {
-					echo "<div class='col-md-5'><span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file]' class='img-responsive'/></span></div>";
-				} elseif (in_array($ext, $audio)) {
-					echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-				} else {
-					echo "File tidak didukung!";
+				if ($soalesai['file'] <> '') {
+					$ext = explode(".", $soalesai['file']);
+					$ext = end($ext);
+					if (in_array($ext, $image)) {
+						echo "<div class='col-md-5'><span  id='zoom' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file]' class='img-responsive'/></span></div>";
+					} elseif (in_array($ext, $audio)) {
+						echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+					} else {
+						echo "File tidak didukung!";
+					}
 				}
-			}
-			if ($soalesai['file1'] <> '') {
-				$ext = explode(".", $soalesai['file1']);
-				$ext = end($ext);
-				if (in_array($ext, $image)) {
-					echo "<div class='col-md-5'><span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file1]' class='img-responsive'/></span></div>";
-				} elseif (in_array($ext, $audio)) {
-					echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
-				} else {
-					echo "File tidak didukung!";
+				if ($soalesai['file1'] <> '') {
+					$ext = explode(".", $soalesai['file1']);
+					$ext = end($ext);
+					if (in_array($ext, $image)) {
+						echo "<div class='col-md-5'><span  id='zoom1' style='display:inline-block'> <img  src='$homeurl/files/$soalesai[file1]' class='img-responsive'/></span></div>";
+					} elseif (in_array($ext, $audio)) {
+						echo "<audio controls='controls' ><source src='$homeurl/files/$soalesai[file1]' type='audio/$ext' style='width:100%;'/>Your browser does not support the audio tag.</audio>";
+					} else {
+						echo "File tidak didukung!";
+					}
 				}
-			}
-			?>
+				?>
 		</div>
 		<div id='result'></div>
 		<div class='row'>
@@ -504,11 +504,11 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 			<tr>
 				<td>
 					<?php
-					$jumsoalpg = $mapel['tampil_pg'];
-					$jumsoalesai = $mapel['tampil_esai'];
-					$cekno_soal = $no_soal + 1;
-					$pg_max = $jumsoalpg - 1;
-					?>
+						$jumsoalpg = $mapel['tampil_pg'];
+						$jumsoalesai = $mapel['tampil_esai'];
+						$cekno_soal = $no_soal + 1;
+						$pg_max = $jumsoalpg - 1;
+						?>
 					<?php if (($no_soal > 0)) : ?>
 				<td>
 					<div class='col-md-4 text-left'>
@@ -533,13 +533,13 @@ $image = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG', 'GIF', 
 				</td>
 			<?php } elseif (($no_soal > 0) && ($cekno_soal = $jumsoalesai)) { ?>
 				<?php
-				$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
-				$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
-				$aturan = $lamaujian['lama_ujian'] / 4;
-				$awal  = date_create($waktu_awal['ujian_mulai']);
-				$akhir = date_create();
-				$diff  = date_diff($awal, $akhir);
-				?>
+						$waktu_awal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT id_ujian, ujian_mulai FROM nilai WHERE id_siswa = '$id_siswa' AND id_mapel = '$id_mapel' AND id_ujian = '$ac'"));
+						$lamaujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT lama_ujian FROM ujian WHERE id_ujian = '$waktu_awal[id_ujian]'"));
+						$aturan = $lamaujian['lama_ujian'] / 4;
+						$awal  = date_create($waktu_awal['ujian_mulai']);
+						$akhir = date_create();
+						$diff  = date_diff($awal, $akhir);
+						?>
 				<?php if ($diff->i >= $aturan) : ?>
 					<td>
 						<div class='col-md-4 text-right'>

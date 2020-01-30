@@ -58,6 +58,10 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 	<link rel='stylesheet' href='<?= $homeurl ?>/dist/css/costum.css' />
 	<script src='<?= $homeurl ?>/plugins/tinymce/tinymce.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/jQuery/jquery-3.1.1.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/jquery.dataTables.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/dataTables.bootstrap.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/dataTables.select.min.js'></script>
+	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/select.bootstrap.min.js'></script>
 
 	<!-- <style type='text/css' media='print'>
 		.page {
@@ -245,9 +249,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<li class='treeview'>
 							<a href='#'><i class="fas fa-desktop fa-2x fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li>
+								<!-- <li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li> -->
 								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
-								<li><a href='?pg=token'><i class='fas fa-dot-circle fa-fw'></i> <span> Rilis Token</span></a></li>
+								<!-- <li><a href='?pg=token'><i class='fas fa-dot-circle fa-fw'></i> <span> Rilis Token</span></a></li> -->
 								<li><a href='?pg=pengacak'><i class='fas fa-dot-circle fa-fw'></i> <span> Pengacak Soal</span></a></li>
 								<li><a href='?pg=susulan'><i class='fas fa-dot-circle fa-fw'></i> <span> Belum Ujian</span></a></li>
 								<li><a href='?pg=filemanager'><i class='fas fa-dot-circle fa-fw'></i> <span> File manager</span></a></li>
@@ -256,7 +260,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<li class='treeview'>
 							<a href='#'><i class="fas fa-file-signature   fa-2x fa-fw"></i><span> Nilai </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
-								<li><a href='?pg=nilai'><i class='fas fa-dot-circle fa-fw'></i> <span> Hasil Nilai</span></a></li>
+								<!-- <li><a href='?pg=nilai'><i class='fas fa-dot-circle fa-fw'></i> <span> Hasil Nilai</span></a></li> -->
 								<li><a href='?pg=semuanilai'><i class='fas fa-dot-circle fa-fw'></i> <span>Semua Nilai</span></a></li>
 								<li><a href='?pg=dataujian'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Ujian</span></a></li>
 							</ul>
@@ -325,20 +329,20 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 			<section class='content' style="margin-top:-65px">
 				<?php if ($pg == '') : ?>
 					<?php
-						$testongoing = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai=''"));
-						$testdone = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai!=''"));
+					$testongoing = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai=''"));
+					$testdone = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM nilai WHERE ujian_mulai!='' AND ujian_selesai!=''"));
 
-						if ($siswa <> 0) {
-							$testongoing_per = (1000 / $siswa) * $testongoing;
-							$testongoing_per = number_format($testongoing_per, 2, '.', '');
-							$testongoing_per = str_replace('.00', '', $testongoing_per);
-							$testdone_per = (1000 / $siswa) * $testdone;
-							$testdone_per = number_format($testdone_per, 2, '.', '');
-							$testdone_per = str_replace('.00', '', $testdone_per);
-						} else {
-							$testongoing_per = $testdone_per = 0;
-						}
-						?>
+					if ($siswa <> 0) {
+						$testongoing_per = (1000 / $siswa) * $testongoing;
+						$testongoing_per = number_format($testongoing_per, 2, '.', '');
+						$testongoing_per = str_replace('.00', '', $testongoing_per);
+						$testdone_per = (1000 / $siswa) * $testdone;
+						$testdone_per = number_format($testdone_per, 2, '.', '');
+						$testdone_per = str_replace('.00', '', $testdone_per);
+					} else {
+						$testongoing_per = $testdone_per = 0;
+					}
+					?>
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<div class='row'>
 
@@ -468,15 +472,15 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						</div>
 					<?php endif ?>
 					<?php
-						if ($ac == 'clearlog') {
-							mysqli_query($koneksi, "TRUNCATE log");
-							jump('?');
-						}
-						if ($ac == 'clearpengumuman') {
-							mysqli_query($koneksi, "TRUNCATE pengumuman");
-							jump('?');
-						}
-						?>
+					if ($ac == 'clearlog') {
+						mysqli_query($koneksi, "TRUNCATE log");
+						jump('?');
+					}
+					if ($ac == 'clearpengumuman') {
+						mysqli_query($koneksi, "TRUNCATE pengumuman");
+						jump('?');
+					}
+					?>
 					<?php if ($pengawas['level'] == 'guru') : ?>
 						<div class='row'>
 							<div class='col-md-8'>
@@ -530,56 +534,56 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</iframe>
 				<?php elseif ($pg == 'matapelajaran') : ?>
 					<?php
-						cek_session_admin();
-						$pesan = '';
-						if (isset($_POST['simpanmapel'])) {
-							$kode = str_replace(' ', '', $_POST['kodemapel']);
-							$nama = addslashes($_POST['namamapel']);
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$kode'"));
-							if ($cek == 0) {
-								$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel)value('$kode','$nama')");
-								$pesan = "<div class='alert alert-success alert-dismissible'>
+					cek_session_admin();
+					$pesan = '';
+					if (isset($_POST['simpanmapel'])) {
+						$kode = str_replace(' ', '', $_POST['kodemapel']);
+						$nama = addslashes($_POST['namamapel']);
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE kode_mapel='$kode'"));
+						if ($cek == 0) {
+							$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel)value('$kode','$nama')");
+							$pesan = "<div class='alert alert-success alert-dismissible'>
 									<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 									<i class='icon fa fa-info'></i>
 									Data Berhasil ditambahkan ..</div>";
-							} else {
-								$pesan = "<div class='alert alert-warning alert-dismissible'>
+						} else {
+							$pesan = "<div class='alert alert-warning alert-dismissible'>
 									<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
 									<i class='icon fa fa-info'></i>
 									Maaf Kode Mapel Sudah ada !</div>";
-							}
 						}
-						if (isset($_POST['importmapel'])) {
-							$file = $_FILES['file']['name'];
-							$temp = $_FILES['file']['tmp_name'];
-							$ext = explode('.', $file);
-							$ext = end($ext);
-							if ($ext <> 'xls') {
-								$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-							} else {
-								$data = new Spreadsheet_Excel_Reader($temp);
-								$hasildata = $data->rowcount($sheet_index = 0);
-								$sukses = $gagal = 0;
-								for ($i = 2; $i <= $hasildata; $i++) {
-									$kode = addslashes($data->val($i, 2));
-									$nama = addslashes($data->val($i, 3));
-									$kode = str_replace(' ', '', $kode);
-									$nama = addslashes($nama);
-									$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from mata_pelajaran where kode_mapel='$kode'"));
-									if ($kode <> '' and $nama <> '') {
-										if ($cek == 0) {
-											$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel) VALUES ('$kode','$nama')");
-											($exec) ? $sukses++ : $gagal++;
-										}
-									} else {
-										$gagal++;
+					}
+					if (isset($_POST['importmapel'])) {
+						$file = $_FILES['file']['name'];
+						$temp = $_FILES['file']['tmp_name'];
+						$ext = explode('.', $file);
+						$ext = end($ext);
+						if ($ext <> 'xls') {
+							$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
+						} else {
+							$data = new Spreadsheet_Excel_Reader($temp);
+							$hasildata = $data->rowcount($sheet_index = 0);
+							$sukses = $gagal = 0;
+							for ($i = 2; $i <= $hasildata; $i++) {
+								$kode = addslashes($data->val($i, 2));
+								$nama = addslashes($data->val($i, 3));
+								$kode = str_replace(' ', '', $kode);
+								$nama = addslashes($nama);
+								$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from mata_pelajaran where kode_mapel='$kode'"));
+								if ($kode <> '' and $nama <> '') {
+									if ($cek == 0) {
+										$exec = mysqli_query($koneksi, "INSERT INTO mata_pelajaran (kode_mapel,nama_mapel) VALUES ('$kode','$nama')");
+										($exec) ? $sukses++ : $gagal++;
 									}
+								} else {
+									$gagal++;
 								}
-								$total = $hasildata - 1;
-								$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
 							}
+							$total = $hasildata - 1;
+							$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
 						}
-						?>
+					}
+					?>
 					<div class='row'>
 						<div class='col-md-12'><?= $pesan ?></div>
 						<div class='col-md-12'>
@@ -678,32 +682,32 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</div>
 				<?php elseif ($pg == 'token') : ?>
 					<?php
-						if (isset($_POST['generate'])) {
-							function create_random($length)
-							{
-								$data = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-								$string = '';
-								for ($i = 0; $i < $length; $i++) {
-									$pos = rand(0, strlen($data) - 1);
-									$string .= $data{
-										$pos};
-								}
-								return $string;
+					if (isset($_POST['generate'])) {
+						function create_random($length)
+						{
+							$data = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+							$string = '';
+							for ($i = 0; $i < $length; $i++) {
+								$pos = rand(0, strlen($data) - 1);
+								$string .= $data{
+									$pos};
 							}
-							$token = create_random(6);
-							$now = date('Y-m-d H:i:s');
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM token"));
-							if ($cek <> 0) {
-								$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT time FROM token"));
-								$time = $query['time'];
-								$tgl = buat_tanggal('H:i:s', $time);
-								$exec = mysqli_query($koneksi, "UPDATE token SET token='$token', time='$now' where id_token='1'");
-							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
-							}
+							return $string;
 						}
-						$token = mysqli_fetch_array(mysqli_query($koneksi, "select token from token"))
-						?>
+						$token = create_random(6);
+						$now = date('Y-m-d H:i:s');
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM token"));
+						if ($cek <> 0) {
+							$query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT time FROM token"));
+							$time = $query['time'];
+							$tgl = buat_tanggal('H:i:s', $time);
+							$exec = mysqli_query($koneksi, "UPDATE token SET token='$token', time='$now' where id_token='1'");
+						} else {
+							$exec = mysqli_query($koneksi, "INSERT INTO token (token,masa_berlaku) VALUES ('$token','00:15:00')");
+						}
+					}
+					$token = mysqli_fetch_array(mysqli_query($koneksi, "select token from token"))
+					?>
 					<div class='row'>
 						<form action='' method='post'>
 							<div class='col-md-6'>
@@ -765,16 +769,16 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</div>
 				<?php elseif ($pg == 'pengumuman') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['simpanpengumuman'])) {
-							$exec = mysqli_query($koneksi, "INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
-							if (!$exec) {
-								$info = info("Gagal menyimpan!", "NO");
-							} else {
-								jump("?pg=$pg");
-							}
+					cek_session_admin();
+					if (isset($_POST['simpanpengumuman'])) {
+						$exec = mysqli_query($koneksi, "INSERT INTO pengumuman (judul,text,user,type) VALUES ('$_POST[judul]','$_POST[pengumuman]','$pengawas[id_pengawas]','$_POST[tipe]')");
+						if (!$exec) {
+							$info = info("Gagal menyimpan!", "NO");
+						} else {
+							jump("?pg=$pg");
 						}
-						?>
+					}
+					?>
 					<div class='row'>
 						<form action='' method='post'>
 							<div class='col-md-6'>
@@ -847,11 +851,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 													</tr>
 													<?php $info = info("Anda yakin akan menghapus pengumuman ini ?"); ?>
 													<?php
-															if (isset($_POST['hapus'])) {
-																$exec = mysqli_query($koneksi, "DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
-																(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg");
-															}
-															?>
+													if (isset($_POST['hapus'])) {
+														$exec = mysqli_query($koneksi, "DELETE FROM pengumuman WHERE id_pengumuman = '$_REQUEST[idu]'");
+														(!$exec) ? info("Gagal menyimpan", "NO") : jump("?pg=$pg");
+													}
+													?>
 													<div class='modal fade' id="hapus<?= $pengumuman['id_pengumuman'] ?>" style='display: none;'>
 														<div class='modal-dialog'>
 															<div class='modal-content'>
@@ -960,28 +964,28 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<div class='col-md-4'>
 							<?php if ($ac == '') : ?>
 								<?php
-										if (isset($_POST['submit'])) {
-											$nip = $_POST['nip'];
-											$nama = $_POST['nama'];
-											$nama = str_replace("'", "&#39;", $nama);
-											$username = $_POST['username'];
-											$pass1 = $_POST['pass1'];
-											$pass2 = $_POST['pass2'];
+								if (isset($_POST['submit'])) {
+									$nip = $_POST['nip'];
+									$nama = $_POST['nama'];
+									$nama = str_replace("'", "&#39;", $nama);
+									$username = $_POST['username'];
+									$pass1 = $_POST['pass1'];
+									$pass2 = $_POST['pass2'];
 
-											$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
-											if ($cekuser > 0) {
-												$info = info("Username $username sudah ada!", "NO");
-											} else {
-												if ($pass1 <> $pass2) {
-													$info = info("Password tidak cocok!", "NO");
-												} else {
-													$password = $pass1;
-													$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
-													(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
-												}
-											}
+									$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
+									if ($cekuser > 0) {
+										$info = info("Username $username sudah ada!", "NO");
+									} else {
+										if ($pass1 <> $pass2) {
+											$info = info("Password tidak cocok!", "NO");
+										} else {
+											$password = $pass1;
+											$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
+											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 										}
-										?>
+									}
+								}
+								?>
 								<form action='' method='post'>
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
@@ -1022,29 +1026,29 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</form>
 							<?php elseif ($ac == 'edit') : ?>
 								<?php
-										$id = $_GET['id'];
-										$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
-										if (isset($_POST['submit'])) {
-											$nip = $_POST['nip'];
-											$nama = $_POST['nama'];
-											$nama = str_replace("'", "&#39;", $nama);
-											$username = $_POST['username'];
-											$pass1 = $_POST['pass1'];
-											$pass2 = $_POST['pass2'];
+								$id = $_GET['id'];
+								$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
+								if (isset($_POST['submit'])) {
+									$nip = $_POST['nip'];
+									$nama = $_POST['nama'];
+									$nama = str_replace("'", "&#39;", $nama);
+									$username = $_POST['username'];
+									$pass1 = $_POST['pass1'];
+									$pass2 = $_POST['pass2'];
 
-											if ($pass1 <> '' and $pass2 <> '') {
-												if ($pass1 <> $pass2) {
-													$info = info("Password tidak cocok!", "NO");
-												} else {
-													$password = $pass1;
-													$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='guru' WHERE id_pengawas='$id'");
-												}
-											} else {
-												$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='guru' WHERE id_pengawas='$id'");
-											}
-											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+									if ($pass1 <> '' and $pass2 <> '') {
+										if ($pass1 <> $pass2) {
+											$info = info("Password tidak cocok!", "NO");
+										} else {
+											$password = $pass1;
+											$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='guru' WHERE id_pengawas='$id'");
 										}
-										?>
+									} else {
+										$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='guru' WHERE id_pengawas='$id'");
+									}
+									(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+								}
+								?>
 								<form action='' method='post'>
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
@@ -1085,13 +1089,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</form>
 							<?php elseif ($ac == 'hapus') : ?>
 								<?php
-										$id = $_GET['id'];
-										$info = info("Anda yakin akan menghapus pengawas ini?");
-										if (isset($_POST['submit'])) {
-											$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
-											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=" . $pg);
-										}
-										?>
+								$id = $_GET['id'];
+								$info = info("Anda yakin akan menghapus pengawas ini?");
+								if (isset($_POST['submit'])) {
+									$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
+									(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=" . $pg);
+								}
+								?>
 								<form action='' method='post'>
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
@@ -1112,21 +1116,21 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<?php elseif ($pg == 'beritaacara') : ?>
 					<?php if ($pengawas['level'] == 'admin') : ?>
 						<?php
-								$idberita = $_GET['id'];
-								$sqlx = mysqli_query($koneksi, "SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idberita'");
-								$ujian = mysqli_fetch_array($sqlx);
-								$kodeujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
-								$hari = buat_tanggal('D', $ujian['tgl_ujian']);
-								$tanggal = buat_tanggal('d', $ujian['tgl_ujian']);
-								// $bulan = buat_tanggal('F', $ujian['tgl_ujian']);
-								$bulan = bulan_indo($ujian['tgl_ujian']);
-								$tahun = buat_tanggal('Y', $ujian['tgl_ujian']);
-								if (date('m') >= 7 and date('m') <= 12) {
-									$ajaran = date('Y') . "/" . (date('Y') + 1);
-								} elseif (date('m') >= 1 and date('m') <= 6) {
-									$ajaran = (date('Y') - 1) . "/" . date('Y');
-								}
-								?>
+						$idberita = $_GET['id'];
+						$sqlx = mysqli_query($koneksi, "SELECT * FROM berita a LEFT JOIN mapel b ON a.id_mapel=b.id_mapel LEFT JOIN mata_pelajaran c ON b.nama=c.kode_mapel WHERE a.id_berita='$idberita'");
+						$ujian = mysqli_fetch_array($sqlx);
+						$kodeujian = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$ujian[jenis]'"));
+						$hari = buat_tanggal('D', $ujian['tgl_ujian']);
+						$tanggal = buat_tanggal('d', $ujian['tgl_ujian']);
+						// $bulan = buat_tanggal('F', $ujian['tgl_ujian']);
+						$bulan = bulan_indo($ujian['tgl_ujian']);
+						$tahun = buat_tanggal('Y', $ujian['tgl_ujian']);
+						if (date('m') >= 7 and date('m') <= 12) {
+							$ajaran = date('Y') . "/" . (date('Y') + 1);
+						} elseif (date('m') >= 1 and date('m') <= 6) {
+							$ajaran = (date('Y') - 1) . "/" . date('Y');
+						}
+						?>
 						<div class='row'>
 							<div class='col-md-12'>
 								<div class='box box-solid'>
@@ -1211,13 +1215,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														<td height='30'>Nomer Peserta</td>
 														<td height='30' width='60%' style='border-bottom:thin solid #000000'>
 															<?php
-																	$dataArray = unserialize($ujian['no_susulan']);
-																	if ($dataArray) {
-																		foreach ($dataArray as $key => $value) {
-																			echo "<small class='label label-success'>$value </small>&nbsp;";
-																		}
-																	}
-																	?>
+															$dataArray = unserialize($ujian['no_susulan']);
+															if ($dataArray) {
+																foreach ($dataArray as $key => $value) {
+																	echo "<small class='label label-success'>$value </small>&nbsp;";
+																}
+															}
+															?>
 														</td>
 													</tr>
 													<tr height='30'>
@@ -1316,7 +1320,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<div class='col-md-12'>
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
-									<h3 class='box-title'><img src='../dist/img/svg/berita_acara.svg' width='20'> Berita Acara</h3>
+									<h3 class='box-title'> Berita Acara</h3>
 									<div class='box-tools pull-right '>
 										<?php if ($pengawas['level'] == 'admin') : ?>
 											<button id='buatberita' class='btn btn-sm btn-flat btn-success'><i class='fa fa-refresh'></i> Generate</button>
@@ -1343,13 +1347,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											</thead>
 											<tbody>
 												<?php
-													$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita");
-													?>
+												$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita");
+												?>
 												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
-															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel a left join mata_pelajaran b ON a.nama=b.kode_mapel where a.id_mapel='$berita[id_mapel]'"));
-															$no++
-															?>
+													$mapel = mysqli_fetch_array(mysqli_query($koneksi, "select * from mapel a left join mata_pelajaran b ON a.nama=b.kode_mapel where a.id_mapel='$berita[id_mapel]'"));
+													$no++
+													?>
 													<tr>
 														<td><?= $no ?></td>
 														<td>
@@ -1359,11 +1363,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 															<small class='label label-primary'><?= $mapel['level'] ?></small>
 															<small class='label label-primary'><?= $mapel['idpk'] ?></small>
 															<?php
-																	$dataArray = unserialize($mapel['kelas']);
-																	foreach ($dataArray as $key => $value) {
-																		echo "<small class='label label-success'>$value </small>&nbsp;";
-																	}
-																	?>
+															$dataArray = unserialize($mapel['kelas']);
+															foreach ($dataArray as $key => $value) {
+																echo "<small class='label label-success'>$value </small>&nbsp;";
+															}
+															?>
 														</td>
 														<td style="text-align:center">
 															<b><small class='label bg-purple'><?= $berita['sesi'] ?></small></b>
@@ -1393,23 +1397,23 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 														</td>
 													</tr>
 													<?php
-															if (isset($_POST['print'])) {
-																$idberita = $_POST['idu'];
-																$tglujian = $_POST['tgl_ujian'];
-																$hadir = $_POST['hadir'];
-																$tidakhadir = $_POST['tidakhadir'];
-																$mulai = $_POST['mulai'];
-																$selesai = $_POST['selesai'];
-																$pengawas = $_POST['nama_pengawas'];
-																$nippengawas = $_POST['nip_pengawas'];
-																$proktor = $_POST['nama_proktor'];
-																$nipproktor = $_POST['nip_proktor'];
-																$catatan = $_POST['catatan'];
-																$nosusulan = serialize($_POST['nosusulan']);
-																$exec = mysqli_query($koneksi, "UPDATE berita SET ikut='$hadir',susulan='$tidakhadir',mulai='$mulai',selesai='$selesai',nama_pengawas='$pengawas',nip_pengawas='$nippengawas', nama_proktor='$proktor',nip_proktor='$nipproktor',catatan='$catatan',tgl_ujian='$tglujian',no_susulan='$nosusulan' WHERE id_berita='$idberita'");
-																(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=beritaacara&id=$idberita");
-															}
-															?>
+													if (isset($_POST['print'])) {
+														$idberita = $_POST['idu'];
+														$tglujian = $_POST['tgl_ujian'];
+														$hadir = $_POST['hadir'];
+														$tidakhadir = $_POST['tidakhadir'];
+														$mulai = $_POST['mulai'];
+														$selesai = $_POST['selesai'];
+														$pengawas = $_POST['nama_pengawas'];
+														$nippengawas = $_POST['nip_pengawas'];
+														$proktor = $_POST['nama_proktor'];
+														$nipproktor = $_POST['nip_proktor'];
+														$catatan = $_POST['catatan'];
+														$nosusulan = serialize($_POST['nosusulan']);
+														$exec = mysqli_query($koneksi, "UPDATE berita SET ikut='$hadir',susulan='$tidakhadir',mulai='$mulai',selesai='$selesai',nama_pengawas='$pengawas',nip_pengawas='$nippengawas', nama_proktor='$proktor',nip_proktor='$nipproktor',catatan='$catatan',tgl_ujian='$tglujian',no_susulan='$nosusulan' WHERE id_berita='$idberita'");
+														(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=beritaacara&id=$idberita");
+													}
+													?>
 													<div class='modal fade' id="print<?= $berita['id_berita'] ?>" style='display: none;'>
 														<div class='modal-dialog'>
 															<div class='modal-content'>
@@ -1472,13 +1476,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 																				<label>Siswa Tidak Hadir</label><br>
 																				<select name='nosusulan[]' class='form-control select2' multiple='multiple' style='width:100%'>
 																					<?php
-																							$bruang = $berita['ruang'];
-																							$bsesi = $berita['sesi'];
-																							$lev = mysqli_query($koneksi, "SELECT * FROM siswa where ruang='$bruang' and sesi='$bsesi' ORDER BY nama ASC");
-																							while ($siswa = mysqli_fetch_array($lev)) {
-																								echo "<option value='$siswa[no_peserta]'>$siswa[no_peserta] $siswa[nama]</option>";
-																							}
-																							?>
+																					$bruang = $berita['ruang'];
+																					$bsesi = $berita['sesi'];
+																					$lev = mysqli_query($koneksi, "SELECT * FROM siswa where ruang='$bruang' and sesi='$bsesi' ORDER BY nama ASC");
+																					while ($siswa = mysqli_fetch_array($lev)) {
+																						echo "<option value='$siswa[no_peserta]'>$siswa[no_peserta] $siswa[nama]</option>";
+																					}
+																					?>
 																				</select>
 																			</div>
 																		</div>
@@ -1558,25 +1562,25 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											</thead>
 											<tbody>
 												<?php
-													$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita WHERE no_susulan <> ''");
-													?>
+												$beritaQ = mysqli_query($koneksi, "SELECT * FROM berita WHERE no_susulan <> ''");
+												?>
 												<?php while ($berita = mysqli_fetch_array($beritaQ)) : ?>
 													<?php
-															$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
+													$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel a LEFT JOIN mata_pelajaran b ON a.nama=b.kode_mapel WHERE a.id_mapel='$berita[id_mapel]'"));
 
-															?>
+													?>
 
 													<?php
-															if ($berita['no_susulan'] <> "") :
-																$dataArray = unserialize($berita['no_susulan']);
-																foreach ($dataArray as $key => $value) : ?>
+													if ($berita['no_susulan'] <> "") :
+														$dataArray = unserialize($berita['no_susulan']);
+														foreach ($dataArray as $key => $value) : ?>
 															<?php
-																			$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
-																			?>
+															$siswaQ = mysqli_query($koneksi, "select * from siswa where no_peserta='$value'");
+															?>
 															<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 																<?php
-																					$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
-																					?>
+																$cek = mysqli_num_rows(mysqli_query($koneksi, "select * from nilai where id_mapel='$berita[id_mapel]' and id_siswa='$siswa[id_siswa]'"));
+																?>
 																<?php if ($cek == 0) : ?>
 																	<?php $no++; ?>
 																	<tr>
@@ -1663,11 +1667,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 											<div class='row'>
 												<div class='col-xs-4'>
 													<?php
-															$total = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
-															$limit = number_format($total / 3, 0, '', '');
-															$limit2 = number_format($limit * 2, 0, '', '');
-															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT 0,$limit");
-															?>
+													$total = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
+													$limit = number_format($total / 3, 0, '', '');
+													$limit2 = number_format($limit * 2, 0, '', '');
+													$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT 0,$limit");
+													?>
 													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
@@ -1676,8 +1680,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												</div>
 												<div class='col-xs-4'>
 													<?php
-															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit,$limit");
-															?>
+													$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit,$limit");
+													?>
 													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
@@ -1686,8 +1690,8 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												</div>
 												<div class='col-xs-4'>
 													<?php
-															$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit2,$total");
-															?>
+													$sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas ORDER BY nama ASC LIMIT $limit2,$total");
+													?>
 													<?php while ($kelas = mysqli_fetch_array($sql_kelas)) : ?>
 														<div class='radio'>
 															<label><input type='radio' name='idk' value="<?= $kelas['id_kelas'] ?>" onclick="printkartu('<?= $kelas[0] ?>')" /> <?= $kelas['nama'] ?></label>
@@ -1755,49 +1759,49 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php include 'master_siswa.php'; ?>
 				<?php elseif ($pg == 'uplfotosiswa') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST["uplod"])) {
-							$output = '';
-							if ($_FILES['zip_file']['name'] != '') {
-								$file_name = $_FILES['zip_file']['name'];
-								$array = explode(".", $file_name);
-								$name = $array[0];
-								$ext = $array[1];
-								if ($ext == 'zip') {
-									$path = '../foto/fotosiswa/';
-									$location = $path . $file_name;
-									if (move_uploaded_file($_FILES['zip_file']['tmp_name'], $location)) {
-										$zip = new ZipArchive;
-										if ($zip->open($location)) {
-											$zip->extractTo($path);
-											$zip->close();
-										}
-										$files = scandir($path);
-										foreach ($files as $file) {
-											$file_ext = pathinfo($file, PATHINFO_EXTENSION);
-											$allowed_ext = array('jpg', 'JPG');
-											if (in_array($file_ext, $allowed_ext)) {
-												$output .= '<div class="col-md-3"><div style="padding:16px; border:1px solid #CCC;"><img class="img img-responsive" style="height:150px;" src="../foto/fotosiswa/' . $file . '" /></div></div>';
-											}
-										}
-										unlink($location);
-										$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-check'></i> Info</h4>Upload File zip berhasil</div>";
+					cek_session_admin();
+					if (isset($_POST["uplod"])) {
+						$output = '';
+						if ($_FILES['zip_file']['name'] != '') {
+							$file_name = $_FILES['zip_file']['name'];
+							$array = explode(".", $file_name);
+							$name = $array[0];
+							$ext = $array[1];
+							if ($ext == 'zip') {
+								$path = '../foto/fotosiswa/';
+								$location = $path . $file_name;
+								if (move_uploaded_file($_FILES['zip_file']['tmp_name'], $location)) {
+									$zip = new ZipArchive;
+									if ($zip->open($location)) {
+										$zip->extractTo($path);
+										$zip->close();
 									}
-								} else {
-									$pesan = "<div class='alert alert-warning alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-info'></i> Gagal Upload</h4>Mohon Upload file zip</div>";
+									$files = scandir($path);
+									foreach ($files as $file) {
+										$file_ext = pathinfo($file, PATHINFO_EXTENSION);
+										$allowed_ext = array('jpg', 'JPG');
+										if (in_array($file_ext, $allowed_ext)) {
+											$output .= '<div class="col-md-3"><div style="padding:16px; border:1px solid #CCC;"><img class="img img-responsive" style="height:150px;" src="../foto/fotosiswa/' . $file . '" /></div></div>';
+										}
+									}
+									unlink($location);
+									$pesan = "<div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-check'></i> Info</h4>Upload File zip berhasil</div>";
 								}
+							} else {
+								$pesan = "<div class='alert alert-warning alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-info'></i> Gagal Upload</h4>Mohon Upload file zip</div>";
 							}
 						}
-						?>
+					}
+					?>
 					<?php
-						if (isset($_POST['hapussemuafoto'])) {
-							$files = glob('../foto/fotosiswa/*'); // Ambil semua file yang ada dalam folder
-							foreach ($files as $file) { // Lakukan perulangan dari file yang kita ambil
-								if (is_file($file)) // Cek apakah file tersebut benar-benar ada
-									unlink($file); // Jika ada, hapus file tersebut
-							}
+					if (isset($_POST['hapussemuafoto'])) {
+						$files = glob('../foto/fotosiswa/*'); // Ambil semua file yang ada dalam folder
+						foreach ($files as $file) { // Lakukan perulangan dari file yang kita ambil
+							if (is_file($file)) // Cek apakah file tersebut benar-benar ada
+								unlink($file); // Jika ada, hapus file tersebut
 						}
-						?>
+					}
+					?>
 					<div class='box box-danger'>
 						<div class='box-header with-border'>
 							<h3 class='box-title'>Upload Foto Peserta Ujian</h3>
@@ -1832,29 +1836,29 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						</div><!-- /.box-header -->
 						<div class='box-body'>
 							<?php
-								$folder = "../foto/fotosiswa/"; //Sesuaikan Folder nya
-								if (!($buka_folder = opendir($folder))) die("eRorr... Tidak bisa membuka Folder");
-								$file_array = array();
-								while ($baca_folder = readdir($buka_folder)) :
-									$file_array[] = $baca_folder;
-								endwhile;
-								$jumlah_array = count($file_array);
-								for ($i = 2; $i < $jumlah_array; $i++) :
-									$nama_file = $file_array;
-									$nomor = $i - 1;
-									echo "<div class='col-md-1'><img class='img-logo' src='$folder$nama_file[$i]' style='width:65px'/><br><br></div>";
-								endfor;
-								closedir($buka_folder);
-								?>
+							$folder = "../foto/fotosiswa/"; //Sesuaikan Folder nya
+							if (!($buka_folder = opendir($folder))) die("eRorr... Tidak bisa membuka Folder");
+							$file_array = array();
+							while ($baca_folder = readdir($buka_folder)) :
+								$file_array[] = $baca_folder;
+							endwhile;
+							$jumlah_array = count($file_array);
+							for ($i = 2; $i < $jumlah_array; $i++) :
+								$nama_file = $file_array;
+								$nomor = $i - 1;
+								echo "<div class='col-md-1'><img class='img-logo' src='$folder$nama_file[$i]' style='width:65px'/><br><br></div>";
+							endfor;
+							closedir($buka_folder);
+							?>
 						</div><!-- /.box-body -->
 					</div><!-- /.box -->
 				<?php elseif ($pg == 'importmaster') : ?>
 					<?php
-						cek_session_admin();
+					cek_session_admin();
 
-						$format = 'importdatamaster.xlsx';
+					$format = 'importdatamaster.xlsx';
 
-						?>
+					?>
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
@@ -1897,34 +1901,34 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</div>
 				<?php elseif ($pg == 'importguru') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['submit'])) :
-							$file = $_FILES['file']['name'];
-							$temp = $_FILES['file']['tmp_name'];
-							$ext = explode('.', $file);
-							$ext = end($ext);
-							if ($ext <> 'xls') {
-								$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
-							} else {
-								$data = new Spreadsheet_Excel_Reader($temp);
-								$hasildata = $data->rowcount($sheet_index = 0);
-								$sukses = $gagal = 0;
-								$exec = mysqli_query($koneksi, "delete from pengawas where level='guru'");
-								for ($i = 2; $i <= $hasildata; $i++) :
-									$nip = $data->val($i, 2);
-									$nama = $data->val($i, 3);
-									$nama = addslashes($nama);
-									$username = $data->val($i, 4);
-									$username = str_replace("'", "", $username);
-									$password = $data->val($i, 5);
-									$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
-									($exec) ? $sukses++ : $gagal++;
-								endfor;
-								$total = $hasildata - 1;
-								$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
-							}
-						endif;
-						?>
+					cek_session_admin();
+					if (isset($_POST['submit'])) :
+						$file = $_FILES['file']['name'];
+						$temp = $_FILES['file']['tmp_name'];
+						$ext = explode('.', $file);
+						$ext = end($ext);
+						if ($ext <> 'xls') {
+							$info = info('Gunakan file Ms. Excel 93-2007 Workbook (.xls)', 'NO');
+						} else {
+							$data = new Spreadsheet_Excel_Reader($temp);
+							$hasildata = $data->rowcount($sheet_index = 0);
+							$sukses = $gagal = 0;
+							$exec = mysqli_query($koneksi, "delete from pengawas where level='guru'");
+							for ($i = 2; $i <= $hasildata; $i++) :
+								$nip = $data->val($i, 2);
+								$nama = $data->val($i, 3);
+								$nama = addslashes($nama);
+								$username = $data->val($i, 4);
+								$username = str_replace("'", "", $username);
+								$password = $data->val($i, 5);
+								$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','guru')");
+								($exec) ? $sukses++ : $gagal++;
+							endfor;
+							$total = $hasildata - 1;
+							$info = info("Berhasil: $sukses | Gagal: $gagal | Dari: $total", 'OK');
+						}
+					endif;
+					?>
 					<div class='row'>
 						<div class='col-md-3'></div>
 						<div class='col-md-6'>
@@ -2000,28 +2004,28 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<div class='col-md-4'>
 							<?php if ($ac == '') : ?>
 								<?php
-										if (isset($_POST['submit'])) :
-											$nip = $_POST['nip'];
-											$nama = $_POST['nama'];
-											$nama = str_replace("'", "&#39;", $nama);
-											$username = $_POST['username'];
-											$pass1 = $_POST['pass1'];
-											$pass2 = $_POST['pass2'];
+								if (isset($_POST['submit'])) :
+									$nip = $_POST['nip'];
+									$nama = $_POST['nama'];
+									$nama = str_replace("'", "&#39;", $nama);
+									$username = $_POST['username'];
+									$pass1 = $_POST['pass1'];
+									$pass2 = $_POST['pass2'];
 
-											$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
-											if ($cekuser > 0) {
-												$info = info("Username $username sudah ada!", "NO");
-											} else {
-												if ($pass1 <> $pass2) :
-													$info = info("Password tidak cocok!", "NO");
-												else :
-													$password = password_hash($pass1, PASSWORD_BCRYPT);
-													$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
-													(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
-												endif;
-											}
+									$cekuser = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE username='$username'"));
+									if ($cekuser > 0) {
+										$info = info("Username $username sudah ada!", "NO");
+									} else {
+										if ($pass1 <> $pass2) :
+											$info = info("Password tidak cocok!", "NO");
+										else :
+											$password = password_hash($pass1, PASSWORD_BCRYPT);
+											$exec = mysqli_query($koneksi, "INSERT INTO pengawas (nip,nama,username,password,level) VALUES ('$nip','$nama','$username','$password','admin')");
+											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
 										endif;
-										?>
+									}
+								endif;
+								?>
 								<form action='' method='post'>
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
@@ -2062,28 +2066,28 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</form>
 							<?php elseif ($ac == 'edit') : ?>
 								<?php
-										$id = $_GET['id'];
-										$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
-										if (isset($_POST['submit'])) :
-											$nip = $_POST['nip'];
-											$nama = $_POST['nama'];
-											$nama = str_replace("'", "&#39;", $nama);
-											$username = $_POST['username'];
-											$pass1 = $_POST['pass1'];
-											$pass2 = $_POST['pass2'];
-											if ($pass1 <> '' and $pass2 <> '') {
-												if ($pass1 <> $pass2) :
-													$info = info("Password tidak cocok!", "NO");
-												else :
-													$password = password_hash($pass1, PASSWORD_BCRYPT);
-													$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
-												endif;
-											} else {
-												$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
-											}
-											(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+								$id = $_GET['id'];
+								$value = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$id'"));
+								if (isset($_POST['submit'])) :
+									$nip = $_POST['nip'];
+									$nama = $_POST['nama'];
+									$nama = str_replace("'", "&#39;", $nama);
+									$username = $_POST['username'];
+									$pass1 = $_POST['pass1'];
+									$pass2 = $_POST['pass2'];
+									if ($pass1 <> '' and $pass2 <> '') {
+										if ($pass1 <> $pass2) :
+											$info = info("Password tidak cocok!", "NO");
+										else :
+											$password = password_hash($pass1, PASSWORD_BCRYPT);
+											$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',password='$password',level='admin' WHERE id_pengawas='$id'");
 										endif;
-										?>
+									} else {
+										$exec = mysqli_query($koneksi, "UPDATE pengawas SET nip='$nip',nama='$nama',username='$username',level='admin' WHERE id_pengawas='$id'");
+									}
+									(!$exec) ? $info = info("Gagal menyimpan!", "NO") : jump("?pg=$pg");
+								endif;
+								?>
 								<form action='' method='post'>
 									<div class='box box-solid'>
 										<div class='box-header with-border'>
@@ -2124,13 +2128,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</form>
 							<?php elseif ($ac == 'hapus') : ?>
 								<?php
-										$id = $_GET['id'];
-										$info = info("Anda yakin akan menghapus pengawas ini?");
-										if (isset($_POST['submit'])) {
-											$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
-											(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
-										}
-										?>
+								$id = $_GET['id'];
+								$info = info("Anda yakin akan menghapus pengawas ini?");
+								if (isset($_POST['submit'])) {
+									$exec = mysqli_query($koneksi, "DELETE FROM pengawas WHERE id_pengawas='$id'");
+									(!$exec) ? $info = info("Gagal menghapus!", "NO") : jump("?pg=$pg");
+								}
+								?>
 								<form action='' method='post'>
 									<div class='box box-danger'>
 										<div class='box-header with-border'>
@@ -2151,24 +2155,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<?php elseif ($pg == 'pk') : ?>
 					<?php if ($setting['jenjang'] == 'SMK') : ?>
 						<?php
-								cek_session_admin();
-								if (isset($_POST['tambahPK'])) :
-									$idpk = str_replace(' ', '', $_POST['idpk']);
-									$nama = $_POST['nama'];
-									$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pk WHERE id_pk='$idpk'"));
-									if ($cek > 0) {
-										$info = info("Jurusan dengan kode $idpk sudah ada!", "NO");
-									} else {
-										$exec = mysqli_query($koneksi, "INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
-										if (!$exec) :
-											$info = info("Gagal menyimpan!", "NO");
-										else :
-											jump("?pg=$pg");
-										endif;
-									}
+						cek_session_admin();
+						if (isset($_POST['tambahPK'])) :
+							$idpk = str_replace(' ', '', $_POST['idpk']);
+							$nama = $_POST['nama'];
+							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM pk WHERE id_pk='$idpk'"));
+							if ($cek > 0) {
+								$info = info("Jurusan dengan kode $idpk sudah ada!", "NO");
+							} else {
+								$exec = mysqli_query($koneksi, "INSERT INTO pk (id_pk,program_keahlian) VALUES ('$idpk','$nama')");
+								if (!$exec) :
+									$info = info("Gagal menyimpan!", "NO");
+								else :
+									jump("?pg=$pg");
 								endif;
-								$info = '';
-								?>
+							}
+						endif;
+						$info = '';
+						?>
 						<div class='row'>
 							<div class='col-md-12'>
 								<div class='box box-solid'>
@@ -2241,24 +2245,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php endif; ?>
 				<?php elseif ($pg == 'jenisujian') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['tambahujian'])) :
-							$id = str_replace(' ', '', $_POST['idujian']);
-							$nama = $_POST['nama'];
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$id'"));
-							if ($cek > 0) {
-								$info = info("Jenis Ujian dengan kode $id sudah ada!", "NO");
+					cek_session_admin();
+					if (isset($_POST['tambahujian'])) :
+						$id = str_replace(' ', '', $_POST['idujian']);
+						$nama = $_POST['nama'];
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM jenis WHERE id_jenis='$id'"));
+						if ($cek > 0) {
+							$info = info("Jenis Ujian dengan kode $id sudah ada!", "NO");
+						} else {
+							$exec = mysqli_query($koneksi, "INSERT INTO jenis (id_jenis,nama,status) VALUES ('$id','$nama','tidak')");
+							if (!$exec) {
+								$info = info("Gagal menyimpan!", "NO");
 							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO jenis (id_jenis,nama,status) VALUES ('$id','$nama','tidak')");
-								if (!$exec) {
-									$info = info("Gagal menyimpan!", "NO");
-								} else {
-									jump("?pg=$pg");
-								}
+								jump("?pg=$pg");
 							}
-						endif;
-						$info = '';
-						?>
+						}
+					endif;
+					$info = '';
+					?>
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
@@ -2328,24 +2332,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php include 'master_ruang.php'; ?>
 				<?php elseif ($pg == 'level') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['submit'])) :
-							$level = str_replace(' ', '', $_POST['level']);
-							$ket = $_POST['keterangan'];
+					cek_session_admin();
+					if (isset($_POST['submit'])) :
+						$level = str_replace(' ', '', $_POST['level']);
+						$ket = $_POST['keterangan'];
 
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM level WHERE kode_level='$level'"));
-							if ($cek > 0) {
-								$info = info("Level atau tingkat $level sudah ada!", "NO");
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM level WHERE kode_level='$level'"));
+						if ($cek > 0) {
+							$info = info("Level atau tingkat $level sudah ada!", "NO");
+						} else {
+							$exec = mysqli_query($koneksi, "INSERT INTO level (kode_level,keterangan) VALUES ('$level','$ket')");
+							if (!$exec) {
+								$info = info("Gagal menyimpan!", "NO");
 							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO level (kode_level,keterangan) VALUES ('$level','$ket')");
-								if (!$exec) {
-									$info = info("Gagal menyimpan!", "NO");
-								} else {
-									jump("?pg=$pg");
-								}
+								jump("?pg=$pg");
 							}
-						endif;
-						?>
+						}
+					endif;
+					?>
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
@@ -2410,24 +2414,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</div>
 				<?php elseif ($pg == 'sesi') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['submit'])) {
-							$sesi = str_replace(' ', '', $_POST['sesi']);
-							$nama = $_POST['nama'];
+					cek_session_admin();
+					if (isset($_POST['submit'])) {
+						$sesi = str_replace(' ', '', $_POST['sesi']);
+						$nama = $_POST['nama'];
 
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM sesi WHERE kode_sesi='$sesi'"));
-							if ($cek > 0) {
-								$info = info("Kelompok Test atau Sesi $sesi sudah ada!", "NO");
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM sesi WHERE kode_sesi='$sesi'"));
+						if ($cek > 0) {
+							$info = info("Kelompok Test atau Sesi $sesi sudah ada!", "NO");
+						} else {
+							$exec = mysqli_query($koneksi, "INSERT INTO sesi (kode_sesi,nama_sesi) VALUES ('$sesi','$nama')");
+							if (!$exec) {
+								$info = info("Gagal menyimpan!", "NO");
 							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO sesi (kode_sesi,nama_sesi) VALUES ('$sesi','$nama')");
-								if (!$exec) {
-									$info = info("Gagal menyimpan!", "NO");
-								} else {
-									jump("?pg=$pg");
-								}
+								jump("?pg=$pg");
 							}
 						}
-						?>
+					}
+					?>
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='box box-solid'>
@@ -2492,24 +2496,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					</div>
 				<?php elseif ($pg == 'kelas') : ?>
 					<?php
-						cek_session_admin();
-						if (isset($_POST['submit'])) :
-							$idkelas = str_replace(' ', '', $_POST['idkelas']);
-							$nama = $_POST['nama'];
-							$level = $_POST['level'];
-							$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$idkelas'"));
-							if ($cek > 0) {
-								$info = info("Kelas dengan kode $idkelas sudah ada!", "NO");
-							} else {
-								$exec = mysqli_query($koneksi, "INSERT INTO kelas (id_kelas,nama,level) VALUES ('$idkelas','$nama','$level')");
-								if (!$exec) :
-									$info = info("Gagal menyimpan!", "NO");
-								else :
-									jump("?pg=$pg");
-								endif;
-							}
-						endif;
-						?>
+					cek_session_admin();
+					if (isset($_POST['submit'])) :
+						$idkelas = str_replace(' ', '', $_POST['idkelas']);
+						$nama = $_POST['nama'];
+						$level = $_POST['level'];
+						$cek = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$idkelas'"));
+						if ($cek > 0) {
+							$info = info("Kelas dengan kode $idkelas sudah ada!", "NO");
+						} else {
+							$exec = mysqli_query($koneksi, "INSERT INTO kelas (id_kelas,nama,level) VALUES ('$idkelas','$nama','$level')");
+							if (!$exec) :
+								$info = info("Gagal menyimpan!", "NO");
+							else :
+								jump("?pg=$pg");
+							endif;
+						}
+					endif;
+					?>
 					<div class='row'>
 						<div class='col-md-12'>
 							<div class='alert alert-warning '>
@@ -2568,11 +2572,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<select name='level' class='form-control' required='true'>
 													<option value=''></option>
 													<?php
-														$levelQ = mysqli_query($koneksi, "SELECT * FROM level ");
-														while ($level = mysqli_fetch_array($levelQ)) {
-															echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
-														}
-														?>
+													$levelQ = mysqli_query($koneksi, "SELECT * FROM level ");
+													while ($level = mysqli_fetch_array($levelQ)) {
+														echo "<option value='$level[kode_level]'>$level[kode_level]</option>";
+													}
+													?>
 												</select>
 											</div>
 											<div class='form-group'>
@@ -2595,18 +2599,18 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 					<?php include "banksoal.php"; ?>
 				<?php elseif ($pg == 'editguru') : ?>
 					<?php
-						if (isset($_POST['submit'])) :
-							$username = $_POST['username'];
-							$nip = $_POST['nip'];
-							$nama = $_POST['nama'];
-							$nama = str_replace("'", "&#39;", $nama);
-							$exec = mysqli_query($koneksi, "UPDATE pengawas SET username='$username', nama='$nama',nip='$nip',password='$_POST[password]' WHERE id_pengawas='$id_pengawas'");
-						endif;
-						?>
+					if (isset($_POST['submit'])) :
+						$username = $_POST['username'];
+						$nip = $_POST['nip'];
+						$nama = $_POST['nama'];
+						$nama = str_replace("'", "&#39;", $nama);
+						$exec = mysqli_query($koneksi, "UPDATE pengawas SET username='$username', nama='$nama',nip='$nip',password='$_POST[password]' WHERE id_pengawas='$id_pengawas'");
+					endif;
+					?>
 					<?php if ($ac == '') : ?>
 						<?php
-								$guru = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$pengawas[id_pengawas]'"));
-								?>
+						$guru = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM pengawas WHERE id_pengawas='$pengawas[id_pengawas]'"));
+						?>
 						<div class='row'>
 							<div class='col-md-3'>
 								<div class='box box-solid'>
@@ -2705,18 +2709,18 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												</tr>
 											</thead>
 											<tbody>
-												<?php $loginQ = mysqli_query($koneksi, "SELECT * FROM login ORDER BY date DESC"); ?>
+												<?php $loginQ = mysqli_query($koneksi, "SELECT * FROM nilai where online='1'"); ?>
 												<?php while ($login = mysqli_fetch_array($loginQ)) : ?>
 													<?php
-															$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$login[id_siswa]'"));
-															$no++;
-															?>
+													$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$login[id_siswa]'"));
+													$no++;
+													?>
 													<tr>
-														<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-<?= $no ?>' value="<?= $login['id_log'] ?>"></td>
+														<td><input type='checkbox' name='cekpilih[]' class='cekpilih' id='cekpilih-<?= $no ?>' value="<?= $login['id_nilai'] ?>"></td>
 														<td><?= $no ?></td>
 														<td><?= $siswa['no_peserta'] ?></td>
 														<td><?= $siswa['nama'] ?></td>
-														<td><?= $login['date'] ?></td>
+														<td><?= $login['ujian_mulai'] ?></td>
 													</tr>
 												<?php endwhile; ?>
 											</tbody>
@@ -2755,9 +2759,9 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 												<?php $nilaiq = mysqli_query($koneksi, "SELECT *  FROM pengacak"); ?>
 												<?php while ($pengacak = mysqli_fetch_array($nilaiq)) : ?>
 													<?php
-															$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$pengacak[id_siswa]'"));
-															$no++;
-															?>
+													$siswa = mysqli_fetch_array(mysqli_query($koneksi, "select * from siswa where id_siswa='$pengacak[id_siswa]'"));
+													$no++;
+													?>
 													<tr>
 														<td><?= $no ?></td>
 														<td><button data-idu="<?= $pengacak['id_ujian'] ?>" data-id="<?= $pengacak['id_pengacak'] ?>" class="btnresetacak btn btn-sm btn-danger">Acak Lagi</button></td>
@@ -2815,10 +2819,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 
 	<script src='<?= $homeurl ?>/plugins/slimScroll/jquery.slimscroll.min.js'></script>
 
-	<script src='<?= $homeurl ?>/plugins/datatables/jquery.dataTables.min.js'></script>
-	<script src='<?= $homeurl ?>/plugins/datatables/dataTables.bootstrap.min.js'></script>
-	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/dataTables.select.min.js'></script>
-	<script src='<?= $homeurl ?>/plugins/datatables/extensions/Select/js/select.bootstrap.min.js'></script>
+
 	<script src='<?= $homeurl ?>/plugins/iCheck/icheck.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'></script>
 	<script src='<?= $homeurl ?>/plugins/select2/select2.min.js'></script>
@@ -2840,11 +2841,13 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				$('#pengumuman').load('<?= $homeurl ?>/admin/_load.php?pg=pengumuman');
 			}, 1000
 		);
-		var autoRefresh = setInterval(
-			function() {
-				$('#divstatus').load("<?= $homeurl ?>/admin/statuspeserta.php?id=76310EEFF2B5D3C887F238976A421B638CFEB0942AB8249CD0A29B125C91B3E5");
-			}, 1000
-		);
+		<?php if ($pg == 'status') { ?>
+			var autoRefresh = setInterval(
+				function() {
+					$('#divstatus').load("<?= $homeurl ?>/admin/statuspeserta.php?id=<?= $_GET['id'] ?>");
+				}, 1000
+			);
+		<?php } ?>
 		var autoRefresh = setInterval(
 			function() {
 				$('#isi_token').load('<?= $homeurl ?>/admin/_load.php?pg=token');

@@ -1,78 +1,4 @@
 <?php
-function url_exists($url)
-{
-	$result = false;
-	$url = filter_var($url, FILTER_VALIDATE_URL);
-
-	/* Open curl connection */
-	$handle = curl_init($url);
-
-	/* Set curl parameter */
-	curl_setopt_array($handle, array(
-		CURLOPT_FOLLOWLOCATION => TRUE,     // we need the last redirected url
-		CURLOPT_NOBODY => TRUE,             // we don't need body
-		CURLOPT_HEADER => FALSE,            // we don't need headers
-		CURLOPT_RETURNTRANSFER => FALSE,    // we don't need return transfer
-		CURLOPT_SSL_VERIFYHOST => FALSE,    // we don't need verify host
-		CURLOPT_SSL_VERIFYPEER => FALSE     // we don't need verify peer
-	));
-
-	/* Get the HTML or whatever is linked in $url. */
-	$response = curl_exec($handle);
-
-	$httpCode = curl_getinfo($handle, CURLINFO_EFFECTIVE_URL);  // Try to get the last url
-	$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);      // Get http status from last url
-
-	/* Check for 200 (file is found). */
-	if ($httpCode == 200) {
-		$result = true;
-	}
-
-	return $result;
-
-	/* Close curl connection */
-	curl_close($handle);
-}
-function multiple_download($urls, $save_path = '../files')
-{
-	$multi_handle = curl_multi_init();
-	$file_pointers = [];
-	$curl_handles = [];
-	// Add curl multi handles, one per file we don't already have
-	foreach ($urls as $key => $url) {
-		//if (url_exists($url)) {
-		$file = $save_path . '/' . basename($url);
-		if (!is_file($file)) {
-			$curl_handles[$key] = curl_init($url);
-			$file_pointers[$key] = fopen($file, "w");
-			curl_setopt($curl_handles[$key], CURLOPT_FILE, $file_pointers[$key]);
-			curl_setopt($curl_handles[$key], CURLOPT_HEADER, 0);
-			curl_setopt($curl_handles[$key], CURLOPT_CONNECTTIMEOUT, 60);
-			curl_multi_add_handle($multi_handle, $curl_handles[$key]);
-		}
-		//}
-	}
-	// Download the files
-	do {
-		curl_multi_exec($multi_handle, $running);
-	} while ($running > 0);
-	// Free up objects
-	// foreach ($urls as $key => $url) {
-	// 	curl_multi_remove_handle($multi_handle, $curl_handles[$key]);
-	// 	curl_close($curl_handles[$key]);
-	// 	fclose($file_pointers[$key]);
-	// }
-	curl_multi_close($multi_handle);
-}
-function http_request($url)
-{
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	$output = curl_exec($ch);
-	curl_close($ch);
-	return $output;
-}
 function getBrowser()
 {
 	$u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -196,14 +122,7 @@ function cek_session_admin()
 		echo "<script>document.location='.';</script>";
 	}
 }
-function cek_session_superadmin()
-{
 
-	$level = $_SESSION['level'];
-	if ($level != 'superadmin') {
-		echo "<script>document.location='.';</script>";
-	}
-}
 function cek_session_guru()
 {
 	$level = $_SESSION['level'];
@@ -402,7 +321,7 @@ function genPass($panjang)
 	for ($i = 0; $i < $panjang; $i++) {
 		$pos = rand(0, strlen($karakter) - 1);
 		$string .= $karakter{
-			$pos};
+		$pos};
 	}
 	return $string;
 }
@@ -413,37 +332,20 @@ if (!function_exists('cutText')) {
 	{
 		if ($mode != 1) {
 			$char = $text{
-				$length - 1};
+			$length - 1};
 			switch ($mode) {
 				case 2:
 					while ($char != ' ') {
 						$char = $text{
-							--$length};
+						--$length};
 					}
 				case 3:
 					while ($char != ' ') {
 						$char = $text{
-							++$num_char};
+						++$num_char};
 					}
 			}
 		}
 		return substr($text, 0, $length);
 	}
-}
-
-function lamaujian($seconds)
-{
-
-	if ($seconds) {
-		$gmdate = gmdate("z:H:i:s", $seconds);
-		$data = explode(":", $gmdate);
-
-		$string = isset($data[0]) && $data[0] > 0 ? $data[0] . " Hari" : "";
-		$string .= isset($data[1]) && $data[1] > 0 ? $data[1] . " Jam " : "";
-		$string .= isset($data[2]) && $data[2] > 0 ? $data[2] . " Menit " : "";
-		$string .= isset($data[3]) && $data[3] > 0 ? $data[3] . " Detik " : "";
-	} else {
-		$string = '--';
-	}
-	return $string;
 }

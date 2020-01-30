@@ -14,6 +14,6 @@ $where2 = array(
 );
 delete($koneksi, 'nilai', ['id_nilai' => $idnilai]);
 delete($koneksi, 'pengacak', $where2);
-delete($koneksi, 'pengacakopsi', $where2);
+//delete($koneksi, 'pengacakopsi', $where2);
 delete($koneksi, 'jawaban', $where2);
-delete($koneksi, 'hasil_jawaban', $where2);
+//delete($koneksi, 'hasil_jawaban', $where2);

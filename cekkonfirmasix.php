@@ -17,7 +17,6 @@ if ($query['token'] == 1) :
         $ceknilai = mysqli_num_rows($query);
         if ($ceknilai <> 0) :
             if ($nilaix['ujian_selesai'] == '') :
-                mysqli_query($koneksi, "UPDATE nilai set online='1' where id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
                 jump("$homeurl/testongoing/$ac/$id_siswa");
             endif;
         else :
@@ -33,7 +32,6 @@ else :
     $ceknilai = mysqli_num_rows($query);
     if ($ceknilai <> 0) {
         if ($nilaix['ujian_selesai'] == '') :
-            mysqli_query($koneksi, "UPDATE nilai set online='1' where id_mapel='$idmapel' AND id_siswa='$id_siswa' AND id_ujian='$ac'");
             jump("$homeurl/testongoing/$ac/$id_siswa");
         endif;
     } else {

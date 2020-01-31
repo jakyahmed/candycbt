@@ -8,6 +8,10 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 	$kelas = unserialize($mapel['kelas']);
 	$jurusan = unserialize($mapel['idpk']);
 	$kelas = implode("','", $kelas);
+	$sqlkelas = "";
+	if (!$kelas == 'semua') {
+		$sqlkelas = "and id_kelas in ('" . $kelas . "')";
+	}
 	?>
 	<div class='row'>
 		<div class='col-md-12'>
@@ -38,7 +42,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 								</tr>
 							</thead>
 							<tbody>
-								<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa where level='$mapel[level]' and id_kelas in ('" . $kelas . "') "); ?>
+								<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa where level='$mapel[level]'" . $sqlkelas); ?>
 								<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 									<?php
 									$no++;

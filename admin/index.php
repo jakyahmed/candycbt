@@ -1863,7 +1863,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<div class='col-md-12'>
 							<div class='box box-solid'>
 								<div class='box-header with-border '>
-									<h3 class='box-title'><img src='../dist/img/svg/data_master.svg' width='20'> Import Data Master</h3>
+									<h3 class='box-title'>Import Data Master</h3>
 									<div class='box-tools pull-right '>
 										<a href='<?= $format ?>' class='btn btn-sm btn-flat btn-success'><i class='fa fa-file-excel-o'></i> Download Format</a>
 										<a href='?pg=siswa' class='btn btn-sm btn-flat btn-success' title='Batal'><i class='fa fa-times'></i></a>

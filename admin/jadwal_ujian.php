@@ -276,6 +276,18 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 									<input type="text" class="tgl form-control" name="selesaiujian" value="<?= $mapel['tgl_selesai'] ?>" aria-describedby="helpId" placeholder="">
 									<small id="helpId" class="form-text text-muted">Tanggal dan waktu ujian ditutup</small>
 								</div>
+								<div class='form-group'>
+									<div class='row'>
+										<div class='col-md-6'>
+											<label>Lama Ujian</label>
+											<input type='number' name='lama_ujian' value="<?= $mapel['lama_ujian'] ?>" class='form-control' required='true' />
+										</div>
+										<div class='col-md-6'>
+											<label>Sesi</label>
+											<input type='number' name='sesi' value="<?= $mapel['sesi'] ?>" class='form-control' required='true' />
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class='modal-footer'>
 
@@ -298,7 +310,6 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 						data: $(this).serialize(),
 						success: function(data) {
 							location.reload();
-
 						}
 					});
 					return false;

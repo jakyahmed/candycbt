@@ -22,6 +22,7 @@ $benar = $salah = 0;
 $mapel = fetch($koneksi, 'mapel', array('id_mapel' => $idm));
 $siswa = fetch($koneksi, 'siswa', array('id_siswa' => $ids));
 $ceksoal = select($koneksi, 'soal', array('id_mapel' => $idm, 'jenis' => 1));
+$arrayjawab = array();
 foreach ($ceksoal as $getsoal) {
 	$w = array(
 		'id_siswa' => $ids,
@@ -32,6 +33,7 @@ foreach ($ceksoal as $getsoal) {
 	$cekjwb = rowcount($koneksi, 'jawaban', $w);
 	if ($cekjwb <> 0) {
 		$getjwb = fetch($koneksi, 'jawaban', $w);
+		$arrayjawab[$getjwb['id_soal']] = $getjwb['jawaban'];
 		($getjwb['jawaban'] == $getsoal['jawaban']) ? $benar++ : $salah++;
 	} else {
 		$salah++;
@@ -44,9 +46,12 @@ $data = array(
 	'jml_benar' => $benar,
 	'jml_salah' => $salah,
 	'skor' => $skor,
-	'total' => $skor
+	'total' => $skor,
+	'online' => 0,
+	'jawaban' => serialize($arrayjawab)
 );
 update($koneksi, 'nilai', $data, $where);
 echo mysqli_error($koneksi);
 delete($koneksi, 'pengacak', $where2);
+delete($koneksi, 'jawaban', $where2);
 //delete($koneksi, 'pengacakopsi', $where2);

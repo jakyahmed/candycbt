@@ -5,6 +5,9 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 	<?php
 	$id_mapel = $_GET['id'];
 	$mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM mapel WHERE id_mapel='$id_mapel'"));
+	$kelas = unserialize($mapel['kelas']);
+	$jurusan = unserialize($mapel['idpk']);
+	$kelas = implode("','", $kelas);
 	?>
 	<div class='row'>
 		<div class='col-md-12'>
@@ -35,7 +38,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 								</tr>
 							</thead>
 							<tbody>
-								<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa"); ?>
+								<?php $siswaQ = mysqli_query($koneksi, "SELECT * FROM siswa where level='$mapel[level]' and id_kelas in ('" . $kelas . "') "); ?>
 								<?php while ($siswa = mysqli_fetch_array($siswaQ)) : ?>
 									<?php
 									$no++;

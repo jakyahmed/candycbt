@@ -152,8 +152,8 @@ $setting['header'] = str_replace('<br />', '', $setting['header']);
 												<div class='checkbox'>
 													<small class='label bg-purple'>Pilih Data Hasil Nilai</small><br />
 													<label><input type='checkbox' name='data[]' value='nilai' /> Data Nilai</label><br />
-													<label><input type='checkbox' name='data[]' value='hasil_jawaban' /> Data Jawaban</label><br />
-													<label><input type='checkbox' name='data[]' value='jawaban' /> Temp_Jawaban</label><br />
+
+													<label><input type='checkbox' name='data[]' value='jawaban' /> Data Jawaban</label><br />
 													<small class='label bg-green'>Pilih Data Ujian</small><br />
 													<label><input type='checkbox' name='data[]' value='soal' /> Data Soal</label><br />
 													<label><input type='checkbox' name='data[]' value='mapel' /> Data Bank Soal</label><br />

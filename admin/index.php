@@ -530,7 +530,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<?php elseif ($pg == 'dataujian') : ?>
 					<?php include 'dataujian.php'; ?>
 				<?php elseif ($pg == 'filemanager') : ?>
-					<iframe width='100%' height='550' frameborder='0' src='ifm.php'>
+					<iframe width='100%' height='550' frameborder='0' src='ifm.php' style="margin-top:50px">
 					</iframe>
 				<?php elseif ($pg == 'matapelajaran') : ?>
 					<?php

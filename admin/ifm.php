@@ -8,7 +8,10 @@
  *
  * main
  */
-
+require("../config/config.default.php");
+	require("../config/config.function.php");
+(isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
+	($id_pengawas==0) ? header('location:login.php'):null;
 error_reporting( E_ALL );
 ini_set( 'display_errors', 'OFF' );
 
@@ -16,42 +19,42 @@ class IFM {
 	private $defaultconfig = array(
 		// general config
 		"auth" => 0,
-		"auth_source" => 'inline;admin:$2y$10$0Bnm5L4wKFHRxJgNq.oZv.v7yXhkJZQvinJYR2p6X1zPvzyDRUVRC',
+		"auth_source" => 'inline;admin:21232f297a57a5a743894a0e4a801fc3',
 		"root_dir" => "../files",
 		"root_public_url" => "../files",
-		"tmp_dir" => "",
-		"timezone" => "",
+		"tmp_dir" => "../files",
+		"timezone" => "Asia/Jakarta",
 		"forbiddenChars" => array(),
 		"language" => "en",
 		"selfoverwrite" => 0,
 
 		// api controls
-		"ajaxrequest" => 1,
+		"ajaxrequest" => 0,
 		"chmod" => 1,
-		"copymove" => 1,
+		"copymove" => 0,
 		"createdir" => 1,
 		"createfile" => 1,
-		"edit" => 1,
+		"edit" => 0,
 		"delete" => 1,
 		"download" => 1,
 		"extract" => 1,
 		"upload" => 1,
-		"remoteupload" => 1,
+		"remoteupload" => 0,
 		"rename" => 1,
 		"zipnload" => 1,
 		"createarchive" => 1,
 
 		// gui controls
-		"showlastmodified" => 0,
+		"showlastmodified" => 1,
 		"showfilesize" => 1,
-		"showowner" => 1,
-		"showgroup" => 1,
-		"showpermissions" => 2,
+		"showowner" => 0,
+		"showgroup" => 0,
+		"showpermissions" => 0,
 		"showhtdocs" => 0,
 		"showhiddenfiles" => 1,
 		"showpath" => 0,
 		"contextmenu" => 1,
-		"disable_mime_detection" => 0
+		"disable_mime_detection" => 1
 	);
 
 	private $config = array();

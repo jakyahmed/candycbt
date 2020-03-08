@@ -46,7 +46,7 @@ if ($cekdb == false) {
 					</span>
 					<span class="login100-form-title p-b-26">
 						<?php echo $setting['sekolah']; ?>
-						<p><small>Support By <?= APLIKASI . " v" . VERSI . " r" . REVISI ?></small></p>
+						<p><small>Supported by Jaky</small></p>
 					</span>
 					<div class="wrap-input100 validate-input" data-validate="Enter Username" required>
 						<input class="input100" type="text" name="username">
@@ -72,6 +72,7 @@ if ($cekdb == false) {
 
 
 				</form>
+				
 			</div>
 		</div>
 	</div>

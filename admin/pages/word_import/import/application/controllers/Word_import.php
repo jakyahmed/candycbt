@@ -12,7 +12,7 @@ class Word_import extends CI_Controller {
 
  function index($limit='0',$cid='0')
  {
-				$logged_in=$this->session->userdata('beeuser');		
+				$logged_in=$this->session->userdata('beeuser');
                 $config['upload_path']          = './upload/';
                 $config['allowed_types']        = 'docx';
                 $config['max_size']             = 10000;
@@ -21,7 +21,7 @@ class Word_import extends CI_Controller {
                 {
 					$error = array('error' => $this->upload->display_errors());
 					$this->session->set_flashdata('message', "<div class='alert alert-danger'>".$error['error']." </div>");
-					redirect('qbank');				
+					redirect('qbank');
 					exit;
                 }
                 else
@@ -29,8 +29,9 @@ class Word_import extends CI_Controller {
 					$data = array('upload_data' => $this->upload->data());
 					$targets = 'upload/';
 					$targets = $targets . basename($data['upload_data']['file_name']);
-					$Filepath = $targets;               
-                
+					$Filepath = $targets;
+                    //var_dump($data);
+
                 }
 $this->load->helper('word_import_helper');
 $questions=word_file_import($Filepath);
@@ -39,7 +40,7 @@ $this->session->set_flashdata('message', "<div class='alert alert-success'>".$th
 $id_soal=$_POST['id_bank_soal'];
 $id_lokal=$_POST['id_lokal'];
 $sip = $_SERVER['SERVER_NAME'];
-header('location:../../../../index.php?pg=banksoal&tambah=yes&ac=lihat&id='.$id_soal);  
+header('location:../../../../index.php?pg=banksoal&tambah=yes&ac=lihat&id='.$id_soal);
 
  }
 

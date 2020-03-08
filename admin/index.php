@@ -197,11 +197,11 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<ul class=' sidebar-menu tree data-widget=' tree>
 
 					<li class="header">MENU UTAMA</li>
-					<li><a href='?'><i class="fas fa-home fa-2x fa-fw    "></i> <span>Beranda</span></a></li>
+					<li><a href='?'><i class="fas fa-home fa-lg fa-fw    "></i> <span>Beranda</span></a></li>
 					<?php if ($setting['server'] == 'lokal') : ?>
 						<li class=' treeview'>
 							<a href='#'>
-								<i class="fas fa-sync-alt fa-2x fa-fw    "></i>
+								<i class="fas fa-sync-alt fa-lg fa-fw    "></i>
 								<span>Sinkron Data</span>
 								<span class='pull-right-container'>
 									<i class='fa fa-angle-down pull-right'></i>
@@ -219,7 +219,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 						<?php if ($setting['server'] == 'pusat') : ?>
 							<li class=' treeview'>
 								<a href='#'>
-									<i class="fas fa-2x fa-fw fa-toolbox    "></i>
+									<i class="fas fa-lg fa-fw fa-toolbox    "></i>
 									<span>Data Master</span>
 									<span class='pull-right-container'>
 										<i class='fa fa-angle-down pull-right'></i>
@@ -242,12 +242,12 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 								</ul>
 							</li>
 						<?php endif ?>
-						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-2x fa-fw   "></i> <span>Peserta Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-lg fa-fw   "></i> <span>Peserta Ujian</span></a></li>
 
-						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-2x fa-fw"></i> <span> Bank Soal</span></a></li>
-						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-2x fa-fw"></i> <span> Jadwal Ujian</span></a></li>
+						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-lg fa-fw"></i> <span> Bank Soal</span></a></li>
+						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-lg fa-fw"></i> <span> Jadwal Ujian</span></a></li>
 						<li class='treeview'>
-							<a href='#'><i class="fas fa-desktop fa-2x fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-desktop fa-lg fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<!-- <li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li> -->
 								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
@@ -258,7 +258,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</ul>
 						</li>
 						<li class='treeview'>
-							<a href='#'><i class="fas fa-file-signature   fa-2x fa-fw"></i><span> Nilai </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-file-signature   fa-lg fa-fw"></i><span> Nilai </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<!-- <li><a href='?pg=nilai'><i class='fas fa-dot-circle fa-fw'></i> <span> Hasil Nilai</span></a></li> -->
 								<li><a href='?pg=semuanilai'><i class='fas fa-dot-circle fa-fw'></i> <span>Semua Nilai</span></a></li>
@@ -266,7 +266,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</ul>
 						</li>
 						<li class='treeview'>
-							<a href='#'><i class="fas fa-print   fa-2x fa-fw"></i><span> Cetak </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-print   fa-lg fa-fw"></i><span> Cetak </span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<li><a href='?pg=absen'><i class='fas fa-dot-circle fa-fw'></i> <span> Daftar Hadir</span></a></li>
 								<li><a href='?pg=kartu'><i class='fas fa-dot-circle fa-fw'></i> <span> Cetak Kartu</span></a></li>
@@ -274,24 +274,24 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 							</ul>
 						</li>
 
-						<li class='treeview'><a href='?pg=pengumuman'><i class="fas fa-bullhorn   fa-2x fa-fw"></i> <span> Pengumuman</span></a></li>
+						<li class='treeview'><a href='?pg=pengumuman'><i class="fas fa-bullhorn   fa-lg fa-fw"></i> <span> Pengumuman</span></a></li>
 						<li class='treeview'>
-							<a href='#'><i class="fas fa-users-cog   fa-2x fa-fw"></i> <span>Manajemen User</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-users-cog   fa-lg fa-fw"></i> <span>Manajemen User</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<li><a href='?pg=pengawas'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Administrator</span></a></li>
 								<li><a href='?pg=guru'><i class='fas fa-dot-circle fa-fw'></i> <span>Data Guru</span></a></li>
 							</ul>
 						</li>
-						<li class='treeview'><a href='?pg=pengaturan'><i class="fas fa-tools fa-2x fa-fw"></i> <span>Pengaturan</span></a></li>
+						<li class='treeview'><a href='?pg=pengaturan'><i class="fas fa-tools fa-lg fa-fw"></i> <span>Pengaturan</span></a></li>
 
 					<?php endif ?>
 					<?php if ($pengawas['level'] == 'guru') : ?>
-						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-lg fa-2x fa-fw"></i> <span>Peserta Ujian</span></a></li>
-						<li><a href='?pg=editguru'><i class="fas fa-users-cog   fa-2x fa-fw"></i> <span>Profil Saya</span></a></li>
-						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-2x fa-fw"></i> <span>Bank Soal</span></a></li>
-						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-2x fa-fw"></i> <span> Jadwal Ujian</span></a></li>
+						<li class='treeview'><a href='?pg=siswa'><i class="fas fa-user-friends fa-lg fa-lg fa-fw"></i> <span>Peserta Ujian</span></a></li>
+						<li><a href='?pg=editguru'><i class="fas fa-users-cog   fa-lg fa-fw"></i> <span>Profil Saya</span></a></li>
+						<li><a href='?pg=banksoal'><i class="fas fa-envelope-open-text   fa-lg fa-fw"></i> <span>Bank Soal</span></a></li>
+						<li><a href='?pg=jadwal'><i class="fas fa-business-time   fa-lg fa-fw"></i> <span> Jadwal Ujian</span></a></li>
 						<li class='treeview'>
-							<a href='#'><i class="fas fa-desktop fa-2x fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
+							<a href='#'><i class="fas fa-desktop fa-lg fa-fw"></i><span> UBK</span><span class='pull-right-container'> <i class='fa fa-angle-down pull-right'></i> </span></a>
 							<ul class='treeview-menu'>
 								<li><a href='?pg=status'><i class='fas fa-dot-circle fa-fw'></i> <span> Status Peserta</span></a></li>
 								<li><a href='?pg=reset'><i class='fas fa-dot-circle fa-fw'></i> <span> Reset Login</span></a></li>
@@ -2802,7 +2802,7 @@ $mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mata_pelajaran"))
 				<div class='pull-left hidden-xs'>
 					<strong>
 						<span id='end-sidebar'>
-							&copy; 2019 <?= APLIKASI . " v" . VERSI . " r" . REVISI ?>
+							&copy; 2020 SMK NEGERI 1 KALIBAWANG
 						</span>
 					</strong>
 				</div>

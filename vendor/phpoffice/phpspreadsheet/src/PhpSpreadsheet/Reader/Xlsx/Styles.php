@@ -31,7 +31,7 @@ class Styles extends BaseParserClass
         $this->styleXml = $styleXml;
     }
 
-    public function setStyleBaseData(Theme $theme = null, $styles = [], $cellStyles = [])
+    public function setStyleBaseData(Theme $theme, $styles, $cellStyles)
     {
         self::$theme = $theme;
         $this->styles = $styles;
@@ -260,6 +260,6 @@ class Styles extends BaseParserClass
 
     private static function getArrayItem($array, $key = 0)
     {
-        return $array[$key] ?? null;
+        return isset($array[$key]) ? $array[$key] : null;
     }
 }

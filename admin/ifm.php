@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* =======================================================================
  * Improved File Manager
  * ---------------------
@@ -7,11 +7,8 @@
  * =======================================================================
  *
  * main
-*/
-require("../config/config.default.php");
-	require("../config/config.function.php");
-(isset($_SESSION['id_pengawas'])) ? $id_pengawas = $_SESSION['id_pengawas'] : $id_pengawas = 0;
-	($id_pengawas==0) ? header('location:login.php'):null;
+ */
+
 error_reporting( E_ALL );
 ini_set( 'display_errors', 'OFF' );
 
@@ -20,9 +17,10 @@ class IFM {
 		// general config
 		"auth" => 0,
 		"auth_source" => 'inline;admin:$2y$10$0Bnm5L4wKFHRxJgNq.oZv.v7yXhkJZQvinJYR2p6X1zPvzyDRUVRC',
-		"root_dir" => '../files',
-		"tmp_dir" => '../files',
-		"defaulttimezone" => "Asia/Jakarta",
+		"root_dir" => "../files",
+		"root_public_url" => "../files",
+		"tmp_dir" => "",
+		"timezone" => "",
 		"forbiddenChars" => array(),
 		"language" => "en",
 		"selfoverwrite" => 0,
@@ -46,9 +44,9 @@ class IFM {
 		// gui controls
 		"showlastmodified" => 0,
 		"showfilesize" => 1,
-		"showowner" => 0,
-		"showgroup" => 0,
-		"showpermissions" => 0,
+		"showowner" => 1,
+		"showgroup" => 1,
+		"showpermissions" => 2,
 		"showhtdocs" => 0,
 		"showhiddenfiles" => 1,
 		"showpath" => 0,
@@ -70,8 +68,9 @@ class IFM {
 		$this->config['auth'] =  getenv('IFM_AUTH') !== false ? intval( getenv('IFM_AUTH') ) : $this->config['auth'] ;
 		$this->config['auth_source'] =  getenv('IFM_AUTH_SOURCE') !== false ? getenv('IFM_AUTH_SOURCE') : $this->config['auth_source'] ;
 		$this->config['root_dir'] =  getenv('IFM_ROOT_DIR') !== false ? getenv('IFM_ROOT_DIR') : $this->config['root_dir'] ;
+		$this->config['root_public_url'] =  getenv('IFM_ROOT_PUBLIC_URL') !== false ? getenv('IFM_ROOT_PUBLIC_URL') : $this->config['root_public_url'] ;
 		$this->config['tmp_dir'] =  getenv('IFM_TMP_DIR') !== false ? getenv('IFM_TMP_DIR') : $this->config['tmp_dir'] ;
-		$this->config['defaulttimezone'] =  getenv('IFM_DEFAULTTIMEZONE') !== false ? getenv('IFM_DEFAULTTIMEZONE') : $this->config['defaulttimezone'] ;
+		$this->config['timezone'] =  getenv('IFM_TIMEZONE') !== false ? getenv('IFM_TIMEZONE') : $this->config['timezone'] ;
 		$this->config['forbiddenChars'] =  getenv('IFM_FORBIDDENCHARS') !== false ? str_split( getenv('IFM_FORBIDDENCHARS') ) : $this->config['forbiddenChars'] ;
 		$this->config['language'] =  getenv('IFM_LANGUAGE') !== false ? getenv('IFM_LANGUAGE') : $this->config['language'] ;
 		$this->config['selfoverwrite'] =  getenv('IFM_SELFOVERWRITE') !== false ? getenv('IFM_SELFOVERWRITE') : $this->config['selfoverwrite'] ;
@@ -116,14 +115,14 @@ f00bar;
 		// templates
 		$templates = array();
 		$templates['app'] = <<<'f00bar'
-		<nav class="navbar navbar-default bg-blue
+		<nav class="navbar navbar-inverse
 			{{^config.inline}}
 			navbar-fixed-top
 			{{/config.inline}}
 		">
 			<div class="container">
 				<div class="navbar-header">
-					<a href='#' class="navbar-brand">Candy Cbt</a>
+					<a class="navbar-brand">IFM</a>
 					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar">
 						<span class="sr-only">{{i18n.toggle_nav}}</span>
 						<span class="icon-bar"></span>
@@ -204,7 +203,7 @@ f00bar;
 			</table>
 		</div>
 		<div class="container">
-			<div class="panel panel-default ifminfo"><div class="panel-body">{{i18n.footer}} {{i18n.github}}</div></div>
+			<div class="panel panel-default ifminfo"><div class="panel-body">{{i18n.footer}} <a href="http://github.com/misterunknown/ifm">{{i18n.github}}</a></div></div>
 		</div>
 
 f00bar;
@@ -282,14 +281,7 @@ f00bar;
 	</td>
 	{{#config.download}}
 	<td>
-		<form id="d_{{guid}}" action="{{api}}" method="post">
-			<input type="hidden" name="dir" value="{{download.currentDir}}">
-			<input type="hidden" name="filename" value="{{download.name}}">
-			<input type="hidden" name="api" value="{{download.action}}">
-		</form>
-		<a tabindex="0" name="start_download" data-guid="{{guid}}">
-			<span class="{{download.icon}}"></span>
-		</a>
+		<a href="{{download.link}}"><span class="{{download.icon}}"></span></a>
 	</td>
 	{{/config.download}}
 	{{#config.showlastmodified}}
@@ -582,121 +574,7 @@ f00bar;
 		$this->templates = $templates;
 
 		$i18n = array();
-		$i18n["de"] = <<<'f00bar'
-{
-    "ajax_request": "AJAX Request",
-    "archivename": "Name des Archivs",
-    "archive_create_success": "Das Archiv wurde erfolgreich erstellt.",
-    "archive_create_error": "Das Archiv konnte nicht erstellt werden.",
-    "archive_invalid_format": "Ungültiges Archivformat angegeben.",
-    "cancel": "Abbrechen",
-    "close": "Schließen",
-    "copy": "Kopieren",
-    "copylink": "Link kopieren",
-    "copy_error": "Folgende Dateien konnten nicht kopiert werden:",
-    "copy_success": "Datei(en) erfolgreich kopiert.",
-    "create_archive": "Archiv erstellen",
-    "data": "Daten",
-    "delete": "Löschen",
-    "directoryname": "Ordner Name",
-    "download": "Download",
-    "edit": "Bearbeiten",
-    "editor_options": "Editor Optionen",
-    "error": "Fehler:",
-    "extract": "Entpacken",
-    "extract_error": "Das Archiv konnte nicht entpackt werden.",
-    "extract_filename": "Folgende Datei entpacken -",
-    "extract_success": "Das Archiv wurde erfolgreich entpackt.",
-    "file_copy_to": "nach",
-    "file_delete_confirm": "Soll die folgende Datei wirklich gelöscht werden:",
-    "file_delete_error": "Folgende Dateien konnten nicht gelöscht werden:",
-    "file_delete_success": "Datei(en) erfolgreich gelöscht",
-    "file_display_error": "Die Datei kann nicht angezeigt oder geändert werden",
-    "file_new": "Neue Datei",
-    "file_load_error": "Der Inhalt der Datei konnte nicht geladen werden",
-    "file_open_error": "Die Datei konnte nicht geöffnet werden.",
-    "file_new": "Neue Datei",
-    "file_no_permission": "Sie haben keine Berechtigung diese Datei zu erstellen/bearbeiten.",
-    "file_not_found": "Die Datei wurde nicht gefunden, oder kann nicht geöffnet werden.",
-    "file_rename": "Datei umbenennen",
-    "file_rename_error": "Datei konnte nicht umbenannt werden: ",
-    "file_rename_success": "Datei erfolgreich umbenannt.",
-    "file_save_error": "Datei konnte nicht gespeichert werden.",
-    "file_save_success": "Datei erfolgreich gespeichert.",
-    "file_save_confirm": "Soll diese Datei wirklich gespeichert werden -",
-    "file_save_error": "Datei konnte nicht geändert oder angelegt werden: ",
-    "file_upload_error": "Datei konnte nicht hochgeladen werden.",
-    "file_upload_success": "Datei erfolgreich hochgeladen",
-    "filename": "Dateiname",
-    "filename_new": "Neuer Dateiname",
-    "filename_slashes": "Der Dateiname darf keine Schrägstriche enthalten.",
-    "filter": "Filtern",
-    "folder_create_error": "Verzeichnis konnte nicht angelegt werden.",
-    "folder_create_success": "Verzeichnis erfolgreich angelegt.",
-    "folder_new": "Neue Ordner",
-    "folder_not_found": "Das Verzeichnis wurde nicht gefunden.",
-    "folder_tree_load_error": "Fehler bei Laden des Verzeichnisbaums.",
-    "footer": "IFM - verbesserter file manager | ifm.php versteckt |",
-    "general_error": "Genereller Fehler aufgetreten: Keine oder unvollständige Antwort vom Server",
-    "github": "Besuche das Projekt auf GitHub",
-    "group": "Gruppe",
-    "invalid_action": "Fehlerhafte Aktion übergeben.",
-    "invalid_archive_format": "Ungültiges Archiv-Format. Möglich sind zip, tar, tar.gz oder tar.bz2.",
-    "invalid_data": "Fehlerhafte Daten vom Server erhalten.",
-    "invalid_dir": "Ungültiges Verzeichnis übergegeben.",
-    "invalid_filename": "Ungültiger Dateiname übergegeben.",
-    "invalid_params": "Ungültige Parameter übergegeben.",
-    "invalid_url": "Ungültige URL übergegeben.",
-    "json_encode_error": "Konnte die Antwort nicht als JSON formatieren:",
-    "last_modified": "Zuletzt geändert",
-    "load_config_error": "Konfiguration konnte nicht geladen werden.",
-    "load_template_error": "Vorlagen konnten nicht geladen werden.",
-    "load_text_error": "Texte konnten nicht geladen werden.",
-    "login": "Anmeldung",
-    "login_failed": "Anmeldung fehlgeschlagen.",
-    "logout": "Abmelden",
-    "method": "Methode",
-    "move": "Verschieben",
-    "move_error": "Folgende Dateien konnten nicht verschoben werden:",
-    "move_success": "Datei(en) erfolgreich verschoben.",
-    "nopermissions": "Sie haben nicht die nötige Berechtigung dafür.",
-    "options": "Optionen",
-    "owner": "Besitzer",
-    "password": "Passwort",
-    "path_content": "Inhalt von",
-    "pattern_error_slashes": "Das Muster darf keine Slashes enthalten.",
-    "permission_change_error": "Berechtigungen konnten nicht geändert werden.",
-    "permission_change_success": "Berechtigungen erfolgreich geändert.",
-    "permission_parse_error": "Berechtigungen konnten nicht geparst werden.",
-    "permissions": "Berechtigungen",
-    "refresh": "Auffrischen",
-    "rename": "Umbenennen",
-    "rename_filename": "Folgende Datei umbenennen -",
-    "request": "Anfrage",
-    "response": "Antwort",
-    "save": "Speichen",
-    "save_wo_close": "Speichen ohne schließen",
-    "search": "Suchen",
-    "search_pattern": "Muster",
-    "select_destination": "Zielort auswählen",
-    "size": "Größe",
-    "soft_tabs": "Leichte Tabulatoren",
-    "tab_size": "Tabulatoren Größe",
-    "tasks": "Aufgaben",
-	"remaining_tasks": "Es gibt noch laufende Prozesse. Wollen Sie wirklich neu laden?",
-    "toggle_nav": "Navigation umschalten",
-    "upload": "Hochladen",
-    "upload_drop": "Dateien zum hochladen hier ablegen",
-    "upload_file": "Datei hochladen",
-    "upload_remote": "Hochladen von ausserhalb",
-    "upload_remote_url": "Entfernte URL zum hochladen",
-    "username": "Benutzername",
-    "word_wrap": "Zeilenumbruch"
-}
-
-f00bar;
-$i18n["de"] = json_decode( $i18n["de"], true );
-$i18n["en"] = <<<'f00bar'
+		$i18n["en"] = <<<'f00bar'
 {
     "ajax_request": "AJAX request",
     "archivename": "Name of the archive",
@@ -750,9 +628,9 @@ $i18n["en"] = <<<'f00bar'
     "folder_new": "New Folder",
     "folder_not_found": "The directory could not be found.",
     "folder_tree_load_error": "Error while fetching the folder tree.",
-    "footer": "Candy Cbt Support by ifm file manager |",
+    "footer": "IFM - improved file manager | ifm.php hidden |",
     "general_error": "General error occured: No or broken response.",
-    "github": "copyright @ 2018",
+    "github": "Visit the project on GitHub",
     "group": "Group",
     "invalid_action": "Invalid action given.",
     "invalid_archive_format": "Invalid archive format given. Possible formats are zip, tar, tar.gz or tar.bz2.",
@@ -809,24 +687,27 @@ $i18n["en"] = <<<'f00bar'
 }
 
 f00bar;
-$i18n["en"] = json_decode( $i18n["en"], true );
+        $i18n["en"] = json_decode( $i18n["en"], true );
 
 		$this->i18n = $i18n;
-		
+
 		if( in_array( $this->config['language'], array_keys( $this->i18n ) ) )
 			$this->l = $this->i18n[$this->config['language']];
 		else
-			$this->l = $this->i18n[0];
+			$this->l = reset($this->i18n);
+
+		if ($this->config['timezone'])
+			date_default_timezone_set($this->config['timezone']);
 	}
 
 	/**
-	 * This function contains the client-side application
-	 */
+     * This function contains the client-side application
+     */
 	public function getApplication() {
 		$this->getHTMLHeader();
 		print '<div id="ifm"></div>';
 		$this->getJS();
-		print '<script>var ifm = new IFM(); ifm.init( "ifm" );</script>';
+		print '<script>var ifm = new IFM(); ifm.init("ifm");</script>';
 		$this->getHTMLFooter();
 	}
 
@@ -860,7 +741,7 @@ $i18n["en"] = json_decode( $i18n["en"], true );
 table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !important;max-width:none !important;border-collapse:separate !important}table.dataTable td,table.dataTable th{-webkit-box-sizing:content-box;box-sizing:content-box}table.dataTable td.dataTables_empty,table.dataTable th.dataTables_empty{text-align:center}table.dataTable.nowrap th,table.dataTable.nowrap td{white-space:nowrap}div.dataTables_wrapper div.dataTables_length label{font-weight:normal;text-align:left;white-space:nowrap}div.dataTables_wrapper div.dataTables_length select{width:75px;display:inline-block}div.dataTables_wrapper div.dataTables_filter{text-align:right}div.dataTables_wrapper div.dataTables_filter label{font-weight:normal;white-space:nowrap;text-align:left}div.dataTables_wrapper div.dataTables_filter input{margin-left:0.5em;display:inline-block;width:auto}div.dataTables_wrapper div.dataTables_info{padding-top:8px;white-space:nowrap}div.dataTables_wrapper div.dataTables_paginate{margin:0;white-space:nowrap;text-align:right}div.dataTables_wrapper div.dataTables_paginate ul.pagination{margin:2px 0;white-space:nowrap}div.dataTables_wrapper div.dataTables_processing{position:absolute;top:50%;left:50%;width:200px;margin-left:-100px;margin-top:-26px;text-align:center;padding:1em 0}table.dataTable thead>tr>th.sorting_asc,table.dataTable thead>tr>th.sorting_desc,table.dataTable thead>tr>th.sorting,table.dataTable thead>tr>td.sorting_asc,table.dataTable thead>tr>td.sorting_desc,table.dataTable thead>tr>td.sorting{padding-right:30px}table.dataTable thead>tr>th:active,table.dataTable thead>tr>td:active{outline:none}table.dataTable thead .sorting,table.dataTable thead .sorting_asc,table.dataTable thead .sorting_desc,table.dataTable thead .sorting_asc_disabled,table.dataTable thead .sorting_desc_disabled{cursor:pointer;position:relative}table.dataTable thead .sorting:after,table.dataTable thead .sorting_asc:after,table.dataTable thead .sorting_desc:after,table.dataTable thead .sorting_asc_disabled:after,table.dataTable thead .sorting_desc_disabled:after{position:absolute;bottom:8px;right:8px;display:block;font-family:'Glyphicons Halflings';opacity:0.5}table.dataTable thead .sorting:after{opacity:0.2;content:"\e150"}table.dataTable thead .sorting_asc:after{content:"\e155"}table.dataTable thead .sorting_desc:after{content:"\e156"}table.dataTable thead .sorting_asc_disabled:after,table.dataTable thead .sorting_desc_disabled:after{color:#eee}div.dataTables_scrollHead table.dataTable{margin-bottom:0 !important}div.dataTables_scrollBody>table{border-top:none;margin-top:0 !important;margin-bottom:0 !important}div.dataTables_scrollBody>table>thead .sorting:after,div.dataTables_scrollBody>table>thead .sorting_asc:after,div.dataTables_scrollBody>table>thead .sorting_desc:after{display:none}div.dataTables_scrollBody>table>tbody>tr:first-child>th,div.dataTables_scrollBody>table>tbody>tr:first-child>td{border-top:none}div.dataTables_scrollFoot>.dataTables_scrollFootInner{box-sizing:content-box}div.dataTables_scrollFoot>.dataTables_scrollFootInner>table{margin-top:0 !important;border-top:none}@media screen and (max-width: 767px){div.dataTables_wrapper div.dataTables_length,div.dataTables_wrapper div.dataTables_filter,div.dataTables_wrapper div.dataTables_info,div.dataTables_wrapper div.dataTables_paginate{text-align:center}}table.dataTable.table-condensed>thead>tr>th{padding-right:20px}table.dataTable.table-condensed .sorting:after,table.dataTable.table-condensed .sorting_asc:after,table.dataTable.table-condensed .sorting_desc:after{top:6px;right:6px}table.table-bordered.dataTable th,table.table-bordered.dataTable td{border-left-width:0}table.table-bordered.dataTable th:last-child,table.table-bordered.dataTable th:last-child,table.table-bordered.dataTable td:last-child,table.table-bordered.dataTable td:last-child{border-right-width:0}table.table-bordered.dataTable tbody th,table.table-bordered.dataTable tbody td{border-bottom-width:0}div.dataTables_scrollHead table.table-bordered{border-bottom-width:0}div.table-responsive>div.dataTables_wrapper>div.row{margin:0}div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:first-child{padding-left:0}div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding-right:0}
 
 
- <?php print '</style>
+<?php print '</style>
 			<style type="text/css">';?> @font-face {
   font-family: 'fontello';
   src: url('../font/fontello.eot?80353264');
@@ -884,34 +765,34 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
   }
 }
 */
- 
+
  [class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: none;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
@@ -1070,7 +951,7 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
     transform: rotate(359deg);
   }
 }
- <?php print '</style>
+<?php print '</style>
 			<style type="text/css">';?> body {
 	padding-top: 70px;
 	overflow-y: scroll !important;
@@ -1202,7 +1083,12 @@ table.dataTable thead th.sorting_asc:after {
 table.dataTable thead th.sorting_desc:after {
 	content: "\f0dd";
 }
- <?php print '</style>
+
+#copyMoveTree {
+	max-height: 80vh;
+	overflow: auto;
+}
+<?php print '</style>
 		';
 	}
 
@@ -1443,20 +1329,20 @@ l=0;for(h=f.length;l<h;l++)if(c=f[l],b.isArray(c))q(d,c);else{g=e="";switch(c){c
                         window.ace[key] = a[key];
                 });
             })();
-        
-			
+
+
 			/**
  * IFM constructor
  *
  * @param object params - object with some configuration values, currently you only can set the api url
  */
-function IFM( params ) {
+function IFM(params) {
 	// reference to ourself, because "this" does not work within callbacks
 	var self = this;
 
 	params = params || {};
 	// set the backend for the application
-	self.api = params.api || window.location.pathname;
+	self.api = params.api || window.location.href.replace(/#.*/, "");
 
 	this.editor = null;		// global ace editor
 	this.fileChanged = false;	// flag for check if file was changed already
@@ -1499,7 +1385,7 @@ function IFM( params ) {
 		$(modal)
 			.on( 'hide.bs.modal', function( e ) {
 				if( document.forms.formFile && self.fileChanged && !self.isModalClosedByButton ) {
-					console.log( "Prevented closing modal because the file was changed and no button was clicked." );
+					self.log( "Prevented closing modal because the file was changed and no button was clicked." );
 					e.preventDefault();
 				} else
 					$(this).remove();
@@ -1562,10 +1448,7 @@ function IFM( params ) {
 				item.fixtop = 100;
 			item.download = {};
 			item.download.name = ( item.name == ".." ) ? "." : item.name;
-			item.download.currentDir = self.currentDir;
 			item.lastmodified_hr = self.formatDate( item.lastmodified );
-			if( self.config.isDocroot )
-				item.link = self.hrefEncode( self.pathCombine( self.currentDir, item.name ) );
 			if( ! self.config.chmod )
 				item.readonly = "readonly";
 			if( self.config.edit || self.config.rename || self.config.delete || self.config.extract || self.config.copymove ) {
@@ -1615,6 +1498,19 @@ function IFM( params ) {
 					});
 				}
 			}
+			item.download.link = self.api+"?api="+item.download.action+"&dir="+self.hrefEncode(self.currentDir)+"&filename="+self.hrefEncode(item.download.name);
+			if( self.config.isDocroot )
+				item.link = self.hrefEncode( self.pathCombine( window.location.path, self.currentDir, item.name ) );
+			else if (self.config.download && self.config.zipnload) {
+				if (self.config.root_public_url) {
+					if (self.config.root_public_url.charAt(0) == "/")
+						item.link = self.pathCombine(window.location.origin, self.config.root_public_url, self.currentDir, item.name);
+					else
+						item.link = self.pathCombine(self.config.root_public_url, self.currentDir, item.name);
+				} else
+					item.link = self.api+"?api="+(item.download.action=="zipnload"?"zipnload":"proxy")+"&dir="+self.hrefEncode(self.currentDir)+"&filename="+self.hrefEncode(item.download.name);
+			} else
+				item.link = '#';
 			if( ! self.inArray( item.name, [".", ".."] ) ) {
 				item.dragdrop = 'draggable="true"';
 				if( self.config.copymove )
@@ -1673,16 +1569,12 @@ function IFM( params ) {
 			if( e.target.tagName == "TD" && e.target.parentElement.classList.contains( 'clickable-row' ) && e.target.parentElement.dataset.filename !== ".." && e.ctrlKey )
 				e.target.parentElement.classList.toggle( 'selectedItem' );
 			else if( e.target.classList.contains( 'ifmitem' ) || e.target.parentElement.classList.contains( 'ifmitem' ) ) {
-				e.stopPropagation();
-				e.preventDefault();
 				ifmitem = ( e.target.classList.contains( 'ifmitem' ) ? e.target : e.target.parentElement );
-				if( ifmitem.dataset.type == "dir" )
+				if( ifmitem.dataset.type == "dir" ) {
+					e.stopPropagation();
+					e.preventDefault();
 					self.changeDirectory( ifmitem.parentElement.parentElement.dataset.filename );
-				else
-					if( self.config.isDocroot )
-						window.location.href = self.hrefEncode( self.pathCombine( self.currentDir, ifmitem.parentElement.parentElement.dataset.filename ) );
-					else
-						document.forms["d_"+ifmitem.id].submit();
+				}
 			} else if( e.target.parentElement.name == 'start_download' ) {
 				e.stopPropagation();
 				e.preventDefault();
@@ -1773,9 +1665,20 @@ function IFM( params ) {
 					},
 					copylink: {
 						name: self.i18n.copylink,
-						onClick: function( data ) { self.copyToClipboard( self.getClipboardLink( data.clicked.link ) ); },
+						onClick: function( data ) {
+							if( data.clicked.link.toLowerCase().substr(0,4) == "http" )
+								self.copyToClipboard( data.clicked.link );
+							else {
+								var pathname = window.location.pathname.replace( /^\/*/g, '' ).split( '/' );
+								pathname.pop();
+								var link = self.pathCombine( window.location.origin, data.clicked.link )
+								if( pathname.length > 0 )
+									link = self.pathCombine( window.location.origin, pathname.join( '/' ), data.clicked.link )
+								self.copyToClipboard( link );
+							}
+						},
 						iconClass: "icon icon-link-ext",
-						isShown: function( data ) { return !!( !data.selected.length && data.clicked.name != ".." && !self.config.root_dir ); }
+						isShown: function( data ) { return !!( !data.selected.length && data.clicked.name != ".." ); }
 					},
 					copymove: {
 						name: function( data ) {
@@ -1964,6 +1867,34 @@ function IFM( params ) {
 			if( self.inArray( mode, self.ace.modes.map( x => "ace/mode/"+x ) ) )
 				self.editor.getSession().setMode( mode );
 		}
+		self.editor.commands.addCommand({
+			name: "toggleFullscreen",
+			bindKey: "Ctrl-Shift-F",
+			exec: function(e) {
+				var el = e.container;
+				console.log("toggleFullscreen was called");
+				console.log("el.parentElement.tagName is "+el.parentElement.tagName);
+				if (el.parentElement.tagName == "BODY") {
+					el.remove();
+					var fieldset = document.getElementsByClassName('modal-body')[0].firstElementChild;
+					fieldset.insertBefore(el, fieldset.getElementsByTagName('button')[0].previousElementSibling);
+					el.style = Object.assign({}, ifm.tmpEditorStyles);
+					ifm.tmpEditorStyles = undefined;
+				} else {
+					ifm.tmpEditorStyles = Object.assign({}, el.style);
+					el.remove();
+					document.body.appendChild(el);
+					el.style.position = "absolute";
+					el.style.top = 0;
+					el.style.left = 0;
+					el.style.zIndex = 10000;
+					el.style.width = "100%";
+					el.style.height = "100%";
+				}
+				e.resize();
+				e.focus();
+			}
+		});
 	};
 
 	/**
@@ -2230,7 +2161,7 @@ function IFM( params ) {
 
 	/**
 	 * Copy or moves a file
-	 * 
+	 *
 	 * @params {string} sources - array of fileCache items
 	 * @params {string} destination - target directory
 	 * @params {string} action - action (copy|move)
@@ -2281,7 +2212,7 @@ function IFM( params ) {
 			if( e.target.id == 'buttonExtract' ) {
 				e.preventDefault();
 				var loc = form.elements.extractTargetLocation.value;
-				self.extractFile( filename, ( loc == "custom" ? form.elements.extractCustomLocation.value : loc ) ); 
+				self.extractFile( filename, ( loc == "custom" ? form.elements.extractCustomLocation.value : loc ) );
 				self.hideModal();
 			} else if( e.target.id == 'buttonCancel' ) {
 				e.preventDefault();
@@ -2340,7 +2271,7 @@ function IFM( params ) {
 		form.elements.files.addEventListener( 'change', function( e ) {
 			if( e.target.files.length > 1 )
 				form.elements.newfilename.readOnly = true;
-			else 
+			else
 				form.elements.newfilename.readOnly = false;
 		});
 		form.addEventListener( 'click', function( e ) {
@@ -2638,7 +2569,7 @@ function IFM( params ) {
 			},
 			dataType: "json",
 			success: function( data ) {
-				console.log( data );
+				self.log( data );
 				if( data.status == "OK" ) {
 					self.showMessage( data.message, "s" );
 					self.refreshFileTable();
@@ -2676,18 +2607,26 @@ function IFM( params ) {
 	 * @param {string} b - component 2
 	 * @returns {string} - combined path
 	 */
-	this.pathCombine = function(a, b) {
-		if ( a == "" && b == "" )
+	this.pathCombine = function() {
+		if( !arguments.length )
 			return "";
-		if( b[0] == "/" )
-			b = b.substring(1);
-		if( a == "" )
-			return b;
-		if( a[a.length-1] == "/" )
-			a = a.substring(0, a.length-1);
-		if( b == "" )
-			return a;
-		return a+"/"+b;
+		var args = Array.prototype.slice.call(arguments);
+		args = args.filter( x => typeof x === 'string' && x != '' );
+
+		if( args.length == 0 )
+			return "";
+
+		first = "";
+		while( first.length < 1 )
+			first = args.shift();
+
+		first = first.replace( /\/+$/g, '' );
+		if( !args.length )
+			return first;
+
+		args.forEach( (v, i) => args[i] = v.replace( /^\/*|\/*$/g, '' ) ); // */
+		args.unshift( first );
+		return args.join( '/' );
 	};
 
 	/**
@@ -2853,7 +2792,7 @@ function IFM( params ) {
 		if( ! highlightedItem ) {
 			if( document.activeElement.classList.contains( 'ifmitem' ) )
 				highlight( document.activeElement.parentElement.parentElement );
-			else 
+			else
 				highlight( document.getElementById( 'filetable' ).tBodies[0].firstElementChild );
 		} else  {
 			var newItem = ( direction=="next" ? highlightedItem.nextElementSibling : highlightedItem.previousElementSibling );
@@ -2908,29 +2847,30 @@ function IFM( params ) {
 	 */
 	this.hrefEncode = function( s ) {
 		return s
-			.replace( '%', '%25' )
-			.replace( ';', '%3B' )
-			.replace( '?', '%3F' )
-			.replace( ':', '%3A' )
-			.replace( '@', '%40' )
-			.replace( '&', '%26' )
-			.replace( '=', '%3D' )
-			.replace( '+', '%2B' )
-			.replace( '$', '%24' )
-			.replace( ',', '%2C' )
-			.replace( '<', '%3C' )
-			.replace( '>', '%3E' )
-			.replace( '#', '%23' )
-			.replace( '"', '%22' )
-			.replace( '{', '%7B' )
-			.replace( '}', '%7D' )
-			.replace( '|', '%7C' )
-			.replace( '^', '%5E' )
-			.replace( '[', '%5B' )
-			.replace( ']', '%5D' )
-			.replace( '`', '%60' )
-			.replace( '\\', '%5C' )
+			.replace( /%/g, '%25' )
+			.replace( /;/g, '%3B' )
+			.replace( /\?/g, '%3F' )
+			.replace( /:/g, '%3A' )
+			.replace( /@/g, '%40' )
+			.replace( /&/g, '%26' )
+			.replace( /=/g, '%3D' )
+			.replace( /\+/g, '%2B' )
+			.replace( /\$/g, '%24' )
+			.replace( /,/g, '%2C' )
+			.replace( /</g, '%3C' )
+			.replace( />/g, '%3E' )
+			.replace( /#/g, '%23' )
+			.replace( /"/g, '%22' )
+			.replace( /{/g, '%7B' )
+			.replace( /}/g, '%7D' )
+			.replace( /\|/g, '%7C' )
+			.replace( /\^/g, '%5E' )
+			.replace( /\[/g, '%5B' )
+			.replace( /\]/g, '%5D' )
+			.replace( /\\/g, '%5C' )
+			.replace( /`/g, '%60' )
 		;
+		// ` <- this comment prevents the vim syntax highlighting from breaking -.-
 	};
 
 	/**
@@ -3098,7 +3038,7 @@ function IFM( params ) {
 					break;
 				case ' ':
 				case 'Enter':
-					if( element.children[0].children[0] == document.activeElement ) { 
+					if( element.children[0].children[0] == document.activeElement ) {
 						if( e.key == 'Enter' && element.classList.contains( 'isDir' ) ) {
 							e.preventDefault();
 							e.stopPropagation();
@@ -3160,7 +3100,7 @@ function IFM( params ) {
 			}
 		});
 	};
-	
+
 	this.initLoadTemplates = function() {
 		// load the templates from the backend
 		$.ajax({
@@ -3200,7 +3140,7 @@ function IFM( params ) {
 			}
 		});
 	};
-	
+
 	this.initApplication = function() {
 		self.rootElement.innerHTML = Mustache.render(
 				self.templates.app,
@@ -3272,14 +3212,14 @@ function IFM( params ) {
 			document.addEventListener( 'dragstart', function( e ) {
 				var selectedItems = document.getElementsByClassName( 'selectedItem' );
 				var data;
-				if( selectedItems.length > 0 ) 
+				if( selectedItems.length > 0 )
 					data = self.fileCache.filter(
 							x => self.inArray(
 								x.guid,
 								[].slice.call( selectedItems ).map( function( e ) { return e.dataset.id; } )
 								)
 							);
-				else 
+				else
 					data = self.fileCache.find( x => x.guid === e.target.dataset.id );
 				e.dataTransfer.setData( 'text/plain', JSON.stringify( data ) );
 				var dragImage = document.createElement( 'div' );
@@ -3317,7 +3257,7 @@ function IFM( params ) {
 						else
 							self.copyMove( source, destination.name, "move" );
 					} catch( e ) {
-						console.log( e );
+						self.log( e );
 					} finally {
 						[].slice.call( document.getElementsByClassName( 'highlightedItem' ) ).forEach( function( e ) {
 							e.classList.remove( 'highlightedItem' );
@@ -3326,7 +3266,7 @@ function IFM( params ) {
 				}
 			});
 		}
-		
+
 		// handle keystrokes
 		document.onkeydown = self.handleKeystrokes;
 
@@ -3358,7 +3298,7 @@ f00bar;
 		print '<!DOCTYPE HTML>
 		<html>
 			<head>
-				<title>Candy - file manager</title>
+				<title>IFM - improved file manager</title>
 				<meta charset="utf-8">
 				<meta http-equiv="X-UA-Compatible" content="IE=edge">
 				<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -3371,8 +3311,8 @@ f00bar;
 	}
 
 	/*
-	   main functions
-	 */
+    main functions
+     */
 
 	private function handleRequest() {
 		if( $_REQUEST["api"] == "getRealpath" ) {
@@ -3451,8 +3391,8 @@ f00bar;
 	}
 
 	/*
-	   api functions
-	 */
+    api functions
+     */
 
 
 	private function getFiles( $dir ) {
@@ -3487,7 +3427,7 @@ f00bar;
 			$item["type"] = "dir";
 			if( $name == ".." )
 				$item["icon"] = "icon icon-up-open";
-			else 
+			else
 				$item["icon"] = "icon icon-folder-empty";
 		} else {
 			$item["type"] = "file";
@@ -3540,7 +3480,10 @@ f00bar;
 		$ret = $this->config;
 		$ret['inline'] = ( $this->mode == "inline" ) ? true : false;
 		$ret['isDocroot'] = ( $this->getRootDir() == $this->getScriptRoot() ) ? true : false;
-		$this->jsonResponse( $ret );
+		foreach (array("auth_source", "root_dir") as $field) {
+			unset($ret[$field]);
+		}
+		$this->jsonResponse($ret);
 	}
 
 	private function getFolders( $d ) {
@@ -3580,7 +3523,8 @@ f00bar;
 		try {
 			$results = $this->searchItemsRecursive( $d['pattern'] );
 			$this->jsonResponse( $results );
-		} catch( Exception $e ) {
+		}
+        catch( Exception $e ) {
 			$this->jsonResponse( array( "status" => "ERROR", "message" => $this->l['error'] . " " . $e->getMessage() ) );
 		}
 	}
@@ -3806,7 +3750,7 @@ f00bar;
 		else {
 			if( ! is_file( $d['filename' ] ) )
 				http_response_code( 404 );
-			else 
+			else
 				$this->fileDownload( array( "file" => $d['filename'], "forceDL" => $forceDL ) );
 		}
 	}
@@ -3851,7 +3795,7 @@ f00bar;
 				} else {
 					$this->jsonResponse( array( "status" => "OK","message" => $this->l['extract_success'] ) );
 				}
-			} 
+			}
 			if( $restoreIFM ) {
 				if( $tmpSelfChecksum != hash_file( "sha256", __FILE__ ) ) {
 					rewind( $tmpSelfContent );
@@ -3922,7 +3866,8 @@ f00bar;
 				try {
 					chmod( $d["filename"], (int)octdec( $chmod ) );
 					$this->jsonResponse( array( "status" => "OK", "message" => $this->l['permission_change_success'] ) );
-				} catch ( Exception $e ) {
+				}
+                catch ( Exception $e ) {
 					$this->jsonResponse( array( "status" => "ERROR", "message" => $this->l['permission_change_error'] ) );
 				}
 			}
@@ -3952,9 +3897,11 @@ f00bar;
 							$d['filename'] = basename( getcwd() );
 					}
 					$this->fileDownload( array( "file" => $dfile, "name" => $d['filename'] . ".zip" ) );
-				} catch ( Exception $e ) {
+				}
+                catch ( Exception $e ) {
 					echo $this->l['error'] . " " . $e->getMessage();
-				} finally {
+				}
+                finally {
 					if( file_exists( $dfile ) ) @unlink( $dfile );
 				}
 			}
@@ -4003,7 +3950,8 @@ f00bar;
 				try {
 					file_put_contents( $filename, file_get_contents( $d['url'] ) );
 					$this->jsonResponse( array( "status" => "OK", "message" => $this->l['file_upload_success'] ) );
-				} catch( Exception $e ) {
+				}
+                catch( Exception $e ) {
 					$this->jsonResponse( array( "status" => "ERROR", "message" => $this->l['error'] . " " . $e->getMessage() ) );
 				}
 			}
@@ -4026,7 +3974,7 @@ f00bar;
 			if( ! $this->isFilenameValid( $file ) ) {
 				$this->jsonResponse( array( "status" => "ERROR", "message" => $this->l['invalid_filename'] ) );
 				exit( 1 );
-			} else 
+			} else
 				array_push( $filenames, realpath( $file ) );
 		switch( $d['format'] ) {
 			case "zip":
@@ -4050,8 +3998,8 @@ f00bar;
 	}
 
 	/*
-	   help functions
-	 */
+    help functions
+     */
 
 	private function log( $d ) {
 		file_put_contents( $this->pathCombine( $this->getRootDir(), "debug.ifm.log" ), ( is_array( $d ) ? print_r( $d, true ) . "\n" : $d . "\n" ), FILE_APPEND );
@@ -4062,27 +4010,27 @@ f00bar;
 		$json = json_encode( $array );
 		if( $json === false ) {
 			switch(json_last_error()) {
-			case JSON_ERROR_NONE:
-				echo ' - No errors';
-				break;
-			case JSON_ERROR_DEPTH:
-				echo ' - Maximum stack depth exceeded';
-				break;
-			case JSON_ERROR_STATE_MISMATCH:
-				echo ' - Underflow or the modes mismatch';
-				break;
-			case JSON_ERROR_CTRL_CHAR:
-				echo ' - Unexpected control character found';
-				break;
-			case JSON_ERROR_SYNTAX:
-				echo ' - Syntax error, malformed JSON';
-				break;
-			case JSON_ERROR_UTF8:
-				echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-				break;
-			default:
-				echo ' - Unknown error';
-				break;
+                case JSON_ERROR_NONE:
+                    echo ' - No errors';
+                    break;
+                case JSON_ERROR_DEPTH:
+                    echo ' - Maximum stack depth exceeded';
+                    break;
+                case JSON_ERROR_STATE_MISMATCH:
+                    echo ' - Underflow or the modes mismatch';
+                    break;
+                case JSON_ERROR_CTRL_CHAR:
+                    echo ' - Unexpected control character found';
+                    break;
+                case JSON_ERROR_SYNTAX:
+                    echo ' - Syntax error, malformed JSON';
+                    break;
+                case JSON_ERROR_UTF8:
+                    echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+                    break;
+                default:
+                    echo ' - Unknown error';
+                    break;
 			}
 
 			$this->jsonResponse( array( "status" => "ERROR", "message" => $this->l['json_encode_error'] . " " . $err ) );
@@ -4107,7 +4055,7 @@ f00bar;
 			return true;
 
 		if( isset( $_SERVER['HTTP_X_IFM_AUTH'] ) && ! empty( $_SERVER['HTTP_X_IFM_AUTH'] ) ) {
-			$cred = split( ":", base64_decode( $_SERVER['HTTP_X_IFM_AUTH'] ) );
+			$cred = explode( ":", base64_decode( str_replace( "Basic ", "", $_SERVER['HTTP_X_IFM_AUTH'] ) ) );
 			if( count( $cred ) == 2 && $this->checkCredentials( $cred[0], $cred[1] ) )
 				return true;
 		}
@@ -4171,7 +4119,13 @@ f00bar;
 				break;
 			case "ldap":
 				$authenticated = false;
-				list( $ldap_server, $rootdn ) = explode( ";", $srcopt );
+				$ldapopts = explode( ";", $srcopt );
+				if( count( $ldapopts ) === 3 ) {
+					list( $ldap_server, $rootdn, $ufilter ) = explode( ";", $srcopt );
+				} else {
+					list( $ldap_server, $rootdn ) = explode( ";", $srcopt );
+					$ufilter = false;
+				}
 				$u = "uid=" . $user . "," . $rootdn;
 				if( ! $ds = ldap_connect( $ldap_server ) ) {
 					trigger_error( "Could not reach the ldap server.", E_USER_ERROR );
@@ -4181,7 +4135,16 @@ f00bar;
 				if( $ds ) {
 					$ldbind = @ldap_bind( $ds, $u, $pass );
 					if( $ldbind ) {
-						$authenticated = true;
+						if( $ufilter ) {
+							if( ldap_count_entries( $ds, ldap_search( $ds, $rootdn, $ufilter ) ) > 0 ){
+								$authenticated = true;
+							} else {
+								trigger_error( "User not allowed.", E_USER_ERROR );
+								$authenticated = false;
+							}
+						} else {
+							$authenticated = true;
+						}
 					} else {
 						trigger_error( ldap_error( $ds ), E_USER_ERROR );
 						$authenticated = false;
@@ -4197,7 +4160,7 @@ f00bar;
 
 	private function loginForm($loginFailed=false) {
 		$err = "";
-		if( $loginFailed ) 
+		if( $loginFailed )
 			$err = '<div class="alert alert-danger">'.$this->l['login_failed'].'</div>';
 		$this->getHTMLHeader();
 		$html = str_replace( "{{error}}", $err, $this->templates['login'] );
@@ -4260,9 +4223,9 @@ f00bar;
 
 	private function isPathValid( $dir ) {
 		/**
-		 * This function is also used to check non-existent paths, but the PHP realpath function returns false for
-		 * nonexistent paths. Hence we need to check the path manually in the following lines.
-		 */
+         * This function is also used to check non-existent paths, but the PHP realpath function returns false for
+         * nonexistent paths. Hence we need to check the path manually in the following lines.
+         */
 		$tmp_d = $dir;
 		$tmp_missing_parts = array();
 		while( realpath( $tmp_d ) === false ) {
@@ -4292,15 +4255,63 @@ f00bar;
 	private function getTypeIcon( $type ) {
 		$type = strtolower($type);
 		switch( $type ) {
-			case "aac":	case "aiff": case "mid": case "mp3": case "wav": return 'icon icon-file-audio'; break;
-			case "ai": case "bmp": case "eps": case "tiff": case "gif": case "jpg": case "jpeg": case "png": case "psd": return 'icon icon-file-image'; break;
-			case "avi": case "flv": case "mp4": case "mpg": case "mkv": case "mpeg": case "webm": case "wmv": case "mov": return 'icon icon-file-video'; break;
-			case "c": case "cpp": case "css": case "dat": case "h": case "html": case "java": case "js": case "php": case "py": case "sql": case "xml": case "yml": return 'icon icon-file-code'; break;
-			case "doc": case "docx": case "odf": case "odt": case "rtf": return 'icon icon-file-word'; break;
-			case "ods": case "xls": case "xlsx": return 'icon icon-file-excel'; break;
-			case "odp": case "ppt": case "pptx": return 'icon icon-file-powerpoint'; break;
+			case "aac":
+            case "aiff":
+            case "mid":
+            case "mp3":
+            case "wav": return 'icon icon-file-audio'; break;
+			case "ai":
+            case "bmp":
+            case "eps":
+            case "tiff":
+            case "gif":
+            case "jpg":
+            case "jpeg":
+            case "png":
+            case "psd": return 'icon icon-file-image'; break;
+			case "avi":
+            case "flv":
+            case "mp4":
+            case "mpg":
+            case "mkv":
+            case "mpeg":
+            case "webm":
+            case "wmv":
+            case "mov": return 'icon icon-file-video'; break;
+			case "c":
+            case "cpp":
+            case "css":
+            case "dat":
+            case "h":
+            case "html":
+            case "java":
+            case "js":
+            case "php":
+            case "py":
+            case "sql":
+            case "xml":
+            case "yml": return 'icon icon-file-code'; break;
+			case "doc":
+            case "docx":
+            case "odf":
+            case "odt":
+            case "rtf": return 'icon icon-file-word'; break;
+			case "ods":
+            case "xls":
+            case "xlsx": return 'icon icon-file-excel'; break;
+			case "odp":
+            case "ppt":
+            case "pptx": return 'icon icon-file-powerpoint'; break;
 			case "pdf": return 'icon icon-file-pdf'; break;
-			case "tgz":	case "zip": case "tar": case "tgz": case "tar.gz": case "tar.xz": case "tar.bz2": case "7z": case "rar": return 'icon icon-file-archive';
+			case "tgz":
+            case "zip":
+            case "tar":
+            case "tgz":
+            case "tar.gz":
+            case "tar.xz":
+            case "tar.bz2":
+            case "7z":
+            case "rar": return 'icon icon-file-archive';
 			default: return 'icon icon-doc';
 		}
 	}
@@ -4407,17 +4418,19 @@ f00bar;
 	}
 
 	private function fileDownload( array $options ) {
-		if( isset( $options['forceDL'] ) && $options['forceDL'] )
-			$content_type = "application/octet-stream";
-		else
-			$content_type = mime_content_type( $options['file'] );
-
 		if( ! isset( $options['name'] ) || trim( $options['name'] ) == "" )
 			$options['name'] = basename( $options['file'] );
 
-		header( 'Content-Description: File Transfer' );
+		if( isset( $options['forceDL'] ) && $options['forceDL'] ) {
+			$content_type = "application/octet-stream";
+			header( 'Content-Disposition: attachment; filename="' . $options['name'] . '"' );
+		} else {
+			$content_type = mime_content_type( $options['file'] );
+		}
+
+		// This header was quite some time present, but I don't know why...
+		//header( 'Content-Description: File Transfer' );
 		header( 'Content-Type: ' . $content_type );
-		header( 'Content-Disposition: attachment; filename="' . $options['name'] . '"' );
 		header( 'Expires: 0' );
 		header( 'Cache-Control: must-revalidate' );
 		header( 'Pragma: public' );
@@ -4441,7 +4454,7 @@ f00bar;
  * License: This project is provided under the terms of the MIT LICENSE
  * http://github.com/misterunknown/ifm/blob/master/LICENSE
  * =======================================================================
- * 
+ *
  * archive class
  *
  * This class provides support for various archive types for the IFM. It can
@@ -4450,13 +4463,13 @@ f00bar;
  * 	* tar
  * 	* tar.gz
  * 	* tar.bz2
-*/
+ */
 
 class IFMArchive {
 
 	/**
-	 * Add a folder to an archive
-	 */
+     * Add a folder to an archive
+     */
 	private static function addFolder( &$archive, $folder, $offset=0 ) {
 		if( $offset == 0 )
 			$offset = strlen( dirname( $folder ) ) + 1;
@@ -4476,8 +4489,8 @@ class IFMArchive {
 	}
 
 	/**
-	 * Create a zip file
-	 */
+     * Create a zip file
+     */
 	public static function createZip( $src, $out )
 	{
 		$a = new ZipArchive();
@@ -4494,14 +4507,15 @@ class IFMArchive {
 
 		try {
 			return $a->close();
-		} catch ( Exception $e ) {
+		}
+        catch ( Exception $e ) {
 			return false;
 		}
 	}
 
 	/**
-	 * Unzip a zip file
-	 */
+     * Unzip a zip file
+     */
 	public static function extractZip( $file, $destination="./" ) {
 		if( ! file_exists( $file ) )
 			return false;
@@ -4516,13 +4530,13 @@ class IFMArchive {
 	}
 
 	/**
-	 * Creates a tar archive
-	 */
+     * Creates a tar archive
+     */
 	public static function createTar( $src, $out, $t ) {
 		$tmpf = substr( $out, 0, strlen( $out ) - strlen( $t ) ) . "tar";
 		$a = new PharData( $tmpf );
 
-		try { 
+		try {
 			if( ! is_array( $src ) )
 				$src = array( $src );
 
@@ -4530,7 +4544,7 @@ class IFMArchive {
 				if( is_dir( $s ) )
 					self::addFolder( $a, $s );
 				elseif( is_file( $s ) )
-					$a->addFile( $s, substr( $s, strlen( dirname( $s ) ) +1 ) ); 
+					$a->addFile( $s, substr( $s, strlen( dirname( $s ) ) +1 ) );
 			switch( $t ) {
 			case "tar.gz":
 				$a->compress( Phar::GZ );

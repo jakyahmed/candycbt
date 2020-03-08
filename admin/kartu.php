@@ -45,21 +45,24 @@ $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id
 									$tempdir = '../foto/qrcode/';
 									$tempatpng = $tempdir . $nopeserta . '.png';
 									$tempatip = $tempdir . 'qrcodeip.png';
+									
 
 									if (!file_exists($tempatpng)) {
+										
 										QRcode::png($nopeserta, $tempatpng, 'L', 1);
 									}
 									if (!file_exists($tempatip)) {
 										QRcode::png($setting['ip_server'], $tempatip, 'M', 1);
 									}
 									?>
-								<img src='../foto/logo_tut.svg' height='40px'>
+								<img src='../foto/logo_prop.png' height='40px'>
 							</td>
 							<td style="text-align:center">
 								<b>
-									KARTU PESERTA UJIAN<br>
-									<?= strtoupper($setting['nama_ujian']) ?><BR>
-									TAHUN PELAJARAN <?= $ajaran ?>
+									<!--KARTU PESERTA UJIAN<br>-->
+                                    <?= $setting['header_kartu'] ?><br />
+									<!-- <?php //echo strtoupper($setting['nama_ujian']) ?><BR>
+									TAHUN PELAJARAN <?php //echo $ajaran ?> -->
 								</b>
 							</td>
 							<td style="text-align:right; vertical-align:top">
@@ -113,9 +116,11 @@ $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id
 						<tr>
 							<td valign='top'></td>
 							<td valign='top' align='center'>
-								Kepala Sekolah<br><br><br>
-								<b><?= $setting['kepsek'] ?></b><br>
-								<b>NIP. <?= $setting['nip'] ?></b>
+							Kalibawang, 13 Maret 2020<br>
+								Ketua Panitia<br>
+								<img src="../foto/ttdketua.png" height="25px"><br>
+								<b>SUHIRMAN, SS</b><br>
+								<b>NIP. 19740501 200604 1 007</b>
 
 							</td>
 						</tr>

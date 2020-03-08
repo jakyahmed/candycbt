@@ -11,14 +11,14 @@ if ( ! function_exists('word_file_import')){
 		$target_dir = "upload/";
 		$target_file = $Filepath;
 		$info = pathinfo($target_file);
-		$new_name=$info['filename'] . '.Zip'; 
+		$new_name=$info['filename'] . '.Zip';
 		$new_name_path=$target_dir . $new_name;
 		rename($target_file,$new_name_path);
 		$zip = new ZipArchive;
 		if ($zip->open($new_name_path) === TRUE) {
 		  $zip->extractTo($target_dir);
 		  $zip->close();
-		 
+
 		$word_xml=$target_dir."word/document.xml";
 		$word_xml_relational=$target_dir."word/_rels/document.xml.rels";
 		$content=file_get_contents($word_xml);
@@ -37,8 +37,8 @@ if ( ! function_exists('word_file_import')){
 			if (in_array($ext, $supported_image)) {
 				$id=xml_attribute($qjd, 'Id');
 				$target=xml_attribute($qjd, 'Target');
-				$relation_image[$id]=$target;  
-			} 
+				$relation_image[$id]=$target;
+			}
 		}
 		$word_folder=$target_dir."word";
 		$prop_folder=$target_dir."docProps";
@@ -55,7 +55,7 @@ if ( ! function_exists('word_file_import')){
 			$new_path=$target_dir."../../../../../files/".$imagenew_name;
 			rename($old_path,$new_path);
 			$img=$imagenew_name;
-			echo $rplc_str2."--".htmlentities($img);
+			//echo $rplc_str2."--".htmlentities($img);
 			$content=str_replace($rplc_str,$img,$content);
 			$content=str_replace($rplc_str2,$img,$content);
 			$content=str_replace($rplc_str3,$img,$content);
@@ -70,9 +70,9 @@ if ( ! function_exists('word_file_import')){
 		$option=array();
 		$single_question="";
 		$singlequestion_array=array();
-		$expl=array_filter(preg_split($_POST['question_split'],$content));
-		foreach($expl as $ekey =>  $value){	 
-		$quesions[]=array_filter(preg_split($_POST['option_split'],$value));
+		$expl=array_filter(preg_split($_POST['question_split']."i",$content));
+		foreach($expl as $ekey =>  $value){
+		$quesions[]=array_filter(preg_split($_POST['option_split']."i",$value));
 
 		foreach($quesions as $key => $options){
 			$option_count=count($options);
@@ -85,9 +85,9 @@ if ( ! function_exists('word_file_import')){
 						$question=$val_option;
 					}else{
 						if($key_option == ($option_count-1)){
-							if (preg_match($_POST['correct_split'], $val_option, $match)) {
-								 
-							$correct=array_filter(preg_split($_POST['correct_split'],$val_option));
+							if (preg_match($_POST['correct_split']."i", $val_option, $match)) {
+
+							$correct=array_filter(preg_split($_POST['correct_split']."i",$val_option));
 							$option[]=$correct['0'];
 							$singlequestion_array[$key]['correct']=$correct['1'];
 
@@ -102,8 +102,8 @@ if ( ! function_exists('word_file_import')){
 					}
 
 				}else if($option_count == "1"){
-					if (preg_match($_POST['correct_split'], $val_option, $match)) {
-						$correct=array_filter(preg_split($_POST['correct_split'],$val_option));
+					if (preg_match($_POST['correct_split']."i", $val_option, $match)) {
+						$correct=array_filter(preg_split($_POST['correct_split']."i",$val_option));
 						$question=$correct['0'];
 						$singlequestion_array[$key]['correct']=$correct['1'];
 
@@ -113,16 +113,16 @@ if ( ! function_exists('word_file_import')){
 					}
 				}
 			}
-			 
-			$question=array_filter(preg_split($_POST['description_split'],$question));
+
+			$question=array_filter(preg_split($_POST['description_split']."i",$question));
 			$singlequestion_array[$key]['question']=$question[0];
 			$singlequestion_array[$key]['description']=$question[1];
 			$singlequestion_array[$key]['option']=$option;
-		 
+
 		}
 
-		} 
-		  
+		}
+
 		return $singlequestion_array;
 		} else {
 		  return 'failed';
@@ -130,26 +130,26 @@ if ( ! function_exists('word_file_import')){
 
 
 
-    
 
-    }   
+
+    }
 }
 
- function rrmdir($dir) { 
-	if (is_dir($dir)) { 
-     $objects = scandir($dir); 
-		 foreach ($objects as $object) { 
-			   if ($object != "." && $object != "..") { 
-				 if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
-			   } 
-		 } 
-     reset($objects); 
+ function rrmdir($dir) {
+	if (is_dir($dir)) {
+     $objects = scandir($dir);
+		 foreach ($objects as $object) {
+			   if ($object != "." && $object != "..") {
+				 if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+			   }
+		 }
+     reset($objects);
 		if($dir!="uploads"){
 			 rmdir($dir);
-		} 
+		}
 	}else{
 
-		unlink($dir); 
+		unlink($dir);
 	}
  }
 

@@ -459,6 +459,8 @@ class CI_Upload {
 		$this->file_name = $this->_prep_filename($_file['name']);
 		$this->file_ext	 = $this->get_extension($this->file_name);
 		$this->client_name = $this->file_name;
+        //var_dump($this->file_type);
+        //exit();
 
 		// Is the file type allowed to be uploaded?
 		if ( ! $this->is_allowed_filetype())

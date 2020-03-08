@@ -36,7 +36,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 									<th>Lama Ujian</th>
 									<th>Analisis</th>
 									<th>Nilai PG</th>
-									<!-- <th>Essai</th> -->
+									<th>Essai</th>
 									<th>Total</th>
 									<th>Jawaban</th>
 								</tr>
@@ -79,7 +79,7 @@ defined('APLIKASI') or exit('Anda tidak dizinkan mengakses langsung script ini!'
 										<td><?= $ket . " " . lamaujian($selisih) ?></td>
 										<td><?= $jawaban ?></td>
 										<td><?= $skor ?></td>
-										<!-- <td><?= $esai ?></td> -->
+										 <td><?= $esai ?></td>
 										<td><?= $total ?></td>
 										<td>
 											<?php if ($nilai['skor'] <> "") : ?>

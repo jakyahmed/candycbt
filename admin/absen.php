@@ -11,7 +11,7 @@ echo "<link rel='stylesheet' href='$homeurl/dist/css/cetak.min.css'>";
 $sesi = @$_GET['id_sesi'];
 $mapel = @$_GET['id_mapel'];
 $ruang = @$_GET['id_ruang'];
-if (!$_GET['id_kelas'] == U_UNDEFINED_VARIABLE) {
+if (!$_GET['id_kelas'] == null) {
 	$kelas = @$_GET['id_kelas'];
 } else {
 	$kelas = '';
@@ -238,7 +238,8 @@ $date = date_create($cektanggal['tgl_ujian']);
 					<td colspan='2'><strong><i>Keterangan : </i></strong></td>
 				</tr>
 				<tr>
-					<td>1. Dibuat rangkap 3 (tiga), masing-masing untuk sekolah, Cabang Dinas dan Provinsi.</td>
+					<!-- <td>1. Dibuat rangkap 3 (tiga), masing-masing untuk sekolah, Cabang Dinas dan Provinsi.</td> -->
+				<td>1. Berita acara ini dibuat rangkap 2 (dua).</td>
 				</tr>
 				<tr>
 					<td>2. Pengawas ruang menyilang Nama Peserta yang tidak hadir.</td>

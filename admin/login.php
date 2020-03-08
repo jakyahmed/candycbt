@@ -127,8 +127,8 @@ if (isset($_POST['submit'])) {
 
 	<div class="limiter">
 		<div class="container-login100">
-			<div class='judul'>&copy; <a href="http://candycbt.id" class="txt2 hov1">
-					<b><?= APLIKASI . " v" . VERSI . " r" . REVISI ?></b>
+			<div class='judul'>&copy; <a href="#" class="txt2 hov1">
+					<b>CBT SMK</b>
 				</a>
 			</div>
 			<div class='logo hidden-xs'><img class='img img-responsive' style='max-width:200px;' src="<?php echo "$homeurl/$setting[logo]"; ?>" width='150'></div>
